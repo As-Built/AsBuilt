@@ -25,6 +25,12 @@ class User(
 
     var name: String = "",
 
+    var cpf: String = "",
+
+    var endereco: String = "",
+
+    var telefone: String = "",
+
     @ManyToMany
     @JoinTable(
         name="UserRole",
