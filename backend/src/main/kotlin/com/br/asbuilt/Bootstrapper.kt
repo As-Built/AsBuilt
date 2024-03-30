@@ -21,14 +21,15 @@ class Bootstrapper(
             roleRepository.findByName("ADMIN") ?:
             roleRepository.save(Role(name = "ADMIN", description = "System administrator"))
                 .also {
-                    roleRepository.save(Role(name = "USER", description = "Premium User"))
-                    log.info("ADMIN and USER roles created")
+                    roleRepository.save(Role(name = "CONFERENTE", description = "Conferente"))
+                    roleRepository.save(Role(name = "FUNCIONARIO", description = "Funcionario"))
+                    log.info("ADMIN, CONFERENE and FUNCIONARIO roles created")
                 }
 
         if (userRepository.findByRole("ADMIN").isEmpty()) {
             adminUser.roles.add(adminRole)
             userRepository.save(adminUser)
-            log.info("Administrator created")
+            log.info("Administrator, Conferente and Funcionário created")
         }
     }
 
