@@ -4606,3 +4606,40 @@ This generated password is for development use only. Your security configuration
 2024-04-06T22:43:08.511-03:00  INFO 11744 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2024-04-06T22:43:08.768-03:00  INFO 11744 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2024-04-06T22:43:11.856-03:00  INFO 11744 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-04-07T00:54:54.647-03:00  INFO 6968 --- [main] com.br.asbuilt.AsBuiltApplicationKt      : Starting AsBuiltApplicationKt using Java 17.0.8.1 with PID 6968 (C:\Projetos\AsBuilt\backend\build\classes\kotlin\main started by rafael in C:\Projetos\AsBuilt\backend)
+2024-04-07T00:54:54.653-03:00  INFO 6968 --- [main] com.br.asbuilt.AsBuiltApplicationKt      : No active profile set, falling back to 1 default profile: "default"
+2024-04-07T00:54:59.407-03:00  INFO 6968 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-04-07T00:55:00.178-03:00  INFO 6968 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 396 ms. Found 4 JPA repository interfaces.
+2024-04-07T00:55:05.866-03:00  INFO 6968 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2024-04-07T00:55:06.197-03:00  INFO 6968 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-04-07T00:55:06.197-03:00  INFO 6968 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.11]
+2024-04-07T00:55:07.121-03:00  INFO 6968 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2024-04-07T00:55:07.123-03:00  INFO 6968 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 12180 ms
+2024-04-07T00:55:09.051-03:00  INFO 6968 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-04-07T00:55:09.228-03:00  INFO 6968 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.6.Final
+2024-04-07T00:55:09.234-03:00  INFO 6968 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2024-04-07T00:55:09.759-03:00  INFO 6968 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2024-04-07T00:55:10.992-03:00  INFO 6968 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-04-07T00:55:11.220-03:00  INFO 6968 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-04-07T00:55:12.917-03:00  INFO 6968 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection ConnectionID:1 ClientConnectionId: 8d4e21ac-8f12-4b7f-9dfa-bbb4c2369c93
+2024-04-07T00:55:12.925-03:00  INFO 6968 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-04-07T00:55:14.889-03:00  INFO 6968 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2024-04-07T00:55:23.113-03:00  INFO 6968 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-04-07T00:55:24.599-03:00  INFO 6968 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-04-07T00:55:30.905-03:00  INFO 6968 --- [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-04-07T00:55:41.919-03:00  WARN 6968 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-04-07T00:55:47.047-03:00  WARN 6968 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: e05e9043-d7e0-44d3-a6f0-97291acf8bb9
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2024-04-07T00:55:48.151-03:00  INFO 6968 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6fe2f6a0, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@392a40d9, org.springframework.security.web.context.SecurityContextHolderFilter@52031e42, org.springframework.security.web.header.HeaderWriterFilter@24f1d4f3, org.springframework.web.filter.CorsFilter@7243145f, org.springframework.security.web.authentication.logout.LogoutFilter@5cfadadc, com.br.asbuilt.security.JwtTokenFilter@76437e9b, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@68938ccf, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6cdfd50a, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2c9542eb, org.springframework.security.web.session.SessionManagementFilter@1be551ec, org.springframework.security.web.access.ExceptionTranslationFilter@16adf66f, org.springframework.security.web.access.intercept.AuthorizationFilter@ed37f28]
+2024-04-07T00:55:50.906-03:00  INFO 6968 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/api'
+2024-04-07T00:55:52.902-03:00  INFO 6968 --- [main] com.br.asbuilt.AsBuiltApplicationKt      : Started AsBuiltApplicationKt in 59.688 seconds (process running for 62.449)
+2024-04-07T01:00:40.230-03:00  INFO 6968 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-04-07T01:00:40.245-03:00  INFO 6968 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-04-07T01:00:40.279-03:00  INFO 6968 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 33 ms
+2024-04-07T01:00:41.687-03:00  INFO 6968 --- [http-nio-8080-exec-9] com.br.asbuilt.users.UserService         : User logged in. id=2, name=Rafael Kampa
+2024-04-07T01:12:29.842-03:00  INFO 6968 --- [http-nio-8080-exec-10] com.br.asbuilt.users.UserService         : User logged in. id=2, name=Rafael Kampa
+2024-04-07T01:20:51.751-03:00  INFO 6968 --- [http-nio-8080-exec-6] com.br.asbuilt.users.UserService         : User logged in. id=2, name=Rafael Kampa
