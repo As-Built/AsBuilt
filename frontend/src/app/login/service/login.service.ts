@@ -22,6 +22,6 @@ export class LoginService {
     let body = JSON.stringify({email, password});
 
     return this.httpClient.
-      post<any>('http://localhost:8080/api/users/login', body, httpOptions);
+      post<any>('http://localhost:8080/asbuilt/users/login', body, httpOptions);
   }
 }
