@@ -33,7 +33,7 @@ class UserController(val service: UserService) {
         UserResponse(service.insert(user.toUser()))
             .let { ResponseEntity.status(HttpStatus.CREATED).body(it) }
 
-    @SecurityRequirement(name="AuthServer")
+    @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("permitAll()")
     @PatchMapping("/{id}")
     fun update(
@@ -63,7 +63,7 @@ class UserController(val service: UserService) {
             ?.let { ResponseEntity.ok(UserResponse(it)) }
             ?: ResponseEntity.notFound().build()
 
-    @SecurityRequirement(name="AuthServer")
+    @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Long): ResponseEntity<Void> =

@@ -1,4 +1,0 @@
-2024-02-18 13:36:56 jdbc[13]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "INSERT INTO TBL_USER (ID, EMAIL, NAME, PASSWORD) VALUES (2, 'rafael.kampa@pucpr.edu.br', 'Rafael Kampa', 'bIhb0A2EVK591qYewUR0pj*$zZ6Qan*wF#')\000d\000a[*]commit"; SQL statement:
-INSERT INTO TBL_USER (ID, EMAIL, NAME, PASSWORD) VALUES (2, 'rafael.kampa@pucpr.edu.br', 'Rafael Kampa', 'bIhb0A2EVK591qYewUR0pj*$zZ6Qan*wF#')
-commit [42000-214]
