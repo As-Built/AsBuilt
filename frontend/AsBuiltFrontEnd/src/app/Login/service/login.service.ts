@@ -12,16 +12,16 @@ export class LoginService {
   login(autenticacao: Autenticacao) {
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type':  'application/x-www-form-urlencoded'       
+        'Content-Type':  'application/json'       
       }),
-      withCredentials: true // Add this line to include credentials in the request
+      withCredentials: false
     };
 
-    let login = autenticacao.login;
-    let senha = autenticacao.senha;
-    let body = `login=${login}&senha=${senha}`;
+    let email = autenticacao.email;
+    let password = autenticacao.password;
+    let body = JSON.stringify({email, password});
 
     return this.httpClient.
-      post<any>('http://localhost:8080/api/asbuilt/users/login', body, httpOptions);
+      post<any>('http://localhost:8080/api/users/login', body, httpOptions);
   }
 }

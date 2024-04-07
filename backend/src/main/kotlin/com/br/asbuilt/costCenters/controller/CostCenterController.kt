@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/costCenter")
 class CostCenterController(val service: CostCenterService) {
 
-    @SecurityRequirement(name="AuthServer")
+    @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/insertCostCenter")
     fun insert(@Valid @RequestBody costCenter: CreateCostCenterRequest) =
         CostCenterResponse(service.insert(costCenter.toCostCenter()))
             .let { ResponseEntity.status(HttpStatus.CREATED).body(it) }
 
-    @SecurityRequirement(name="AuthServer")
+    @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/updateCenterCostName/{id}")
     fun updateName(
@@ -38,7 +38,7 @@ class CostCenterController(val service: CostCenterService) {
             ?: ResponseEntity.noContent().build()
     }
 
-    @SecurityRequirement(name="AuthServer")
+    @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/updateCenterCostAdress/{id}")
     fun updateAdress(
@@ -51,7 +51,7 @@ class CostCenterController(val service: CostCenterService) {
             ?: ResponseEntity.noContent().build()
     }
 
-    @SecurityRequirement(name="AuthServer")
+    @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/updateCenterCostValue/{id}")
     fun updateAdress(
@@ -64,14 +64,14 @@ class CostCenterController(val service: CostCenterService) {
             ?: ResponseEntity.noContent().build()
     }
 
-    @SecurityRequirement(name="AuthServer")
+    @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("permitAll()")
     @GetMapping
     fun list(@RequestParam sortDir: String? = null) =
         service.findAll(SortDir.findOrThrow(sortDir ?: "ASC"))
             .map { CostCenterResponse(it) }.let { ResponseEntity.ok(it) }
 
-    @SecurityRequirement(name="AuthServer")
+    @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("permitAll()")
     @GetMapping("/getCostCenterByName/{nomeCentroDeCusto}")
     fun getByName(@PathVariable nomeCentroDeCusto: String) =
@@ -79,7 +79,7 @@ class CostCenterController(val service: CostCenterService) {
             ?.let { ResponseEntity.ok(CostCenterResponse(it)) }
             ?: ResponseEntity.notFound().build()
 
-    @SecurityRequirement(name="AuthServer")
+    @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Long): ResponseEntity<Void> =

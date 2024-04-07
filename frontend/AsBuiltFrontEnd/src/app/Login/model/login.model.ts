@@ -1,4 +1,4 @@
 export class Autenticacao {
-    login: any;
-    senha: any;
+    email: any;
+    password: any;
 }

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/tasks")
 class TaskController(val service: TaskService, val userService: UserService, val costCenterService: CostCenterService) {
 
-    @SecurityRequirement(name="AuthServer")
+    @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/insertTask")
     fun insert(
@@ -45,7 +45,7 @@ class TaskController(val service: TaskService, val userService: UserService, val
     }
 
 
-    @SecurityRequirement(name="AuthServer")
+    @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/{id}")
     fun update(
@@ -77,14 +77,14 @@ class TaskController(val service: TaskService, val userService: UserService, val
             ?: ResponseEntity.noContent().build()
     }
 
-    @SecurityRequirement(name="AuthServer")
+    @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("permitAll()")
     @GetMapping
     fun list(@RequestParam sortDir: String? = null) =
         service.findAll(SortDir.findOrThrow(sortDir ?: "ASC"))
             .map { TaskResponse(it) }.let { ResponseEntity.ok(it) }
 
-    @SecurityRequirement(name="AuthServer")
+    @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/deleteTask/{idTask}")
     fun delete(@PathVariable idTask: Long): ResponseEntity<Void> =
@@ -93,7 +93,7 @@ class TaskController(val service: TaskService, val userService: UserService, val
         }
         else ResponseEntity.notFound().build()
 
-    @SecurityRequirement(name = "AuthServer")
+    @SecurityRequirement(name = "AsBuilt")
     @PreAuthorize("permitAll()")
     @GetMapping("/findByUserName/{userName}")
     fun findByUsername(

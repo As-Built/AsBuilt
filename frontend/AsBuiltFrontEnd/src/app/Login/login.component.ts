@@ -15,8 +15,8 @@ export class LoginComponent implements OnInit {
   invalid: any;
 
   loginForm = new FormGroup({
-    login: new FormControl('',Validators.required),
-    senha: new FormControl('',Validators.required),
+    email: new FormControl('',Validators.required),
+    password: new FormControl('',Validators.required),
   });
   // signupForm: FormGroup;
 
@@ -46,25 +46,12 @@ export class LoginComponent implements OnInit {
   public logar() {
     if (this.loginForm.valid) {
       let autenticacao = new Autenticacao();
-      autenticacao.login = this.loginForm.get('login')?.value;
-      autenticacao.senha = this.loginForm.get('senha')?.value;
+      autenticacao.email = this.loginForm.get('email')?.value;
+      autenticacao.password = this.loginForm.get('password')?.value;
   
       this.loginService.login(autenticacao).subscribe(retorno => {
         localStorage.setItem('token', retorno.token);
         alert("Usuário autenticado!\nRedirecionando...");
-  
-        const payload = JSON.parse(atob(retorno.token.split('.')[1]));
-        const authority = payload.authorities[0]; // Assume a primeira autoridade como a principal
-  
-        // if (authority === "1") {
-        //   this.router.navigate(['/api/servico-home']);
-        // } else if (authority === "2") {
-        //   this.router.navigate(['/api/dashboard-usuario']);
-        // } else {
-        //   // Redirecionamento padrão para algum lugar caso a autoridade não seja "1" ou "2"
-        //   this.router.navigate(['/api/home']);
-        // }
-        alert("FOI");
       },
       (err) => {alert("Usuário ou senha incorreto!")});
     }
