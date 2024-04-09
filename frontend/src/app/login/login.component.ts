@@ -25,31 +25,15 @@ export class LoginComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    // this.signupForm = this.formBuilder.group({
-    //   cpf: ['', Validators.required],
-    //   nome: ['', Validators.required],
-    //   email: ['', [Validators.required, Validators.email]],
-    //   senha: ['', [Validators.required, Validators.minLength(6)]],
-    //   endereco: ['', Validators.required],
-    //   telefone: ['', Validators.required]
-    // });
   }
 
-  // onSignUp() {
-  //   if (this.signupForm.valid) {
-  //     console.log(this.signupForm.value);
-  //   } else {
-  //     console.log("Formulário de cadastro inválido");
-  //   }
-  // }
-
-  public logar() {
+  public signIn() {
     if (this.loginForm.valid) {
       let autenticacao = new Autenticacao();
       autenticacao.email = this.loginForm.get('email')?.value;
       autenticacao.password = this.loginForm.get('password')?.value;
   
-      this.loginService.login(autenticacao).subscribe(retorno => {
+      this.loginService.signIn(autenticacao).subscribe(retorno => {
         localStorage.setItem('token', retorno.token);
         alert("Usuário autenticado!\nRedirecionando...");
       },

@@ -8,20 +8,11 @@
 					<label for="chk" aria-hidden="true">Login</label>
 					<input formControlName="email" type="email" name="email" placeholder="Email" required="">
 					<input formControlName="password" type="password" name="password" placeholder="Senha" required="">
-					<button (click)="logar()">Entrar</button>
+					<button (click)="signIn()">Entrar</button>
 				</form>
 			</div>
 			<div class="signup">
-				<form>
-					<label for="chk" aria-hidden="true">Cadastrar</label>
-					<input type="text" name="txt" placeholder="CPF" required="">
-					<input type="text" name="txt" placeholder="Nome" required="">
-					<input type="email" name="email" placeholder="Email" required="">
-					<input type="password" name="pswd" placeholder="Senha" required="">
-					<input type="password" name="pswd" placeholder="Endereço" required="">
-					<input type="password" name="pswd" placeholder="Telefone" required="">
-					<button>Cadastrar</button>
-				</form>
+				<app-cadastro-usuario></app-cadastro-usuario>
 			</div>
 		</div>
 	</body>
