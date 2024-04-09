@@ -19,9 +19,13 @@ class UserService(
     val jwt: Jwt
 ) {
     fun insert(user: User): User {
-        if ((repository.findByEmail(user.email) != null) || (repository.findByCPF(user.cpf) != null)) {
-            log.info("User with same email or CPF already exists")
-            throw BadRequestException("User already exists")
+        if (repository.findByCPF(user.cpf) != null) {
+            log.info("A user with same CPF already exists")
+            throw BadRequestException("A user with same CPF already exists")
+        }
+        else if (repository.findByEmail(user.email) != null) {
+            log.info("A user with same EMAIL already exists")
+            throw BadRequestException("A user with same EMAIL already exists")
         } else {
             return repository.save(user)
                 .also { log.info("User inserted: {}", it.id) }

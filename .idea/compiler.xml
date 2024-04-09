@@ -10,8 +10,6 @@
         <module name="asbuilt.main" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="asbuilt" target="17" />
-    </bytecodeTargetLevel>
+    <bytecodeTargetLevel target="17" />
   </component>
 </project>

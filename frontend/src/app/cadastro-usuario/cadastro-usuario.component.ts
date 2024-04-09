@@ -17,29 +17,23 @@ export class CadastroUsuarioComponent {
     if (this.verificarSenha != this.cadastroModel.password) {
       alert("As senhas não conferem!");
       return;
-    }
-    //TODO: Alterar para boolean
-    var emailCadastrado = await firstValueFrom(this.cadastoUsuarioService.verificarEmailJaCadastrado(this.cadastroModel.email));
-    if (emailCadastrado === null) {
-      alert("Este email já está cadastrado!");
-      return;
-    }
-    else {
-      //TODO: Alterar para boolean
-      var cpfCadastrado = await firstValueFrom(this.cadastoUsuarioService.verificarCpfJaCadastrado(this.cadastroModel.cpf));
-      if (cpfCadastrado === null) {
-        alert("Este CPF já está cadastrado!");
-        return;
-      }
-      else {
-        this.cadastoUsuarioService.signUp(this.cadastroModel).subscribe(
-          retorno => {
-          alert("Cadastro realizado com sucesso!");
-        },
-        (error) => {
-          alert("Erro ao cadastrar usuário, comunique o administrador!");
-        });
-      }
+
+    } else {
+      this.cadastoUsuarioService.signUp(this.cadastroModel).subscribe(
+        retorno => {
+        alert("Cadastro realizado com sucesso!");
+      },
+      (error) => {
+        if (error.error === "A user with same CPF already exists") {
+          alert("Já existe um usuário cadastrado com este CPF!");
+        }
+        else if (error.error === "A user with same EMAIL already exists") {
+          alert("Já existe um usuário cadastrado com este email!");
+        }
+        else {
+          alert(error.error);
+        }
+      });
     }
   }
 
