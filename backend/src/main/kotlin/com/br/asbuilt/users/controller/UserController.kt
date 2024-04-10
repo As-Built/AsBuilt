@@ -83,4 +83,16 @@ class UserController(val service: UserService) {
         service.login(login.email!!, login.password!!)
             ?.let { ResponseEntity.ok(it) }
             ?: ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
+
+    @GetMapping("/findByCpf/{cpf}")
+    fun getByCpf(@PathVariable cpf: String) =
+        service.findByCpf(cpf)
+            ?.let { ResponseEntity.ok(UserResponse(it)) }
+            ?: ResponseEntity.notFound().build()
+
+    @GetMapping("/findByEmail/{email}")
+    fun getByEmail(@PathVariable email: String) =
+        service.findByEmail(email)
+            ?.let { ResponseEntity.ok(UserResponse(it)) }
+            ?: ResponseEntity.notFound().build()
 }

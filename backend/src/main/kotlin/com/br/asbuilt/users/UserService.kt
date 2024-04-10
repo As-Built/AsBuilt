@@ -19,11 +19,17 @@ class UserService(
     val jwt: Jwt
 ) {
     fun insert(user: User): User {
-        if (repository.findByEmail(user.email) != null) {
-            throw BadRequestException("User already exists")
+        if (repository.findByCPF(user.cpf) != null) {
+            log.info("A user with same CPF already exists")
+            throw BadRequestException("A user with same CPF already exists")
         }
-        return repository.save(user)
-            .also { log.info("User inserted: {}", it.id) }
+        else if (repository.findByEmail(user.email) != null) {
+            log.info("A user with same EMAIL already exists")
+            throw BadRequestException("A user with same EMAIL already exists")
+        } else {
+            return repository.save(user)
+                .also { log.info("User inserted: {}", it.id) }
+        }
     }
 
     fun update(id: Long, name: String): User? {
@@ -77,6 +83,10 @@ class UserService(
             user = UserResponse(user)
         )
     }
+
+    fun findByCpf(cpf: String): User? = repository.findByCPF(cpf)
+
+    fun findByEmail(email: String): User? = repository.findByEmail(email)
 
     companion object {
         private val log = LoggerFactory.getLogger(UserService::class.java)

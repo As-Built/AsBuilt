@@ -6,7 +6,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
     path: '', 
-    redirectTo: '/api/login',
+    redirectTo: '/login',
     pathMatch: 'full',
   }
 ]

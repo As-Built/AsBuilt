@@ -9,7 +9,7 @@ export class LoginService {
 
   constructor(private httpClient: HttpClient) { }
 
-  login(autenticacao: Autenticacao) {
+  signIn(autenticacao: Autenticacao) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json'       
@@ -17,9 +17,10 @@ export class LoginService {
       withCredentials: false
     };
 
-    let email = autenticacao.email;
-    let password = autenticacao.password;
-    let body = JSON.stringify({email, password});
+    let body = JSON.stringify({
+      email: autenticacao.email, 
+      password: autenticacao.password
+    });
 
     return this.httpClient.
       post<any>('http://localhost:8080/asbuilt/users/login', body, httpOptions);
