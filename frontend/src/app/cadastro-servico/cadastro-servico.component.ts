@@ -12,6 +12,10 @@ export class CadastroServicoComponent {
   cadastroServico = new CadastroServicoModel();
   constructor(private cadastroServicoService: CadastroServicoService) { }
 
+  calculateValorTotal() {
+    this.cadastroServico.valorTotal = this.cadastroServico.valorUnitario * this.cadastroServico.dimensao;
+  }
+
   submitForm() {
     // Realizar validações
     if (!this.cadastroServico.tipoServico) {
