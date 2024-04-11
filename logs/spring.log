@@ -2729,3 +2729,83 @@ org.springframework.security.authentication.InsufficientAuthenticationException:
 2024-04-11T14:52:55.715-03:00  INFO 9116 --- [http-nio-8080-exec-8] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
 2024-04-11T14:56:05.752-03:00  INFO 9116 --- [http-nio-8080-exec-3] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
 2024-04-11T14:56:22.733-03:00  INFO 9116 --- [http-nio-8080-exec-5] c.b.a.costCenters.CostCenterService      : Cost Center inserted: 1
+2024-04-11T15:00:45.390-03:00  INFO 9116 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-04-11T15:00:45.393-03:00  INFO 9116 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-04-11T15:00:45.398-03:00  INFO 9116 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-04-11T15:00:56.087-03:00  INFO 19912 --- [main] com.br.asbuilt.AsBuiltApplicationKt      : Starting AsBuiltApplicationKt using Java 17.0.10 with PID 19912 (D:\Rafael\Projetos\AsBuilt\backend\build\classes\kotlin\main started by rafael.kampa in D:\Rafael\Projetos\AsBuilt)
+2024-04-11T15:00:56.090-03:00  INFO 19912 --- [main] com.br.asbuilt.AsBuiltApplicationKt      : No active profile set, falling back to 1 default profile: "default"
+2024-04-11T15:00:57.561-03:00  INFO 19912 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-04-11T15:00:57.651-03:00  INFO 19912 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 79 ms. Found 4 JPA repository interfaces.
+2024-04-11T15:00:58.474-03:00  INFO 19912 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2024-04-11T15:00:58.488-03:00  INFO 19912 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-04-11T15:00:58.489-03:00  INFO 19912 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.11]
+2024-04-11T15:00:58.630-03:00  INFO 19912 --- [main] o.a.c.c.C.[.[localhost].[/asbuilt]       : Initializing Spring embedded WebApplicationContext
+2024-04-11T15:00:58.630-03:00  INFO 19912 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2465 ms
+2024-04-11T15:00:59.075-03:00  INFO 19912 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-04-11T15:00:59.162-03:00  INFO 19912 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.6.Final
+2024-04-11T15:00:59.165-03:00  INFO 19912 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2024-04-11T15:00:59.381-03:00  INFO 19912 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2024-04-11T15:00:59.576-03:00  INFO 19912 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-04-11T15:00:59.601-03:00  INFO 19912 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-04-11T15:01:00.204-03:00  INFO 19912 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection ConnectionID:1 ClientConnectionId: 4e59fefe-a497-4d79-9374-7b21484d4676
+2024-04-11T15:01:00.207-03:00  INFO 19912 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-04-11T15:01:00.688-03:00  INFO 19912 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2024-04-11T15:01:01.753-03:00  INFO 19912 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-04-11T15:01:02.739-03:00  INFO 19912 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-04-11T15:01:03.377-03:00  INFO 19912 --- [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-04-11T15:01:04.567-03:00  WARN 19912 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-04-11T15:01:04.919-03:00  WARN 19912 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: bfa5b72a-4c09-41fb-b787-3bf42f792d07
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2024-04-11T15:01:05.088-03:00  INFO 19912 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@136bd1d1, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@45fa7f1a, org.springframework.security.web.context.SecurityContextHolderFilter@53d257e7, org.springframework.security.web.header.HeaderWriterFilter@69cf9acb, org.springframework.web.filter.CorsFilter@231cdda8, org.springframework.security.web.authentication.logout.LogoutFilter@2986e26f, com.br.asbuilt.security.JwtTokenFilter@cdb3c85, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@56b5de49, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@dcaa0e8, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@74d736f8, org.springframework.security.web.session.SessionManagementFilter@67127bb1, org.springframework.security.web.access.ExceptionTranslationFilter@19bd1f98, org.springframework.security.web.access.intercept.AuthorizationFilter@3770dd80]
+2024-04-11T15:01:05.581-03:00  INFO 19912 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/asbuilt'
+2024-04-11T15:01:05.863-03:00  INFO 19912 --- [main] com.br.asbuilt.AsBuiltApplicationKt      : Started AsBuiltApplicationKt in 10.904 seconds (process running for 11.756)
+2024-04-11T15:06:20.865-03:00  INFO 19912 --- [http-nio-8080-exec-1] o.a.c.c.C.[.[localhost].[/asbuilt]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-04-11T15:06:20.866-03:00  INFO 19912 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-04-11T15:06:20.868-03:00  INFO 19912 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2024-04-11T15:06:21.133-03:00  INFO 19912 --- [http-nio-8080-exec-2] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
+2024-04-11T15:06:51.331-03:00  WARN 19912 --- [http-nio-8080-exec-4] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Instantiation of [simple type, class com.br.asbuilt.tasks.controller.requests.CreateOrUpdateTaskRequest] value failed for JSON property executor due to missing (therefore NULL) value for creator parameter executor which is a non-nullable type]
+2024-04-11T15:07:27.468-03:00  INFO 19912 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-04-11T15:07:27.470-03:00  INFO 19912 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-04-11T15:07:27.475-03:00  INFO 19912 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-04-11T15:08:29.642-03:00  INFO 12792 --- [main] com.br.asbuilt.AsBuiltApplicationKt      : Starting AsBuiltApplicationKt using Java 17.0.10 with PID 12792 (D:\Rafael\Projetos\AsBuilt\backend\build\classes\kotlin\main started by rafael.kampa in D:\Rafael\Projetos\AsBuilt)
+2024-04-11T15:08:29.645-03:00  INFO 12792 --- [main] com.br.asbuilt.AsBuiltApplicationKt      : No active profile set, falling back to 1 default profile: "default"
+2024-04-11T15:08:31.229-03:00  INFO 12792 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-04-11T15:08:31.353-03:00  INFO 12792 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 110 ms. Found 4 JPA repository interfaces.
+2024-04-11T15:08:32.185-03:00  INFO 12792 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2024-04-11T15:08:32.197-03:00  INFO 12792 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-04-11T15:08:32.197-03:00  INFO 12792 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.11]
+2024-04-11T15:08:32.345-03:00  INFO 12792 --- [main] o.a.c.c.C.[.[localhost].[/asbuilt]       : Initializing Spring embedded WebApplicationContext
+2024-04-11T15:08:32.346-03:00  INFO 12792 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2624 ms
+2024-04-11T15:08:32.852-03:00  INFO 12792 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-04-11T15:08:32.943-03:00  INFO 12792 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.6.Final
+2024-04-11T15:08:32.947-03:00  INFO 12792 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2024-04-11T15:08:33.469-03:00  INFO 12792 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2024-04-11T15:08:33.760-03:00  INFO 12792 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-04-11T15:08:33.786-03:00  INFO 12792 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-04-11T15:08:34.417-03:00  INFO 12792 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection ConnectionID:1 ClientConnectionId: 587fa337-ef78-402a-9ea1-13f16f69d089
+2024-04-11T15:08:34.421-03:00  INFO 12792 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-04-11T15:08:34.919-03:00  INFO 12792 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2024-04-11T15:08:36.165-03:00  INFO 12792 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-04-11T15:08:37.154-03:00  INFO 12792 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-04-11T15:08:37.761-03:00  INFO 12792 --- [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-04-11T15:08:38.762-03:00  WARN 12792 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-04-11T15:08:39.086-03:00  WARN 12792 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: df7e1f36-e406-4ccd-b775-a993cf6360fc
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2024-04-11T15:08:39.242-03:00  INFO 12792 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6413fef3, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@763ff91, org.springframework.security.web.context.SecurityContextHolderFilter@2227fa03, org.springframework.security.web.header.HeaderWriterFilter@77a38cec, org.springframework.web.filter.CorsFilter@62cbc478, org.springframework.security.web.authentication.logout.LogoutFilter@5d18255a, com.br.asbuilt.security.JwtTokenFilter@72465eb2, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@61f26cba, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4d0042eb, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@533053b4, org.springframework.security.web.session.SessionManagementFilter@29beac4e, org.springframework.security.web.access.ExceptionTranslationFilter@2aaa5122, org.springframework.security.web.access.intercept.AuthorizationFilter@355c2b72]
+2024-04-11T15:08:39.691-03:00  INFO 12792 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/asbuilt'
+2024-04-11T15:08:39.940-03:00  INFO 12792 --- [main] com.br.asbuilt.AsBuiltApplicationKt      : Started AsBuiltApplicationKt in 10.855 seconds (process running for 11.79)
+2024-04-11T15:08:42.875-03:00  INFO 12792 --- [http-nio-8080-exec-2] o.a.c.c.C.[.[localhost].[/asbuilt]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-04-11T15:08:42.875-03:00  INFO 12792 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-04-11T15:08:42.877-03:00  INFO 12792 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2024-04-11T15:08:43.691-03:00  INFO 12792 --- [http-nio-8080-exec-1] com.br.asbuilt.tasks.TaskService         : Task inserted: 2
+2024-04-11T15:11:35.365-03:00  INFO 12792 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-04-11T15:11:35.367-03:00  INFO 12792 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-04-11T15:11:35.373-03:00  INFO 12792 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

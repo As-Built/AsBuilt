@@ -3,6 +3,7 @@ export class CadastroServicoModel {
     valorUnitario: number = 0;
     dimensao: number = 0;
     unidadeMedida: string = "";
+    centroDeCustoId: number = 0;
     localExecucao: string = "";
     dataInicio: Date = new Date();
     previsaoTermino: Date = new Date();

@@ -18,8 +18,8 @@ data class TaskResponse(
     val dataFinal: Date?,
     val valorTotal: Double,
     val obs: String?,
-    val executor: Set<UserResponse>,
-    val conferente: Set<UserResponse>
+//    val executor: Set<UserResponse>,
+//    val conferente: Set<UserResponse>
 ) {
     constructor(task: Task) : this(
         task.id!!,
@@ -34,7 +34,7 @@ data class TaskResponse(
         task.dataFinal,
         task.valorTotal,
         task.obs,
-        task.executor.map { UserResponse(it) }.toSet(),
-        task.conferente.map { UserResponse(it) }.toSet()
+//        task.executor.map { UserResponse(it) }.toSet(),
+//        task.conferente.map { UserResponse(it) }.toSet()
     )
 }

@@ -29,13 +29,13 @@ class TaskController(val service: TaskService, val userService: UserService, val
             costCenterService.findByIdOrNull(it)
         } ?: throw NotFoundException("Cost Center not found!")
 
-        val executor =  task.executor.mapNotNull { userService.findByIdOrNull(it) }
-        val conferente =  task.conferente.mapNotNull { userService.findByIdOrNull(it) }
+//        val executor =  task.executor.mapNotNull { userService.findByIdOrNull(it) }
+//        val conferente =  task.conferente.mapNotNull { userService.findByIdOrNull(it) }
         val taskEntity = task.toTask()
 
         taskEntity.centroDeCusto = centroDeCusto
-        taskEntity.executor.addAll(executor)
-        taskEntity.conferente.addAll(conferente)
+//        taskEntity.executor.addAll(executor)
+//        taskEntity.conferente.addAll(conferente)
 
         //Adiciona o valor do serviço ao valor empreendido no centro de custo
         costCenterService.increaseValueUndertaken(centroDeCusto.id!!, taskEntity.valorTotal)
@@ -57,13 +57,13 @@ class TaskController(val service: TaskService, val userService: UserService, val
             costCenterService.findByIdOrNull(it)
         } ?: throw NotFoundException("Cost Center not found!")
 
-        val executor =  request.executor.mapNotNull { userService.findByIdOrNull(it) }
-        val conferente =  request.conferente.mapNotNull { userService.findByIdOrNull(it) }
+//        val executor =  request.executor.mapNotNull { userService.findByIdOrNull(it) }
+//        val conferente =  request.conferente.mapNotNull { userService.findByIdOrNull(it) }
         val taskEntity = request.toTask()
 
         taskEntity.centroDeCusto = centroDeCusto
-        taskEntity.executor.addAll(executor)
-        taskEntity.conferente.addAll(conferente)
+//        taskEntity.executor.addAll(executor)
+//        taskEntity.conferente.addAll(conferente)
         val taskAntiga = service.findByIdOrNull(id)
 
         //Remove o valor anterior do serviço aplicado ao centro de custo e depois adiciona o valor novo

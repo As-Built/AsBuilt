@@ -26,30 +26,30 @@ class TaskService (
                 .orElseThrow { NotFoundException("Cost center not found with ID: $centroDeCustoId") }
         }
 
-        val executor =  task.executor.mapNotNull { it.id?.let { it1 -> userRepository.findByIdOrNull(it1) } }
-        val conferente =  task.conferente.mapNotNull { it.id?.let { it1 -> userRepository.findByIdOrNull(it1) } }
+//        val executor =  task.executor.mapNotNull { it.id?.let { it1 -> userRepository.findByIdOrNull(it1) } }
+//        val conferente =  task.conferente.mapNotNull { it.id?.let { it1 -> userRepository.findByIdOrNull(it1) } }
 
         if (centroDeCusto == null) {
             throw NotFoundException("Cost center not found!")
         }
 
-        if (executor.isEmpty()) {
-            throw NotFoundException("Executor not found!")
-        }
-        if (conferente.isEmpty()) {
-            throw NotFoundException("Conferente not found!")
-        }
+//        if (executor.isEmpty()) {
+//            throw NotFoundException("Executor not found!")
+//        }
+//        if (conferente.isEmpty()) {
+//            throw NotFoundException("Conferente not found!")
+//        }
 
-        val nonAdminConferentes = conferente.filter { !it.isAdmin }
-
-        if (nonAdminConferentes.isNotEmpty()) {
-            val usernames = nonAdminConferentes.joinToString { it.name }
-            throw ForbiddenException("The following 'Conferente' users do not have Administrator permission: $usernames")
-        }
+//        val nonAdminConferentes = conferente.filter { !it.isAdmin }
+//
+//        if (nonAdminConferentes.isNotEmpty()) {
+//            val usernames = nonAdminConferentes.joinToString { it.name }
+//            throw ForbiddenException("The following 'Conferente' users do not have Administrator permission: $usernames")
+//        }
 
         task.centroDeCusto = centroDeCusto
-        task.executor = executor.toMutableSet()
-        task.conferente = conferente.toMutableSet()
+//        task.executor = executor.toMutableSet()
+//        task.conferente = conferente.toMutableSet()
 
         return repository.save(task)
             .also{ log.info("Task inserted: {}", it.id) }

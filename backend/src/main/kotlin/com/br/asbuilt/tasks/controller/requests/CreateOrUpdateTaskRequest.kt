@@ -35,11 +35,9 @@ data class CreateOrUpdateTaskRequest(
 
     val obs: String?,
 
-    @field:NotEmpty
-    val executor: Set<Long>,
+    val executor: Set<Long>?,
 
-    @field:NotEmpty
-    val conferente: Set<Long>,
+    val conferente: Set<Long>?,
 
     ){
     fun toTask() = Task (
