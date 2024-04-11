@@ -13,4 +13,9 @@ class GlobalExceptionHandler {
     fun handleBadRequestException(ex: BadRequestException): ResponseEntity<String> {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.message)
     }
+
+    @ExceptionHandler(NotFoundException::class)
+    fun handleBadRequestException(ex: NotFoundException): ResponseEntity<String> {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.message)
+    }
 }

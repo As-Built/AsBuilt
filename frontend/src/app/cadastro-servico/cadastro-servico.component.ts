@@ -12,7 +12,7 @@ export class CadastroServicoComponent {
   cadastroServico = new CadastroServicoModel();
   constructor(private cadastroServicoService: CadastroServicoService) { }
 
-  async submitForm() {
+  submitForm() {
     // Realizar validações
     if (!this.cadastroServico.tipoServico) {
       alert("Por favor, informe o tipo de serviço.");
@@ -48,13 +48,7 @@ export class CadastroServicoComponent {
         alert("Cadastro realizado com sucesso!");
       },
       (error) => {
-        // Tratamento de erros
-        if (error.error === "Erro específico") {
-          // Tratar erro específico, se necessário
-        }
-        else {
-          alert(error.error);
-        }
+        alert(error.error);
       }
     );
   }

@@ -14,7 +14,7 @@ export class CadastroServicoService {
     headers: new HttpHeaders({
       'Content-Type':  'application/json'       
     }),
-    withCredentials: false
+    withCredentials: true
   };
 
   CadastrarServico(cadastroModel: CadastroServicoModel) {
@@ -32,7 +32,8 @@ export class CadastroServicoService {
       obs: cadastroModel.obs
     });
 
+
     return this.httpClient.
-      post<CadastroServicoModel>('http://localhost:8080/asbuilt/insertTask', body, this.httpOptions);
+      post<any>('http://localhost:8080/asbuilt/tasks/insertTask', body, this.httpOptions);
   }
 }

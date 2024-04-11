@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { CadastroUsuarioModel } from './model/cadastro-usuario.model';
 import { CadastroUsuarioService } from './service/cadastro-usuario.service';
-import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-cadastro-usuario',

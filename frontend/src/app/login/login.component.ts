@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
       this.loginService.signIn(autenticacao).subscribe(retorno => {
         localStorage.setItem('token', retorno.token);
         alert("Usuário autenticado!\nRedirecionando...");
-        this.router.navigate(['/home']);
+        this.router.navigate(['/cadastroservico']);
       },
       (err) => {alert("Usuário ou senha incorreto!")});
     }

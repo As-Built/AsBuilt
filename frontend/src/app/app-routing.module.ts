@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { ServicoComponent } from './servico/servico.component';
 import { CadastroServicoComponent} from './cadastro-servico/cadastro-servico.component';
+import { CadastroCentroCustoComponent } from './cadastro-centro-custo/cadastro-centro-custo.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'servico', component: ServicoComponent },
   { path: 'cadastroservico', component: CadastroServicoComponent },
+  { path: 'cadastroCentroCusto', component: CadastroCentroCustoComponent },
 ]
 
 @NgModule({

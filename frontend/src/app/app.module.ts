@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CadastroUsuarioComponent } from './cadastro-usuario/cadastro-usuario.component';
 import { ServicoComponent } from './servico/servico.component';
 import { CadastroServicoComponent } from './cadastro-servico/cadastro-servico.component';
+import { CadastroCentroCustoComponent } from './cadastro-centro-custo/cadastro-centro-custo.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { CadastroServicoComponent } from './cadastro-servico/cadastro-servico.co
     UsuarioComponent,
     CadastroUsuarioComponent,
     ServicoComponent,
-    CadastroServicoComponent
+    CadastroServicoComponent,
+    CadastroCentroCustoComponent
   ],
   imports: [
     BrowserModule,

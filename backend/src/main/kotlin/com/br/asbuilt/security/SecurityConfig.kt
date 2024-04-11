@@ -58,6 +58,8 @@ class SecurityConfig(
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/users/login")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/tasks/findByUserName")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/tasks")).hasRole("ADMIN")
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/tasks/insertTask")).hasRole("ADMIN")
+                    .requestMatchers(mvc.pattern(HttpMethod.PATCH, "/costCenter")).hasRole("ADMIN")
                     .anyRequest().authenticated()
             }
             .addFilterBefore(jwtTokenFilter, BasicAuthenticationFilter::class.java)
