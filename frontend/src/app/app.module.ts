@@ -8,20 +8,24 @@ import { UsuarioComponent } from './usuario/usuario.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CadastroUsuarioComponent } from './cadastro-usuario/cadastro-usuario.component';
+import { ServicoComponent } from './servico/servico.component';
+import { CadastroServicoComponent } from './cadastro-servico/cadastro-servico.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     UsuarioComponent,
-    CadastroUsuarioComponent
+    CadastroUsuarioComponent,
+    ServicoComponent,
+    CadastroServicoComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
