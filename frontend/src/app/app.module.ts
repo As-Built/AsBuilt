@@ -11,6 +11,7 @@ import { CadastroUsuarioComponent } from './cadastro-usuario/cadastro-usuario.co
 import { ServicoComponent } from './servico/servico.component';
 import { CadastroServicoComponent } from './cadastro-servico/cadastro-servico.component';
 import { CadastroCentroCustoComponent } from './cadastro-centro-custo/cadastro-centro-custo.component';
+import { CurrencyMaskModule } from 'ng2-currency-mask';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { CadastroCentroCustoComponent } from './cadastro-centro-custo/cadastro-c
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    CurrencyMaskModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,7 +1,7 @@
 <div style="display: flex; justify-content: center; align-items: center;">
   <div style="background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); width: 800px; max-width: 90%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
     <h2>Cadastro de Serviço</h2>
-    <!-- <form (ngSubmit)="submitForm()" #form="ngForm" style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between;"> -->
+    <form (ngSubmit)="submitForm()" #form="ngForm" style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between;">
         <div style="width: 100%; margin-bottom: 10px; text-align: center;">
           <label for="centroDeCustoId" style="color: black; font-size: 14px;">Centro de Custo</label>
           <input type="number" name="valorTotal" id="centroDeCustoId" [(ngModel)]="cadastroServico.centroDeCustoId">
@@ -46,7 +46,7 @@
           <label for="obs" style="color: black; font-size: 14px;">Observações</label>
           <textarea name="obs" id="obs" [(ngModel)]="cadastroServico.obs"></textarea>
         </div>
-        <button type="submit" style="width: 100%;" (click)="submitForm()">Cadastrar</button>
-      <!-- </form> -->
+        <button type="submit" style="width: 100%;">Cadastrar</button>
+      </form>
     </div>
 </div>

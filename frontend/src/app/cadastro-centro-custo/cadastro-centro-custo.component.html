@@ -1,20 +1,21 @@
 <div style="display: flex; justify-content: center; align-items: center;">
     <div style="background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); width: 800px; max-width: 90%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
       <h2>Cadastro de Serviço</h2>
-      <!-- <form (ngSubmit)="submitForm()" #form="ngForm" style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between;"> -->
-          <div style="width: calc(33.33% - 8px); margin-bottom: 10px;">
+      <form (ngSubmit)="cadastrarCentroDeCusto()" #form="ngForm" style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between;">
+          <div style="width: 100%; margin-bottom: 10px; text-align: center;">
             <label for="nomeCentroDeCusto" style="color: black; font-size: 14px;">Nome do Centro de Custo</label>
             <input type="text" name="nomeCentroDeCusto" id="nomeCentroDeCusto" required [(ngModel)]="cadastroCentroCusto.nomeCentroDeCusto">
           </div>
-          <div style="width: calc(33.33% - 8px); margin-bottom: 10px;">
+          <div style="width: 100%; margin-bottom: 10px; text-align: center;">
             <label for="endereco" style="color: black; font-size: 14px;">Endereço</label>
             <input type="text" name="endereco" id="endereco" required [(ngModel)]="cadastroCentroCusto.enderecoCentroDeCusto">
           </div>
-          <div style="width: calc(33.33% - 8px); margin-bottom: 10px;">
-            <label for="valorEmpreendido" style="color: black; font-size: 14px;">Valor Empreendido</label>
-            <input type="number" name="valorEmpreendido" id="valorEmpreendido" required [(ngModel)]="cadastroCentroCusto.valorEmpreendido">
+          <div style="width: 50%; margin-bottom: 10px; text-align: center;">
+            <label for="valorEmpreendido" style="color: black; font-size: 14px;">Valor Inicial Empreendido</label>
+            <input type="text" name="valorEmpreendido" id="valorEmpreendido" required [(ngModel)]="cadastroCentroCusto.valorEmpreendido" 
+              currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
           </div>
-          <button type="submit" style="width: 100%;" (click)="cadastrarCentroDeCusto()">Cadastrar</button>
-        <!-- </form> -->
+          <button type="submit" style="width: 100%;">Cadastrar</button>
+        </form>
       </div>
   </div>
