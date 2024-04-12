@@ -1,0 +1,7 @@
+app-sidebar {
+    width: 200px; /* ou qualquer que seja a largura quando aberto */
+  }
+  
+  app-sidebar.closed {
+    width: 0; /* ou qualquer que seja a largura quando fechado */
+  }

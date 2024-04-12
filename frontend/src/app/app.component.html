@@ -1,1 +1,6 @@
-<router-outlet></router-outlet>
+<div style="display: flex;">
+    <app-sidebar [ngClass]="{'closed': !sidebarShow}"></app-sidebar>
+    <div style="flex-grow: 1; width: 100%;">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
