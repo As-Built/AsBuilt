@@ -6,6 +6,7 @@
 
 .sidebar-opener {
   cursor: pointer;
+  margin-left: 200px
 }
 
 .sidebar-slider {
@@ -13,35 +14,26 @@
   top: 0;
   left: 0;
   bottom: 0;
-  background-color: gray;
+  background: linear-gradient(to bottom, #696969, #363636, #1C1C1C);
   transform: translateX(-100%);
-  transition: ease-in-out 300ms transform;
+  transition: ease-in-out 1200ms transform;
   width: 200px;
 }
 
 .sidebar-slider.sidebar-slide-in {
   transform: translateX(0%);
-  transition: ease-in-out 600ms transform;
-}
-
-.sidebar-close {
-  position: fixed;
-  top: 0;
-  right: 0;
-  color: white;
-  cursor: pointer;
-  padding: 16px;
+  transition: ease-in-out 1200ms transform;
 }
 
 .sidebar-content {
   display: flex;
-  align-items: center;
-  // justify-content: space-around;
+  align-items: left;
   flex-direction: column;
   color: white;
   font-size: 16px;
   padding: 16px;
   height: 100%;
+  margin-top: 30px;
 }
 
 a {

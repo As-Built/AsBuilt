@@ -9,11 +9,6 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class SidebarComponent {
 
-  private sidebarShow = new BehaviorSubject(true);
-  sidebarShow$ = this.sidebarShow.asObservable();
-
-  toggleSidebar() {
-    this.sidebarShow.next(!this.sidebarShow.value);
-  }
+  public sidebarShow = true;
 
 }

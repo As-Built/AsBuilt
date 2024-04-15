@@ -1,7 +1,9 @@
-app-sidebar {
-    width: 200px; /* ou qualquer que seja a largura quando aberto */
-  }
-  
-  app-sidebar.closed {
-    width: 0; /* ou qualquer que seja a largura quando fechado */
-  }
+.sidebar-slider { 
+  margin-left: 0;
+  transition: ease-in-out 1200ms margin-left;
+}
+
+.sidebar-slider.sidebar-slide-in {
+  margin-left: 200px;
+  transition: ease-in-out 1200ms margin-left;
+}

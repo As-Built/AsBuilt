@@ -1,17 +1,24 @@
-<!-- <div style="display: flex;">
+<div class="sidebar-slider" [class.sidebar-slide-in]="sidebarShow">
   <div class="sidebar-opener" (click)="sidebarShow = !sidebarShow">
-    Exibir Sidebar
+    <span *ngIf="sidebarShow" class="material-symbols-outlined" style="color: white; font-size: 50px;">
+      arrow_circle_left
+    </span>
+    <span *ngIf="!sidebarShow" class="material-symbols-outlined" style="color: white; font-size: 50px;">
+      arrow_circle_right
+    </span>
   </div>
-
-  <div class="sidebar-slider" [class.sidebar-slide-in]="sidebarShow">
-    <div
-        class="sidebar-close"
-        (click)="sidebarShow = !sidebarShow"
-    >
-        X
-    </div>
-      <div class="sidebar-content">
-        <h2><a routerLink="/cadastroservico">Serviços</a></h2>
-        <h2><a routerLink="/cadastroCentroCusto">Centros de Custo</a></h2>
-      </div>
-  </div> -->
+  <div class="sidebar-content">
+    <h2><a routerLink="/cadastroservico">
+      <span class="material-symbols-outlined">
+        service_toolbox
+      </span>
+      Serviços
+    </a></h2>
+    <h2><a routerLink="/cadastroCentroCusto">
+      <span class="material-symbols-outlined">
+        apartment
+      </span>
+      Centros de Custo
+    </a></h2>
+  </div>
+</div>
