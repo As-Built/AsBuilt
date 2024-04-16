@@ -1,5 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
-import { SidebarComponent } from './shared/sidebar/sidebar.component';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,11 +6,9 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  @ViewChild(SidebarComponent, { static: true })
-  public sidebarComponent: SidebarComponent = new SidebarComponent;
 
+  isLoginPage = true;
 
+  constructor() {}
   title = 'AsBuiltFrontEnd';
-  
-
 }

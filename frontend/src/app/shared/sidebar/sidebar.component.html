@@ -1,9 +1,9 @@
-<div class="sidebar-slider" [class.sidebar-slide-in]="sidebarShow">
-  <div class="sidebar-opener" (click)="sidebarShow = !sidebarShow">
-    <span *ngIf="sidebarShow" class="material-symbols-outlined" style="color: white; font-size: 50px;">
+<div class="sidebar-slider" [class.sidebar-slide-in]="isSidebarOpen">
+  <div class="sidebar-opener" (click)="isSidebarOpen = !isSidebarOpen">
+    <span *ngIf="isSidebarOpen" class="material-symbols-outlined" style="color: white; font-size: 50px;">
       arrow_circle_left
     </span>
-    <span *ngIf="!sidebarShow" class="material-symbols-outlined" style="color: white; font-size: 50px;">
+    <span *ngIf="!isSidebarOpen" class="material-symbols-outlined" style="color: white; font-size: 50px;">
       arrow_circle_right
     </span>
   </div>

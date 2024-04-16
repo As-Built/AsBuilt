@@ -1,0 +1,6 @@
+<div>
+    <app-sidebar *ngIf="mostrarSidebar" mode="side" opened class="sidenav"></app-sidebar>
+</div>
+<div [ngClass]="[!mostrarSidebar ? 'main-content-sem-navbar' : 'main-content-navbar']">
+  <router-outlet></router-outlet>
+</div>

@@ -8,9 +8,4 @@
     'opsz' 24
   }
 </style>
-<div style="display: flex;">
-  <app-sidebar [ngClass]="{'closed': !sidebarComponent.sidebarShow}"></app-sidebar>
-  <div style="flex-grow: 1; width: 100%;" class="sidebar-slider" [class.sidebar-slide-in]="sidebarComponent.sidebarShow">
-    <router-outlet></router-outlet>
-  </div>
-</div>
+<router-outlet></router-outlet>

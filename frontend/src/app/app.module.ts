@@ -13,6 +13,7 @@ import { CadastroServicoComponent } from './cadastro-servico/cadastro-servico.co
 import { CadastroCentroCustoComponent } from './cadastro-centro-custo/cadastro-centro-custo.component';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
+import { LayoutComponent } from './layout/layout.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
     CadastroServicoComponent,
     CadastroCentroCustoComponent,
     SidebarComponent,
+    LayoutComponent,
   ],
   imports: [
     BrowserModule,
