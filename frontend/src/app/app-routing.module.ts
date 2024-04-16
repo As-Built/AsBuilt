@@ -20,7 +20,7 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       { path: 'login', component: LoginComponent },
-      { path: 'cadastroServico', component: CadastroServicoComponent, canActivate: [AuthGuard], data: { authorities: ['ADMIN'] } },
+      { path: 'cadastroServico', component: CadastroServicoComponent, canActivate: [AuthGuard], data: { authorities: ['ADMIN', 'CONFERENTE'] } },
       { path: '**', redirectTo: 'home' }
     ]
   }

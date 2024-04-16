@@ -43,13 +43,14 @@ export class LoginComponent implements OnInit {
         const payload = JSON.parse(atob(retorno.token.split('.')[1]));
         const authority = payload.user.roles[0];
   
-        if (authority === "ADMIN") {
+        if (authority === "ADMIN" || authority === "CONFERENTE") {
           this.router.navigate(['cadastroServico']);
-        } else if (authority === "2") {
-          this.router.navigate(['/api/dashboard-usuario']);
+        } else if (authority === "FUNCIONARIO") {
+          //TODO: CRIAR ROTA PARA DASHBOARD DO USUÁRIO
+          this.router.navigate(['home']);
         } else {
-          // Redirecionamento padrão para algum lugar caso a autoridade não seja "1" ou "2"
-          this.router.navigate(['/api/home']);
+          // Redirecionamento padrão para algum lugar caso a autoridade não seja "ADMIN", "CONFERENTE" ou "FUNCIONARIO"
+          this.router.navigate(['home']);
         }
       },
       (err) => {alert("Usuário ou senha incorreto!")});

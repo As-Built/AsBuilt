@@ -27,6 +27,9 @@ class UserService(
             log.info("A user with same EMAIL already exists")
             throw BadRequestException("A user with same EMAIL already exists")
         } else {
+            val roleFuncionario = roleRepository.findByName("FUNCIONARIO")
+                ?: throw BadRequestException("Role FUNCIONARIO does not exist")
+            user.roles.add(roleFuncionario)
             return repository.save(user)
                 .also { log.info("User inserted: {}", it.id) }
         }

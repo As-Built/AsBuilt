@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { SidebarComponent } from '../shared/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-layout',
@@ -7,6 +8,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent {
+  // @ViewChild(SidebarComponent, { static: true }) 
+  // sidebarComponent: SidebarComponent = new SidebarComponent();  
 
   constructor(private router: Router) { }
 

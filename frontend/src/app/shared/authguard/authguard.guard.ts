@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
     const token = localStorage.getItem('token');
     const payload = token ? JSON.parse(atob(token.split('.')[1])) : null;
     const authority = payload.user.roles[0];
-    const requiredAuthorities: string[] = route.data['user.roles'] || [];
+    const requiredAuthorities: string[] = route.data['authorities'] || [];
 
     return this.authguardService.isLoggedIn$.pipe(
       take(1),

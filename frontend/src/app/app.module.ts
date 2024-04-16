@@ -14,6 +14,7 @@ import { CadastroCentroCustoComponent } from './cadastro-centro-custo/cadastro-c
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { LayoutComponent } from './layout/layout.component';
+import { JwtModule } from '@auth0/angular-jwt';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,14 @@ import { LayoutComponent } from './layout/layout.component';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    CurrencyMaskModule
+    CurrencyMaskModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          return localStorage.getItem('token');
+        }
+      }
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
