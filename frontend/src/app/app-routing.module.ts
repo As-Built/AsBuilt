@@ -4,26 +4,15 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { CadastroServicoComponent} from './cadastro-servico/cadastro-servico.component';
 import { CadastroCentroCustoComponent } from './cadastro-centro-custo/cadastro-centro-custo.component';
-import { LayoutComponent } from './layout/layout.component';
 import { AuthGuard } from './shared/authguard/authguard.guard';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
-  {
-    path: '', 
-    redirectTo: 'home',
-    pathMatch: 'full',
-  },
-  {
-    path: '',
-    component: LayoutComponent,
-    children: [
-      { path: 'login', component: LoginComponent },
-      { path: 'cadastroServico', component: CadastroServicoComponent, canActivate: [AuthGuard], data: { authorities: ['ADMIN', 'CONFERENTE'] } },
-      { path: 'cadastroCentroCusto', component: CadastroCentroCustoComponent, canActivate: [AuthGuard], data: { authorities: ['ADMIN', 'CONFERENTE'] } },
-      { path: '**', redirectTo: 'home' }
-    ]
-  }
+  { path: 'login', component: LoginComponent },
+  { path: 'cadastroServico', component: CadastroServicoComponent, canActivate: [AuthGuard], data: { authorities: ['ADMIN', 'CONFERENTE'] } },
+  { path: 'cadastroCentroCusto', component: CadastroCentroCustoComponent, canActivate: [AuthGuard], data: { authorities: ['ADMIN', 'CONFERENTE'] } },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '**', redirectTo: 'home' }
 ];
 
 @NgModule({

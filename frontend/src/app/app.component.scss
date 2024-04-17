@@ -1,0 +1,9 @@
+.sidebar-slider { 
+    transform: translateX(0px);
+    transition: ease-in-out 1200ms transform;
+}
+  
+.sidebar-slider.sidebar-slide-in {
+transform: translateX(100px);
+transition: ease-in-out 1200ms transform;
+}

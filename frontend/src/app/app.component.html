@@ -8,4 +8,16 @@
     'opsz' 24
   }
 </style>
-<router-outlet></router-outlet>
+<div>
+  <app-sidebar *ngIf="mostrarSidebar" mode="side" opened 
+                [ngClass]="{'closed': !sidebarComponent.isSidebarOpen}" class="sidenav">
+  </app-sidebar>
+</div>
+<div *ngIf="mostrarSidebar" style="flex-grow: 1; width: 100%;" class="sidebar-slider" 
+      [class.sidebar-slide-in]="sidebarComponent.isSidebarOpen" 
+      [ngClass]="[!mostrarSidebar ? 'sidebar-slider' : 'sidebar-slider.sidebar-slide-in']">
+  <router-outlet></router-outlet>
+</div>
+<div *ngIf="!mostrarSidebar" style="flex-grow: 1; width: 100%;" class="sidebar-slider">
+  <router-outlet></router-outlet>
+</div>
