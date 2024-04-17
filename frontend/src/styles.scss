@@ -1,3 +1,11 @@
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+
 body{
 	margin: 0;
 	padding: 0;
@@ -73,7 +81,7 @@ button:hover{
 	height: 460px;
 	background: #eee;
 	border-radius: 60% / 10%;
-	transform: translateY(-180px);
+	transform: translateY(-90px);
 	transition: .8s ease-in-out;
 }
 
@@ -87,7 +95,7 @@ button:hover{
 }
 
 #chk:checked ~ .signup{
-	transform: translateY(-500px);
+	transform: translateY(-465px);
 }
 
 #chk:checked ~ .signup label{
@@ -96,17 +104,5 @@ button:hover{
 
 #chk:checked ~ .login label{
 	transform: scale(.6);
-}
-
-textarea{
-	width: 60%;
-	height: 12px;
-	background: #e0dede;
-	display: flex;
-	margin: 10px auto;
-	padding: 10px;
-	border: none;
-	outline: none;
-	border-radius: 5px;
 }
 

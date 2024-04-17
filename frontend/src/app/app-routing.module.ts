@@ -2,22 +2,18 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
-import { ServicoComponent } from './servico/servico.component';
 import { CadastroServicoComponent} from './cadastro-servico/cadastro-servico.component';
 import { CadastroCentroCustoComponent } from './cadastro-centro-custo/cadastro-centro-custo.component';
+import { AuthGuard } from './shared/authguard/authguard.guard';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  {
-    path: '', 
-    redirectTo: '/login',
-    pathMatch: 'full',
-  },
   { path: 'home', component: HomeComponent },
-  { path: 'servico', component: ServicoComponent },
-  { path: 'cadastroservico', component: CadastroServicoComponent },
-  { path: 'cadastroCentroCusto', component: CadastroCentroCustoComponent },
-]
+  { path: 'login', component: LoginComponent },
+  { path: 'cadastroServico', component: CadastroServicoComponent, canActivate: [AuthGuard], data: { authorities: ['ADMIN', 'CONFERENTE'] } },
+  { path: 'cadastroCentroCusto', component: CadastroCentroCustoComponent, canActivate: [AuthGuard], data: { authorities: ['ADMIN', 'CONFERENTE'] } },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '**', redirectTo: 'home' }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

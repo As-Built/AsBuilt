@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginService } from './service/login.service';
+import { UsuarioModel } from '../usuario/model/usuario.model';
 import { Autenticacao } from './model/login.model';
+import { LoginService } from './service/login.service';
 
 @Component({
   selector: 'app-login',
@@ -10,6 +11,8 @@ import { Autenticacao } from './model/login.model';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  usuarioLogado: UsuarioModel = new UsuarioModel();
+  listaUsuarios: UsuarioModel[] = [];
   hide: boolean = true;
   email: any;
   invalid: any;
@@ -18,13 +21,13 @@ export class LoginComponent implements OnInit {
     email: new FormControl('',Validators.required),
     password: new FormControl('',Validators.required),
   });
-  // signupForm: FormGroup;
 
 
   constructor(private loginService: LoginService,
     private router: Router) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    localStorage.clear();
   }
 
   public signIn() {
@@ -36,9 +39,30 @@ export class LoginComponent implements OnInit {
       this.loginService.signIn(autenticacao).subscribe(retorno => {
         localStorage.setItem('token', retorno.token);
         alert("Usuário autenticado!\nRedirecionando...");
-        this.router.navigate(['/cadastroservico']);
+  
+        const payload = JSON.parse(atob(retorno.token.split('.')[1]));
+        const authority = payload.user.roles[0];
+  
+        if (authority === "ADMIN" || authority === "CONFERENTE") {
+          this.router.navigate(['cadastroServico']);
+        } else if (authority === "FUNCIONARIO") {
+          //TODO: CRIAR ROTA PARA DASHBOARD DO USUÁRIO
+          this.router.navigate(['home']);
+        } else {
+          // Redirecionamento padrão para algum lugar caso a autoridade não seja "ADMIN", "CONFERENTE" ou "FUNCIONARIO"
+          this.router.navigate(['home']);
+        }
       },
       (err) => {alert("Usuário ou senha incorreto!")});
     }
+  }
+  
+  
+  public esqueciSenha(){
+    alert("Problema é seu!");
+  }
+
+  cadastrar() {
+    this.router.navigate(['/api/usuario']);
   }
 }

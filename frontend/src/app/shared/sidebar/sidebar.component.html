@@ -1,0 +1,24 @@
+<div class="sidebar-slider" [class.sidebar-slide-in]="isSidebarOpen">
+  <div class="sidebar-opener" (click)="isSidebarOpen = !isSidebarOpen">
+    <span *ngIf="isSidebarOpen" class="material-symbols-outlined" style="color: white; font-size: 50px;">
+      arrow_circle_left
+    </span>
+    <span *ngIf="!isSidebarOpen" class="material-symbols-outlined" style="color: white; font-size: 50px;">
+      arrow_circle_right
+    </span>
+  </div>
+  <div class="sidebar-content">
+    <h2><a routerLink="/cadastroServico">
+      <span class="material-symbols-outlined">
+        service_toolbox
+      </span>
+      Serviços
+    </a></h2>
+    <h2><a routerLink="/cadastroCentroCusto">
+      <span class="material-symbols-outlined">
+        apartment
+      </span>
+      Centros de Custo
+    </a></h2>
+  </div>
+</div>
