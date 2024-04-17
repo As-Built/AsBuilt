@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
-import { ServicoComponent } from './servico/servico.component';
 import { CadastroServicoComponent} from './cadastro-servico/cadastro-servico.component';
 import { CadastroCentroCustoComponent } from './cadastro-centro-custo/cadastro-centro-custo.component';
 import { LayoutComponent } from './layout/layout.component';
@@ -21,6 +20,7 @@ const routes: Routes = [
     children: [
       { path: 'login', component: LoginComponent },
       { path: 'cadastroServico', component: CadastroServicoComponent, canActivate: [AuthGuard], data: { authorities: ['ADMIN', 'CONFERENTE'] } },
+      { path: 'cadastroCentroCusto', component: CadastroCentroCustoComponent, canActivate: [AuthGuard], data: { authorities: ['ADMIN', 'CONFERENTE'] } },
       { path: '**', redirectTo: 'home' }
     ]
   }

@@ -1,9 +1,9 @@
-.main-content-sem-navbar {
-    margin-left: 0;
-    transition: margin-left .5s ease-out;
-  }
-  
-.main-content-navbar {
-margin-left: 200px; /* Ajuste este valor de acordo com a largura do seu sidebar */
-transition: margin-left .5s ease-in-out;
+.sidebar-slider { 
+  transform: translateX(0px);
+  transition: ease-in-out 1200ms transform;
+}
+
+.sidebar-slider.sidebar-slide-in {
+  transform: translateX(100px);
+  transition: ease-in-out 1200ms transform;
 }
