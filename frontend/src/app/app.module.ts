@@ -14,10 +14,13 @@ import { CadastroCentroCustoComponent } from './cadastro-centro-custo/cadastro-c
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { JwtModule } from '@auth0/angular-jwt';
+import { ImageSliderComponent } from './shared/image-slider/image-slider.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    HomeComponent,
     LoginComponent,
     UsuarioComponent,
     CadastroUsuarioComponent,
@@ -25,6 +28,7 @@ import { JwtModule } from '@auth0/angular-jwt';
     CadastroServicoComponent,
     CadastroCentroCustoComponent,
     SidebarComponent,
+    ImageSliderComponent,
   ],
   imports: [
     BrowserModule,
