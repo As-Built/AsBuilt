@@ -1,3 +1,5 @@
+@import '../src/app/variables.scss';
+
 .material-symbols-outlined {
   font-variation-settings:
   'FILL' 0,
@@ -14,7 +16,7 @@ body{
 	align-items: center;
 	min-height: 100vh;
 	font-family: 'Jost', sans-serif;
-	background-color: #DCDCDC;
+	background: $linear_gradient_aqua_marine;
 }
 .main{
 	width: 350px;
@@ -79,7 +81,7 @@ button:hover{
 
 .signup{
 	height: 460px;
-	background: linear-gradient(to bottom, #2F4F4F, #5F9EA0, #66CDAA);
+	background: #eee;
 	border-radius: 60% / 10%;
 	transform: translateY(-90px);
 	transition: .8s ease-in-out;

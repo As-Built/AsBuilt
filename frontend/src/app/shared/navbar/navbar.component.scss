@@ -1,16 +1,15 @@
+@import '../../variables.scss';
 .navbar {
     position: fixed;
     width: 100%;
     top: 0;
     right: 0;
     display: flex;
-    justify-content: space-between;
+    justify-content: right;
     align-items: center;
-    height: 50px;
-    padding: 0 10px;
-    background: linear-gradient(to bottom, #696969, #363636, #1C1C1C);
+    height: $navbar-height;
+    background: linear-gradient(to right, #FF6347, #5F9EA0);
     z-index: 1;
-    flex-grow: 1;
 }
 
 .navbar-brand {
@@ -22,6 +21,7 @@
     display: flex;
     list-style: none;
     padding-left: 0;
+    padding-right: 2%;
 }
 
 .nav-item {

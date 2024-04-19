@@ -1,13 +1,14 @@
+@import '../app/variables.scss';
+
 .container {
     position: relative;
     height: 100vh;
     display: flex;
     flex-direction: column;
-    height: 100vh;
 }
   
 .sidenav { 
-    width: 250px;
+    width: $sidebar-width;
     transition: ease-in-out 1200ms width;
 }
   
