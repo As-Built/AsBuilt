@@ -16,6 +16,7 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ImageSliderComponent } from './shared/image-slider/image-slider.component';
 import { HomeComponent } from './home/home.component';
+import { NavbarComponent } from './shared/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { HomeComponent } from './home/home.component';
     CadastroCentroCustoComponent,
     SidebarComponent,
     ImageSliderComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,

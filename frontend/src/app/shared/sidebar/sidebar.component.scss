@@ -6,7 +6,7 @@
 
 .sidebar-opener {
   cursor: pointer;
-  margin-left: 200px
+  margin-left: 260px
 }
 
 .sidebar-slider {
@@ -17,7 +17,8 @@
   background: linear-gradient(to bottom, #696969, #363636, #1C1C1C);
   transform: translateX(-100%);
   transition: ease-in-out 1200ms transform;
-  width: 200px;
+  width: 260px;
+  z-index: 2;
 }
 
 .sidebar-slider.sidebar-slide-in {

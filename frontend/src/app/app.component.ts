@@ -20,6 +20,6 @@ export class AppComponent  implements AfterViewInit {
 
   public get mostrarSidebar(): boolean {
     const url = this.router.url;
-    return !['/home', '/login'].includes(url);
+    return !['/home'].includes(url);
   }
 }

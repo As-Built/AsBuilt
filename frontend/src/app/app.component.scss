@@ -1,9 +1,23 @@
-.sidebar-slider { 
-    transform: translateX(0px);
-    transition: ease-in-out 1200ms transform;
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
   
-.sidebar-slider.sidebar-slide-in {
-transform: translateX(100px);
-transition: ease-in-out 1200ms transform;
+.sidenav { 
+    width: 250px; // Ajuste para a largura do seu sidebar
+    transition: ease-in-out 1200ms width;
+}
+  
+.sidenav.closed {
+    width: 0;
+    transition: ease-in-out 1200ms width;
+}
+
+.navbar-slider { 
+    width: 100%;
+}
+
+.content {
+    width: 100%;
 }

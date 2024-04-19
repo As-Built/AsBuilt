@@ -1,0 +1,35 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    padding: 0 10px;
+    background: linear-gradient(to bottom, #696969, #363636, #1C1C1C);
+    z-index: 1;
+    flex-grow: 1;
+    width: 100%;
+}
+
+.navbar-brand {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.navbar-nav {
+    display: flex;
+    list-style: none;
+    padding-left: 0;
+}
+
+.nav-item {
+    margin-left: 15px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #333;
+}
+
