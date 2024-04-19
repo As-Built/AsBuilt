@@ -8,16 +8,18 @@
     'opsz' 24
   }
 </style>
-<div style="display: flex; flex-direction: row; height: 100vh;">
-  <app-sidebar *ngIf="mostrarSidebar" mode="side" opened 
+<div>
+  <app-navbar></app-navbar>
+  <app-sidebar [isSidebarOpen]="sidebarComponent.isSidebarOpen" *ngIf="mostrarSidebar" mode="side" opened 
                [ngClass]="{'closed': !sidebarComponent.isSidebarOpen}" class="sidenav">
   </app-sidebar>
-  <div style="flex: 1; display: flex; flex-direction: column;">
-    <div class="navbar-slider">
-      <app-navbar></app-navbar>
-    </div>
-    <div style="flex-grow: 1;" class="content">
+  <div class="container">
+    <div *ngIf="mostrarSidebar" class="sidebar-slider" 
+          [class.sidebar-slide-in]="sidebarComponent.isSidebarOpen" 
+          [ngClass]="[!mostrarSidebar ? 'sidebar-slider' : 'sidebar-slider.sidebar-slide-in']">
       <router-outlet></router-outlet>
     </div>
+    <div *ngIf="!mostrarSidebar" class="sidebar-slider">
+      <router-outlet></router-outlet>
   </div>
 </div>

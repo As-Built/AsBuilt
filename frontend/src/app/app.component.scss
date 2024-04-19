@@ -1,11 +1,13 @@
 .container {
+    position: relative;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     height: 100vh;
 }
   
 .sidenav { 
-    width: 250px; // Ajuste para a largura do seu sidebar
+    width: 250px;
     transition: ease-in-out 1200ms width;
 }
   
@@ -14,10 +16,18 @@
     transition: ease-in-out 1200ms width;
 }
 
-.navbar-slider { 
+.content {
     width: 100%;
 }
 
-.content {
+.sidebar-slider {
     width: 100%;
+    flex-grow: 1; 
+    transform: translateX(0px);
+    transition: ease-in-out 1200ms transform;
+}
+
+.sidebar-slider.sidebar-slide-in {
+    transform: translateX(125px);
+    transition: ease-in-out 1200ms transform;
 }
