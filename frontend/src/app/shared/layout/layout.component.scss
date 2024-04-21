@@ -1,6 +1,7 @@
-@import '../app/variables.scss';
+@import '../../variables.scss';
 
 .container {
+    margin-top: calc($navbar-height + 30px);
     height: 100vh;
     display: flex;
     flex-direction: column;

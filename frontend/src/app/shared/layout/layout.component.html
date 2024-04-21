@@ -1,0 +1,16 @@
+<div>
+    <app-navbar></app-navbar>
+    <app-sidebar [isSidebarOpen]="sidebarComponent.isSidebarOpen || false" *ngIf="mostrarSidebar" 
+                 mode="side" opened 
+                 [ngClass]="{'closed': !sidebarComponent.isSidebarOpen}" class="sidenav">
+    </app-sidebar>
+    <div class="container">
+        <div *ngIf="mostrarSidebar" class="sidebar-slider" 
+              [class.sidebar-slide-in]="sidebarComponent.isSidebarOpen" 
+              [ngClass]="[!mostrarSidebar ? 'sidebar-slider' : 'sidebar-slider.sidebar-slide-in']">
+          <router-outlet></router-outlet>
+        </div>
+        <div *ngIf="!mostrarSidebar">
+          <router-outlet></router-outlet>
+      </div>
+  </div>

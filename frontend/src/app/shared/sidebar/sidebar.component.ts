@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { AuthguardService } from '../authguard/authguard.service';
@@ -11,6 +11,7 @@ import { AuthguardService } from '../authguard/authguard.service';
 })
 export class SidebarComponent {
 
+  @Input ()
   isSidebarOpen = true;
 
   toggleSidebar() {

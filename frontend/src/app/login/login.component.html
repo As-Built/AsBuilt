@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 	<body>
-		<div class="main">  	
+		<div class="main">
 			<input type="checkbox" id="chk" aria-hidden="true">
 			<div class="login">
 				<form [formGroup]="loginForm">
-					<label for="chk" aria-hidden="true">Login</label>
+					<label style="padding-bottom: 30px;" for="chk" aria-hidden="true">Login</label>
 					<input formControlName="email" type="email" name="email" placeholder="Email" required="">
 					<input formControlName="password" type="password" name="password" placeholder="Senha" required="">
-					<button (click)="signIn()">Entrar</button>
+					<button style="margin-top: 30px;" (click)="signIn()">Entrar</button>
 				</form>
 			</div>
 			<div class="signup">

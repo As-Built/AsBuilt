@@ -14,10 +14,18 @@ import { CadastroCentroCustoComponent } from './cadastro-centro-custo/cadastro-c
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { JwtModule } from '@auth0/angular-jwt';
+import { ImageSliderComponent } from './shared/image-slider/image-slider.component';
+import { HomeComponent } from './home/home.component';
+import { NavbarComponent } from './shared/navbar/navbar.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatIconModule} from '@angular/material/icon';
+import { LayoutComponent } from './shared/layout/layout.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    HomeComponent,
     LoginComponent,
     UsuarioComponent,
     CadastroUsuarioComponent,
@@ -25,6 +33,9 @@ import { JwtModule } from '@auth0/angular-jwt';
     CadastroServicoComponent,
     CadastroCentroCustoComponent,
     SidebarComponent,
+    ImageSliderComponent,
+    NavbarComponent,
+    LayoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +50,10 @@ import { JwtModule } from '@auth0/angular-jwt';
           return localStorage.getItem('token');
         }
       }
-    })
+    }),
+    BrowserAnimationsModule,
+    MatTooltipModule,
+    MatIconModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

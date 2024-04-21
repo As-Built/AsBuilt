@@ -1,10 +1,10 @@
 
 <div>
-    <label for="chk" aria-hidden="true">Cadastrar</label>
+    <label style="padding-bottom: 30px;" for="chk" aria-hidden="true">Cadastrar</label>
     <input type="text" name="cpf" placeholder="CPF" required [(ngModel)]="cadastroModel.cpf">
     <input type="text" name="name" placeholder="Nome" required [(ngModel)]="cadastroModel.name">
     <input type="email" name="email" placeholder="Email" required [(ngModel)]="cadastroModel.email">
     <input type="password" name="password" placeholder="Senha" required [(ngModel)]="cadastroModel.password">
     <input type="password" name="confirmPassword" placeholder="Repita a senha" required [(ngModel)]="verificarSenha">
-    <button (click)="signUp()">Cadastrar</button>
+    <button style="margin-top: 30px;" (click)="signUp()">Cadastrar</button>
 </div>

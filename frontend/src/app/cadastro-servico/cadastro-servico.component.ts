@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CadastroServicoModel } from './model/cadastro-servico.model';
 import { CadastroServicoService } from './service/cadastro-servico.service';
+import { SidebarComponent } from '../shared/sidebar/sidebar.component';
 
 
 @Component({
@@ -8,9 +9,20 @@ import { CadastroServicoService } from './service/cadastro-servico.service';
   templateUrl: './cadastro-servico.component.html',
   styleUrls: ['./cadastro-servico.component.scss']
 })
-export class CadastroServicoComponent {
+export class CadastroServicoComponent implements OnInit {
   cadastroServico = new CadastroServicoModel();
+
+  @ViewChild(SidebarComponent, { static: false }) 
+  sidebarComponent: SidebarComponent = new SidebarComponent();  
+
   constructor(private cadastroServicoService: CadastroServicoService) { }
+
+  ngOnInit(): void {
+    if (this.sidebarComponent === undefined) {
+      this.sidebarComponent = new SidebarComponent();
+      this.sidebarComponent.isSidebarOpen = true;
+    }
+  }
 
   calculateValorTotal() {
     this.cadastroServico.valorTotal = this.cadastroServico.valorUnitario * this.cadastroServico.dimensao;
