@@ -16,7 +16,7 @@ body{
 	align-items: center;
 	min-height: 100vh;
 	font-family: 'Jost', sans-serif;
-	background: $linear_gradient_aqua_marine;
+	background: $background-color;
 }
 .main{
 	width: 350px;
@@ -74,9 +74,10 @@ button:hover{
 
 .login{
 	position: relative;
+	padding-top: 15px;
 	width:100%;
 	height: 100%;
-	background: linear-gradient(to bottom, #2F4F4F, #5F9EA0, #66CDAA);
+	background: $linear_gradient_orange;
 }
 
 .signup{
@@ -88,7 +89,7 @@ button:hover{
 }
 
 .signup label{
-	color: #20B2AA;
+	color: #e53935;
 	transform: scale(.6);
 }
 
@@ -108,3 +109,6 @@ button:hover{
 	transform: scale(.6);
 }
 
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

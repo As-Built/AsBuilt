@@ -1,13 +1,10 @@
 <nav class="navbar">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a href="#" class="nav-link">Home</a>
-      </li>
-      <li class="nav-item">
-        <a href="#" class="nav-link">About</a>
-      </li>
-      <li class="nav-item">
-        <a href="#" class="nav-link">Contact</a>
-      </li>
-    </ul>
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a routerLink="/" class="nav-link">Home</a>
+    </li>
+    <li class="nav-item" *ngIf="isHomePage()">
+      <a routerLink="login" class="nav-link">Cadastre-se | Login</a>
+    </li>
+  </ul>
 </nav>

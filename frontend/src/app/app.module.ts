@@ -17,6 +17,10 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { ImageSliderComponent } from './shared/image-slider/image-slider.component';
 import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatIconModule} from '@angular/material/icon';
+import { LayoutComponent } from './shared/layout/layout.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +35,7 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
     SidebarComponent,
     ImageSliderComponent,
     NavbarComponent,
+    LayoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,7 +50,10 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
           return localStorage.getItem('token');
         }
       }
-    })
+    }),
+    BrowserAnimationsModule,
+    MatTooltipModule,
+    MatIconModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

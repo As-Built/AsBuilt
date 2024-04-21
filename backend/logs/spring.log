@@ -1,140 +1,139 @@
-2024-04-15T20:20:17.214-03:00  INFO 2688 --- [main] com.br.asbuilt.AsBuiltApplicationKt      : Starting AsBuiltApplicationKt using Java 17.0.8.1 with PID 2688 (C:\Projetos\AsBuilt\backend\build\classes\kotlin\main started by rafael in C:\Projetos\AsBuilt\backend)
-2024-04-15T20:20:17.257-03:00  INFO 2688 --- [main] com.br.asbuilt.AsBuiltApplicationKt      : No active profile set, falling back to 1 default profile: "default"
-2024-04-15T20:20:25.329-03:00  INFO 2688 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-04-15T20:20:25.822-03:00  INFO 2688 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 435 ms. Found 4 JPA repository interfaces.
-2024-04-15T20:20:37.753-03:00  INFO 2688 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
-2024-04-15T20:20:37.881-03:00  INFO 2688 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2024-04-15T20:20:37.885-03:00  INFO 2688 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.11]
-2024-04-15T20:20:38.757-03:00  INFO 2688 --- [main] o.a.c.c.C.[.[localhost].[/asbuilt]       : Initializing Spring embedded WebApplicationContext
-2024-04-15T20:20:38.758-03:00  INFO 2688 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 20565 ms
-2024-04-15T20:20:47.921-03:00  INFO 2688 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-04-15T20:20:49.719-03:00  INFO 2688 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.6.Final
-2024-04-15T20:20:49.730-03:00  INFO 2688 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
-2024-04-15T20:20:52.253-03:00  INFO 2688 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
-2024-04-15T20:20:54.277-03:00  INFO 2688 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-04-15T20:20:54.417-03:00  INFO 2688 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2024-04-15T20:20:57.277-03:00  INFO 2688 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection ConnectionID:1 ClientConnectionId: 6e7e1b15-ee75-4646-b39e-3cadc1f6c71d
-2024-04-15T20:20:57.283-03:00  INFO 2688 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2024-04-15T20:20:59.661-03:00  INFO 2688 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
-2024-04-15T20:21:06.892-03:00  INFO 2688 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2024-04-15T20:21:08.461-03:00  INFO 2688 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-04-15T20:21:15.406-03:00  INFO 2688 --- [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
-2024-04-15T20:21:37.988-03:00  WARN 2688 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-04-15T20:21:46.679-03:00  WARN 2688 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+2024-04-21T00:57:08.761-03:00  INFO 15328 --- [main] com.br.asbuilt.AsBuiltApplicationKt      : Starting AsBuiltApplicationKt using Java 17.0.8.1 with PID 15328 (C:\Projetos\AsBuilt\backend\build\classes\kotlin\main started by rafael in C:\Projetos\AsBuilt\backend)
+2024-04-21T00:57:09.016-03:00  INFO 15328 --- [main] com.br.asbuilt.AsBuiltApplicationKt      : No active profile set, falling back to 1 default profile: "default"
+2024-04-21T00:57:18.045-03:00  INFO 15328 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-04-21T00:57:18.849-03:00  INFO 15328 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 768 ms. Found 4 JPA repository interfaces.
+2024-04-21T00:57:29.693-03:00  INFO 15328 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2024-04-21T00:57:29.892-03:00  INFO 15328 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-04-21T00:57:29.893-03:00  INFO 15328 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.11]
+2024-04-21T00:57:30.993-03:00  INFO 15328 --- [main] o.a.c.c.C.[.[localhost].[/asbuilt]       : Initializing Spring embedded WebApplicationContext
+2024-04-21T00:57:30.996-03:00  INFO 15328 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 21125 ms
+2024-04-21T00:57:37.320-03:00  INFO 15328 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-04-21T00:57:37.876-03:00  INFO 15328 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.6.Final
+2024-04-21T00:57:37.911-03:00  INFO 15328 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2024-04-21T00:57:39.206-03:00  INFO 15328 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2024-04-21T00:57:40.827-03:00  INFO 15328 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-04-21T00:57:40.921-03:00  INFO 15328 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-04-21T00:57:46.772-03:00  INFO 15328 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection ConnectionID:1 ClientConnectionId: 5bb4c137-3716-43c7-8f86-ff096f747c9a
+2024-04-21T00:57:46.785-03:00  INFO 15328 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-04-21T00:57:50.472-03:00  INFO 15328 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2024-04-21T00:58:06.312-03:00  INFO 15328 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-04-21T00:58:08.204-03:00  INFO 15328 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-04-21T00:58:15.196-03:00  INFO 15328 --- [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-04-21T00:58:27.378-03:00  INFO 9280 --- [main] com.br.asbuilt.AsBuiltApplicationKt      : Starting AsBuiltApplicationKt using Java 17.0.8.1 with PID 9280 (C:\Projetos\AsBuilt\backend\build\classes\kotlin\main started by rafael in C:\Projetos\AsBuilt\backend)
+2024-04-21T00:58:27.392-03:00  INFO 9280 --- [main] com.br.asbuilt.AsBuiltApplicationKt      : No active profile set, falling back to 1 default profile: "default"
+2024-04-21T00:58:39.573-03:00  WARN 15328 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-04-21T00:58:48.013-03:00  WARN 15328 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
 
-Using generated security password: 4fc4d991-ec23-428e-80da-e86086934525
-
-This generated password is for development use only. Your security configuration must be updated before running your application in production.
-
-2024-04-15T20:21:49.036-03:00  INFO 2688 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@40a923e6, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2a153531, org.springframework.security.web.context.SecurityContextHolderFilter@77070012, org.springframework.security.web.header.HeaderWriterFilter@4d4ae76, org.springframework.web.filter.CorsFilter@2744dcae, org.springframework.security.web.authentication.logout.LogoutFilter@70fdecff, com.br.asbuilt.security.JwtTokenFilter@6637a365, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7321f698, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@22e470f4, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4817bd3, org.springframework.security.web.session.SessionManagementFilter@3ace955c, org.springframework.security.web.access.ExceptionTranslationFilter@7d24bd80, org.springframework.security.web.access.intercept.AuthorizationFilter@29f0e941]
-2024-04-15T20:22:03.547-03:00  INFO 2688 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/asbuilt'
-2024-04-15T20:22:07.410-03:00  INFO 2688 --- [main] com.br.asbuilt.AsBuiltApplicationKt      : Started AsBuiltApplicationKt in 112.993 seconds (process running for 141.081)
-2024-04-15T20:22:19.167-03:00  INFO 2688 --- [http-nio-8080-exec-8] o.a.c.c.C.[.[localhost].[/asbuilt]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2024-04-15T20:22:19.173-03:00  INFO 2688 --- [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2024-04-15T20:22:19.188-03:00  INFO 2688 --- [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed initialization in 12 ms
-2024-04-15T20:22:21.113-03:00  INFO 2688 --- [http-nio-8080-exec-7] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T20:25:20.958-03:00  INFO 2688 --- [http-nio-8080-exec-4] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T20:36:57.452-03:00  INFO 2688 --- [http-nio-8080-exec-1] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T20:41:28.174-03:00  INFO 2688 --- [http-nio-8080-exec-10] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T20:42:55.054-03:00  INFO 2688 --- [http-nio-8080-exec-8] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T20:43:45.260-03:00  INFO 2688 --- [http-nio-8080-exec-5] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T20:44:09.114-03:00  INFO 2688 --- [http-nio-8080-exec-1] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T20:45:22.501-03:00  INFO 2688 --- [http-nio-8080-exec-10] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T20:46:41.298-03:00  INFO 2688 --- [http-nio-8080-exec-6] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T20:46:41.298-03:00  INFO 2688 --- [http-nio-8080-exec-7] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T20:48:14.840-03:00  INFO 2688 --- [http-nio-8080-exec-1] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T21:05:19.347-03:00  INFO 2688 --- [http-nio-8080-exec-2] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T21:07:07.540-03:00  INFO 2688 --- [http-nio-8080-exec-7] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T21:10:07.939-03:00  INFO 2688 --- [http-nio-8080-exec-4] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T21:10:45.780-03:00  INFO 2688 --- [http-nio-8080-exec-1] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T21:11:43.175-03:00  INFO 2688 --- [http-nio-8080-exec-10] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T21:19:52.607-03:00  INFO 2688 --- [http-nio-8080-exec-6] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T21:20:10.581-03:00  INFO 2688 --- [http-nio-8080-exec-4] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T21:21:26.486-03:00  INFO 2688 --- [http-nio-8080-exec-1] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T21:26:01.414-03:00  INFO 2688 --- [http-nio-8080-exec-2] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T21:27:10.328-03:00  INFO 2688 --- [http-nio-8080-exec-7] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T21:32:10.499-03:00  INFO 2688 --- [http-nio-8080-exec-4] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T21:33:12.948-03:00  INFO 2688 --- [http-nio-8080-exec-9] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T21:33:33.029-03:00  INFO 2688 --- [http-nio-8080-exec-8] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T21:37:03.512-03:00  INFO 2688 --- [http-nio-8080-exec-7] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T21:41:01.261-03:00  INFO 2688 --- [http-nio-8080-exec-3] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T21:41:37.306-03:00  INFO 2688 --- [http-nio-8080-exec-1] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T21:42:03.633-03:00  INFO 2688 --- [http-nio-8080-exec-2] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T21:44:51.184-03:00  INFO 2688 --- [http-nio-8080-exec-6] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T21:53:20.149-03:00  INFO 2688 --- [http-nio-8080-exec-5] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T21:54:06.355-03:00  INFO 2688 --- [http-nio-8080-exec-1] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T21:55:43.902-03:00  INFO 2688 --- [http-nio-8080-exec-10] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T21:58:30.886-03:00  INFO 2688 --- [http-nio-8080-exec-8] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T22:04:23.209-03:00  INFO 2688 --- [http-nio-8080-exec-7] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T22:06:11.702-03:00  INFO 2688 --- [http-nio-8080-exec-3] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T22:09:37.915-03:00  INFO 2688 --- [http-nio-8080-exec-1] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T22:23:03.084-03:00  INFO 2688 --- [http-nio-8080-exec-10] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T22:23:19.754-03:00  INFO 2688 --- [http-nio-8080-exec-7] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T22:26:52.874-03:00  INFO 2688 --- [http-nio-8080-exec-4] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T22:28:19.720-03:00  INFO 2688 --- [http-nio-8080-exec-9] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T22:29:47.578-03:00  INFO 2688 --- [http-nio-8080-exec-10] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T22:31:46.843-03:00  INFO 2688 --- [http-nio-8080-exec-6] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T22:41:06.099-03:00  INFO 2688 --- [http-nio-8080-exec-5] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T22:49:20.395-03:00  INFO 2688 --- [http-nio-8080-exec-1] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T22:58:59.940-03:00  INFO 2688 --- [http-nio-8080-exec-10] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T23:03:18.122-03:00  INFO 2688 --- [http-nio-8080-exec-6] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T23:04:29.875-03:00  INFO 2688 --- [http-nio-8080-exec-5] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T23:06:08.928-03:00  INFO 2688 --- [http-nio-8080-exec-1] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T23:07:18.989-03:00  INFO 2688 --- [http-nio-8080-exec-2] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T23:12:52.819-03:00  INFO 2688 --- [http-nio-8080-exec-8] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T23:14:06.921-03:00  INFO 2688 --- [http-nio-8080-exec-7] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T23:14:38.306-03:00  INFO 2688 --- [http-nio-8080-exec-5] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T23:15:36.691-03:00  INFO 2688 --- [http-nio-8080-exec-1] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T23:16:15.640-03:00  INFO 2688 --- [http-nio-8080-exec-10] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T23:17:01.761-03:00  INFO 2688 --- [http-nio-8080-exec-7] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T23:17:34.935-03:00  INFO 2688 --- [http-nio-8080-exec-4] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T23:19:02.712-03:00  INFO 2688 --- [http-nio-8080-exec-9] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T23:23:24.852-03:00  INFO 2688 --- [http-nio-8080-exec-10] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T23:24:46.739-03:00  INFO 2688 --- [http-nio-8080-exec-6] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T23:25:32.370-03:00  INFO 2688 --- [http-nio-8080-exec-5] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T23:26:39.687-03:00  INFO 2688 --- [http-nio-8080-exec-1] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-15T23:27:46.045-03:00  INFO 2688 --- [http-nio-8080-exec-10] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-16T21:16:28.502-03:00  INFO 14312 --- [main] com.br.asbuilt.AsBuiltApplicationKt      : Starting AsBuiltApplicationKt using Java 18.0.1.1 with PID 14312 (C:\Users\rafael.kampa.GRUPOMARISTA\Documents\GitHub\AsBuilt\backend\build\classes\kotlin\main started by rafael.kampa in C:\Users\rafael.kampa.GRUPOMARISTA\Documents\GitHub\AsBuilt\backend)
-2024-04-16T21:16:28.506-03:00  INFO 14312 --- [main] com.br.asbuilt.AsBuiltApplicationKt      : No active profile set, falling back to 1 default profile: "default"
-2024-04-16T21:16:29.718-03:00  INFO 14312 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-04-16T21:16:29.801-03:00  INFO 14312 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 74 ms. Found 4 JPA repository interfaces.
-2024-04-16T21:16:30.346-03:00  INFO 14312 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
-2024-04-16T21:16:30.354-03:00  INFO 14312 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2024-04-16T21:16:30.355-03:00  INFO 14312 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.11]
-2024-04-16T21:16:30.446-03:00  INFO 14312 --- [main] o.a.c.c.C.[.[localhost].[/asbuilt]       : Initializing Spring embedded WebApplicationContext
-2024-04-16T21:16:30.446-03:00  INFO 14312 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1842 ms
-2024-04-16T21:16:30.794-03:00  INFO 14312 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-04-16T21:16:30.850-03:00  INFO 14312 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.6.Final
-2024-04-16T21:16:30.852-03:00  INFO 14312 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
-2024-04-16T21:16:30.981-03:00  INFO 14312 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
-2024-04-16T21:16:31.121-03:00  INFO 14312 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-04-16T21:16:31.139-03:00  INFO 14312 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2024-04-16T21:16:31.615-03:00  INFO 14312 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection ConnectionID:1 ClientConnectionId: d48f01d0-3a80-4dc9-a322-5622ec4a94be
-2024-04-16T21:16:31.616-03:00  INFO 14312 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2024-04-16T21:16:31.946-03:00  INFO 14312 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
-2024-04-16T21:16:32.703-03:00  INFO 14312 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2024-04-16T21:16:33.547-03:00  INFO 14312 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-04-16T21:16:34.017-03:00  INFO 14312 --- [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
-2024-04-16T21:16:35.442-03:00  WARN 14312 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-04-16T21:16:35.875-03:00  WARN 14312 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
-
-Using generated security password: b33dfe43-2428-494d-9bcd-32a2f96ebb76
+Using generated security password: e9b5c58b-7f3a-4c16-91bf-56b1737a4aaf
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
-2024-04-16T21:16:36.077-03:00  INFO 14312 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7327dba0, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3fde6c3b, org.springframework.security.web.context.SecurityContextHolderFilter@17fac5b2, org.springframework.security.web.header.HeaderWriterFilter@ea2f3a, org.springframework.web.filter.CorsFilter@281b2dfd, org.springframework.security.web.authentication.logout.LogoutFilter@1a2454b0, com.br.asbuilt.security.JwtTokenFilter@69ec93c2, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1946d235, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3c9163df, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@36810c06, org.springframework.security.web.session.SessionManagementFilter@44f4c619, org.springframework.security.web.access.ExceptionTranslationFilter@7d5caf3, org.springframework.security.web.access.intercept.AuthorizationFilter@619d0977]
-2024-04-16T21:16:36.786-03:00  INFO 14312 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/asbuilt'
-2024-04-16T21:16:37.053-03:00  INFO 14312 --- [main] com.br.asbuilt.AsBuiltApplicationKt      : Started AsBuiltApplicationKt in 9.036 seconds (process running for 10.815)
-2024-04-16T21:26:59.533-03:00  INFO 14312 --- [http-nio-8080-exec-1] o.a.c.c.C.[.[localhost].[/asbuilt]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2024-04-16T21:26:59.534-03:00  INFO 14312 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2024-04-16T21:26:59.535-03:00  INFO 14312 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
-2024-04-16T21:27:31.439-03:00  INFO 14312 --- [http-nio-8080-exec-5] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-16T21:29:56.939-03:00  INFO 14312 --- [http-nio-8080-exec-8] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-16T21:50:55.998-03:00  INFO 14312 --- [http-nio-8080-exec-1] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-16T21:59:00.606-03:00  WARN 14312 --- [http-nio-8080-exec-4] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection ConnectionID:11 ClientConnectionId: a1aa2bf7-935d-4822-9e2e-c43048b9c003 (A conexão está fechada.). Possibly consider using a shorter maxLifetime value.
-2024-04-16T21:59:00.858-03:00  INFO 14312 --- [http-nio-8080-exec-6] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-16T21:59:05.616-03:00  WARN 14312 --- [http-nio-8080-exec-4] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection ConnectionID:12 ClientConnectionId: adb7240b-0f8a-467b-9004-34d96bd88412 (A conexão está fechada.). Possibly consider using a shorter maxLifetime value.
-2024-04-16T21:59:05.617-03:00  WARN 14312 --- [mssql-timeout-task-1-adb7240b-0f8a-467b-9004-34d96bd88412] c.m.s.jdbc.internals.TDS.Command         : TDSCommand@6352e2a3 (SQLServerStatement:38 executeXXX): Command could not be timed out. Reason: Socket closed
-2024-04-16T21:59:05.643-03:00  INFO 14312 --- [http-nio-8080-exec-4] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-16T22:00:41.169-03:00  INFO 14312 --- [http-nio-8080-exec-9] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
-2024-04-16T22:07:13.564-03:00  INFO 14312 --- [http-nio-8080-exec-3] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
+2024-04-21T00:58:49.699-03:00  INFO 15328 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@42927b0a, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4b628301, org.springframework.security.web.context.SecurityContextHolderFilter@42ffabb, org.springframework.security.web.header.HeaderWriterFilter@3f693a39, org.springframework.web.filter.CorsFilter@1c297897, org.springframework.security.web.authentication.logout.LogoutFilter@2e6c69f, com.br.asbuilt.security.JwtTokenFilter@27976390, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@10009505, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@8dbe78f, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6ca6a1a6, org.springframework.security.web.session.SessionManagementFilter@40c7cea8, org.springframework.security.web.access.ExceptionTranslationFilter@34672fb, org.springframework.security.web.access.intercept.AuthorizationFilter@3963d003]
+2024-04-21T00:58:53.560-03:00  INFO 15328 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/asbuilt'
+2024-04-21T00:58:56.386-03:00  INFO 9280 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-04-21T00:58:57.271-03:00  INFO 15328 --- [main] com.br.asbuilt.AsBuiltApplicationKt      : Started AsBuiltApplicationKt in 112.649 seconds (process running for 125.568)
+2024-04-21T00:58:57.343-03:00  INFO 9280 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 922 ms. Found 4 JPA repository interfaces.
+2024-04-21T00:59:11.229-03:00  INFO 9280 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2024-04-21T00:59:11.333-03:00  INFO 9280 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-04-21T00:59:11.334-03:00  INFO 9280 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.11]
+2024-04-21T00:59:21.049-03:00  INFO 9280 --- [main] o.a.c.c.C.[.[localhost].[/asbuilt]       : Initializing Spring embedded WebApplicationContext
+2024-04-21T00:59:21.073-03:00  INFO 9280 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 51551 ms
+2024-04-21T00:59:34.483-03:00  INFO 9280 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-04-21T00:59:35.115-03:00  INFO 9280 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.6.Final
+2024-04-21T00:59:35.128-03:00  INFO 9280 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2024-04-21T00:59:36.382-03:00  INFO 9280 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2024-04-21T00:59:38.490-03:00  INFO 9280 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-04-21T00:59:38.599-03:00  INFO 9280 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-04-21T00:59:41.616-03:00  INFO 9280 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection ConnectionID:1 ClientConnectionId: 6d8dee9a-3ec2-4c1e-9e55-9f63753914ad
+2024-04-21T00:59:41.622-03:00  INFO 9280 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-04-21T00:59:44.741-03:00  INFO 9280 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2024-04-21T00:59:44.705-03:00  INFO 15328 --- [http-nio-8080-exec-10] o.a.c.c.C.[.[localhost].[/asbuilt]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-04-21T00:59:44.869-03:00  INFO 15328 --- [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-04-21T00:59:46.165-03:00  INFO 15328 --- [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1286 ms
+2024-04-21T00:59:53.358-03:00  INFO 15328 --- [http-nio-8080-exec-8] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
+2024-04-21T00:59:53.396-03:00  INFO 15328 --- [http-nio-8080-exec-9] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
+2024-04-21T00:59:53.671-03:00  INFO 9280 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-04-21T00:59:55.442-03:00  INFO 9280 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-04-21T01:00:06.254-03:00  INFO 9280 --- [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-04-21T01:00:23.484-03:00  WARN 9280 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-04-21T01:00:29.254-03:00  WARN 9280 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 77fe01ac-d891-450c-ac50-aa99bf23dc27
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2024-04-21T01:00:32.467-03:00  INFO 9280 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@60319a00, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@43493a5d, org.springframework.security.web.context.SecurityContextHolderFilter@28e9f6b8, org.springframework.security.web.header.HeaderWriterFilter@162bc9e8, org.springframework.web.filter.CorsFilter@2dd1086, org.springframework.security.web.authentication.logout.LogoutFilter@a538180, com.br.asbuilt.security.JwtTokenFilter@9df564f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5d4f35cb, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7cc9970a, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@21df2968, org.springframework.security.web.session.SessionManagementFilter@7d24bd80, org.springframework.security.web.access.ExceptionTranslationFilter@331d651b, org.springframework.security.web.access.intercept.AuthorizationFilter@dcdf733]
+2024-04-21T01:00:35.736-03:00  WARN 9280 --- [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2024-04-21T01:00:39.385-03:00  INFO 9280 --- [main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-04-21T01:00:39.425-03:00  INFO 9280 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-04-21T01:00:39.540-03:00  INFO 9280 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-04-21T01:00:39.561-03:00  INFO 9280 --- [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-04-21T01:00:39.743-03:00  INFO 9280 --- [main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-04-21T01:00:39.916-03:00 ERROR 9280 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2024-04-21T16:46:46.181-03:00  INFO 9236 --- [main] com.br.asbuilt.AsBuiltApplicationKt      : Starting AsBuiltApplicationKt using Java 17.0.8.1 with PID 9236 (C:\Projetos\AsBuilt\backend\build\classes\kotlin\main started by rafael in C:\Projetos\AsBuilt\backend)
+2024-04-21T16:46:46.223-03:00  INFO 9236 --- [main] com.br.asbuilt.AsBuiltApplicationKt      : No active profile set, falling back to 1 default profile: "default"
+2024-04-21T16:46:59.312-03:00  INFO 9236 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-04-21T16:47:00.004-03:00  INFO 9236 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 600 ms. Found 4 JPA repository interfaces.
+2024-04-21T16:47:07.855-03:00  INFO 9236 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2024-04-21T16:47:07.921-03:00  INFO 9236 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-04-21T16:47:07.921-03:00  INFO 9236 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.11]
+2024-04-21T16:47:08.962-03:00  INFO 9236 --- [main] o.a.c.c.C.[.[localhost].[/asbuilt]       : Initializing Spring embedded WebApplicationContext
+2024-04-21T16:47:08.963-03:00  INFO 9236 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 21691 ms
+2024-04-21T16:47:12.292-03:00  INFO 9236 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-04-21T16:47:15.425-03:00  INFO 9236 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.6.Final
+2024-04-21T16:47:15.434-03:00  INFO 9236 --- [main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2024-04-21T16:47:16.807-03:00  INFO 9236 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2024-04-21T16:47:18.241-03:00  INFO 9236 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-04-21T16:47:18.352-03:00  INFO 9236 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-04-21T16:47:21.925-03:00  INFO 9236 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection ConnectionID:1 ClientConnectionId: 303a9f76-1990-4ec4-a582-8f975ed5f3d1
+2024-04-21T16:47:21.937-03:00  INFO 9236 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-04-21T16:47:24.165-03:00  INFO 9236 --- [main] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2024-04-21T16:47:28.393-03:00  INFO 9236 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-04-21T16:47:29.406-03:00  INFO 9236 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-04-21T16:47:37.073-03:00  INFO 9236 --- [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-04-21T16:47:47.263-03:00  WARN 9236 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-04-21T16:47:49.557-03:00  WARN 9236 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 4da21b12-1cca-49b4-a584-aeaade8a3c74
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2024-04-21T16:47:50.294-03:00  INFO 9236 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7321f698, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@22e470f4, org.springframework.security.web.context.SecurityContextHolderFilter@6ccb3dd, org.springframework.security.web.header.HeaderWriterFilter@629e9957, org.springframework.web.filter.CorsFilter@44aa2e13, org.springframework.security.web.authentication.logout.LogoutFilter@34672fb, com.br.asbuilt.security.JwtTokenFilter@30a7653e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@30ee1a38, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@251e00a0, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6dace32a, org.springframework.security.web.session.SessionManagementFilter@70903e7b, org.springframework.security.web.access.ExceptionTranslationFilter@23216e17, org.springframework.security.web.access.intercept.AuthorizationFilter@77070012]
+2024-04-21T16:47:52.957-03:00  INFO 9236 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/asbuilt'
+2024-04-21T16:47:54.522-03:00  INFO 9236 --- [main] com.br.asbuilt.AsBuiltApplicationKt      : Started AsBuiltApplicationKt in 72.774 seconds (process running for 114.292)
+2024-04-21T16:48:28.086-03:00  INFO 9236 --- [http-nio-8080-exec-1] o.a.c.c.C.[.[localhost].[/asbuilt]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-04-21T16:48:28.088-03:00  INFO 9236 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-04-21T16:48:28.095-03:00  INFO 9236 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 6 ms
+2024-04-21T16:48:28.897-03:00  INFO 9236 --- [http-nio-8080-exec-2] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
+2024-04-21T17:00:46.347-03:00  INFO 9236 --- [http-nio-8080-exec-5] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
+2024-04-21T17:55:57.898-03:00  INFO 9236 --- [http-nio-8080-exec-7] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
+2024-04-21T18:01:50.283-03:00  INFO 9236 --- [http-nio-8080-exec-1] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
+2024-04-21T18:03:03.980-03:00  INFO 9236 --- [http-nio-8080-exec-3] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
+2024-04-21T18:03:55.193-03:00  INFO 9236 --- [http-nio-8080-exec-5] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
+2024-04-21T18:06:42.455-03:00  INFO 9236 --- [http-nio-8080-exec-8] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
+2024-04-21T18:08:38.810-03:00  INFO 9236 --- [http-nio-8080-exec-10] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
+2024-04-21T18:10:40.602-03:00  INFO 9236 --- [http-nio-8080-exec-2] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
+2024-04-21T18:12:22.912-03:00  INFO 9236 --- [http-nio-8080-exec-4] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
+2024-04-21T18:13:32.206-03:00  INFO 9236 --- [http-nio-8080-exec-6] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
+2024-04-21T18:14:01.111-03:00  INFO 9236 --- [http-nio-8080-exec-9] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
+2024-04-21T18:14:58.067-03:00  INFO 9236 --- [http-nio-8080-exec-1] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
+2024-04-21T18:24:22.408-03:00  INFO 9236 --- [http-nio-8080-exec-3] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
+2024-04-21T18:25:16.419-03:00  INFO 9236 --- [http-nio-8080-exec-6] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
+2024-04-21T18:28:17.305-03:00  INFO 9236 --- [http-nio-8080-exec-9] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
+2024-04-21T19:04:22.474-03:00  INFO 9236 --- [http-nio-8080-exec-2] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
+2024-04-21T19:08:22.247-03:00  INFO 9236 --- [http-nio-8080-exec-3] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator

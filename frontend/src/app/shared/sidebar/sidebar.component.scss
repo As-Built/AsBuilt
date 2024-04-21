@@ -2,7 +2,6 @@
 * {
   font-family: 'Jost', sans-serif;
   box-sizing: border-box;
-  font-size: 16px;
 }
 
 .sidebar-opener {
@@ -15,13 +14,15 @@
   top: 0;
   left: 0;
   bottom: 0;
-  background: linear-gradient(to bottom, #FF6347, #5F9EA0);
   transform: translateX(-75%);
   transition: ease-in-out 1200ms transform;
   width: $sidebar-width;
   z-index: 2;
   box-shadow: 5px 20px 50px #000;
   height: 100%;
+  background: linear-gradient(rgba(229, 57, 53, 0.7), rgba(229, 57, 53, 0.7)), url('../../../assets/imagemSidebar.jpg');
+  background-size: cover;
+  background-position: 30%;
 }
 
 .sidebar-slider.sidebar-slide-in {
@@ -37,6 +38,19 @@
   font-size: 16px;
   padding: 16px;
   margin-top: 30px;
+}
+
+.button-open-close {
+  margin-top: 5px;
+  margin-left: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #e53935;
+  color: white; 
 }
 
 a {
