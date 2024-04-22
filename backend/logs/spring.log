@@ -137,3 +137,10 @@ This generated password is for development use only. Your security configuration
 2024-04-21T18:28:17.305-03:00  INFO 9236 --- [http-nio-8080-exec-9] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
 2024-04-21T19:04:22.474-03:00  INFO 9236 --- [http-nio-8080-exec-2] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
 2024-04-21T19:08:22.247-03:00  INFO 9236 --- [http-nio-8080-exec-3] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
+2024-04-21T19:25:37.438-03:00  INFO 9236 --- [http-nio-8080-exec-8] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
+2024-04-21T20:26:13.481-03:00  INFO 9236 --- [http-nio-8080-exec-9] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
+2024-04-21T22:45:44.106-03:00  INFO 9236 --- [http-nio-8080-exec-4] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
+2024-04-21T22:45:44.115-03:00  INFO 9236 --- [http-nio-8080-exec-1] com.br.asbuilt.users.UserService         : User logged in. id=1, name=System Administrator
+2024-04-21T23:12:09.796-03:00  INFO 9236 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-04-21T23:12:09.974-03:00  INFO 9236 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-04-21T23:12:10.011-03:00  INFO 9236 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

@@ -6,7 +6,7 @@
 
 .sidebar-opener {
   cursor: pointer;
-  margin-left: $sidebar-width;
+  margin-left: calc($sidebar-width + 15px);
 }
 
 .sidebar-slider {
@@ -35,9 +35,8 @@
   align-items: left;
   flex-direction: column;
   color: white;
-  font-size: 16px;
+  font-size: 20px;
   padding: 16px;
-  margin-top: 30px;
 }
 
 .button-open-close {
@@ -51,9 +50,133 @@
   border-radius: 50%;
   background-color: #e53935;
   color: white; 
+  vertical-align: middle;
+}
+
+.icons {
+  margin-right: 10px;
 }
 
 a {
   text-decoration: none;
   color: inherit;
+}
+
+.menu-item {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  height: 60px;
+  margin: 0;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  &::before {
+    top: 0;
+  }
+
+  &::after {
+    bottom: 0;
+  }
+
+  &:first-child::after {
+    content: none;
+  }
+
+  &:last-child::before {
+    content: none;
+  }
+}
+
+.menu-item .icons {
+  margin-right: 10px;
+}
+
+.menu-item span {
+  flex-grow: 1;
+}
+
+.sidebar-content-closed {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  font-size: 20px;
+  padding: 16px;
+  width: 65px !important;
+  margin: 0 !important;
+  text-align: center !important;
+  align-items: middle !important;
+}
+
+.menu-item-sidebar-closed {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 65px;
+  background: transparent;
+  border: none;
+  color: inherit;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  height: 60px;
+  margin-left: 170px;
+  text-align: center !important;
+  align-items: center !important;
+  margin-top: 1px !important;
+  margin-bottom: 1px !important;
+  justify-content: center;
+
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  &::before,
+  &::after {
+    content: "" !important;
+    left: 0;
+    right: 0;
+    position: absolute !important;
+    height: 1px !important;
+    background: rgba(255, 255, 255, 0.3) !important;
+  }
+
+  &::before {
+    top: 0 !important;
+  }
+
+  &::after {
+    bottom: 0 !important;
+  }
+
+  &:first-child::after {
+    content: none !important;
+  }
+
+  &:last-child::before {
+    content: none !important;
+  }
 }
