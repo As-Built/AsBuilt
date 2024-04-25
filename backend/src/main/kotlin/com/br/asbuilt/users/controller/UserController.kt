@@ -95,4 +95,10 @@ class UserController(val service: UserService) {
         service.findByEmail(email)
             ?.let { ResponseEntity.ok(UserResponse(it)) }
             ?: ResponseEntity.notFound().build()
+
+    @PostMapping("/recuperarSenha/{email}")
+    @PreAuthorize("permitAll()")
+    fun recuperarSenha(@PathVariable email: String): ResponseEntity<Void> =
+        service.recuperarSenha(email)
+            .let { ResponseEntity.ok().build() }
 }

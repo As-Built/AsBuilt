@@ -25,4 +25,19 @@ export class LoginService {
     return this.httpClient.
       post<any>('http://localhost:8080/asbuilt/users/login', body, httpOptions);
   }
+
+  recuperarSenha(email: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'       
+      }),
+      withCredentials: false
+    };
+
+    let body = JSON.stringify({
+      email: email
+    });
+    const url = `http://localhost:8080/asbuilt/users/recuperarSenha/${email}`
+    return this.httpClient.post<any>(url, httpOptions);
+  }
 }

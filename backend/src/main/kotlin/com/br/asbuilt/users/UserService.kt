@@ -3,11 +3,13 @@ package com.br.asbuilt.users
 import com.br.asbuilt.SortDir
 import com.br.asbuilt.exception.BadRequestException
 import com.br.asbuilt.exception.NotFoundException
+import com.br.asbuilt.mail.MailService
 import com.br.asbuilt.roles.RoleRepository
 import com.br.asbuilt.security.Jwt
 import com.br.asbuilt.users.controller.responses.LoginResponse
 import com.br.asbuilt.users.controller.responses.UserResponse
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import kotlin.jvm.optionals.getOrNull
@@ -16,8 +18,12 @@ import kotlin.jvm.optionals.getOrNull
 class UserService(
     val repository: UserRepository,
     val roleRepository: RoleRepository,
-    val jwt: Jwt
+    val jwt: Jwt,
+
+    @Autowired
+    val mailService: MailService
 ) {
+
     fun insert(user: User): User {
         if (repository.findByCPF(user.cpf) != null) {
             log.info("A user with same CPF already exists")
@@ -90,6 +96,16 @@ class UserService(
     fun findByCpf(cpf: String): User? = repository.findByCPF(cpf)
 
     fun findByEmail(email: String): User? = repository.findByEmail(email)
+
+    fun recuperarSenha(email: String): MailService {
+        val user = findByEmail(email) ?: throw NotFoundException("User not found")
+        mailService.enviarEmailTexto(
+            user.email,
+            "Recuperação de senha",
+            "Sua senha é: ${user.password}"
+        )
+        return mailService
+    }
 
     companion object {
         private val log = LoggerFactory.getLogger(UserService::class.java)

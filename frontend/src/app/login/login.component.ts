@@ -57,9 +57,15 @@ export class LoginComponent implements OnInit {
     }
   }
   
-  
-  public esqueciSenha(){
-    alert("Problema é seu!");
+  recuperarSenha() {
+    this.loginService.recuperarSenha(this.loginForm.get('email')?.value || '').subscribe(
+      (retorno) => {
+        alert("Email enviado com sucesso!");
+      },
+      (err) => {
+        alert("Erro ao enviar email!");
+      }
+    );
   }
 
   cadastrar() {
