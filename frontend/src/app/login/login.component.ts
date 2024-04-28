@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { UsuarioModel } from '../usuario/model/usuario.model';
 import { Autenticacao } from './model/login.model';
 import { LoginService } from './service/login.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-login',
@@ -11,34 +12,69 @@ import { LoginService } from './service/login.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  usuarioLogado: UsuarioModel = new UsuarioModel();
-  listaUsuarios: UsuarioModel[] = [];
-  hide: boolean = true;
-  email: any;
-  invalid: any;
+
+  public showPassword: boolean = false;
 
   loginForm = new FormGroup({
-    email: new FormControl('',Validators.required),
-    password: new FormControl('',Validators.required),
+    email: new FormControl('',[Validators.required, Validators.email]),
+    password: new FormControl('',[Validators.required, Validators.min(8)]),
   });
 
-
-  constructor(private loginService: LoginService,
-    private router: Router) { }
+  constructor(
+    private loginService: LoginService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     localStorage.clear();
   }
 
   public signIn() {
+    let autenticacao = new Autenticacao();
+    autenticacao.email = this.loginForm.get('email')?.value;
+    autenticacao.password = this.loginForm.get('password')?.value;
+    // Expressão regular para validar o formato do email
+    let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!emailRegex.test(autenticacao.email)) {
+      Swal.fire({
+        text: "O email digitado não possui um formato válido!",
+        icon: "error",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return;
+    }
+
+    if (autenticacao.email === null || autenticacao.email === "" || autenticacao.email === undefined) {
+      Swal.fire({
+        text: "O campo 'Email' é obrigatório!",
+        icon: "warning",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return;
+    }
+
+    if (autenticacao.password === "" || autenticacao.password === null || autenticacao.password === undefined) {
+      Swal.fire({
+        text: "O campo 'Senha' é obrigatório!",
+        icon: "warning",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return;
+    }
+
     if (this.loginForm.valid) {
-      let autenticacao = new Autenticacao();
-      autenticacao.email = this.loginForm.get('email')?.value;
-      autenticacao.password = this.loginForm.get('password')?.value;
-  
       this.loginService.signIn(autenticacao).subscribe(retorno => {
         localStorage.setItem('token', retorno.token);
-        alert("Usuário autenticado!\nRedirecionando...");
+        Swal.fire({
+          text: "Usuário autenticado com sucesso!\nRedirecionando...",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 2000
+        }).then(() => {
   
         const payload = JSON.parse(atob(retorno.token.split('.')[1]));
         const authority = payload.user.roles[0];
@@ -52,20 +88,49 @@ export class LoginComponent implements OnInit {
           // Redirecionamento padrão para algum lugar caso a autoridade não seja "ADMIN", "CONFERENTE" ou "FUNCIONARIO"
           this.router.navigate(['home']);
         }
-      },
-      (err) => {alert("Usuário ou senha incorreto!")});
+      });
+    },
+    (err) => {
+        Swal.fire({
+          text: "Usuário ou Senha incorreto!",
+          icon: "error",
+          showConfirmButton: false,
+          timer: 2000
+        });
+      });
     }
   }
   
   recuperarSenha() {
     this.loginService.recuperarSenha(this.loginForm.get('email')?.value || '').subscribe(
       (retorno) => {
-        alert("Email enviado com sucesso!");
+        Swal.fire({
+          text: "Email enviado com sucesso!",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 2000
+        });
       },
       (err) => {
-        alert("Erro ao enviar email!");
+        Swal.fire({
+          html: "Erro ao enviar email!<br>Verifique o e-mail informado e tente novamente.",
+          icon: "error",
+          showConfirmButton: false,
+          timer: 3000
+        });
       }
     );
+  }
+
+  togglePasswordVisibility() {
+    const passwordInput = document.getElementById('password') as HTMLInputElement;
+    if (passwordInput.type === "password") {
+      passwordInput.type = "text";
+      this.showPassword = true;
+    } else {
+      passwordInput.type = "password";
+      this.showPassword = false;
+    }
   }
 
   cadastrar() {

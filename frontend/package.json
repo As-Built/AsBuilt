@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "^16.0.0",
     "@angular/router": "^16.0.0",
     "@auth0/angular-jwt": "^5.2.0",
+    "@material/form-field": "^15.0.0-canary.bc9ae6c9c.0",
     "@material/tooltip": "^15.0.0-canary.bc9ae6c9c.0",
     "bootstrap": "^5.3.3",
     "font-awesome-icons": "^1.6.0",
@@ -28,8 +29,10 @@
     "jwt-decode": "^4.0.0",
     "material-icons": "^1.13.12",
     "ng2-currency-mask": "^13.0.3",
+    "ngx-mask": "^13.1.13",
     "routes": "^2.1.0",
     "rxjs": "~7.8.0",
+    "sweetalert2": "^11.10.8",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
   },

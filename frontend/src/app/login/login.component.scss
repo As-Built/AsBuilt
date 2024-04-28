@@ -1,7 +1,18 @@
-.esqueciSenha{     
-    display: flex;
-    justify-content: center;
-    margin-left: -40px;
-    margin-top: -10px;
-    margin-bottom: 40px;
+.recuperar-senha {
+    cursor: pointer;
+    color: blue; 
+    text-decoration: underline;
+    display: block; 
+    padding-top: 5px; 
+    text-align: right; 
+    margin-left: auto; 
+    margin-right: 60px;
+}
+
+button {
+    width: 60%;
+}
+
+label {
+    padding-top: 30px;
 }

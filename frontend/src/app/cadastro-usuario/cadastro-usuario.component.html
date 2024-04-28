@@ -1,10 +1,29 @@
 
 <div>
-    <label style="padding-bottom: 30px;" for="chk" aria-hidden="true">Cadastrar</label>
-    <input type="text" name="cpf" placeholder="CPF" required [(ngModel)]="cadastroModel.cpf">
-    <input type="text" name="name" placeholder="Nome" required [(ngModel)]="cadastroModel.name">
-    <input type="email" name="email" placeholder="Email" required [(ngModel)]="cadastroModel.email">
-    <input type="password" name="password" placeholder="Senha" required [(ngModel)]="cadastroModel.password">
-    <input type="password" name="confirmPassword" placeholder="Repita a senha" required [(ngModel)]="verificarSenha">
-    <button style="margin-top: 30px;" (click)="signUp()">Cadastrar</button>
+    <form [formGroup]="cadastroUsuarioForm">
+        <label for="chk" aria-hidden="true">Cadastrar</label>
+        <input formControlName="cpf" style="margin-top: 30px;" type="text" name="cpf" 
+            placeholder="CPF *" mask="CPF_CNPJ" required>
+        <input formControlName="name" type="text" name="name" placeholder="Nome *" required>
+        <input formControlName="email" type="email" name="email" placeholder="Email *" required>
+        <div class="password-field">
+            <input formControlName="passwordCadastro" type="password" name="passwordCadastro" placeholder="Senha *" required id="passwordCadastro">
+            <i *ngIf="showPassword" class="material-icons password-icon" 
+                (click)="togglePasswordVisibility()" matTooltip="Esconder senha"
+                matTooltipShowDelay="1500">visibility</i>
+            <i *ngIf="!showPassword" class="material-icons password-icon" 
+                (click)="togglePasswordVisibility()" matTooltip="Mostrar senha"
+                matTooltipShowDelay="1500">visibility_off</i>
+        </div>
+        <div class="password-field">
+            <input formControlName="confirmPassword" type="password" name="confirmPassword" placeholder="Repita a senha *" required id="confirmPassword">
+            <i *ngIf="showPassword" class="material-icons password-icon" 
+                (click)="togglePasswordVisibility()" matTooltip="Esconder senha"
+                matTooltipShowDelay="1500">visibility</i>
+            <i *ngIf="!showPassword" class="material-icons password-icon" 
+                (click)="togglePasswordVisibility()" matTooltip="Mostrar senha"
+                matTooltipShowDelay="1500">visibility_off</i>
+        </div>
+        <button style="margin-top: 30px;" (click)="signUp()">Cadastrar</button>
+    </form>
 </div>

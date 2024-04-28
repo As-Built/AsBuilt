@@ -21,6 +21,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatIconModule} from '@angular/material/icon';
 import { LayoutComponent } from './shared/layout/layout.component';
+import {MatError, MatFormFieldModule} from '@angular/material/form-field'; 
+import { MatInputModule } from '@angular/material/input';
+import { CpfPipe } from './shared/pipes/cpf.pipe';
+import { NgxMaskModule } from 'ngx-mask';
+
 
 @NgModule({
   declarations: [
@@ -36,6 +41,7 @@ import { LayoutComponent } from './shared/layout/layout.component';
     ImageSliderComponent,
     NavbarComponent,
     LayoutComponent,
+    CpfPipe
   ],
   imports: [
     BrowserModule,
@@ -54,6 +60,9 @@ import { LayoutComponent } from './shared/layout/layout.component';
     BrowserAnimationsModule,
     MatTooltipModule,
     MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    NgxMaskModule.forRoot(), //npm i ngx-mask@13.1.13
   ],
   providers: [],
   bootstrap: [AppComponent]
