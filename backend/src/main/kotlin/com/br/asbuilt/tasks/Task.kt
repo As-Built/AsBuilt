@@ -62,4 +62,4 @@ class Task(
     var conferente: MutableSet<User> = mutableSetOf()
 
 
-) {}
+)

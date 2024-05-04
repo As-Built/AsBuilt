@@ -1,5 +1,6 @@
 package com.br.asbuilt.costCenters
 
+import com.br.asbuilt.address.Address
 import jakarta.persistence.*
 
 @Entity
@@ -11,9 +12,14 @@ class CostCenter(
     @Column(name = "NOME_CENTRO_DE_CUSTO", nullable = false)
     var nomeCentroDeCusto: String,
 
-    @Column(name = "ENDERECO", nullable = false)
-    var enderecoCentroDeCusto: String,
+    @OneToOne
+    @JoinTable(
+        name = "CostCenterAddress",
+        joinColumns = [JoinColumn(name = "idCostCenter")],
+        inverseJoinColumns = [JoinColumn(name = "idAddress")]
+    )
+    var enderecoCentroDeCusto: Address,
 
     @Column(name = "VALOR_EMPREENDIDO")
     var valorEmpreendido: Double
-) {}
+)

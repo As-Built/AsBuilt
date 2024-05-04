@@ -1,16 +1,9 @@
 package com.br.asbuilt.users
 
+import com.br.asbuilt.address.Address
 import com.br.asbuilt.roles.Role
 import com.fasterxml.jackson.annotation.JsonIgnore
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.JoinTable
-import jakarta.persistence.ManyToMany
-import jakarta.persistence.Table
-import jakarta.persistence.Transient
+import jakarta.persistence.*
 
 @Entity
 @Table(name = "TblUser")
@@ -25,9 +18,16 @@ class User(
 
     var name: String = "",
 
+    @Column(unique = true)
     var cpf: String = "",
 
-    var endereco: String = "",
+    @ManyToOne
+    @JoinTable(
+        name = "UserAddress",
+        joinColumns = [JoinColumn(name = "idUser")],
+        inverseJoinColumns = [JoinColumn(name = "idAddress")]
+    )
+    var endereco: Address? = null,
 
     var telefone: String = "",
 

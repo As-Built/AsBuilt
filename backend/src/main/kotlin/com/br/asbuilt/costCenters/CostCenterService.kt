@@ -1,6 +1,8 @@
 package com.br.asbuilt.costCenters
 
 import com.br.asbuilt.SortDir
+import com.br.asbuilt.address.Address
+import com.br.asbuilt.address.AddressRepository
 import com.br.asbuilt.exception.BadRequestException
 import com.br.asbuilt.exception.ForbiddenException
 import com.br.asbuilt.exception.NotFoundException
@@ -11,12 +13,30 @@ import kotlin.jvm.optionals.getOrNull
 
 @Service
 class CostCenterService(
-    val repository: CostCenterRepository
+    val repository: CostCenterRepository,
+    val addressRepository: AddressRepository
 ) {
     fun insert(costCenter: CostCenter): CostCenter {
         if (repository.findCostCenterByName(costCenter.nomeCentroDeCusto) != null) {
             throw BadRequestException("Cost Center already exists")
         }
+
+        val existingAddress = addressRepository.findFullAddress(
+            costCenter.enderecoCentroDeCusto.street,
+            costCenter.enderecoCentroDeCusto.number,
+            costCenter.enderecoCentroDeCusto.city,
+            costCenter.enderecoCentroDeCusto.state,
+            costCenter.enderecoCentroDeCusto.postalCode
+        )
+
+        if (existingAddress != null) {
+            throw BadRequestException("A Cost Center with the same address already exists!")
+        }
+
+        var savedAddress = addressRepository.save(costCenter.enderecoCentroDeCusto)
+            .also { log.info("Address inserted: {}", it.id)}
+        costCenter.enderecoCentroDeCusto = savedAddress
+
         return repository.save(costCenter)
             .also { log.info("Cost Center inserted: {}", it.id) }
     }
@@ -35,11 +55,11 @@ class CostCenterService(
         return repository.save(costCenter)
     }
 
-    fun updateAdress(id: Long, adress: String): CostCenter? {
+    fun updateAddress(id: Long, address: Address): CostCenter? {
         val costCenter = findByIdOrThrow(id)
 
-        if (costCenter.enderecoCentroDeCusto == adress) return null
-        costCenter.enderecoCentroDeCusto = adress
+        if (costCenter.enderecoCentroDeCusto == address) return null
+        costCenter.enderecoCentroDeCusto = address
 
         return repository.save(costCenter)
     }
@@ -48,7 +68,7 @@ class CostCenterService(
         val costCenter = findByIdOrThrow(id)
 
         if (value <= 0) return null
-        costCenter.valorEmpreendido = costCenter.valorEmpreendido + value
+        costCenter.valorEmpreendido += value
 
         return repository.save(costCenter)
     }
@@ -57,7 +77,7 @@ class CostCenterService(
         val costCenter = findByIdOrThrow(id)
 
         if (value <= 0) return null
-        costCenter.valorEmpreendido = costCenter.valorEmpreendido - value
+        costCenter.valorEmpreendido -= value
 
         return repository.save(costCenter)
     }

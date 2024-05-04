@@ -49,7 +49,7 @@ class SecurityConfig(
                         .also { log.warn("Authorization failed", ex)  }
                 }
             }
-            //TODO: Adicionar as rotas da classe Task
+
             .headers { header -> header.frameOptions { it.disable() }}
             .authorizeHttpRequests { requests ->
                 requests
@@ -61,6 +61,9 @@ class SecurityConfig(
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/tasks")).hasRole("ADMIN")
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/tasks/insertTask")).hasRole("ADMIN")
                     .requestMatchers(mvc.pattern(HttpMethod.PATCH, "/costCenter")).hasRole("ADMIN")
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/address")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/address/insertAddress")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/address")).permitAll()
                     .anyRequest().authenticated()
             }
             .addFilterBefore(jwtTokenFilter, BasicAuthenticationFilter::class.java)

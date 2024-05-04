@@ -3,7 +3,7 @@ package com.br.asbuilt.costCenters.controller
 import com.br.asbuilt.SortDir
 import com.br.asbuilt.costCenters.CostCenterService
 import com.br.asbuilt.costCenters.controller.requests.CreateCostCenterRequest
-import com.br.asbuilt.costCenters.controller.requests.PatchCostCenterAdressRequest
+import com.br.asbuilt.costCenters.controller.requests.PatchCostCenterAddressRequest
 import com.br.asbuilt.costCenters.controller.requests.PatchCostCenterNameResquest
 import com.br.asbuilt.costCenters.controller.requests.PatchCostCenterValueRequest
 import com.br.asbuilt.costCenters.controller.responses.CostCenterResponse
@@ -40,13 +40,13 @@ class CostCenterController(val service: CostCenterService) {
 
     @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("hasRole('ADMIN')")
-    @PatchMapping("/updateCenterCostAdress/{id}")
-    fun updateAdress(
+    @PatchMapping("/updateCenterCostAddress/{id}")
+    fun updateAddress(
         @Valid
-        @RequestBody request: PatchCostCenterAdressRequest,
+        @RequestBody request: PatchCostCenterAddressRequest,
         @PathVariable id: Long,
     ): ResponseEntity <CostCenterResponse> {
-        return service.updateAdress(id, request.enderecoCentroDeCusto)
+        return service.updateAddress(id, request.enderecoCentroDeCusto)
             ?.let{ ResponseEntity.ok(CostCenterResponse(it)) }
             ?: ResponseEntity.noContent().build()
     }
@@ -54,7 +54,7 @@ class CostCenterController(val service: CostCenterService) {
     @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/updateCenterCostValue/{id}")
-    fun updateAdress(
+    fun updateAddress(
         @Valid
         @RequestBody request: PatchCostCenterValueRequest,
         @PathVariable id: Long,
