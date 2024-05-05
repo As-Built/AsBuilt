@@ -20,15 +20,16 @@ export class CadastroCentroCustoService {
     };
 
     let body = JSON.stringify({
-      nomeCentroDeCusto: cadastroModel.nomeCentroDeCusto,
-      enderecoCentroDeCusto: {
-        street: cadastroModel.enderecoCentroDeCusto.street,
-        number: cadastroModel.enderecoCentroDeCusto.number,
-        city: cadastroModel.enderecoCentroDeCusto.city,
-        state: cadastroModel.enderecoCentroDeCusto.state,
-        postalCode: cadastroModel.enderecoCentroDeCusto.postalCode
+      costCenterName: cadastroModel.costCenterName,
+      costCenterAddress: {
+        street: cadastroModel.costCenterAddress.street,
+        number: cadastroModel.costCenterAddress.number,
+        city: cadastroModel.costCenterAddress.city,
+        state: cadastroModel.costCenterAddress.state,
+        postalCode: cadastroModel.costCenterAddress.postalCode
       },
-      valorEmpreendido: cadastroModel.valorEmpreendido,
+      valueUndertaken: cadastroModel.valueUndertaken,
+      owner: cadastroModel.owner,
     });
 
     return this.httpClient.

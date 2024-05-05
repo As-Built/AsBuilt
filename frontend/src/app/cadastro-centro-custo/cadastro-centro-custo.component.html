@@ -11,7 +11,22 @@
           <label for="nomeCentroDeCusto">Nome do Centro de Custo *</label>
           <input type="text" name="nomeCentroDeCusto" id="nomeCentroDeCusto" required 
             matTooltip="Nome do centro de custo" matTooltipShowDelay="1500"
-            [(ngModel)]="cadastroCentroCusto.nomeCentroDeCusto">
+            [(ngModel)]="cadastroCentroCusto.costCenterName">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <hr style="margin-left: 25px;">
+          <h4 style="padding-left: 15px;">Endereço</h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3">
+          <label for="cep">CEP *</label>
+          <input type="text" name="cep" id="cep" mask="00.000-000" required 
+            matTooltip="CEP" matTooltipShowDelay="1500"
+            [(ngModel)]="cadastroCentroCusto.costCenterAddress.postalCode"
+            (change)="getAddress(cadastroCentroCusto.costCenterAddress.postalCode)">
         </div>
       </div>
       <div class="row">
@@ -19,19 +34,13 @@
           <label for="logradouro">Logradouro *</label>
           <input type="text" name="logradouro" id="logradouro" required 
             matTooltip="Rua, Avenida, Travessa, Alameda" matTooltipShowDelay="1500"  
-            [(ngModel)]="cadastroCentroCusto.enderecoCentroDeCusto.street">
+            [(ngModel)]="cadastroCentroCusto.costCenterAddress.street">
         </div>
         <div class="col-2">
           <label for="numero">Número *</label>
           <input type="number" name="numero" id="numero" required 
             matTooltip="Para 'Sem Número' inserir '0'" matTooltipShowDelay="1500"
-            [(ngModel)]="cadastroCentroCusto.enderecoCentroDeCusto.number">
-        </div>
-        <div class="col-3">
-          <label for="cep">CEP *</label>
-          <input type="text" name="cep" id="cep" mask="00.000-000" required 
-            matTooltip="CEP" matTooltipShowDelay="1500"
-            [(ngModel)]="cadastroCentroCusto.enderecoCentroDeCusto.postalCode">
+            [(ngModel)]="cadastroCentroCusto.costCenterAddress.number">
         </div>
       </div>
       <div class="row">
@@ -39,13 +48,27 @@
           <label for="cidade">Cidade *</label>
           <input type="text" name="cidade" id="cidade" required 
             matTooltip="Cidade" matTooltipShowDelay="1500"
-            [(ngModel)]="cadastroCentroCusto.enderecoCentroDeCusto.city">
+            [(ngModel)]="cadastroCentroCusto.costCenterAddress.city">
         </div>
-        <div class="col-4">
-          <label for="estado">Estado *</label>
+        <div class="col-2">
+          <label for="estado">UF *</label>
           <input type="text" name="estado" id="estado" required 
             matTooltip="Estado" matTooltipShowDelay="1500"  
-            [(ngModel)]="cadastroCentroCusto.enderecoCentroDeCusto.state">
+            [(ngModel)]="cadastroCentroCusto.costCenterAddress.state">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <hr style="margin-left: 25px;">
+          <h4 style="padding-left: 15px;">Dados do centro de custo</h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <label for="proprietario">Proprietário</label>
+          <input type="text" name="proprietario" id="proprietario" required 
+            matTooltip="Proprietário do centro de custo" matTooltipShowDelay="1500"  
+            [(ngModel)]="cadastroCentroCusto.owner">
         </div>
       </div>
       <div class="row">
@@ -53,7 +76,7 @@
           <label for="valorEmpreendido">Valor Inicial Empreendido</label>
           <input type="text" name="valorEmpreendido" id="valorEmpreendido" required 
             matTooltip="Valor já empreendido no centro de custo" matTooltipShowDelay="1500"  
-            [(ngModel)]="cadastroCentroCusto.valorEmpreendido" 
+            [(ngModel)]="cadastroCentroCusto.valueUndertaken" 
             currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
         </div>
       </div>

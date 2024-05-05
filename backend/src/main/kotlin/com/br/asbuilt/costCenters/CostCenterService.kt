@@ -17,25 +17,25 @@ class CostCenterService(
     val addressRepository: AddressRepository
 ) {
     fun insert(costCenter: CostCenter): CostCenter {
-        if (repository.findCostCenterByName(costCenter.nomeCentroDeCusto) != null) {
+        if (repository.findCostCenterByName(costCenter.costCenterName) != null) {
             throw BadRequestException("Cost Center already exists")
         }
 
         val existingAddress = addressRepository.findFullAddress(
-            costCenter.enderecoCentroDeCusto.street,
-            costCenter.enderecoCentroDeCusto.number,
-            costCenter.enderecoCentroDeCusto.city,
-            costCenter.enderecoCentroDeCusto.state,
-            costCenter.enderecoCentroDeCusto.postalCode
+            costCenter.costCenterAddress.street,
+            costCenter.costCenterAddress.number,
+            costCenter.costCenterAddress.city,
+            costCenter.costCenterAddress.state,
+            costCenter.costCenterAddress.postalCode
         )
 
         if (existingAddress != null) {
             throw BadRequestException("A Cost Center with the same address already exists!")
         }
 
-        var savedAddress = addressRepository.save(costCenter.enderecoCentroDeCusto)
+        var savedAddress = addressRepository.save(costCenter.costCenterAddress)
             .also { log.info("Address inserted: {}", it.id)}
-        costCenter.enderecoCentroDeCusto = savedAddress
+        costCenter.costCenterAddress = savedAddress
 
         return repository.save(costCenter)
             .also { log.info("Cost Center inserted: {}", it.id) }
@@ -49,8 +49,8 @@ class CostCenterService(
     fun updateName(id: Long, name: String): CostCenter? {
         val costCenter = findByIdOrThrow(id)
 
-        if (costCenter.nomeCentroDeCusto == name) return null
-        costCenter.nomeCentroDeCusto = name
+        if (costCenter.costCenterName == name) return null
+        costCenter.costCenterName = name
 
         return repository.save(costCenter)
     }
@@ -58,8 +58,8 @@ class CostCenterService(
     fun updateAddress(id: Long, address: Address): CostCenter? {
         val costCenter = findByIdOrThrow(id)
 
-        if (costCenter.enderecoCentroDeCusto == address) return null
-        costCenter.enderecoCentroDeCusto = address
+        if (costCenter.costCenterAddress == address) return null
+        costCenter.costCenterAddress = address
 
         return repository.save(costCenter)
     }
@@ -68,7 +68,7 @@ class CostCenterService(
         val costCenter = findByIdOrThrow(id)
 
         if (value <= 0) return null
-        costCenter.valorEmpreendido += value
+        costCenter.valueUndertaken += value
 
         return repository.save(costCenter)
     }
@@ -77,7 +77,7 @@ class CostCenterService(
         val costCenter = findByIdOrThrow(id)
 
         if (value <= 0) return null
-        costCenter.valorEmpreendido -= value
+        costCenter.valueUndertaken -= value
 
         return repository.save(costCenter)
     }
@@ -94,7 +94,7 @@ class CostCenterService(
     fun delete(id: Long): Boolean {
         val costCenter = findByIdOrNull(id) ?: return false
 
-        if (costCenter.valorEmpreendido > 0) throw ForbiddenException("Cannot delete a Cost Center with value undertaken!")
+        if (costCenter.valueUndertaken > 0) throw ForbiddenException("Cannot delete a Cost Center with value undertaken!")
 
         repository.delete(costCenter)
         log.info("Cost Center deleted: {}", costCenter.id)

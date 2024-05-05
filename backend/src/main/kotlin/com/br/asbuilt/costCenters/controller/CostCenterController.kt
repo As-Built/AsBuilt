@@ -33,7 +33,7 @@ class CostCenterController(val service: CostCenterService) {
         @RequestBody request: PatchCostCenterNameResquest,
         @PathVariable id: Long,
     ): ResponseEntity <CostCenterResponse> {
-        return service.updateName(id, request.nomeCentroDeCusto)
+        return service.updateName(id, request.costCenterName)
             ?.let{ ResponseEntity.ok(CostCenterResponse(it)) }
             ?: ResponseEntity.noContent().build()
     }
@@ -46,7 +46,7 @@ class CostCenterController(val service: CostCenterService) {
         @RequestBody request: PatchCostCenterAddressRequest,
         @PathVariable id: Long,
     ): ResponseEntity <CostCenterResponse> {
-        return service.updateAddress(id, request.enderecoCentroDeCusto)
+        return service.updateAddress(id, request.costCenterAddress)
             ?.let{ ResponseEntity.ok(CostCenterResponse(it)) }
             ?: ResponseEntity.noContent().build()
     }
@@ -59,7 +59,7 @@ class CostCenterController(val service: CostCenterService) {
         @RequestBody request: PatchCostCenterValueRequest,
         @PathVariable id: Long,
     ): ResponseEntity <CostCenterResponse> {
-        return service.increaseValueUndertaken(id, request.valorEmpreendido)
+        return service.increaseValueUndertaken(id, request.valueUndertaken)
             ?.let{ ResponseEntity.ok(CostCenterResponse(it)) }
             ?: ResponseEntity.noContent().build()
     }

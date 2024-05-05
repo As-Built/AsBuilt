@@ -5,5 +5,5 @@ import jakarta.validation.constraints.NotBlank
 
 data class PatchCostCenterAddressRequest(
     @field:NotBlank
-    val enderecoCentroDeCusto: Address
+    val costCenterAddress: Address
 )

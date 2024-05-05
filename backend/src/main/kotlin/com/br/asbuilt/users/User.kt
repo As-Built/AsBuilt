@@ -27,9 +27,9 @@ class User(
         joinColumns = [JoinColumn(name = "idUser")],
         inverseJoinColumns = [JoinColumn(name = "idAddress")]
     )
-    var endereco: Address? = null,
+    var userAddress: Address? = null,
 
-    var telefone: String = "",
+    var phone: String = "",
 
     @ManyToMany
     @JoinTable(

@@ -4,5 +4,5 @@ import jakarta.validation.constraints.NotBlank
 
 data class PatchCostCenterNameResquest(
     @field:NotBlank
-    val nomeCentroDeCusto: String
+    val costCenterName: String
 )

@@ -5,14 +5,16 @@ import com.br.asbuilt.costCenters.CostCenter
 
 data class CostCenterResponse(
     val id: Long?,
-    val nomeCentroDeCusto: String,
-    val enderecoCentroDeCusto: Address,
-    val valorEmpreendido: Double
+    val costCenterName: String,
+    val costCenterAddress: Address,
+    val valueUndertaken: Double,
+    val owner: String
 ) {
     constructor(costCenter: CostCenter) : this (
         costCenter.id!!,
-        costCenter.nomeCentroDeCusto,
-        costCenter.enderecoCentroDeCusto,
-        costCenter.valorEmpreendido
+        costCenter.costCenterName,
+        costCenter.costCenterAddress,
+        costCenter.valueUndertaken,
+        costCenter.owner
     )
 }

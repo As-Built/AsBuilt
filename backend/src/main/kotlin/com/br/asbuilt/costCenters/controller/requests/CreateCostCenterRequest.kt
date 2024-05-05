@@ -7,15 +7,18 @@ import jakarta.validation.constraints.NotNull
 
 data class CreateCostCenterRequest(
     @field: NotBlank
-    val nomeCentroDeCusto: String,
+    val costCenterName: String,
     @field: NotNull
-    val enderecoCentroDeCusto: Address,
+    val costCenterAddress: Address,
     @field: NotNull
-    val valorEmpreendido: Double
+    val valueUndertaken: Double,
+    @field: NotBlank
+    val owner: String
 ) {
     fun toCostCenter() = CostCenter(
-        nomeCentroDeCusto = nomeCentroDeCusto,
-        enderecoCentroDeCusto = enderecoCentroDeCusto,
-        valorEmpreendido = valorEmpreendido
+        costCenterName = costCenterName,
+        costCenterAddress = costCenterAddress,
+        valueUndertaken = valueUndertaken,
+        owner = owner
     )
 }
