@@ -19,11 +19,10 @@ import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { LayoutComponent } from './shared/layout/layout.component';
-import {MatError, MatFormFieldModule} from '@angular/material/form-field'; 
+import { MatFormFieldModule} from '@angular/material/form-field'; 
 import { MatInputModule } from '@angular/material/input';
-import { CpfPipe } from './shared/pipes/cpf.pipe';
 import { NgxMaskModule } from 'ngx-mask';
 
 
@@ -40,8 +39,7 @@ import { NgxMaskModule } from 'ngx-mask';
     SidebarComponent,
     ImageSliderComponent,
     NavbarComponent,
-    LayoutComponent,
-    CpfPipe
+    LayoutComponent
   ],
   imports: [
     BrowserModule,

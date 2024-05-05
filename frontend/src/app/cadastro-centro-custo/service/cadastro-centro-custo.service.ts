@@ -21,15 +21,15 @@ export class CadastroCentroCustoService {
 
     let body = JSON.stringify({
       nomeCentroDeCusto: cadastroModel.nomeCentroDeCusto,
-      enderecoCentroDeCusto: cadastroModel.enderecoCentroDeCusto,
+      enderecoCentroDeCusto: {
+        street: cadastroModel.enderecoCentroDeCusto.street,
+        number: cadastroModel.enderecoCentroDeCusto.number,
+        city: cadastroModel.enderecoCentroDeCusto.city,
+        state: cadastroModel.enderecoCentroDeCusto.state,
+        postalCode: cadastroModel.enderecoCentroDeCusto.postalCode
+      },
       valorEmpreendido: cadastroModel.valorEmpreendido,
     });
-
-    // let body = JSON.stringify({
-    //   nomeCentroDeCusto: "teste",
-    //   enderecoCentroDeCusto: "teste",
-    //   valorEmpreendido: 1000.0,
-    // });
 
     return this.httpClient.
       post<CadastroCentroCustoModel>('http://localhost:8080/asbuilt/costCenter/insertCostCenter', body, httpOptions);

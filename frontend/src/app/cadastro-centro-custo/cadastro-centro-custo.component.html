@@ -1,23 +1,67 @@
-<div style="display: flex; justify-content: center; align-items: center;">
-    <div style="background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); width: 800px; max-width: 90%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-      <h2>Cadastro de Centro de Custos</h2>
-      <form (ngSubmit)="cadastrarCentroDeCusto()" #form="ngForm" style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between;">
-          <div style="width: 100%; text-align: center;">
-            <label for="nomeCentroDeCusto" style="color: black; font-size: 14px;">Nome do Centro de Custo</label>
-            <input type="text" name="nomeCentroDeCusto" id="nomeCentroDeCusto" required [(ngModel)]="cadastroCentroCusto.nomeCentroDeCusto">
-          </div>
-          <div style="width: 100%; text-align: center;">
-            <label for="endereco" style="color: black; font-size: 14px;">Endereço</label>
-            <input type="text" name="endereco" id="endereco" required [(ngModel)]="cadastroCentroCusto.enderecoCentroDeCusto">
-          </div>
-          <div style="width: 50%; margin: auto; text-align: center;">
-            <label for="valorEmpreendido" style="color: black; font-size: 14px;">Valor Inicial Empreendido</label>
-            <input type="text" name="valorEmpreendido" id="valorEmpreendido" required [(ngModel)]="cadastroCentroCusto.valorEmpreendido" 
-              currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
-          </div>
-          <div style="width: 100%; margin: auto; text-align: center;">
-            <button type="submit" style="width: 40%;">Cadastrar</button>
-          </div>
-        </form>
+<div class="corpo">
+  <div class="container conteudo">
+    <div class="row centralizar-conteudo">
+      <div class="col-12">
+        <h2>Cadastro de Centro de Custos</h2>
       </div>
+    </div>
+    <form (ngSubmit)="cadastrarCentroDeCusto()" #form="ngForm" style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between;">
+      <div class="row">
+        <div class="col-12">
+          <label for="nomeCentroDeCusto">Nome do Centro de Custo *</label>
+          <input type="text" name="nomeCentroDeCusto" id="nomeCentroDeCusto" required 
+            matTooltip="Nome do centro de custo" matTooltipShowDelay="1500"
+            [(ngModel)]="cadastroCentroCusto.nomeCentroDeCusto">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-7">
+          <label for="logradouro">Logradouro *</label>
+          <input type="text" name="logradouro" id="logradouro" required 
+            matTooltip="Rua, Avenida, Travessa, Alameda" matTooltipShowDelay="1500"  
+            [(ngModel)]="cadastroCentroCusto.enderecoCentroDeCusto.street">
+        </div>
+        <div class="col-2">
+          <label for="numero">Número *</label>
+          <input type="number" name="numero" id="numero" required 
+            matTooltip="Para 'Sem Número' inserir '0'" matTooltipShowDelay="1500"
+            [(ngModel)]="cadastroCentroCusto.enderecoCentroDeCusto.number">
+        </div>
+        <div class="col-3">
+          <label for="cep">CEP *</label>
+          <input type="text" name="cep" id="cep" mask="00.000-000" required 
+            matTooltip="CEP" matTooltipShowDelay="1500"
+            [(ngModel)]="cadastroCentroCusto.enderecoCentroDeCusto.postalCode">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <label for="cidade">Cidade *</label>
+          <input type="text" name="cidade" id="cidade" required 
+            matTooltip="Cidade" matTooltipShowDelay="1500"
+            [(ngModel)]="cadastroCentroCusto.enderecoCentroDeCusto.city">
+        </div>
+        <div class="col-4">
+          <label for="estado">Estado *</label>
+          <input type="text" name="estado" id="estado" required 
+            matTooltip="Estado" matTooltipShowDelay="1500"  
+            [(ngModel)]="cadastroCentroCusto.enderecoCentroDeCusto.state">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <label for="valorEmpreendido">Valor Inicial Empreendido</label>
+          <input type="text" name="valorEmpreendido" id="valorEmpreendido" required 
+            matTooltip="Valor já empreendido no centro de custo" matTooltipShowDelay="1500"  
+            [(ngModel)]="cadastroCentroCusto.valorEmpreendido" 
+            currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+        </div>
+      </div>
+      <div class="row centralizar-conteudo">
+        <div class="col-6 centralizar-conteudo">
+          <button class="btn-confirm" type="submit">Cadastrar</button>
+        </div>
+      </div>
+    </form>
   </div>
+</div>

@@ -18,10 +18,11 @@
 }
 
 .navbar-nav {
-    display: flex;
+    // display: flex;
     list-style: none;
     padding-left: 0;
     padding-right: 2%;
+    flex-direction: row;
 }
 
 .nav-item {
