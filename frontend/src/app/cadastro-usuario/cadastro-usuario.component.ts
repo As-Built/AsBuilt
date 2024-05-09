@@ -191,7 +191,7 @@ export class CadastroUsuarioComponent {
       return;
     }
 
-    if (this.cadastroUsuarioForm.valid) {
+    if (this.cadastroModel) {
       this.cadastoUsuarioService.signUp(cadastroUsuarioModel).subscribe(retorno => {
         Swal.fire({
           text: "Usuário cadastrado com sucesso!",

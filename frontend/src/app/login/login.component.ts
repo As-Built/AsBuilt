@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    if (this.loginForm.valid) {
+    else {
       this.loginService.signIn(autenticacao).subscribe(retorno => {
         localStorage.setItem('token', retorno.token);
         Swal.fire({
