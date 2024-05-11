@@ -1,0 +1,91 @@
+<div class="corpo">
+    <div class="container conteudo">
+      <div class="row centralizar-conteudo">
+        <div class="col-12">
+          <h2>Cadastro de Construtora</h2>
+        </div>
+      </div>
+      <form (ngSubmit)="cadastrarConstrutora()" #form="ngForm" style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between;">
+        <div class="row">
+          <div class="col-12">
+            <label for="nomeConstrutora">Nome da Construtora *</label>
+            <input type="text" name="nomeConstrutora" id="nomeConstrutora" required 
+              matTooltip="Nome da Construtora ou Empremteira" matTooltipShowDelay="1500"
+              [(ngModel)]="cadastroConstrutora.builderName"
+              placeholder="Nome da construtora">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <hr style="margin-left: 25px;">
+            <h4 style="padding-left: 15px;">Endereço</h4>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-3">
+            <label for="cep">CEP *</label>
+            <input type="text" name="cep" id="cep" mask="00.000-000" required 
+              matTooltip="CEP" matTooltipShowDelay="1500"
+              [(ngModel)]="cadastroConstrutora.builderAddress.postalCode"
+              (change)="getAddress(cadastroConstrutora.builderAddress.postalCode)"
+              placeholder="00.000-000">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-7">
+            <label for="logradouro">Logradouro *</label>
+            <input type="text" name="logradouro" id="logradouro" required 
+              matTooltip="Rua, Avenida, Travessa, Alameda" matTooltipShowDelay="1500"  
+              [(ngModel)]="cadastroConstrutora.builderAddress.street"
+              placeholder="Rua Exemplo">
+          </div>
+          <div class="col-2">
+            <label for="numero">Número *</label>
+            <input type="number" name="numero" id="numero" required 
+              matTooltip="Para 'Sem Número' inserir '0'" matTooltipShowDelay="1500"
+              [(ngModel)]="cadastroConstrutora.builderAddress.number">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <label for="cidade">Cidade *</label>
+            <input type="text" name="cidade" id="cidade" required 
+              matTooltip="Cidade" matTooltipShowDelay="1500"
+              [(ngModel)]="cadastroConstrutora.builderAddress.city" placeholder="Cidade">
+          </div>
+          <div class="col-2">
+            <label for="estado">UF *</label>
+              <select name= "estado" [(ngModel)]="cadastroConstrutora.builderAddress.state">
+                <option *ngFor="let estado of estadosBrasileiros" [value]="estado">{{estado}}</option>
+              </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <hr style="margin-left: 25px;">
+            <h4 style="padding-left: 15px;">Dados da Construtora</h4>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <label for="cnpj">CNPJ *</label>
+            <input type="text" name="cnpj" id="cnpj" required  mask="00.000.000/0000-00"
+              matTooltip="CNPJ" matTooltipShowDelay="1500"  
+              [(ngModel)]="cadastroConstrutora.cnpj" placeholder="00.000.000/0000-00">
+          </div>
+          <div class="col-6">
+            <label for="telefone">Telefone</label>
+            <input type="text" name="telefone" id="telefone" required 
+              matTooltip="Telefone" matTooltipShowDelay="1500"  
+              [(ngModel)]="cadastroConstrutora.phone" placeholder="(XX) 1234-5678">
+          </div>
+        </div>
+        <div class="row centralizar-conteudo">
+          <div class="col-6 centralizar-conteudo">
+            <button class="btn-confirm" type="submit">Cadastrar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  
