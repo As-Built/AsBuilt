@@ -11,38 +11,35 @@ class Task(
     @Id @GeneratedValue
     var id: Long? = null,
 
-    @Column(name = "TIPO_SERVICO", nullable = false)
-    var tipoServico: String,
+    @Column( nullable = false)
+    var taskType: String,
 
-    @Column(name = "VALOR_UNITARIO", nullable = false)
-    var valorUnitario: Double,
+    @Column(nullable = false)
+    var unitaryValue: Double,
 
-    @Column(name = "DIMENSAO", nullable = false)
-    var dimensao: Double,
+    @Column(nullable = false)
+    var dimension: Double,
 
-    @Column(name = "UNIDADE_MEDIDA", nullable = false)
-    var unidadeMedida: String,
+    @Column(nullable = false)
+    var unitMeasurement: String,
 
     @ManyToOne
     @JoinColumn(name = "idCostCenter")
-    var centroDeCusto: CostCenter? = null,
+    var costCenter: CostCenter? = null,
 
-    @Column(name = "LOCAL_EXECUCAO", nullable = false)
-    var localExecucao: String,
+    @Column(nullable = false)
+    var placeOfExecution: String,
 
-    @Column(name = "DATA_INICIO", nullable = false)
-    var dataInicio: Date,
+    @Column(nullable = false)
+    var startDate: Date,
 
-    @Column(name = "PREV_TERMINO", nullable = false)
-    var previsaoTermino: Date,
+    @Column(nullable = false)
+    var expectedEndDate: Date,
 
-    @Column(name = "DATA_FINAL")
-    var dataFinal: Date?,
+    var finalDate: Date?,
 
-    @Column(name = "VALOR_TOTAL")
-    var valorTotal: Double,
+    var amount: Double,
 
-    @Column(name = "OBS")
     var obs: String?,
 
     @ManyToMany

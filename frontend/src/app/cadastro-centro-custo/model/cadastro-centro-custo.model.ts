@@ -1,8 +1,10 @@
-import { EnderecoModel } from "src/app/shared/model/endereco.model";
+import { ConstrutoraModel } from "../../construtora/model/construtora.model";
+import { EnderecoModel } from "../../shared/model/endereco.model";
 
 export class CadastroCentroCustoModel {
     costCenterName: string = "";
     costCenterAddress: EnderecoModel = new EnderecoModel();
     valueUndertaken: number = 0;
-    owner: string = "";
+    expectedBudget: number = 0;
+    builder: ConstrutoraModel = new ConstrutoraModel();
 }

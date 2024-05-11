@@ -36,7 +36,6 @@ label{
 	transition: .5s ease-in-out;
 }
 input{
-	// width: 60%;
 	height: 35px;
 	background: #e0dede;
 	justify-content: center;
@@ -47,6 +46,19 @@ input{
 	outline: none;
 	border-radius: 5px;
 }
+
+select{
+	height: 35px;
+	background: #e0dede;
+	justify-content: center;
+	display: flex;
+	margin: 10px 10px;
+	padding: 10px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+}
+
 button{
 	height: 40px;
 	width: 200px;

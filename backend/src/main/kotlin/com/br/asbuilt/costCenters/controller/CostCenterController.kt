@@ -53,7 +53,7 @@ class CostCenterController(val service: CostCenterService) {
 
     @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("hasRole('ADMIN')")
-    @PatchMapping("/updateCenterCostValue/{id}")
+    @PatchMapping("/updateCostCenterValue/{id}")
     fun updateAddress(
         @Valid
         @RequestBody request: PatchCostCenterValueRequest,
@@ -73,9 +73,9 @@ class CostCenterController(val service: CostCenterService) {
 
     @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("permitAll()")
-    @GetMapping("/getCostCenterByName/{nomeCentroDeCusto}")
-    fun getByName(@PathVariable nomeCentroDeCusto: String) =
-        service.findByName(nomeCentroDeCusto)
+    @GetMapping("/getCostCenterByName/{costCenterName}")
+    fun getByName(@PathVariable costCenterName: String) =
+        service.findByName(costCenterName)
             ?.let { ResponseEntity.ok(CostCenterResponse(it)) }
             ?: ResponseEntity.notFound().build()
 

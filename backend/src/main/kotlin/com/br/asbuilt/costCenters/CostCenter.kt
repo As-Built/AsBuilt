@@ -1,6 +1,7 @@
 package com.br.asbuilt.costCenters
 
 import com.br.asbuilt.address.Address
+import com.br.asbuilt.builder.Builder
 import jakarta.persistence.*
 
 @Entity
@@ -9,7 +10,7 @@ class CostCenter(
     @Id @GeneratedValue
     var id: Long? = null,
 
-    @Column(name = "COST_CENTER_NAME", nullable = false)
+    @Column(nullable = false)
     var costCenterName: String,
 
     @OneToOne
@@ -20,9 +21,15 @@ class CostCenter(
     )
     var costCenterAddress: Address,
 
-    @Column(name = "VALUE_UNDERTAKEN")
     var valueUndertaken: Double,
 
-    @Column(name = "OWNER")
-    var owner: String,
+    var expectedBudget: Double,
+
+    @ManyToOne
+    @JoinTable(
+        name = "BuilderCostCenter",
+        joinColumns = [JoinColumn(name = "idCostCenter")],
+        inverseJoinColumns = [JoinColumn(name = "idBuilder")]
+    )
+    var builder: Builder
 )

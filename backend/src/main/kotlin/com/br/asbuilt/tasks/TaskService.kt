@@ -19,7 +19,7 @@ class TaskService (
 ) {
 
     fun insert(task: Task): Task {
-        val centroDeCustoId = task.centroDeCusto?.id
+        val centroDeCustoId = task.costCenter?.id
 
         val centroDeCusto = centroDeCustoId?.let {
             costCenterRepository.findById(it)
@@ -47,7 +47,7 @@ class TaskService (
 //            throw ForbiddenException("The following 'Conferente' users do not have Administrator permission: $usernames")
 //        }
 
-        task.centroDeCusto = centroDeCusto
+        task.costCenter = centroDeCusto
 //        task.executor = executor.toMutableSet()
 //        task.conferente = conferente.toMutableSet()
 
@@ -58,7 +58,7 @@ class TaskService (
     fun findByIdOrNull(id: Long) = repository.findById(id).getOrNull()
 
     fun update(id: Long, request: Task): Task? {
-        val centroDeCustoId = request.centroDeCusto?.id
+        val centroDeCustoId = request.costCenter?.id
 
         val centroDeCusto = centroDeCustoId?.let {
             costCenterRepository.findById(it)
@@ -89,7 +89,7 @@ class TaskService (
         var taskAntiga = findByIdOrNull(id)
         if (taskAntiga == request) return null
 
-        request.centroDeCusto = centroDeCusto
+        request.costCenter = centroDeCusto
         request.executor = executor.toMutableSet()
         request.conferente = conferente.toMutableSet()
 

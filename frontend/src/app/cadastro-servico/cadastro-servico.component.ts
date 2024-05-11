@@ -25,41 +25,41 @@ export class CadastroServicoComponent implements OnInit {
   }
 
   calculateValorTotal() {
-    this.cadastroServico.valorTotal = this.cadastroServico.valorUnitario * this.cadastroServico.dimensao;
+    this.cadastroServico.amount = this.cadastroServico.unitaryValue * this.cadastroServico.dimension;
   }
 
   submitForm() {
     // Realizar validações
-    if (!this.cadastroServico.tipoServico) {
+    if (!this.cadastroServico.taskType) {
       alert("Por favor, informe o tipo de serviço.");
       return;
     }
-    if (this.cadastroServico.valorUnitario <= 0) {
+    if (this.cadastroServico.unitaryValue <= 0) {
       alert("O valor unitário deve ser maior que zero.");
       return;
     }
-    if (this.cadastroServico.dimensao <= 0) {
+    if (this.cadastroServico.dimension <= 0) {
       alert("A dimensão deve ser maior que zero.");
       return;
     }
-    if (!this.cadastroServico.unidadeMedida) {
+    if (!this.cadastroServico.unitaryValue) {
       alert("Por favor, informe a unidade de medida.");
       return;
     }
-    if (!this.cadastroServico.localExecucao) {
+    if (!this.cadastroServico.placeOfExecution) {
       alert("Por favor, informe o local de execução.");
       return;
     }
-    if (!this.cadastroServico.dataInicio) {
+    if (!this.cadastroServico.startDate) {
       alert("Por favor, informe a data de início.");
       return;
     }
-    if (!this.cadastroServico.previsaoTermino) {
+    if (!this.cadastroServico.expectedEndDate) {
       alert("Por favor, informe a previsão de término.");
       return;
     }
     // Submeter o formulário se todas as validações passarem
-    this.cadastroServicoService.CadastrarServico(this.cadastroServico).subscribe(
+    this.cadastroServicoService.cadastrarServico(this.cadastroServico).subscribe(
       retorno => {
         alert("Cadastro realizado com sucesso!");
       },

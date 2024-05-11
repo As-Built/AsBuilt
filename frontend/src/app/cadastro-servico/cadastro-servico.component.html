@@ -4,45 +4,45 @@
     <form (ngSubmit)="submitForm()" #form="ngForm" style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between;">
         <div style="width: 100%; margin-bottom: 10px; margin: auto; text-align: center;">
           <label for="centroDeCustoId" style="width: 30%; margin: auto; color: black; font-size: 14px;">Centro de Custo</label>
-          <input style="width: calc(33.33% - 8px);" type="number" name="centroDeCustoId" id="centroDeCustoId" [(ngModel)]="cadastroServico.centroDeCustoId">
+          <input style="width: calc(33.33% - 8px);" type="number" name="centroDeCustoId" id="centroDeCustoId" [(ngModel)]="cadastroServico.costCenterId">
         </div>
         <div style="width: calc(33.33% - 8px); margin-bottom: 10px;">
           <label for="tipoServico" style="color: black; font-size: 14px;">Tipo de Serviço</label>
-          <input type="text" name="tipoServico" id="tipoServico" required [(ngModel)]="cadastroServico.tipoServico">
+          <input type="text" name="tipoServico" id="tipoServico" required [(ngModel)]="cadastroServico.taskType">
         </div>
         <div style="width: calc(33.33% - 8px); margin-bottom: 10px;">
           <label for="valorUnitario" style="color: black; font-size: 14px;">Valor Unitário</label>
-          <input type="text" name="valorUnitario" id="valorUnitario" required [(ngModel)]="cadastroServico.valorUnitario"
+          <input type="text" name="valorUnitario" id="valorUnitario" required [(ngModel)]="cadastroServico.unitaryValue"
             (ngModelChange)="calculateValorTotal()" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
         </div>
         <div style="width: calc(33.33% - 8px); margin-bottom: 10px;">
           <label for="dimensao" style="color: black; font-size: 14px;">Dimensão</label>
-          <input type="number" name="dimensao" id="dimensao" required [(ngModel)]="cadastroServico.dimensao"
+          <input type="number" name="dimensao" id="dimensao" required [(ngModel)]="cadastroServico.dimension"
             (ngModelChange)="calculateValorTotal()">
         </div>
         <div style="width: calc(33.33% - 8px); margin-bottom: 10px;">
           <label for="unidadeMedida" style="color: black; font-size: 14px;">Unidade de Medida</label>
-          <input type="text" name="unidadeMedida" id="unidadeMedida" required [(ngModel)]="cadastroServico.unidadeMedida">
+          <input type="text" name="unidadeMedida" id="unidadeMedida" required [(ngModel)]="cadastroServico.unitMeasurement">
         </div>
         <div style="width: calc(33.33% - 8px); margin-bottom: 10px;">
           <label for="localExecucao" style="color: black; font-size: 14px;">Local de Execução</label>
-          <input type="text" name="localExecucao" id="localExecucao" required [(ngModel)]="cadastroServico.localExecucao">
+          <input type="text" name="localExecucao" id="localExecucao" required [(ngModel)]="cadastroServico.placeOfExecution">
         </div>
         <div style="width: calc(33.33% - 8px); margin-bottom: 10px;">
           <label for="dataInicio" style="color: black; font-size: 14px;">Data de Início</label>
-          <input type="date" name="dataInicio" id="dataInicio" required [(ngModel)]="cadastroServico.dataInicio">
+          <input type="date" name="dataInicio" id="dataInicio" required [(ngModel)]="cadastroServico.startDate">
         </div>
         <div style="width: calc(33.33% - 8px); margin-bottom: 10px;">
           <label for="previsaoTermino" style="color: black; font-size: 14px;">Previsão de Término</label>
-          <input type="date" name="previsaoTermino" id="previsaoTermino" required [(ngModel)]="cadastroServico.previsaoTermino">
+          <input type="date" name="previsaoTermino" id="previsaoTermino" required [(ngModel)]="cadastroServico.expectedEndDate">
         </div>
         <div style="width: calc(33.33% - 8px); margin-bottom: 10px;">
           <label for="dataFinal" style="color: black; font-size: 14px;">Data Final</label>
-          <input type="date" name="dataFinal" id="dataFinal" [(ngModel)]="cadastroServico.dataFinal">
+          <input type="date" name="dataFinal" id="dataFinal" [(ngModel)]="cadastroServico.finalDate">
         </div>
         <div style="width: calc(33.33% - 8px); margin-bottom: 10px;">
           <label for="valorTotal" style="color: black; font-size: 14px;">Valor Total</label>
-          <input type="text" name="valorTotal" id="valorTotal" [(ngModel)]="cadastroServico.valorTotal"
+          <input type="text" name="valorTotal" id="valorTotal" [(ngModel)]="cadastroServico.amount"
           currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" required disabled>
         </div>
         <div style="width: 100%; margin-bottom: 10px; text-align: center;">

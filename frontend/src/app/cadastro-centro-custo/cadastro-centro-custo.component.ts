@@ -1,22 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CadastroCentroCustoModel } from './model/cadastro-centro-custo.model';
 import { CadastroCentroCustoService } from './service/cadastro-centro-custo.service';
 import Swal from 'sweetalert2'
 import { HttpClient } from '@angular/common/http';
 import { EnderecoModel } from '../shared/model/endereco.model';
+import { ConstrutoraService } from '../construtora/service/construtora.service';
+import { ConstrutoraModel } from '../construtora/model/construtora.model';
+import { firstValueFrom } from 'rxjs';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-cadastro-centro-custo',
   templateUrl: './cadastro-centro-custo.component.html',
   styleUrls: ['./cadastro-centro-custo.component.scss']
 })
-export class CadastroCentroCustoComponent {
+export class CadastroCentroCustoComponent implements OnInit{
 
   cadastroCentroCusto = new CadastroCentroCustoModel();
 
   constructor(
     private cadastroCentroCustoService: CadastroCentroCustoService,
+    private construtoraService: ConstrutoraService,
     private http: HttpClient) { }
+
+
+  ngOnInit(): void {
+    this.buscarConstrutoras();
+  }
+
+  construtoraModel: ConstrutoraModel[] = [];
+  estadosBrasileiros = ["AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"];
 
   getAddress(cep: string) {
     this.http.get(`https://viacep.com.br/ws/${cep}/json/`).subscribe((endereco: any) => {
@@ -26,7 +39,22 @@ export class CadastroCentroCustoComponent {
       this.cadastroCentroCusto.costCenterAddress.state = endereco.uf;
     })
   }
+  async buscarConstrutoras() {
+    try {
+      const construtoras: any = await firstValueFrom(this.construtoraService.listarConstrutoras());
+      this.construtoraModel = construtoras;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  get selectedConstrutoraIndex(): number {
+    return this.construtoraModel.indexOf(this.cadastroCentroCusto.builder);
+  }
   
+  set selectedConstrutoraIndex(index: number) {
+    this.cadastroCentroCusto.builder = this.construtoraModel[index];
+  }
 
   cadastrarCentroDeCusto(){
     this.validarCampos();
@@ -104,6 +132,16 @@ export class CadastroCentroCustoComponent {
     || this.cadastroCentroCusto.costCenterAddress.state === undefined) {
       Swal.fire({
         text: "O campo 'UF' é obrigatório!",
+        icon: "warning",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return;
+    }
+
+    if (this.cadastroCentroCusto.builder === null || this.cadastroCentroCusto.builder === undefined) {
+      Swal.fire({
+        text: "O campo 'Construtora' é obrigatório!",
         icon: "warning",
         showConfirmButton: false,
         timer: 2000

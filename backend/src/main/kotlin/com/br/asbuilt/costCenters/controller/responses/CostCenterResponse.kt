@@ -1,6 +1,7 @@
 package com.br.asbuilt.costCenters.controller.responses
 
 import com.br.asbuilt.address.Address
+import com.br.asbuilt.builder.Builder
 import com.br.asbuilt.costCenters.CostCenter
 
 data class CostCenterResponse(
@@ -8,13 +9,15 @@ data class CostCenterResponse(
     val costCenterName: String,
     val costCenterAddress: Address,
     val valueUndertaken: Double,
-    val owner: String
+    val expectedBudget: Double,
+    val builder: Builder
 ) {
     constructor(costCenter: CostCenter) : this (
         costCenter.id!!,
         costCenter.costCenterName,
         costCenter.costCenterAddress,
         costCenter.valueUndertaken,
-        costCenter.owner
+        costCenter.expectedBudget,
+        costCenter.builder
     )
 }

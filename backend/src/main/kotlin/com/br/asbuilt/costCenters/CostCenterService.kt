@@ -21,7 +21,7 @@ class CostCenterService(
             throw BadRequestException("Cost Center already exists")
         }
 
-        val existingAddress = addressRepository.findFullAddress(
+        val existingAddress = addressRepository.findCostCenterByFullAddress(
             costCenter.costCenterAddress.street,
             costCenter.costCenterAddress.number,
             costCenter.costCenterAddress.city,
@@ -83,12 +83,12 @@ class CostCenterService(
     }
 
     fun findAll(dir: SortDir = SortDir.ASC): List<CostCenter> = when (dir) {
-        SortDir.ASC -> repository.findAll(Sort.by("nomeCentroDeCusto").ascending())
-        SortDir.DESC -> repository.findAll(Sort.by("nomeCentroDeCusto").descending())
+        SortDir.ASC -> repository.findAll(Sort.by("costCenterName").ascending())
+        SortDir.DESC -> repository.findAll(Sort.by("costCenterName").descending())
     }
 
-    fun findByName(nomeCentroDeCusto: String): CostCenter? {
-        return repository.findCostCenterByName(nomeCentroDeCusto) ?: throw NotFoundException("Cost Center not found: $nomeCentroDeCusto")
+    fun findByName(costCenterName: String): CostCenter? {
+        return repository.findCostCenterByName(costCenterName) ?: throw NotFoundException("Cost Center not found: $costCenterName")
     }
 
     fun delete(id: Long): Boolean {

@@ -21,7 +21,7 @@ export class CadastroUsuarioService {
     return this.httpClient.get<CadastroUsuarioModel>('http://localhost:8080/asbuilt/users/findByEmail/' + email, this.httpOptions);
   }
 
-    verificarCpfJaCadastrado(cpf: string) {
+  verificarCpfJaCadastrado(cpf: string) {
     return this.httpClient.get<CadastroUsuarioModel>('http://localhost:8080/asbuilt/users/findByCpf/' + cpf, this.httpOptions);
   }
 

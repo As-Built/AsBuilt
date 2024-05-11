@@ -10,7 +10,7 @@ export class CadastroServicoService {
 
   constructor(private httpClient: HttpClient) { }
 
-  CadastrarServico(cadastroModel: CadastroServicoModel) {
+  cadastrarServico(cadastroModel: CadastroServicoModel) {
 
     const token = localStorage.getItem('token');
     const httpOptions = {
@@ -22,16 +22,16 @@ export class CadastroServicoService {
     };
 
     let body = JSON.stringify({
-      tipoServico: cadastroModel.tipoServico,
-      valorUnitario: cadastroModel.valorUnitario,
-      dimensao: cadastroModel.dimensao,
-      unidadeMedida: cadastroModel.unidadeMedida,
-      centroDeCustoId: cadastroModel.centroDeCustoId,
-      localExecucao: cadastroModel.localExecucao,
-      dataInicio: cadastroModel.dataInicio,
-      previsaoTermino: cadastroModel.previsaoTermino,
-      dataFinal: cadastroModel.dataFinal,
-      valorTotal: cadastroModel.valorTotal,
+      taskType: cadastroModel.taskType,
+      unitaryValue: cadastroModel.unitaryValue,
+      dimension: cadastroModel.dimension,
+      unitMeasurement: cadastroModel.unitMeasurement,
+      costCenterId: cadastroModel.costCenterId,
+      placeOfExecution: cadastroModel.placeOfExecution,
+      startDate: cadastroModel.startDate,
+      expectedEndDate: cadastroModel.expectedEndDate,
+      finalDate: cadastroModel.finalDate,
+      amount: cadastroModel.amount,
       obs: cadastroModel.obs
     });
 

@@ -25,7 +25,7 @@ class TaskController(val service: TaskService, val userService: UserService, val
         @Valid
         @RequestBody task: CreateOrUpdateTaskRequest): ResponseEntity<TaskResponse> {
 
-        val centroDeCusto = task.centroDeCustoId?.let {
+        val centroDeCusto = task.costCenterId.let {
             costCenterService.findByIdOrNull(it)
         } ?: throw NotFoundException("Cost Center not found!")
 
@@ -33,12 +33,12 @@ class TaskController(val service: TaskService, val userService: UserService, val
 //        val conferente =  task.conferente.mapNotNull { userService.findByIdOrNull(it) }
         val taskEntity = task.toTask()
 
-        taskEntity.centroDeCusto = centroDeCusto
+        taskEntity.costCenter = centroDeCusto
 //        taskEntity.executor.addAll(executor)
 //        taskEntity.conferente.addAll(conferente)
 
         //Adiciona o valor do serviço ao valor empreendido no centro de custo
-        costCenterService.increaseValueUndertaken(centroDeCusto.id!!, taskEntity.valorTotal)
+        costCenterService.increaseValueUndertaken(centroDeCusto.id!!, taskEntity.amount)
 
         return TaskResponse(service.insert(taskEntity))
             .let { ResponseEntity.status(HttpStatus.CREATED).body(it) }
@@ -53,7 +53,7 @@ class TaskController(val service: TaskService, val userService: UserService, val
         @RequestBody request: CreateOrUpdateTaskRequest,
         @PathVariable id: Long,
     ): ResponseEntity <TaskResponse> {
-        val centroDeCusto = request.centroDeCustoId?.let {
+        val centroDeCusto = request.costCenterId.let {
             costCenterService.findByIdOrNull(it)
         } ?: throw NotFoundException("Cost Center not found!")
 
@@ -61,15 +61,15 @@ class TaskController(val service: TaskService, val userService: UserService, val
 //        val conferente =  request.conferente.mapNotNull { userService.findByIdOrNull(it) }
         val taskEntity = request.toTask()
 
-        taskEntity.centroDeCusto = centroDeCusto
+        taskEntity.costCenter = centroDeCusto
 //        taskEntity.executor.addAll(executor)
 //        taskEntity.conferente.addAll(conferente)
         val taskAntiga = service.findByIdOrNull(id)
 
         //Remove o valor anterior do serviço aplicado ao centro de custo e depois adiciona o valor novo
         if (taskAntiga != null) {
-            costCenterService.decreaseValueUndertaken(id!!, taskAntiga.valorTotal)
-            costCenterService.increaseValueUndertaken(id!!, taskEntity.valorTotal)
+            costCenterService.decreaseValueUndertaken(id!!, taskAntiga.amount)
+            costCenterService.increaseValueUndertaken(id!!, taskEntity.amount)
         }
 
         return service.update(id, taskEntity)

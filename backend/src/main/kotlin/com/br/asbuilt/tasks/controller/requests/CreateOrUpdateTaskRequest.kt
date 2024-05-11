@@ -2,36 +2,35 @@ package com.br.asbuilt.tasks.controller.requests
 
 import com.br.asbuilt.tasks.Task
 import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.NotNull
 import java.util.*
 
 data class CreateOrUpdateTaskRequest(
     @field:NotBlank
-    val tipoServico: String,
+    val taskType: String,
 
     @field:NotNull
-    val valorUnitario: Double,
+    val unitaryValue: Double,
 
     @field:NotNull
-    val dimensao: Double,
+    val dimension: Double,
 
     @field:NotBlank
-    val unidadeMedida: String,
+    val unitmeasurement: String,
 
     @field:NotNull
-    val centroDeCustoId: Long,
+    val costCenterId: Long,
 
     @field:NotBlank
-    val localExecucao: String,
+    val placeOfExecution: String,
 
     @field:NotNull
-    val dataInicio: Date,
+    val startDate: Date,
 
     @field:NotNull
-    val previsaoTermino: Date,
+    val expectedEndDate: Date,
 
-    val dataFinal: Date?,
+    val finalDate: Date?,
 
     val obs: String?,
 
@@ -41,15 +40,15 @@ data class CreateOrUpdateTaskRequest(
 
     ){
     fun toTask() = Task (
-        tipoServico = tipoServico,
-        valorUnitario = valorUnitario,
-        dimensao = dimensao,
-        unidadeMedida = unidadeMedida,
-        localExecucao = localExecucao,
-        dataInicio = dataInicio,
-        previsaoTermino = previsaoTermino,
-        dataFinal = dataFinal,
-        valorTotal = valorUnitario * dimensao,
+        taskType = taskType,
+        unitaryValue = unitaryValue,
+        dimension = dimension,
+        unitMeasurement = unitmeasurement,
+        placeOfExecution = placeOfExecution,
+        startDate = startDate,
+        expectedEndDate = expectedEndDate,
+        finalDate = finalDate,
+        amount = unitaryValue * dimension,
         obs = obs
     )
 }

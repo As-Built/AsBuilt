@@ -29,7 +29,8 @@ export class CadastroCentroCustoService {
         postalCode: cadastroModel.costCenterAddress.postalCode
       },
       valueUndertaken: cadastroModel.valueUndertaken,
-      owner: cadastroModel.owner,
+      expectedBudget: cadastroModel.expectedBudget,
+      builder: cadastroModel.builder,
     });
 
     return this.httpClient.

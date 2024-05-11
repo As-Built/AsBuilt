@@ -1,13 +1,13 @@
 export class CadastroServicoModel {
-    tipoServico: string = "";
-    valorUnitario: number = 0;
-    dimensao: number = 0;
-    unidadeMedida: string = "";
-    centroDeCustoId: number = 0;
-    localExecucao: string = "";
-    dataInicio: Date = new Date();
-    previsaoTermino: Date = new Date();
-    dataFinal: Date = new Date();
-    valorTotal: number = 0;
+    taskType: string = "";
+    unitaryValue: number = 0;
+    dimension: number = 0;
+    unitMeasurement: string = "";
+    costCenterId: number = 0;
+    placeOfExecution: string = "";
+    startDate: Date = new Date();
+    expectedEndDate: Date = new Date();
+    finalDate: Date = new Date();
+    amount: number = 0;
     obs: string = "";
 }
