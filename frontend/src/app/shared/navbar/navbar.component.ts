@@ -17,4 +17,12 @@ export class NavbarComponent implements OnInit{
   isHomePage() {
     return this.router.url === '/home';
   }
+  isNotHomeOrLogin() {
+    return this.router.url !== '/home' && this.router.url !== '/login';
+  }
+
+  logout() {
+    localStorage.clear();
+    this.router.navigate(['/home']);
+  }
 }
