@@ -103,24 +103,38 @@ export class LoginComponent implements OnInit {
   }
   
   recuperarSenha() {
-    this.loginService.recuperarSenha(this.loginForm.get('email')?.value || '').subscribe(
-      (retorno) => {
-        Swal.fire({
-          text: "Email enviado com sucesso!",
-          icon: "success",
-          showConfirmButton: false,
-          timer: 2000
-        });
-      },
-      (err) => {
-        Swal.fire({
-          html: "Erro ao enviar email!<br>Verifique o e-mail informado e tente novamente.",
-          icon: "error",
-          showConfirmButton: false,
-          timer: 3000
-        });
+    Swal.fire({
+      title: "Recuperar Senha",
+      html: "Digite seu e-mail para recuperar a senha",
+      input: "email",
+      showCancelButton: true,
+      confirmButtonText: "Recuperar",
+      cancelButtonText: "Cancelar",
+      confirmButtonColor: "#007bff",
+      cancelButtonColor: "#dc3545"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.loginForm.get('email')?.setValue(result.value);
+        this.loginService.recuperarSenha(this.loginForm.get('email')?.value || '').subscribe(
+          (retorno) => {
+            Swal.fire({
+              html: "Email enviado com sucesso para <br>" + this.loginForm.get('email')?.value,
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2000
+            });
+          },
+          (err) => {
+            Swal.fire({
+              html: "Erro ao enviar email!<br>Verifique o e-mail informado e tente novamente.",
+              icon: "error",
+              showConfirmButton: false,
+              timer: 3000
+            });
+          }
+        );
       }
-    );
+    });
   }
 
   togglePasswordVisibility() {
