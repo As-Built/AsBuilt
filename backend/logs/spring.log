@@ -668,3 +668,6 @@ This generated password is for development use only. Your security configuration
 2024-05-11T17:03:54.673-03:00  INFO 15952 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
 2024-05-11T17:03:55.963-03:00  INFO 15952 --- [http-nio-8080-exec-1] c.b.a.costCenters.CostCenterService      : Address inserted: 852
 2024-05-11T17:03:56.784-03:00  INFO 15952 --- [http-nio-8080-exec-1] c.b.a.costCenters.CostCenterService      : Cost Center inserted: 752
+2024-05-11T17:16:21.265-03:00  INFO 15952 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-05-11T17:16:21.265-03:00  INFO 15952 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-05-11T17:16:21.265-03:00  INFO 15952 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
