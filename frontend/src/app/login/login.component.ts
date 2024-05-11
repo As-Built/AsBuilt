@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
 
   loginForm = new FormGroup({
     email: new FormControl('',[Validators.required, Validators.email]),
-    password: new FormControl('',[Validators.required, Validators.min(8)]),
+    password: new FormControl('',Validators.required),
   });
 
   constructor(
@@ -66,6 +66,7 @@ export class LoginComponent implements OnInit {
       return;
     }
 
+    console.log(this.loginForm);
     if (this.loginForm.valid) {
       this.loginService.signIn(autenticacao).subscribe(retorno => {
         localStorage.setItem('token', retorno.token);

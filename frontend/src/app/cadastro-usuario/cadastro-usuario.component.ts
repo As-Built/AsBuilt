@@ -25,8 +25,8 @@ export class CadastroUsuarioComponent {
     cpf: new FormControl('', Validators.required),
     name: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
-    passwordCadastro: new FormControl('', [Validators.required, Validators.min(8)]),
-    confirmPassword: new FormControl('', [Validators.required, Validators.min(8)]),
+    passwordCadastro: new FormControl('', Validators.required),
+    confirmPassword: new FormControl('', Validators.required),
   });
 
 
@@ -103,8 +103,9 @@ export class CadastroUsuarioComponent {
     cadastroUsuarioModel.password = this.cadastroUsuarioForm.get('passwordCadastro')?.value ?? '';
 
     let confirmPassword = this.cadastroUsuarioForm.get('confirmPassword')?.value ?? '';
-
     let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,12}$/;
+    let nomeValidoRegex = /^[a-zA-Z]{3,}\s[a-zA-Z]{3,}$/;
 
     if (this.validaCPF(cadastroUsuarioModel.cpf) === false) {
       Swal.fire({
@@ -138,6 +139,16 @@ export class CadastroUsuarioComponent {
       return;
     }
 
+    if (!nomeValidoRegex.test(cadastroUsuarioModel.name)) {
+      Swal.fire({
+        text: "O nome digitado não possui um formato válido! Exemplo: 'Nome Sobrenome'",
+        icon: "error",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return;
+    }
+
     if (!emailRegex.test(cadastroUsuarioModel.email)) {
       Swal.fire({
         text: "O email digitado não possui um formato válido!",
@@ -148,6 +159,14 @@ export class CadastroUsuarioComponent {
       return;
     }
 
+    if (!passwordRegex.test(cadastroUsuarioModel.password)) {
+      Swal.fire({
+        text: "A senha deve conter no mínimo 8 caracteres e no máximo 12 caracteres, ao menos uma letra minúscula e ao menos uma letra maíuscula, ao menos um número e ao menos um dos seguintes caracteres especiais: @, $, !, %, *, #, ?, &",
+        icon: "error",
+        showConfirmButton: true
+      });
+      return;
+    }
 
     if (cadastroUsuarioModel.password != confirmPassword) {
       Swal.fire({
@@ -190,7 +209,7 @@ export class CadastroUsuarioComponent {
       });
       return;
     }
-
+  
     if (this.cadastroUsuarioForm.valid) {
       this.cadastoUsuarioService.signUp(cadastroUsuarioModel).subscribe(retorno => {
         Swal.fire({
@@ -199,7 +218,7 @@ export class CadastroUsuarioComponent {
           showConfirmButton: false,
           timer: 2000
         }).then(() => {
-          this.router.navigate(['login']);
+          location.reload();
         });
       },
         (error) => {
