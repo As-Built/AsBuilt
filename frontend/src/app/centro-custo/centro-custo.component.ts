@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CadastroCentroCustoModel } from './model/cadastro-centro-custo.model';
-import { CadastroCentroCustoService } from './service/cadastro-centro-custo.service';
+import { CentroCustoModel } from './model/centro-custo.model';
+import { CentroCustoService } from './service/centro-custo.service';
 import Swal from 'sweetalert2'
 import { HttpClient } from '@angular/common/http';
 import { EnderecoModel } from '../shared/model/endereco.model';
@@ -10,16 +10,16 @@ import { firstValueFrom } from 'rxjs';
 import { of } from 'rxjs';
 
 @Component({
-  selector: 'app-cadastro-centro-custo',
-  templateUrl: './cadastro-centro-custo.component.html',
-  styleUrls: ['./cadastro-centro-custo.component.scss']
+  selector: 'app-centro-custo',
+  templateUrl: './centro-custo.component.html',
+  styleUrls: ['./centro-custo.component.scss']
 })
-export class CadastroCentroCustoComponent implements OnInit{
+export class CentroCustoComponent implements OnInit{
 
-  cadastroCentroCusto = new CadastroCentroCustoModel();
+  cadastroCentroCusto = new CentroCustoModel();
 
   constructor(
-    private cadastroCentroCustoService: CadastroCentroCustoService,
+    private CentroCustoService: CentroCustoService,
     private construtoraService: ConstrutoraService,
     private http: HttpClient) { }
 
@@ -28,7 +28,7 @@ export class CadastroCentroCustoComponent implements OnInit{
     this.buscarConstrutoras();
   }
 
-  construtoraModel: ConstrutoraModel[] = [];
+  listaConstrutoras: ConstrutoraModel[] = [];
   estadosBrasileiros = ["AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"];
 
   getAddress(cep: string) {
@@ -42,23 +42,23 @@ export class CadastroCentroCustoComponent implements OnInit{
   async buscarConstrutoras() {
     try {
       const construtoras: any = await firstValueFrom(this.construtoraService.listarConstrutoras());
-      this.construtoraModel = construtoras;
+      this.listaConstrutoras = construtoras;
     } catch (error) {
       console.error(error);
     }
   }
 
   get selectedConstrutoraIndex(): number {
-    return this.construtoraModel.indexOf(this.cadastroCentroCusto.builder);
+    return this.listaConstrutoras.indexOf(this.cadastroCentroCusto.builder);
   }
   
   set selectedConstrutoraIndex(index: number) {
-    this.cadastroCentroCusto.builder = this.construtoraModel[index];
+    this.cadastroCentroCusto.builder = this.listaConstrutoras[index];
   }
 
   cadastrarCentroDeCusto(){
     this.validarCampos();
-    this.cadastroCentroCustoService.cadastrarCentroDeCusto(this.cadastroCentroCusto).subscribe(
+    this.CentroCustoService.cadastrarCentroDeCusto(this.cadastroCentroCusto).subscribe(
       retorno => {
         Swal.fire({
           text: "Cadastro realizado com sucesso!",

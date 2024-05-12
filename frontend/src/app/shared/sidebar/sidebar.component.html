@@ -16,14 +16,13 @@
       <mat-icon class="icons">build</mat-icon>
       <span>Serviços</span>
     </button>
-    <button class="menu-item" routerLink="/cadastroCentroCusto">
+    <button class="menu-item" routerLink="/centroCusto">
       <mat-icon class="icons">apartment</mat-icon>
       <span>Centros de Custo</span>
     </button>
-    <!-- TODO: Corrigir rota -->
     <button class="menu-item" routerLink="/construtora">
-      <mat-icon class="icons">device_hub</mat-icon>
-      <span>Proprietários</span>
+      <mat-icon class="icons">engineering</mat-icon>
+      <span>Construtoras</span>
     </button>
   </div>
   <div *ngIf="!isSidebarOpen"class="sidebar-content-closed">
@@ -31,12 +30,12 @@
             matTooltipShowDelay="1500">
       <mat-icon class="icons">build</mat-icon>
     </button>
-    <button class="menu-item-sidebar-closed" routerLink="/cadastroCentroCusto" matTooltip="Centros de custo"
+    <button class="menu-item-sidebar-closed" routerLink="/centroCusto" matTooltip="Centros de custo"
             matTooltipShowDelay="1500">
       <mat-icon class="icons">apartment</mat-icon>
     </button>
     <!-- TODO: Corrigir rota -->
-    <button class="menu-item-sidebar-closed" routerLink="/cadastroServico" matTooltip="Tipos de Serviço"
+    <button class="menu-item-sidebar-closed" routerLink="/construtora" matTooltip="Construtoras e Proprietários"
             matTooltipShowDelay="1500">
       <mat-icon class="icons">device_hub</mat-icon>
     </button>

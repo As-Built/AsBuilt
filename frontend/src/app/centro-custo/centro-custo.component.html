@@ -70,7 +70,7 @@
           matTooltip="Proprietário do centro de custo" matTooltipShowDelay="1500"  
           [(ngModel)]="selectedConstrutoraIndex">
           <option value="" disabled selected>Selecione uma construtora</option>
-          <option *ngFor="let construtora of construtoraModel; let i = index" [value]="i">{{construtora.builderName}}</option>
+          <option *ngFor="let construtora of listaConstrutoras; let i = index" [value]="i">{{construtora.builderName}}</option>
         </select>
         </div>
       </div>

@@ -1,14 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CadastroCentroCustoModel } from '../model/cadastro-centro-custo.model';
+import { CentroCustoModel } from '../model/centro-custo.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CadastroCentroCustoService {
+export class CentroCustoService {
   constructor(private httpClient: HttpClient) { }
 
-  cadastrarCentroDeCusto(cadastroModel: CadastroCentroCustoModel) {
+  cadastrarCentroDeCusto(cadastroModel: CentroCustoModel) {
     const token = localStorage.getItem('token');
 
     const httpOptions = {
@@ -34,7 +34,7 @@ export class CadastroCentroCustoService {
     });
 
     return this.httpClient.
-      post<CadastroCentroCustoModel>('http://localhost:8080/asbuilt/costCenter/insertCostCenter', body, httpOptions);
+      post<CentroCustoModel>('http://localhost:8080/asbuilt/costCenter/insertCostCenter', body, httpOptions);
   }
 }
 

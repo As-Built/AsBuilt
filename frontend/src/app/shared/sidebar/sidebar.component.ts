@@ -1,7 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-import { AuthguardService } from '../authguard/authguard.service';
 
 
 @Component({

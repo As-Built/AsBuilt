@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CadastroCentroCustoComponent } from './cadastro-centro-custo.component';
+import { CentroCustoComponent } from './cadastro-centro-custo.component';
 
 describe('CadastroCentroCustoComponent', () => {
-  let component: CadastroCentroCustoComponent;
-  let fixture: ComponentFixture<CadastroCentroCustoComponent>;
+  let component: CentroCustoComponent;
+  let fixture: ComponentFixture<CentroCustoComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CadastroCentroCustoComponent]
+      declarations: [CentroCustoComponent]
     });
-    fixture = TestBed.createComponent(CadastroCentroCustoComponent);
+    fixture = TestBed.createComponent(CentroCustoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

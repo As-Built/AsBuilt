@@ -10,7 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CadastroUsuarioComponent } from './cadastro-usuario/cadastro-usuario.component';
 import { ServicoComponent } from './servico/servico.component';
 import { CadastroServicoComponent } from './cadastro-servico/cadastro-servico.component';
-import { CadastroCentroCustoComponent } from './cadastro-centro-custo/cadastro-centro-custo.component';
+import { CentroCustoComponent } from './centro-custo/centro-custo.component';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -25,6 +25,9 @@ import { MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NgxMaskModule } from 'ngx-mask';
 import { ConstrutoraComponent } from './construtora/construtora.component';
+import {MatTable, MatTableModule} from '@angular/material/table';
+import { CnpjPipe } from './shared/pipes/cnpj.pipe';
+import { TelefonePipe } from './shared/pipes/telefone.pipe';
 
 
 @NgModule({
@@ -36,12 +39,14 @@ import { ConstrutoraComponent } from './construtora/construtora.component';
     CadastroUsuarioComponent,
     ServicoComponent,
     CadastroServicoComponent,
-    CadastroCentroCustoComponent,
+    CentroCustoComponent,
     SidebarComponent,
     ImageSliderComponent,
     NavbarComponent,
     LayoutComponent,
-    ConstrutoraComponent
+    ConstrutoraComponent,
+    CnpjPipe,
+    TelefonePipe
   ],
   imports: [
     BrowserModule,
@@ -63,6 +68,7 @@ import { ConstrutoraComponent } from './construtora/construtora.component';
     MatFormFieldModule,
     MatInputModule,
     NgxMaskModule.forRoot(), //npm i ngx-mask@13.1.13
+    MatTableModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

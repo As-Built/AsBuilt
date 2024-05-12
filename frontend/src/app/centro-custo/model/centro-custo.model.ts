@@ -1,7 +1,7 @@
 import { ConstrutoraModel } from "../../construtora/model/construtora.model";
 import { EnderecoModel } from "../../shared/model/endereco.model";
 
-export class CadastroCentroCustoModel {
+export class CentroCustoModel {
     costCenterName: string = "";
     costCenterAddress: EnderecoModel = new EnderecoModel();
     valueUndertaken: number = 0;

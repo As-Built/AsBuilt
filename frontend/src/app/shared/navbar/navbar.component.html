@@ -1,6 +1,6 @@
 <nav class="navbar">
   <ul class="navbar-nav">
-    <li class="nav-item" *ngIf="!isNotHomeOrLogin()">
+    <li class="nav-item" *ngIf="!isNotHomeOrLogin() && !isHomePage()">
       <a routerLink="/" class="nav-link">Home</a>
     </li>
     <li class="nav-item" *ngIf="isHomePage()">

@@ -1,23 +1,47 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ConstrutoraModel } from './model/construtora.model';
 import { ConstrutoraService } from './service/construtora.service';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-construtora',
   templateUrl: './construtora.component.html',
   styleUrls: ['./construtora.component.scss']
 })
-export class ConstrutoraComponent {
+export class ConstrutoraComponent implements OnInit{
+
+  @ViewChild('modalVisualizarDetalhes', { static: true })
+  modalVisualizarDetalhes!: ElementRef;
 
   cadastroConstrutora = new ConstrutoraModel();
+  estadosBrasileiros = ["AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"];
+  isCadastroConstrutora = true;
+  listaConstrutoras: ConstrutoraModel[] = [];
+  displayedColumns: string[] = ["acoes", "builderName", 'cnpj', 'phone'];
+  renderModalVisualizar = false;
 
   constructor(
     private construtoraService: ConstrutoraService,
     private http: HttpClient) { }
 
-  estadosBrasileiros = ["AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"];
+    ngOnInit(): void {
+      this.buscarConstrutoras();
+    }
+
+    async buscarConstrutoras() {
+      try {
+        const construtoras: any = await firstValueFrom(this.construtoraService.listarConstrutoras());
+        this.listaConstrutoras = construtoras;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  
+  mudarAba() {
+    this.isCadastroConstrutora = !this.isCadastroConstrutora;
+  }
 
   getAddress(cep: string) {
     this.http.get(`https://viacep.com.br/ws/${cep}/json/`).subscribe((endereco: any) => {
@@ -142,4 +166,16 @@ export class ConstrutoraComponent {
     }
   }
 
+  visualizarDetalhes(construtora: ConstrutoraModel) {
+    this.cadastroConstrutora = construtora;
+    this.renderModalVisualizar = true;
+    Swal.fire({
+      title: 'Detalhes da Construtora',
+      html: this.modalVisualizarDetalhes.nativeElement,
+      confirmButtonColor: '#008B8B',
+      confirmButtonText: 'Fechar'
+    }).then(() => {
+      this.cadastroConstrutora = new ConstrutoraModel();
+    });
+  }
 }
