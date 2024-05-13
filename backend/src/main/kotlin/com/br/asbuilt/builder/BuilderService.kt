@@ -1,20 +1,20 @@
 package com.br.asbuilt.builder
 
 import com.br.asbuilt.SortDir
-import com.br.asbuilt.address.Address
 import com.br.asbuilt.address.AddressRepository
+import com.br.asbuilt.costCenters.CostCenterRepository
 import com.br.asbuilt.costCenters.CostCenterService
 import com.br.asbuilt.exception.BadRequestException
 import com.br.asbuilt.exception.NotFoundException
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
-import kotlin.jvm.optionals.getOrNull
 
 @Service
 class BuilderService(
     val repository: BuilderRepository,
-    val addressRepository: AddressRepository
+    val addressRepository: AddressRepository,
+    val costCenterRepository: CostCenterRepository
 ) {
     fun insert(builder: Builder): Builder {
         if (repository.findBuilderByName(builder.builderName) != null) {
@@ -37,18 +37,13 @@ class BuilderService(
             throw BadRequestException("A Builder with the same address already exists!")
         }
 
-        var savedAddress = addressRepository.save(builder.builderAddress)
+        val savedAddress = addressRepository.save(builder.builderAddress)
             .also { log.info("Address inserted: {}", it.id)}
         builder.builderAddress = savedAddress
 
         return repository.save(builder)
             .also { log.info("Builder inserted: {}", it.id) }
     }
-
-    fun findByIdOrNull(id: Long) = repository.findById(id).getOrNull()
-
-    fun findByIdOrThrow(id: Long) =
-        findByIdOrNull(id) ?: throw NotFoundException(id)
 
     fun findAll(dir: SortDir = SortDir.ASC): List<Builder> = when (dir) {
         SortDir.ASC -> repository.findAll(Sort.by("builderName").ascending())
@@ -59,39 +54,81 @@ class BuilderService(
         return repository.findBuilderByName(builderName) ?: throw NotFoundException("Builder not found: $builderName")
     }
 
+    fun updateBuilder(builder: Builder): Builder? {
+        val existingBuilder = builder.id!!.let {
+            repository.findById(it)
+                .orElseThrow { NotFoundException("Builder not found with id: ${builder.id}") }
+        }
 
-    fun updateName(id: Long, name: String): Builder? {
-        val builder = findByIdOrThrow(id)
+        if (existingBuilder != null) {
+            var isChanged = false
 
-        if (builder.builderName == name) return null
-        builder.builderName = name
+            if (builder.builderName != existingBuilder.builderName) {
+                existingBuilder.builderName = builder.builderName
+                isChanged = true
+            }
 
-        return repository.save(builder)
-    }
+            if (builder.cnpj != existingBuilder.cnpj) {
+                existingBuilder.cnpj = builder.cnpj
+                isChanged = true
+            }
 
-    fun updateAddress(id: Long, address: Address): Builder? {
-        val builder = findByIdOrThrow(id)
+            if (builder.builderAddress != existingBuilder.builderAddress) {
+                existingBuilder.builderAddress = builder.builderAddress
+                isChanged = true
+            }
 
-        if (builder.builderAddress == address) return null
-        builder.builderAddress = address
+            if (builder.phone != existingBuilder.phone) {
+                existingBuilder.phone = builder.phone
+                isChanged = true
+            }
 
-        return repository.save(builder)
-    }
+            if (isChanged) {
 
-    fun updatePhone(id: Long, phone: String): Builder? {
-        val builder = findByIdOrThrow(id)
+                val existingAddress = addressRepository.findBuilderByFullAddress(
+                    builder.builderAddress.street,
+                    builder.builderAddress.number,
+                    builder.builderAddress.city,
+                    builder.builderAddress.state,
+                    builder.builderAddress.postalCode
+                )
 
-        if (builder.phone == phone) return null
-        builder.phone = phone
+                if (existingAddress != null && existingAddress.id != builder.id) {
+                    throw BadRequestException("A Builder with the same address already exists!")
+                }
 
-        return repository.save(builder)
+                val newAddress = builder.builderAddress
+                newAddress.id = builder.builderAddress.id
+
+                val savedAddress = addressRepository.save(newAddress)
+                    .also { log.info("Address updated: {}", it.id)}
+                builder.builderAddress = savedAddress
+
+                val updateBuilder = repository.save(existingBuilder)
+                log.info("Builder updated: {}", updateBuilder.id)
+                return updateBuilder
+            }
+        }
+        return null
     }
 
     fun delete(id: Long): Boolean {
-        val builder = findByIdOrNull(id) ?: return false
+        val builder = id.let {
+            repository.findById(it)
+                .orElseThrow { NotFoundException("Builder not found with id: $id") }
+        }
+
+        val costCenterRelated = costCenterRepository.findCostCentersByBuilderId(id)
+
+        if (costCenterRelated.isNotEmpty()) {
+            throw BadRequestException("This Builder has a Cost Center related to it, please delete the Cost Center first!")
+        }
 
         repository.delete(builder)
-        BuilderService.log.info("Builder deleted: {}", builder.id)
+        log.info("Builder deleted: {}", builder.id)
+
+        addressRepository.delete(builder.builderAddress)
+        log.info("Address deleted: {}", builder.builderAddress.id)
         return true
     }
 

@@ -12,6 +12,9 @@ interface CostCenterRepository : JpaRepository<CostCenter, Long> {
     @Query("select distinct c from CostCenter c where c.costCenterName = :costCenterName")
     fun findCostCenterByName(costCenterName: String): CostCenter?
 
+    @Query("SELECT c FROM CostCenter c WHERE c.builder.id = :builderId")
+    fun findCostCentersByBuilderId(builderId: Long): List<CostCenter>
+
     @Transactional
     @Modifying
     @Query("update CostCenter c set c.valueUndertaken = c.valueUndertaken - :amount where c.id = :costCenterId")

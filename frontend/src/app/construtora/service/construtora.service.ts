@@ -24,7 +24,6 @@ export class ConstrutoraService {
   }
 
   cadastrarConstrutora(construtoraModel: ConstrutoraModel) {
-
     let body = JSON.stringify({
       builderName: construtoraModel.builderName,
       cnpj: construtoraModel.cnpj,
@@ -39,5 +38,28 @@ export class ConstrutoraService {
     });
     return this.httpClient.
       post<ConstrutoraModel>('http://localhost:8080/asbuilt/builder/insertBuilder', body, this.httpOptions);
+  }
+
+  atualizarDadosConstrutora(construtoraModel: ConstrutoraModel) {
+    let body = JSON.stringify({
+      id: construtoraModel.id,
+      builderName: construtoraModel.builderName,
+      cnpj: construtoraModel.cnpj,
+      phone: construtoraModel.phone,
+      builderAddress: {
+        id: construtoraModel.builderAddress.id,
+        street: construtoraModel.builderAddress.street,
+        number: construtoraModel.builderAddress.number,
+        city: construtoraModel.builderAddress.city,
+        state: construtoraModel.builderAddress.state,
+        postalCode: construtoraModel.builderAddress.postalCode
+      },
+    });
+    return this.httpClient.
+      patch<ConstrutoraModel>('http://localhost:8080/asbuilt/builder/updateBuilder', body, this.httpOptions);
+  }
+
+  excluirConstrutora(id: number) {
+    return this.httpClient.delete(`http://localhost:8080/asbuilt/builder/deleteBuilder/${id}`, this.httpOptions);
   }
 }

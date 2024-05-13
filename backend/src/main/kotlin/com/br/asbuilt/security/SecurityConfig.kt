@@ -67,10 +67,8 @@ class SecurityConfig(
                     .requestMatchers((mvc.pattern(HttpMethod.GET, "/builder"))).permitAll()
                     .requestMatchers((mvc.pattern(HttpMethod.GET, "/builder/**"))).permitAll()
                     .requestMatchers((mvc.pattern(HttpMethod.POST, "/builder/insertBuilder"))).hasRole("ADMIN")
-                    .requestMatchers((mvc.pattern(HttpMethod.PATCH, "/builder/updateBuilderName/**"))).hasRole("ADMIN")
-                    .requestMatchers((mvc.pattern(HttpMethod.PATCH, "/builder/updateBuilderAddress/**"))).hasRole("ADMIN")
-                    .requestMatchers((mvc.pattern(HttpMethod.PATCH, "/builder/updateBuilderPhone/**"))).hasRole("ADMIN")
-                    .requestMatchers((mvc.pattern(HttpMethod.DELETE, "/builder/**"))).hasRole("ADMIN")
+                    .requestMatchers((mvc.pattern(HttpMethod.PATCH, "/builder/updateBuilder"))).hasRole("ADMIN")
+                    .requestMatchers((mvc.pattern(HttpMethod.DELETE, "/builder/deleteBuilder/**"))).hasRole("ADMIN")
                     .anyRequest().authenticated()
             }
             .addFilterBefore(jwtTokenFilter, BasicAuthenticationFilter::class.java)
