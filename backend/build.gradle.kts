@@ -1,12 +1,14 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 repositories {
 	mavenCentral()
+	maven { url = uri("https://repo.spring.io/milestone") }
+	maven { url = uri("https://repo.spring.io/snapshot") }
 }
 
 plugins {
-	id("org.springframework.boot") version "3.1.2"
-	id("io.spring.dependency-management") version "1.1.2"
-	kotlin("jvm") version "1.8.22"
+	id("org.springframework.boot") version "3.3.0-SNAPSHOT"
+	id("io.spring.dependency-management") version "1.1.4"
+	kotlin("jvm") version "1.9.23"
 	kotlin("plugin.spring") version "1.8.22"
 	kotlin("plugin.jpa") version "1.8.22"
 }
@@ -22,10 +24,6 @@ configurations {
 	compileOnly {
 		extendsFrom(configurations.annotationProcessor.get())
 	}
-}
-
-repositories {
-	mavenCentral()
 }
 
 dependencies {

@@ -256,6 +256,7 @@ export class ConstrutoraComponent implements OnInit {
       confirmButtonText: 'Salvar',
       showCancelButton: true,
       cancelButtonText: 'Cancelar',
+      cancelButtonColor: 'red',
     }).then((result) => {
       if (result.isConfirmed) {
         this.atualizarDadosConstrutora(this.construtoraModel);
@@ -265,31 +266,43 @@ export class ConstrutoraComponent implements OnInit {
     });
   }
 
-  excluirConstrutora(id: number) {
-    this.construtoraService.excluirConstrutora(id).pipe(
-      tap(retorno => {
-        Swal.fire({
-          text: "Construtora excluída com sucesso!",
-          icon: "success",
-          showConfirmButton: false,
-          timer: 2000
-        });
-        this.buscarConstrutoras();
-      }),
-      catchError(error => {
-        let msgErro = error.error;
-        if (error.error === "This Builder has a Cost Center related to it, please delete the Cost Center first!") {
-          msgErro = "Essa construtora possui um centro de custo relacionado a ela, por favor, exclua o centro de custo primeiro!";
-        }
-        Swal.fire({
-          text: msgErro,
-          icon: "error",
-          showConfirmButton: false,
-          timer: 4000
-        });
-        return of();
-      })
-    ).subscribe();
+  excluirConstrutora(id: number, builderName: string) {
+    Swal.fire({
+      title: 'Excluir Construtora?',
+      html: `Deseja realmente excluir <b>${builderName}</b>? <br>Essa ação é irreverssível!`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sim, excluir!',
+      confirmButtonColor: 'red',
+      cancelButtonText: 'Cancelar',
+      cancelButtonColor: 'green',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.construtoraService.excluirConstrutora(id).pipe(
+          tap(retorno => {
+            Swal.fire({
+              text: "Construtora excluída com sucesso!",
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2000
+            });
+            this.buscarConstrutoras();
+          }),
+          catchError(error => {
+            let msgErro = error.error;
+            if (error.error === "This Builder has a Cost Center related to it, please delete the Cost Center first!") {
+              msgErro = "Essa construtora possui um centro de custo relacionado a ela, por favor, exclua o centro de custo primeiro!";
+            }
+            Swal.fire({
+              text: msgErro,
+              icon: "error",
+              showConfirmButton: false,
+              timer: 4000
+            });
+            return of();
+          })
+        ).subscribe();
+      }
+    });
   }
-
 }
