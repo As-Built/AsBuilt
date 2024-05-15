@@ -2,6 +2,7 @@ import { ConstrutoraModel } from "../../construtora/model/construtora.model";
 import { EnderecoModel } from "../../shared/model/endereco.model";
 
 export class CentroCustoModel {
+    id?: number;
     costCenterName: string = "";
     costCenterAddress: EnderecoModel = new EnderecoModel();
     valueUndertaken: number = 0;

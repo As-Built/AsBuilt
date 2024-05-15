@@ -1,7 +1,5 @@
-@import '../variables.scss';
 .corpo {
     display: flex; 
-    // justify-content: center; 
     align-items: center
 }
 
@@ -20,7 +18,6 @@
 .centralizar-conteudo {
     margin-left:auto; 
     margin-right: auto; 
-    padding-top: 20px;
     padding-bottom: 15px;
     text-align: center;
 }
