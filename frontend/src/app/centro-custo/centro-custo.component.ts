@@ -24,7 +24,7 @@ export class CentroCustoComponent implements OnInit {
   listaConstrutoras: ConstrutoraModel[] = [];
   listaCentrosDeCusto: CentroCustoModel[] = [];
   estadosBrasileiros = ["AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"];
-  displayedColumns: string[] = ["acoes", "costCenterName", 'builder', 'expectedBudget', 'valueUndertaken'];
+  displayedColumns: string[] = ["acoes", "costCenterName", 'builder', 'valueUndertaken'];
   renderModalVisualizar = false;
   indDesabilitaCampos = true;
   isCadastroCentroCusto = true;
@@ -137,8 +137,8 @@ export class CentroCustoComponent implements OnInit {
   }
 
   validarCampos(centro: CentroCustoModel) {
-    if (this.cadastroCentroCusto.costCenterName === null || this.cadastroCentroCusto.costCenterName.trim() === ""
-      || this.cadastroCentroCusto.costCenterName === undefined) {
+    if (centro.costCenterName === null || centro.costCenterName.trim() === ""
+      || centro.costCenterName === undefined) {
       Swal.fire({
         text: "O campo 'Nome do Centro de Custo' é obrigatório!",
         icon: "warning",
@@ -147,8 +147,8 @@ export class CentroCustoComponent implements OnInit {
       });
       return;
     }
-    if (this.cadastroCentroCusto.costCenterAddress.street === null || this.cadastroCentroCusto.costCenterAddress.street.trim() === ""
-      || this.cadastroCentroCusto.costCenterAddress.street === undefined) {
+    if (centro.costCenterAddress.street === null || centro.costCenterAddress.street.trim() === ""
+      || centro.costCenterAddress.street === undefined) {
       Swal.fire({
         text: "O campo 'Logradouro' é obrigatório!",
         icon: "warning",
@@ -157,8 +157,8 @@ export class CentroCustoComponent implements OnInit {
       });
       return;
     }
-    if (this.cadastroCentroCusto.costCenterAddress.postalCode === null || this.cadastroCentroCusto.costCenterAddress.postalCode.trim() === ""
-      || this.cadastroCentroCusto.costCenterAddress.postalCode === undefined) {
+    if (centro.costCenterAddress.postalCode === null || centro.costCenterAddress.postalCode.trim() === ""
+      || centro.costCenterAddress.postalCode === undefined) {
       Swal.fire({
         text: "O campo 'CEP' é obrigatório!",
         icon: "warning",
@@ -167,8 +167,8 @@ export class CentroCustoComponent implements OnInit {
       });
       return;
     }
-    if (this.cadastroCentroCusto.costCenterAddress.city === null || this.cadastroCentroCusto.costCenterAddress.city.trim() === ""
-      || this.cadastroCentroCusto.costCenterAddress.city === undefined) {
+    if (centro.costCenterAddress.city === null || centro.costCenterAddress.city.trim() === ""
+      || centro.costCenterAddress.city === undefined) {
       Swal.fire({
         text: "O campo 'Cidade' é obrigatório!",
         icon: "warning",
@@ -177,8 +177,8 @@ export class CentroCustoComponent implements OnInit {
       });
       return;
     }
-    if (this.cadastroCentroCusto.costCenterAddress.state === null || this.cadastroCentroCusto.costCenterAddress.state.trim() === ""
-      || this.cadastroCentroCusto.costCenterAddress.state === undefined) {
+    if (centro.costCenterAddress.state === null || centro.costCenterAddress.state.trim() === ""
+      || centro.costCenterAddress.state === undefined) {
       Swal.fire({
         text: "O campo 'UF' é obrigatório!",
         icon: "warning",
@@ -188,7 +188,7 @@ export class CentroCustoComponent implements OnInit {
       return;
     }
 
-    if (this.cadastroCentroCusto.builder === null || this.cadastroCentroCusto.builder === undefined) {
+    if (centro.builder === null || centro.builder === undefined) {
       Swal.fire({
         text: "O campo 'Construtora' é obrigatório!",
         icon: "warning",

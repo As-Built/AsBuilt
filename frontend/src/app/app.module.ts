@@ -28,6 +28,8 @@ import { ConstrutoraComponent } from './construtora/construtora.component';
 import {MatTable, MatTableModule} from '@angular/material/table';
 import { CnpjPipe } from './shared/pipes/cnpj.pipe';
 import { TelefonePipe } from './shared/pipes/telefone.pipe';
+import { RealPipe } from './shared/pipes/currency-reais.pipe';
+import { CurrencyPipe } from '@angular/common';
 
 
 @NgModule({
@@ -46,7 +48,8 @@ import { TelefonePipe } from './shared/pipes/telefone.pipe';
     LayoutComponent,
     ConstrutoraComponent,
     CnpjPipe,
-    TelefonePipe
+    TelefonePipe,
+    RealPipe
   ],
   imports: [
     BrowserModule,
@@ -70,7 +73,9 @@ import { TelefonePipe } from './shared/pipes/telefone.pipe';
     NgxMaskModule.forRoot(), //npm i ngx-mask@13.1.13
     MatTableModule,
   ],
-  providers: [],
+  providers: [
+    CurrencyPipe,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

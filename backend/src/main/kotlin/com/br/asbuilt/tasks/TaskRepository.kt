@@ -1,5 +1,6 @@
 package com.br.asbuilt.tasks
 
+import com.br.asbuilt.costCenters.CostCenter
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
@@ -15,4 +16,7 @@ interface TaskRepository : JpaRepository <Task, Long> {
             "JOIN t.executor e " +
             "WHERE UPPER(c.name) LIKE UPPER(CONCAT('%', :userName, '%')) OR UPPER(e.name) LIKE UPPER(CONCAT('%', :userName, '%'))")
     fun findByUserName(@Param("userName") userName: String, sort: Sort): List<Task>
+
+    @Query("SELECT t FROM Task t WHERE t.costCenter.id = :costCenterId")
+    fun findTasksByCostCenterId(costCenterId: Long): List<Task>
 }

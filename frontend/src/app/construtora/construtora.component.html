@@ -211,7 +211,9 @@
       </div>
       <div class="col-4">
         <label for="estado">UF</label>
-        <input name="estado" [(ngModel)]="construtoraModel.builderAddress.state" [disabled]="indDesabilitaCampos">
+        <select name="estado" [(ngModel)]="construtoraModel.builderAddress.state" [disabled]="indDesabilitaCampos">
+          <option *ngFor="let estado of estadosBrasileiros" [value]="estado">{{estado}}</option>
+        </select>
       </div>
     </div>
   </div>

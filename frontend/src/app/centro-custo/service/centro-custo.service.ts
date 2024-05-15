@@ -73,11 +73,12 @@ export class CentroCustoService {
       },
     });
     return this.httpClient.
-      patch<CentroCustoModel>('http://localhost:8080/asbuilt/builder/updateCosstCenter', body, this.httpOptions);
+      patch<CentroCustoModel>('http://localhost:8080/asbuilt/costCenter/updateCostCenter', body, this.httpOptions);
   }
 
   excluirCentroDeCusto(id: number) {
-    return this.httpClient.delete(`http://localhost:8080/asbuilt/builder/deleteCostCenter/${id}`, this.httpOptions);
+    return this.httpClient.
+      delete(`http://localhost:8080/asbuilt/costCenter/deleteCostCenter/${id}`, this.httpOptions);
   }
 
 }

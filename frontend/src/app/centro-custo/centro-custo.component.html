@@ -76,7 +76,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-6">
+            <div class="col-12">
               <label for="proprietario">Construtora</label>
               <select name="proprietario" id="proprietario" required matTooltip="Proprietário do centro de custo"
                 matTooltipShowDelay="1500" [(ngModel)]="selectedConstrutoraIndex">
@@ -87,14 +87,14 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-4">
+            <div class="col-6">
               <label for="valorEmpreendido">Valor Inicial Empreendido</label>
               <input type="text" name="valorEmpreendido" id="valorEmpreendido" required
                 matTooltip="Valor já empreendido no centro de custo" matTooltipShowDelay="1500"
                 [(ngModel)]="cadastroCentroCusto.valueUndertaken" currencyMask
                 [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
             </div>
-            <div class="col-4">
+            <div class="col-6">
               <label for="corcamentoPrevisto">Orçamento previsto</label>
               <input type="text" name="corcamentoPrevisto" id="corcamentoPrevisto" required
                 matTooltip="Valor previsto para a conclusão da obra" matTooltipShowDelay="1500"
@@ -145,14 +145,9 @@
                   <td mat-cell *matCellDef="let element"> {{element.builder.builderName}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="expectedBudget">
-                  <th mat-header-cell *matHeaderCellDef>Orçamento previsto</th>
-                  <td mat-cell *matCellDef="let element"> {{element.expectedBudget}} </td>
-                </ng-container>
-
                 <ng-container matColumnDef="valueUndertaken">
                   <th mat-header-cell *matHeaderCellDef>Valor Empreendido</th>
-                  <td mat-cell *matCellDef="let element"> {{element.valueUndertaken}} </td>
+                  <td mat-cell *matCellDef="let element"> {{element.valueUndertaken | real}} </td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -190,7 +185,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-3">
+      <div class="col-4">
         <label for="cep">CEP *</label>
         <input type="text" name="cep" id="cep" mask="00.000-000" 
           matTooltip="CEP" matTooltipShowDelay="1500" [disabled]="indDesabilitaCampos"
@@ -199,25 +194,25 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-7">
+      <div class="col-8">
         <label for="logradouro">Logradouro *</label>
         <input type="text" name="logradouro" id="logradouro" required placeholder="Rua Exemplo"
           matTooltip="Rua, Avenida, Travessa, Alameda" matTooltipShowDelay="1500"
           [(ngModel)]="centroCustoModel.costCenterAddress.street" [disabled]="indDesabilitaCampos">
       </div>
-      <div class="col-2">
+      <div class="col-4">
         <label for="numero">Número *</label>
         <input type="number" name="numero" id="numero" required matTooltip="Para 'Sem Número' inserir '0'"
           matTooltipShowDelay="1500" [(ngModel)]="centroCustoModel.costCenterAddress.number" [disabled]="indDesabilitaCampos">
       </div>
     </div>
     <div class="row">
-      <div class="col-7">
+      <div class="col-8">
         <label for="cidade">Cidade *</label>
         <input type="text" name="cidade" id="cidade" required matTooltip="Cidade" matTooltipShowDelay="1500"
           placeholder="Cidade" [(ngModel)]="centroCustoModel.costCenterAddress.city" [disabled]="indDesabilitaCampos">
       </div>
-      <div class="col-2">
+      <div class="col-4">
         <label for="estado">UF *</label>
         <select name="estado" [(ngModel)]="centroCustoModel.costCenterAddress.state" [disabled]="indDesabilitaCampos">
           <option *ngFor="let estado of estadosBrasileiros" [value]="estado">{{estado}}</option>
@@ -231,9 +226,9 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-6">
+      <div class="col-12">
         <label for="proprietario">Construtora</label>
-        <select name="proprietario" id="proprietario" required matTooltip="Proprietário do centro de custo"
+        <select style="height: 40px" name="proprietario" id="proprietario" required matTooltip="Proprietário do centro de custo"
         matTooltipShowDelay="1500" [(ngModel)]="centroCustoModel.builder.builderName" [disabled]="indDesabilitaCampos">
         <option value="" disabled selected>Selecione uma construtora</option>
         <option *ngFor="let construtora of listaConstrutoras" [value]="construtora.builderName">
@@ -242,14 +237,14 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-4">
+      <div class="col-6">
         <label for="valorEmpreendido">Valor Inicial Empreendido</label>
         <input type="text" name="valorEmpreendido" id="valorEmpreendido" required
           matTooltip="Valor já empreendido no centro de custo" matTooltipShowDelay="1500"
           [(ngModel)]="centroCustoModel.valueUndertaken" currencyMask [disabled]="indDesabilitaCampos"
           [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
       </div>
-      <div class="col-4">
+      <div class="col-6">
         <label for="corcamentoPrevisto">Orçamento previsto</label>
         <input type="text" name="corcamentoPrevisto" id="corcamentoPrevisto" required
           matTooltip="Valor previsto para a conclusão da obra" matTooltipShowDelay="1500"

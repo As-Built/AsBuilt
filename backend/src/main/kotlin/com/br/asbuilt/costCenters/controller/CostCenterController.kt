@@ -3,9 +3,7 @@ package com.br.asbuilt.costCenters.controller
 import com.br.asbuilt.SortDir
 import com.br.asbuilt.costCenters.CostCenterService
 import com.br.asbuilt.costCenters.controller.requests.CreateCostCenterRequest
-import com.br.asbuilt.costCenters.controller.requests.PatchCostCenterAddressRequest
-import com.br.asbuilt.costCenters.controller.requests.PatchCostCenterNameResquest
-import com.br.asbuilt.costCenters.controller.requests.PatchCostCenterValueRequest
+import com.br.asbuilt.costCenters.controller.requests.PatchCostCenterRequest
 import com.br.asbuilt.costCenters.controller.responses.CostCenterResponse
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import jakarta.validation.Valid
@@ -27,42 +25,10 @@ class CostCenterController(val service: CostCenterService) {
 
     @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("hasRole('ADMIN')")
-    @PatchMapping("/updateCenterCostName/{id}")
-    fun updateName(
-        @Valid
-        @RequestBody request: PatchCostCenterNameResquest,
-        @PathVariable id: Long,
-    ): ResponseEntity <CostCenterResponse> {
-        return service.updateName(id, request.costCenterName)
-            ?.let{ ResponseEntity.ok(CostCenterResponse(it)) }
-            ?: ResponseEntity.noContent().build()
-    }
-
-    @SecurityRequirement(name="AsBuilt")
-    @PreAuthorize("hasRole('ADMIN')")
-    @PatchMapping("/updateCenterCostAddress/{id}")
-    fun updateAddress(
-        @Valid
-        @RequestBody request: PatchCostCenterAddressRequest,
-        @PathVariable id: Long,
-    ): ResponseEntity <CostCenterResponse> {
-        return service.updateAddress(id, request.costCenterAddress)
-            ?.let{ ResponseEntity.ok(CostCenterResponse(it)) }
-            ?: ResponseEntity.noContent().build()
-    }
-
-    @SecurityRequirement(name="AsBuilt")
-    @PreAuthorize("hasRole('ADMIN')")
-    @PatchMapping("/updateCostCenterValue/{id}")
-    fun updateAddress(
-        @Valid
-        @RequestBody request: PatchCostCenterValueRequest,
-        @PathVariable id: Long,
-    ): ResponseEntity <CostCenterResponse> {
-        return service.increaseValueUndertaken(id, request.valueUndertaken)
-            ?.let{ ResponseEntity.ok(CostCenterResponse(it)) }
-            ?: ResponseEntity.noContent().build()
-    }
+    @PatchMapping("/updateCostCenter")
+    fun updateCostCenter(@Valid @RequestBody request: PatchCostCenterRequest) =
+        CostCenterResponse(service.updateCostCenter(request.toCostCenter())!!)
+            .let{ ResponseEntity.status(HttpStatus.OK).body(it) }
 
     @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("permitAll()")
@@ -81,7 +47,7 @@ class CostCenterController(val service: CostCenterService) {
 
     @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deleteCostCenter/{id}")
     fun delete(@PathVariable id: Long): ResponseEntity<Void> =
         if (service.delete(id)) ResponseEntity.ok().build()
         else ResponseEntity.notFound().build()
