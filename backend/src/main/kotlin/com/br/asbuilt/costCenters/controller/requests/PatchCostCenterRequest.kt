@@ -1,7 +1,7 @@
 package com.br.asbuilt.costCenters.controller.requests
 
 import com.br.asbuilt.address.Address
-import com.br.asbuilt.builder.Builder
+import com.br.asbuilt.builders.Builder
 import com.br.asbuilt.costCenters.CostCenter
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull

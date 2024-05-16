@@ -25,8 +25,8 @@ class TaskController(val service: TaskService, val userService: UserService, val
         @Valid
         @RequestBody task: CreateOrUpdateTaskRequest): ResponseEntity<TaskResponse> {
 
-        val centroDeCusto = task.costCenterId.let {
-            costCenterService.findByIdOrNull(it)
+        val centroDeCusto = task.costCenter.let {
+            costCenterService.findByIdOrNull(task.costCenter.id!!)
         } ?: throw NotFoundException("Cost Center not found!")
 
 //        val executor =  task.executor.mapNotNull { userService.findByIdOrNull(it) }
@@ -53,8 +53,8 @@ class TaskController(val service: TaskService, val userService: UserService, val
         @RequestBody request: CreateOrUpdateTaskRequest,
         @PathVariable id: Long,
     ): ResponseEntity <TaskResponse> {
-        val centroDeCusto = request.costCenterId.let {
-            costCenterService.findByIdOrNull(it)
+        val centroDeCusto = request.costCenter.let {
+            costCenterService.findByIdOrNull(request.costCenter.id!!)
         } ?: throw NotFoundException("Cost Center not found!")
 
 //        val executor =  request.executor.mapNotNull { userService.findByIdOrNull(it) }
@@ -68,8 +68,8 @@ class TaskController(val service: TaskService, val userService: UserService, val
 
         //Remove o valor anterior do serviço aplicado ao centro de custo e depois adiciona o valor novo
         if (taskAntiga != null) {
-            costCenterService.decreaseValueUndertaken(id!!, taskAntiga.amount)
-            costCenterService.increaseValueUndertaken(id!!, taskEntity.amount)
+            costCenterService.decreaseValueUndertaken(id, taskAntiga.amount)
+            costCenterService.increaseValueUndertaken(id, taskEntity.amount)
         }
 
         return service.update(id, taskEntity)

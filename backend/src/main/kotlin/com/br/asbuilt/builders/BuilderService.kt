@@ -1,4 +1,4 @@
-package com.br.asbuilt.builder
+package com.br.asbuilt.builders
 
 import com.br.asbuilt.SortDir
 import com.br.asbuilt.address.AddressRepository

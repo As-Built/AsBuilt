@@ -1,10 +1,10 @@
-package com.br.asbuilt.builder.controller
+package com.br.asbuilt.builders.controller
 
 import com.br.asbuilt.SortDir
-import com.br.asbuilt.builder.BuilderService
-import com.br.asbuilt.builder.controller.requests.CreateBuilderRequest
-import com.br.asbuilt.builder.controller.requests.PatchBuilderRequest
-import com.br.asbuilt.builder.controller.responses.BuilderResponse
+import com.br.asbuilt.builders.BuilderService
+import com.br.asbuilt.builders.controller.requests.CreateBuilderRequest
+import com.br.asbuilt.builders.controller.requests.PatchBuilderRequest
+import com.br.asbuilt.builders.controller.responses.BuilderResponse
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus

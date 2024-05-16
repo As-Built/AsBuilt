@@ -1,7 +1,7 @@
 package com.br.asbuilt.costCenters
 
 import com.br.asbuilt.address.Address
-import com.br.asbuilt.builder.Builder
+import com.br.asbuilt.builders.Builder
 import jakarta.persistence.*
 
 @Entity

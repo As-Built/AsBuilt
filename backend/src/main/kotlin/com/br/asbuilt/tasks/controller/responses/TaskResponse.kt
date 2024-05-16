@@ -1,6 +1,7 @@
 package com.br.asbuilt.tasks.controller.responses
 
 import com.br.asbuilt.costCenters.controller.responses.CostCenterResponse
+import com.br.asbuilt.locations.controller.responses.LocationResponse
 import com.br.asbuilt.tasks.Task
 import java.util.*
 
@@ -11,7 +12,7 @@ data class TaskResponse(
     val dimension: Double,
     val unitMeasurement: String,
     val costCenter: CostCenterResponse,
-    val placeOfExecution: String,
+    val taskLocation: LocationResponse,
     val startDate: Date,
     val expectedEndDate: Date,
     val finalDate: Date?,
@@ -26,8 +27,8 @@ data class TaskResponse(
         task.unitaryValue,
         task.dimension,
         task.unitMeasurement,
-        task.costCenter?.let { CostCenterResponse(it) }!!,
-        task.placeOfExecution,
+        CostCenterResponse(task.costCenter),
+        LocationResponse(task.taskLocation),
         task.startDate,
         task.expectedEndDate,
         task.finalDate,

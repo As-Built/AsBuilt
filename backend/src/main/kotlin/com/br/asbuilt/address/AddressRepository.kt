@@ -1,6 +1,6 @@
 package com.br.asbuilt.address
 
-import com.br.asbuilt.builder.Builder
+import com.br.asbuilt.builders.Builder
 import com.br.asbuilt.costCenters.CostCenter
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query

@@ -1,7 +1,7 @@
-package com.br.asbuilt.builder.controller.responses
+package com.br.asbuilt.builders.controller.responses
 
 import com.br.asbuilt.address.Address
-import com.br.asbuilt.builder.Builder
+import com.br.asbuilt.builders.Builder
 
 data class BuilderResponse(
     val id: Long?,

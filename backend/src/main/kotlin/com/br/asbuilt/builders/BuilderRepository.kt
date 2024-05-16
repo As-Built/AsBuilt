@@ -1,4 +1,4 @@
-package com.br.asbuilt.builder
+package com.br.asbuilt.builders
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query

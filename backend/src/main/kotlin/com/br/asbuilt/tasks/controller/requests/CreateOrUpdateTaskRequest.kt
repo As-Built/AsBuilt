@@ -1,5 +1,7 @@
 package com.br.asbuilt.tasks.controller.requests
 
+import com.br.asbuilt.costCenters.CostCenter
+import com.br.asbuilt.locations.Location
 import com.br.asbuilt.tasks.Task
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
@@ -16,13 +18,13 @@ data class CreateOrUpdateTaskRequest(
     val dimension: Double,
 
     @field:NotBlank
-    val unitmeasurement: String,
+    val unitMeasurement: String,
 
     @field:NotNull
-    val costCenterId: Long,
+    val costCenter: CostCenter,
 
-    @field:NotBlank
-    val placeOfExecution: String,
+    @field:NotNull
+    val taskLocation: Location,
 
     @field:NotNull
     val startDate: Date,
@@ -42,9 +44,10 @@ data class CreateOrUpdateTaskRequest(
     fun toTask() = Task (
         taskType = taskType,
         unitaryValue = unitaryValue,
+        costCenter = costCenter,
         dimension = dimension,
-        unitMeasurement = unitmeasurement,
-        placeOfExecution = placeOfExecution,
+        unitMeasurement = unitMeasurement,
+        taskLocation = taskLocation,
         startDate = startDate,
         expectedEndDate = expectedEndDate,
         finalDate = finalDate,

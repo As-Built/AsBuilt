@@ -1,6 +1,7 @@
 package com.br.asbuilt.tasks
 
 import com.br.asbuilt.costCenters.CostCenter
+import com.br.asbuilt.locations.Location
 import com.br.asbuilt.users.User
 import jakarta.persistence.*
 import java.util.*
@@ -25,10 +26,11 @@ class Task(
 
     @ManyToOne
     @JoinColumn(name = "idCostCenter")
-    var costCenter: CostCenter? = null,
+    var costCenter: CostCenter,
 
-    @Column(nullable = false)
-    var placeOfExecution: String,
+    @ManyToOne
+    @JoinColumn(name= "idLocation")
+    var taskLocation: Location,
 
     @Column(nullable = false)
     var startDate: Date,

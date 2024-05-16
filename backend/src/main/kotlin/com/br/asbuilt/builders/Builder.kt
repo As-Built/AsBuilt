@@ -1,4 +1,4 @@
-package com.br.asbuilt.builder
+package com.br.asbuilt.builders
 
 import com.br.asbuilt.address.Address
 import jakarta.persistence.*
