@@ -2,6 +2,7 @@ package com.br.asbuilt.locations
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -19,7 +20,14 @@ interface LocationRepository : JpaRepository<Location, Long> {
     fun findLocationBySubGroup3(subGroup3: String): List<Location>
 
     @Query("SELECT l FROM Location l " +
-            "WHERE l.locationGroup = :locationGroup AND l.subGroup1 = :subGroup1 " +
-            "AND l.subGroup2 = :subGroup2 AND l.subGroup3 = :subGroup3")
-    fun compareLocation(locationGroup: String, subGroup1: String, subGroup2: String, subGroup3: String): Location?
+            "WHERE l.costCenter.id = :costCenterId " +
+            "AND l.locationGroup = :locationGroup " +
+            "AND (:subGroup1 IS NULL OR l.subGroup1 = :subGroup1) " +
+            "AND (:subGroup2 IS NULL OR l.subGroup2 = :subGroup2) " +
+            "AND (:subGroup3 IS NULL OR l.subGroup3 = :subGroup3)")
+    fun findSameLocation(@Param("costCenterId") costCenterId: Long,
+                         @Param("locationGroup") locationGroup: String,
+                         @Param("subGroup1") subGroup1: String?,
+                         @Param("subGroup2") subGroup2: String?,
+                         @Param("subGroup3") subGroup3: String?): Location?
 }

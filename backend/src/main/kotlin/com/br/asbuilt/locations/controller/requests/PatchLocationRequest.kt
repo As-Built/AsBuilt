@@ -1,5 +1,6 @@
 package com.br.asbuilt.locations.controller.requests
 
+import com.br.asbuilt.costCenters.CostCenter
 import com.br.asbuilt.locations.Location
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
@@ -7,6 +8,9 @@ import jakarta.validation.constraints.NotNull
 data class PatchLocationRequest(
     @field: NotNull
     val id: Long,
+
+    @field: NotNull
+    val costCenter: CostCenter,
 
     @field: NotBlank
     val locationGroup: String,
@@ -19,6 +23,7 @@ data class PatchLocationRequest(
 ) {
     fun toLocation() = Location(
         id = id,
+        costCenter = costCenter,
         locationGroup = locationGroup,
         subGroup1 = subGroup1,
         subGroup2 = subGroup2,

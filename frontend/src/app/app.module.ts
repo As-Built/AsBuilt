@@ -30,6 +30,7 @@ import { CnpjPipe } from './shared/pipes/cnpj.pipe';
 import { TelefonePipe } from './shared/pipes/telefone.pipe';
 import { RealPipe } from './shared/pipes/currency-reais.pipe';
 import { CurrencyPipe } from '@angular/common';
+import { LocalServicoComponent } from './local-servico/local-servico.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { CurrencyPipe } from '@angular/common';
     ConstrutoraComponent,
     CnpjPipe,
     TelefonePipe,
-    RealPipe
+    RealPipe,
+    LocalServicoComponent
   ],
   imports: [
     BrowserModule,

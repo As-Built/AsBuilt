@@ -1,5 +1,6 @@
 package com.br.asbuilt.locations
 
+import com.br.asbuilt.costCenters.CostCenter
 import jakarta.persistence.*
 
 @Entity
@@ -7,6 +8,14 @@ import jakarta.persistence.*
 class Location (
     @Id @GeneratedValue
     var id: Long? = null,
+
+    @ManyToOne
+    @JoinTable(
+        name = "LocationTaskCostCenter",
+        joinColumns = [JoinColumn(name = "idLocation")],
+        inverseJoinColumns = [JoinColumn(name = "idCostCenter")]
+    )
+    var costCenter: CostCenter,
 
     @Column(nullable = false)
     var locationGroup: String,

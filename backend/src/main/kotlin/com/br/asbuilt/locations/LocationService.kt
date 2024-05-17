@@ -14,8 +14,16 @@ class LocationService(
     val taskRepository: TaskRepository
 ) {
     fun insert(location: Location): Location {
-        if (repository.compareLocation(
-                location.locationGroup,location.subGroup1!!, location.subGroup2!!, location.subGroup3!!) != null) {
+
+        val existingLocation = repository.findSameLocation(
+            location.costCenter.id!!,
+            location.locationGroup,
+            location.subGroup1 ?: "",
+            location.subGroup2 ?: "",
+            location.subGroup3 ?: ""
+        )
+
+        if (existingLocation != null) {
             throw BadRequestException("Location already exists")
         }
 
@@ -30,6 +38,11 @@ class LocationService(
         }
         if (existingLocation != null) {
             var isChanged = false
+
+            if (location.costCenter != existingLocation.costCenter) {
+                existingLocation.costCenter = location.costCenter
+                isChanged = true
+            }
 
             if (location.locationGroup != existingLocation.locationGroup) {
                 existingLocation.locationGroup = location.locationGroup
