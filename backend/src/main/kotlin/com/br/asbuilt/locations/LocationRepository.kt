@@ -25,7 +25,7 @@ interface LocationRepository : JpaRepository<Location, Long> {
             "AND (:subGroup1 IS NULL OR l.subGroup1 = :subGroup1) " +
             "AND (:subGroup2 IS NULL OR l.subGroup2 = :subGroup2) " +
             "AND (:subGroup3 IS NULL OR l.subGroup3 = :subGroup3)")
-    fun findSameLocation(@Param("costCenterId") costCenterId: Long,
+    fun existsLocation(@Param("costCenterId") costCenterId: Long,
                          @Param("locationGroup") locationGroup: String,
                          @Param("subGroup1") subGroup1: String?,
                          @Param("subGroup2") subGroup2: String?,

@@ -14,7 +14,7 @@
             <div *ngIf="isCadastroLocalServico" class="tab-pane fade"
                 [ngClass]="{'show active': isCadastroLocalServico}" id="cadastro">
                 <div class="row centralizar-conteudo">
-                    <div class="col-12">
+                    <div class="col-12 titulo">
                         <h2>Cadastro de Local de Serviço</h2>
                     </div>
                 </div>
@@ -74,12 +74,23 @@
             <div *ngIf="!isCadastroLocalServico" [ngClass]="{'show active': !isCadastroLocalServico}"
                 class="tab-pane fade" id="consulta">
                 <div class="row centralizar-conteudo">
-                    <div class="col-12">
+                    <div class="col-12 titulo">
                         <h2>Locais cadastrados</h2>
                     </div>
                     <div class="row">
+                        <div class="col-4">
+                            <label for="filterTable">Filtrar por Centro de Custo:</label>
+                            <select (change)="onFiltroChange($event)">
+                                <option>Todos</option>
+                                <option *ngFor="let centroDeCusto of listaCentrosDeCustoFiltrada" [value]="centroDeCusto.costCenterName">
+                                    {{centroDeCusto.costCenterName}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-12">
-                            <table mat-table [dataSource]="listaLocalServico" class="mat-elevation-z8">
+                            <table mat-table [dataSource]="listaLocalServicoFiltrada" class="mat-elevation-z8">
                                 <ng-container matColumnDef="acoes">
                                     <th mat-header-cell *matHeaderCellDef>Ações</th>
                                     <td mat-cell *matCellDef="let element">

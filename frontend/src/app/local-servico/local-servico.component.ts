@@ -26,21 +26,55 @@ export class LocalServicoComponent implements OnInit {
   renderModalVisualizar = false;
   indDesabilitaCampos = true;
   isCadastroLocalServico = true;
+  filtroSelecionado: string | null = null;
 
   constructor(
     private localServicoService: LocalServicoService,
-    private centroCustoService: CentroCustoService,
-    private http: HttpClient) { }
+    private centroCustoService: CentroCustoService
+  ) { }
 
   ngOnInit(): void {
     this.buscarLocais();
     this.buscarCentrosDeCusto();
+    this.filtrarDados();
   }
+
+  onFiltroChange(event: Event) {
+    const novoFiltro = (event.target as HTMLSelectElement).value;
+    if (novoFiltro === 'Todos') {
+      this.filtroSelecionado = null;
+    } else {
+      this.filtroSelecionado = novoFiltro;
+    }
+    this.filtrarDados();
+  }
+  
+  listaLocalServicoFiltrada: LocalServicoModel[] = [];
+  listaCentrosDeCustoFiltrada: CentroCustoModel[] = [];
+
+  filtrarDados() {
+    const costCenters = this.listaLocalServico.map(item => item.costCenter);
+    this.listaCentrosDeCustoFiltrada = Array.from(new Set(costCenters.map(cc => cc.costCenterName)))
+      .map(name => {
+        return costCenters.find(cc => cc.costCenterName === name)
+      })
+      .filter((cc): cc is CentroCustoModel => Boolean(cc));
+    
+    if (this.filtroSelecionado) {
+      this.listaLocalServicoFiltrada = this.listaLocalServico.filter(localServico => 
+        localServico.costCenter.costCenterName === this.filtroSelecionado
+      );
+    } else {
+      this.listaLocalServicoFiltrada = [...this.listaLocalServico];
+    }
+  }
+
 
   async buscarLocais() {
     try {
       const locaisServico: any = await firstValueFrom(this.localServicoService.listarLocais());
       this.listaLocalServico = locaisServico;
+      this.filtrarDados();
     } catch (error) {
       console.error(error);
     }
@@ -68,7 +102,7 @@ export class LocalServicoComponent implements OnInit {
           text: "Cadastro realizado com sucesso!",
           icon: "success",
           showConfirmButton: false,
-          timer: 2000
+          timer: 3000
         });
       }),
       catchError(error => {
@@ -77,7 +111,7 @@ export class LocalServicoComponent implements OnInit {
             text: "Este local de serviço já está cadastrado!",
             icon: "error",
             showConfirmButton: false,
-            timer: 2000
+            timer: 3000
           });
         }
         else {
@@ -101,16 +135,23 @@ export class LocalServicoComponent implements OnInit {
           text: "Atualização realizada com sucesso!",
           icon: "success",
           showConfirmButton: false,
-          timer: 2000
+          timer: 3000
         });
         this.buscarLocais();
       }),
       catchError(error => {
+        let msgErro = error.error;
+        if (error.error === "No changes detected! Location not updated!") {
+          msgErro = "Nenhuma alteração detectada! Local não atualizado!";
+        }
+        if (error.error === "Location not found!") {
+          msgErro = "Local não encontrado!";
+        }
         Swal.fire({
-          text: error.error,
+          text: msgErro,
           icon: "error",
           showConfirmButton: false,
-          timer: 2000
+          timer: 3000
         });
         return of();
       })
@@ -170,7 +211,7 @@ export class LocalServicoComponent implements OnInit {
               text: "Local de Serviço excluído com sucesso!",
               icon: "success",
               showConfirmButton: false,
-              timer: 2000
+              timer: 3000
             });
             this.buscarLocais();
           }),

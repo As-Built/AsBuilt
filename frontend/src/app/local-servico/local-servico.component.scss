@@ -1,6 +1,11 @@
+@import '../_variables';
 .corpo {
     display: flex; 
     align-items: center
+}
+
+.titulo {
+    margin-top: 20px;
 }
 
 .conteudo {
@@ -8,7 +13,7 @@
     padding: 20px; 
     border-radius: 10px; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-    width: 800px; 
+    width: $conteudo_width; 
     max-width: 90%; 
     display: flex; 
     flex-direction: column; 

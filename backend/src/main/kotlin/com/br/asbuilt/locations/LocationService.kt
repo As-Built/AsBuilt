@@ -15,12 +15,12 @@ class LocationService(
 ) {
     fun insert(location: Location): Location {
 
-        val existingLocation = repository.findSameLocation(
+        val existingLocation = repository.existsLocation(
             location.costCenter.id!!,
             location.locationGroup,
-            location.subGroup1 ?: "",
-            location.subGroup2 ?: "",
-            location.subGroup3 ?: ""
+            location.subGroup1,
+            location.subGroup2,
+            location.subGroup3
         )
 
         if (existingLocation != null) {
@@ -36,10 +36,12 @@ class LocationService(
             repository.findById(it)
                 .orElseThrow { NotFoundException("Location not found with id: ${location.id}") }
         }
-        if (existingLocation != null) {
-            var isChanged = false
 
-            if (location.costCenter != existingLocation.costCenter) {
+        var isChanged = false
+
+        if (existingLocation != null) {
+
+            if (location.costCenter.id != existingLocation.costCenter.id) {
                 existingLocation.costCenter = location.costCenter
                 isChanged = true
             }
@@ -63,11 +65,17 @@ class LocationService(
             if (isChanged) {
                 return repository.save(existingLocation)
                     .also { log.info("Location updated: {}", it.id) }
+            } else {
+                throw BadRequestException("No changes detected! Location not updated!")
+                    .also { log.info("Location not updated (nothing changed): {}", location.id) }
             }
         }
-        return null
-            .also { log.info("Location not updated (nothing changed): {}", location.id) }
+        else {
+            throw BadRequestException("Location not found!")
+            .also { log.info("Location not found with id: ${location.id}") }
+        }
     }
+
 
     fun findAll(dir: SortDir = SortDir.ASC): List<Location> = when (dir) {
         SortDir.ASC -> repository.findAll(Sort.by("locationGroup", "subGroup1", "subGroup2", "subGroup3").ascending())
