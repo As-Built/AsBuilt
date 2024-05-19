@@ -4,7 +4,8 @@ import com.br.asbuilt.SortDir
 import com.br.asbuilt.costCenters.CostCenterService
 import com.br.asbuilt.exception.NotFoundException
 import com.br.asbuilt.tasks.TaskService
-import com.br.asbuilt.tasks.controller.requests.CreateOrUpdateTaskRequest
+import com.br.asbuilt.tasks.controller.requests.CreateTaskRequest
+import com.br.asbuilt.tasks.controller.requests.PatchTaskRequest
 import com.br.asbuilt.tasks.controller.responses.TaskResponse
 import com.br.asbuilt.users.UserService
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
@@ -23,19 +24,15 @@ class TaskController(val service: TaskService, val userService: UserService, val
     @PostMapping("/insertTask")
     fun insert(
         @Valid
-        @RequestBody task: CreateOrUpdateTaskRequest): ResponseEntity<TaskResponse> {
+        @RequestBody task: CreateTaskRequest): ResponseEntity<TaskResponse> {
 
         val centroDeCusto = task.costCenter.let {
             costCenterService.findByIdOrNull(task.costCenter.id!!)
         } ?: throw NotFoundException("Cost Center not found!")
 
-//        val executor =  task.executor.mapNotNull { userService.findByIdOrNull(it) }
-//        val conferente =  task.conferente.mapNotNull { userService.findByIdOrNull(it) }
         val taskEntity = task.toTask()
 
         taskEntity.costCenter = centroDeCusto
-//        taskEntity.executor.addAll(executor)
-//        taskEntity.conferente.addAll(conferente)
 
         //Adiciona o valor do serviço ao valor empreendido no centro de custo
         costCenterService.increaseValueUndertaken(centroDeCusto.id!!, taskEntity.amount)
@@ -50,20 +47,25 @@ class TaskController(val service: TaskService, val userService: UserService, val
     @PatchMapping("/{id}")
     fun update(
         @Valid
-        @RequestBody request: CreateOrUpdateTaskRequest,
+        @RequestBody request: PatchTaskRequest,
         @PathVariable id: Long,
     ): ResponseEntity <TaskResponse> {
         val centroDeCusto = request.costCenter.let {
             costCenterService.findByIdOrNull(request.costCenter.id!!)
         } ?: throw NotFoundException("Cost Center not found!")
 
-//        val executor =  request.executor.mapNotNull { userService.findByIdOrNull(it) }
-//        val conferente =  request.conferente.mapNotNull { userService.findByIdOrNull(it) }
+        val executor = request.executor?.mapNotNull { userService.findByIdOrNull(it) }
+        val conferente = request.conferente?.mapNotNull { userService.findByIdOrNull(it) }
         val taskEntity = request.toTask()
 
         taskEntity.costCenter = centroDeCusto
-//        taskEntity.executor.addAll(executor)
-//        taskEntity.conferente.addAll(conferente)
+        taskEntity.costCenter = centroDeCusto
+        if (executor != null) {
+            taskEntity.executor.addAll(executor)
+        }
+        if (conferente != null) {
+            taskEntity.conferente.addAll(conferente)
+        }
         val taskAntiga = service.findByIdOrNull(id)
 
         //Remove o valor anterior do serviço aplicado ao centro de custo e depois adiciona o valor novo

@@ -49,7 +49,8 @@ class Bootstrapper(
             unitMeasurementRepository.save(UnitMeasurement(name = "m²", description = "Metro quadrado"))
             unitMeasurementRepository.save(UnitMeasurement(name = "m³", description = "Metro cúbico"))
             unitMeasurementRepository.save(UnitMeasurement(name = "kg", description = "Quilograma"))
-            unitMeasurementRepository.save(UnitMeasurement(name = "hr", description = "Hora"))
+            unitMeasurementRepository.save(UnitMeasurement(name = "h", description = "Hora"))
+            unitMeasurementRepository.save(UnitMeasurement(name = "un", description = "Unidade"))
             log.info("Unit of measurement created")
         }
     }

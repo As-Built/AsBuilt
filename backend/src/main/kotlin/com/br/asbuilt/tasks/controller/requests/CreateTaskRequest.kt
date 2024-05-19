@@ -2,14 +2,16 @@ package com.br.asbuilt.tasks.controller.requests
 
 import com.br.asbuilt.costCenters.CostCenter
 import com.br.asbuilt.locations.Location
+import com.br.asbuilt.taskTypes.TaskType
 import com.br.asbuilt.tasks.Task
+import com.br.asbuilt.unitMeasurement.UnitMeasurement
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import java.util.*
 
-data class CreateOrUpdateTaskRequest(
+data class CreateTaskRequest(
     @field:NotBlank
-    val taskType: String,
+    val taskType: TaskType,
 
     @field:NotNull
     val unitaryValue: Double,
@@ -18,7 +20,7 @@ data class CreateOrUpdateTaskRequest(
     val dimension: Double,
 
     @field:NotBlank
-    val unitMeasurement: String,
+    val unitMeasurement: UnitMeasurement,
 
     @field:NotNull
     val costCenter: CostCenter,

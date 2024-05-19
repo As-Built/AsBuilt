@@ -22,4 +22,7 @@ interface TaskRepository : JpaRepository <Task, Long> {
 
     @Query("SELECT t FROM Task t WHERE t.taskLocation.id = :locationId")
     fun findTasksByLocationId(locationId: Long): List<Task>
+
+    @Query("SELECT t FROM Task t WHERE t.taskType.id = :taskTypeId")
+    fun findTasksByTaskTypeId(taskTypeId: Long): List<Task>
 }
