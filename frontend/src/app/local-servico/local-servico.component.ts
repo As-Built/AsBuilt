@@ -27,6 +27,14 @@ export class LocalServicoComponent implements OnInit {
   indDesabilitaCampos = true;
   isCadastroLocalServico = true;
   filtroSelecionado: string | null = null;
+  listaLocalServicoFiltrada: LocalServicoModel[] = [];
+  listaCentrosDeCustoFiltrada: CentroCustoModel[] = [];
+  filtroLocationGroup: string | null = null;
+  listaLocationGroup: string[] = [];
+  filtroSubGroup1: string | null = null;
+  filtroSubGroup2: string | null = null;
+  listaSubGroup1: string[] = [];
+  listaSubGroup2: string[] = [];
 
   constructor(
     private localServicoService: LocalServicoService,
@@ -46,12 +54,45 @@ export class LocalServicoComponent implements OnInit {
     } else {
       this.filtroSelecionado = novoFiltro;
     }
+    this.filtroLocationGroup = null;
+    this.filtroSubGroup1 = null;
+    this.filtroSubGroup2 = null;
+    this.filtrarDados();
+  }
+
+  onFiltroLocationGroupChange(event: Event) {
+    const novoFiltro = (event.target as HTMLSelectElement).value;
+    if (novoFiltro === 'Todos') {
+      this.filtroLocationGroup = null;
+    } else {
+      this.filtroLocationGroup = novoFiltro;
+    }
+    this.filtroSubGroup1 = null;
+    this.filtroSubGroup2 = null;
+    this.filtrarDados();
+  }
+
+  onFiltroSubGroup1Change(event: Event) {
+    const novoFiltro = (event.target as HTMLSelectElement).value;
+    if (novoFiltro === 'Todos') {
+      this.filtroSubGroup1 = null;
+    } else {
+      this.filtroSubGroup1 = novoFiltro;
+    }
+    this.filtroSubGroup2 = null;
     this.filtrarDados();
   }
   
-  listaLocalServicoFiltrada: LocalServicoModel[] = [];
-  listaCentrosDeCustoFiltrada: CentroCustoModel[] = [];
-
+  onFiltroSubGroup2Change(event: Event) {
+    const novoFiltro = (event.target as HTMLSelectElement).value;
+    if (novoFiltro === 'Todos') {
+      this.filtroSubGroup2 = null;
+    } else {
+      this.filtroSubGroup2 = novoFiltro;
+    }
+    this.filtrarDados();
+  }
+  
   filtrarDados() {
     const costCenters = this.listaLocalServico.map(item => item.costCenter);
     this.listaCentrosDeCustoFiltrada = Array.from(new Set(costCenters.map(cc => cc.costCenterName)))
@@ -66,6 +107,28 @@ export class LocalServicoComponent implements OnInit {
       );
     } else {
       this.listaLocalServicoFiltrada = [...this.listaLocalServico];
+    }
+  
+    this.listaLocationGroup = Array.from(new Set(this.listaLocalServicoFiltrada.map(ls => ls.locationGroup)));
+  
+    if (this.filtroLocationGroup) {
+      this.listaLocalServicoFiltrada = this.listaLocalServicoFiltrada.filter(localServico => 
+        localServico.locationGroup === this.filtroLocationGroup
+      );
+    }
+    this.listaSubGroup1 = Array.from(new Set(this.listaLocalServicoFiltrada.map(ls => ls.subGroup1).filter((sg): sg is string => sg !== undefined)));
+    this.listaSubGroup2 = Array.from(new Set(this.listaLocalServicoFiltrada.map(ls => ls.subGroup2).filter((sg): sg is string => sg !== undefined)));
+  
+    if (this.filtroSubGroup1) {
+      this.listaLocalServicoFiltrada = this.listaLocalServicoFiltrada.filter(localServico => 
+        localServico.subGroup1 === this.filtroSubGroup1
+      );
+    }
+  
+    if (this.filtroSubGroup2) {
+      this.listaLocalServicoFiltrada = this.listaLocalServicoFiltrada.filter(localServico => 
+        localServico.subGroup2 === this.filtroSubGroup2
+      );
     }
   }
 
@@ -92,6 +155,7 @@ export class LocalServicoComponent implements OnInit {
   mudarAba() {
     this.buscarLocais();
     this.isCadastroLocalServico = !this.isCadastroLocalServico;
+    this.cadastroLocalServico = new LocalServicoModel();
   }
 
   cadastrarLocalServico() {
@@ -104,6 +168,7 @@ export class LocalServicoComponent implements OnInit {
           showConfirmButton: false,
           timer: 3000
         });
+        this.cadastroLocalServico = new LocalServicoModel();
       }),
       catchError(error => {
         if (error.error == "Location already exists") {
