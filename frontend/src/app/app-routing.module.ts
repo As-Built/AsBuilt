@@ -7,6 +7,8 @@ import { CentroCustoComponent } from './centro-custo/centro-custo.component';
 import { AuthGuard } from './shared/authguard/authguard.guard';
 import { ConstrutoraComponent } from './construtora/construtora.component';
 import { LocalServicoComponent } from './local-servico/local-servico.component';
+import { TipoServicoComponent } from './tipo-servico/tipo-servico.component';
+import { UnidadeMedidaComponent } from './unidade-medida/unidade-medida.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -15,6 +17,8 @@ const routes: Routes = [
   { path: 'centroCusto', component: CentroCustoComponent, canActivate: [AuthGuard], data: { authorities: ['ADMIN', 'CONFERENTE'] } },
   { path: 'construtora', component: ConstrutoraComponent, canActivate: [AuthGuard], data: { authorities: ['ADMIN', 'CONFERENTE'] } },
   { path: 'localServico', component: LocalServicoComponent, canActivate: [AuthGuard], data: { authorities: ['ADMIN', 'CONFERENTE'] } },
+  { path: 'tipoServico', component: TipoServicoComponent, canActivate: [AuthGuard], data: { authorities: ['ADMIN', 'CONFERENTE'] } },
+  { path: 'unidadeDeMedida', component: UnidadeMedidaComponent, canActivate: [AuthGuard], data: { authorities: ['ADMIN', 'CONFERENTE'] } },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', redirectTo: 'home' }
 ];

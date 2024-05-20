@@ -26,9 +26,9 @@ class TaskTypeController(val service: TaskTypeService) {
 
     @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("hasRole('ADMIN') || hasRole('CONFERENTE')")
-    @PostMapping("/updateTaskType")
+    @PatchMapping("/updateTaskType")
     fun update(@Valid @RequestBody taskType: PatchTaskTypeRequest) =
-        TaskTypeResponse(service.insert(taskType.toTaskType()))
+        TaskTypeResponse(service.updateTaskType(taskType.toTaskType())!!)
             .let { ResponseEntity.status(HttpStatus.OK).body(it) }
 
     @SecurityRequirement(name="AsBuilt")

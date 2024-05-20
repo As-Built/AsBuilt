@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class LocalServicoService  {
+export class LocalServicoService {
 
   constructor(private httpClient: HttpClient) { }
 

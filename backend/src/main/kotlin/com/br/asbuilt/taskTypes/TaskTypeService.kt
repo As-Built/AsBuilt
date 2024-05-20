@@ -60,11 +60,11 @@ class TaskTypeService (
                 val parameterResultField = TaskType::class.java.getDeclaredField("parameter${i}Result")
                 parameterResultField.isAccessible = true
 
-                val taskTypeParameterName = parameterNameField.get(taskType) as String
-                val existingTaskTypeParameterName = parameterNameField.get(existingTaskType) as String
+                val taskTypeParameterName = parameterNameField.get(taskType) as? String
+                val existingTaskTypeParameterName = parameterNameField.get(existingTaskType) as? String
 
-                val taskTypeParameterResult = parameterResultField.get(taskType) as Boolean
-                val existingTaskTypeParameterResult = parameterResultField.get(existingTaskType) as Boolean
+                val taskTypeParameterResult = parameterResultField.get(taskType) as? Boolean
+                val existingTaskTypeParameterResult = parameterResultField.get(existingTaskType) as? Boolean
 
                 if (taskTypeParameterName != existingTaskTypeParameterName) {
                     parameterNameField.set(existingTaskType, taskTypeParameterName)

@@ -8,7 +8,6 @@ import { UsuarioComponent } from './usuario/usuario.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CadastroUsuarioComponent } from './cadastro-usuario/cadastro-usuario.component';
-import { ServicoComponent } from './servico/servico.component';
 import { CadastroServicoComponent } from './cadastro-servico/cadastro-servico.component';
 import { CentroCustoComponent } from './centro-custo/centro-custo.component';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
@@ -31,6 +30,8 @@ import { TelefonePipe } from './shared/pipes/telefone.pipe';
 import { RealPipe } from './shared/pipes/currency-reais.pipe';
 import { CurrencyPipe } from '@angular/common';
 import { LocalServicoComponent } from './local-servico/local-servico.component';
+import { TipoServicoComponent } from './tipo-servico/tipo-servico.component';
+import { UnidadeMedidaComponent } from './unidade-medida/unidade-medida.component';
 
 
 @NgModule({
@@ -40,7 +41,6 @@ import { LocalServicoComponent } from './local-servico/local-servico.component';
     LoginComponent,
     UsuarioComponent,
     CadastroUsuarioComponent,
-    ServicoComponent,
     CadastroServicoComponent,
     CentroCustoComponent,
     SidebarComponent,
@@ -51,7 +51,9 @@ import { LocalServicoComponent } from './local-servico/local-servico.component';
     CnpjPipe,
     TelefonePipe,
     RealPipe,
-    LocalServicoComponent
+    LocalServicoComponent,
+    TipoServicoComponent,
+    UnidadeMedidaComponent
   ],
   imports: [
     BrowserModule,
