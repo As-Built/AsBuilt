@@ -83,3 +83,11 @@ select {
 .botoes-parametros {
     margin-left: 15px;
 }
+
+.botoes-parametros.add {
+    color: green;
+}
+
+.botoes-parametros.remove {
+    color: red;
+}

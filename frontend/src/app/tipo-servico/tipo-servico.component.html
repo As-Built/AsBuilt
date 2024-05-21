@@ -27,24 +27,13 @@
                 <form (ngSubmit)="cadastrarTipoDeServico()" #form="ngForm"
                     style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between;">
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-6">
                             <label for="taskTypeName">Nome do tipo de serviço *</label>
                             <input type="text" name="taskTypeName" id="taskTypeName" required
                                 matTooltip="Nome do tipo de serviço" matTooltipShowDelay="1500"
                                 [(ngModel)]="cadastroTipoDeServico.taskTypeName" placeholder="Ex: Alvenaria">
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <label for="taskTypeDescription">Descrição</label>
-                            <input type="text" name="taskTypeDescription" id="taskTypeDescription"
-                                matTooltip="Descrição do tipo de serviço" matTooltipShowDelay="1500"
-                                [(ngModel)]="cadastroTipoDeServico.taskTypeDescription" required
-                                placeholder="Ex: Parede de tijolos de cerâmica">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
+                        <div class="col-6">
                             <label for="unitMeasurement">Unidade de Medida</label>
                             <select style="height: 40px" name="unitMeasurement" id="unitMeasurement" required
                                 matTooltip="Unidade de Medida" matTooltipShowDelay="1500"
@@ -54,6 +43,15 @@
                                     [ngValue]="unitMeasurement">
                                     {{unitMeasurement.description}}</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="taskTypeDescription">Descrição</label>
+                            <input type="text" name="taskTypeDescription" id="taskTypeDescription"
+                                matTooltip="Descrição do tipo de serviço" matTooltipShowDelay="1500"
+                                [(ngModel)]="cadastroTipoDeServico.taskTypeDescription" required
+                                placeholder="Ex: Parede de tijolos de cerâmica">
                         </div>
                     </div>
                     <div class="row">
@@ -72,15 +70,13 @@
                         </div>
                       </div>
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-6">
                             <label for="param1">1º Parâmetro de avaliação</label>
                             <input type="text" name="param1" id="param1" matTooltip="1º Parâmetro de avaliação"
                                 matTooltipShowDelay="1500" [(ngModel)]="cadastroTipoDeServico.parameter0Name"
                                 placeholder="Ex: Prumo" required>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
+                        <div class="col-6">
                             <label for="param2">2º Parâmetro de avaliação</label>
                             <input type="text" name="param2" id="param2" matTooltip="2º Parâmetro de avaliação"
                                 matTooltipShowDelay="1500" [(ngModel)]="cadastroTipoDeServico.parameter1Name"
@@ -88,15 +84,13 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-6">
                             <label for="param3">3º Parâmetro de avaliação</label>
                             <input type="text" name="param3" id="param3" matTooltip="3º Parâmetro de avaliação"
                                 matTooltipShowDelay="1500" [(ngModel)]="cadastroTipoDeServico.parameter2Name"
                                 placeholder="Ex: Esquadro" required>
                         </div>
-                    </div>
-                    <div class="row" *ngFor="let parameter of additionalParameters; index as i">
-                        <div class="col-12">
+                        <div class="col-6" *ngFor="let parameter of additionalParameters; index as i">
                             <label [for]="'parameter' + parameter + 'Name'">{{parameter + 1}}º Parâmetro de
                                 avaliação</label>
                             <input type="text" [name]="'parameter' + parameter + 'Name'"
@@ -109,11 +103,11 @@
 
                     <div class="row">
                         <div class="col-2">
-                          <mat-icon *ngIf="additionalParameters.length <= 6" class="botoes-parametros" matTooltip="Adicionar Parâmetro"
+                          <mat-icon *ngIf="additionalParameters.length <= 6" class="botoes-parametros add" matTooltip="Adicionar Parâmetro"
                             matTooltipShowDelay="500" (click)="addParameter()" style="cursor: pointer;">
                             add_circle
                           </mat-icon>
-                          <mat-icon *ngIf="additionalParameters.length > 0" class="botoes-parametros" matTooltip="Remover Parâmetro"
+                          <mat-icon *ngIf="additionalParameters.length > 0" class="botoes-parametros remove" matTooltip="Remover Parâmetro"
                             matTooltipShowDelay="500" (click)="removeParameter()" style="cursor: pointer;">
                             remove_circle
                           </mat-icon>
