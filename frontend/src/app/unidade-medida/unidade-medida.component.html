@@ -1,1 +1,71 @@
-<p>unidade-medida works!</p>
+<div class="corpo">
+    <div class="container conteudo">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" [ngClass]="{'active': isCadastro}" id="cadastro-tab" data-toggle="tab"
+                    (click)="mudarAba()">Cadastro</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [ngClass]="{'active': !isCadastro}" id="consulta-tab" data-toggle="tab"
+                    (click)="mudarAba()">Consulta</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div *ngIf="isCadastro" class="tab-pane fade" [ngClass]="{'show active': isCadastro}" id="cadastro">
+                <div class="row centralizar-conteudo">
+                    <div class="col-12 titulo">
+                        <h2>Cadastro de Unidades de Medida</h2>
+                    </div>
+                </div>
+                <form (ngSubmit)="cadastrarUnidadeDeMedida()" #form="ngForm"
+                    style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between;">
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="siglaUnidadeMedida">Sigla da Unidade de Medida *</label>
+                            <input type="text" name="siglaUnidadeMedida" id="siglaUnidadeMedida" required
+                                matTooltip="Sigla da Unidade de Medida" matTooltipShowDelay="1500"
+                                [(ngModel)]="cadastroUnidadeDeMedida.name" placeholder="un">
+                        </div>
+                        <div class="col-6">
+                            <label for="descricaoUnidadeMedida">Descrição da Unidade de Medida *</label>
+                            <input type="text" name="descricaoUnidadeMedida" id="descricaoUnidadeMedida" required
+                                matTooltip="Descrição da Unidade de Medida" matTooltipShowDelay="1500"
+                                [(ngModel)]="cadastroUnidadeDeMedida.description" placeholder="Descrição sucinta">
+                        </div>
+                    </div>
+                    <div class="row centralizar-conteudo">
+                        <div class="col-6 centralizar-conteudo">
+                            <button class="btn-confirm" type="submit">Cadastrar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div *ngIf="!isCadastro" [ngClass]="{'show active': !isCadastro}" class="tab-pane fade" id="consulta">
+                <div class="row centralizar-conteudo">
+                    <div class="col-12 titulo">
+                        <h2>Unidades de Medida Cadastradas</h2>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <table mat-table [dataSource]="listaUnidadeDeMedida" class="mat-elevation-z8">
+
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef>Sigla</th>
+                                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="description">
+                                    <th mat-header-cell *matHeaderCellDef>Descrição</th>
+                                    <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
