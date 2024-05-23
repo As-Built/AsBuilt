@@ -109,7 +109,6 @@ class LocationService(
         }
     }
 
-
     companion object {
         private val log = LoggerFactory.getLogger(LocationService::class.java)
     }

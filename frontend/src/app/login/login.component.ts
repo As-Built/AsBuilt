@@ -81,7 +81,7 @@ export class LoginComponent implements OnInit {
         const authority = payload.user.roles[0];
   
         if (authority === "ADMIN" || authority === "CONFERENTE") {
-          this.router.navigate(['cadastroServico']);
+          this.router.navigate(['servico']);
         } else if (authority === "FUNCIONARIO") {
           //TODO: CRIAR ROTA PARA DASHBOARD DO USUÁRIO
           this.router.navigate(['home']);

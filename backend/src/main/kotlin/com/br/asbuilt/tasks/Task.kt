@@ -53,7 +53,9 @@ class Task(
     var taskLocation: Location,
 
     @Column(nullable = false)
-    var startDate: Date,
+    var expectedStartDate: Date,
+
+    var startDate: Date?,
 
     @Column(nullable = false)
     var expectedEndDate: Date,

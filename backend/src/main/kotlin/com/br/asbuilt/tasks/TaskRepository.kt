@@ -1,6 +1,5 @@
 package com.br.asbuilt.tasks
 
-import com.br.asbuilt.costCenters.CostCenter
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
@@ -25,4 +24,18 @@ interface TaskRepository : JpaRepository <Task, Long> {
 
     @Query("SELECT t FROM Task t WHERE t.taskType.id = :taskTypeId")
     fun findTasksByTaskTypeId(taskTypeId: Long): List<Task>
+
+    @Query("SELECT t FROM Task t " +
+            "WHERE t.costCenter.id = :costCenterId " +
+            "AND t.taskType.id = :taskTypeId " +
+            "AND t.taskLocation.locationGroup = :locationGroup " +
+            "AND (:subGroup1 IS NULL OR t.taskLocation.subGroup1 = :subGroup1) " +
+            "AND (:subGroup2 IS NULL OR t.taskLocation.subGroup2 = :subGroup2) " +
+            "AND (:subGroup3 IS NULL OR t.taskLocation.subGroup3 = :subGroup3)")
+    fun existsTask(@Param("costCenterId") costCenterId: Long,
+                   @Param("taskTypeId") taskTypeId: Long,
+                       @Param("locationGroup") locationGroup: String,
+                       @Param("subGroup1") subGroup1: String?,
+                       @Param("subGroup2") subGroup2: String?,
+                       @Param("subGroup3") subGroup3: String?): Task?
 }

@@ -8,7 +8,6 @@ import { UsuarioComponent } from './usuario/usuario.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CadastroUsuarioComponent } from './cadastro-usuario/cadastro-usuario.component';
-import { CadastroServicoComponent } from './cadastro-servico/cadastro-servico.component';
 import { CentroCustoComponent } from './centro-custo/centro-custo.component';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
@@ -32,6 +31,7 @@ import { CurrencyPipe } from '@angular/common';
 import { LocalServicoComponent } from './local-servico/local-servico.component';
 import { TipoServicoComponent } from './tipo-servico/tipo-servico.component';
 import { UnidadeMedidaComponent } from './unidade-medida/unidade-medida.component';
+import { ServicoComponent } from './servico/servico.component';
 
 
 @NgModule({
@@ -41,7 +41,7 @@ import { UnidadeMedidaComponent } from './unidade-medida/unidade-medida.componen
     LoginComponent,
     UsuarioComponent,
     CadastroUsuarioComponent,
-    CadastroServicoComponent,
+    ServicoComponent,
     CentroCustoComponent,
     SidebarComponent,
     ImageSliderComponent,

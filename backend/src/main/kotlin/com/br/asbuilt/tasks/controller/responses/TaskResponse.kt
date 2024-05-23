@@ -1,7 +1,7 @@
 package com.br.asbuilt.tasks.controller.responses
 
-import com.br.asbuilt.costCenters.controller.responses.CostCenterResponse
-import com.br.asbuilt.locations.controller.responses.LocationResponse
+import com.br.asbuilt.costCenters.CostCenter
+import com.br.asbuilt.locations.Location
 import com.br.asbuilt.taskTypes.TaskType
 import com.br.asbuilt.tasks.Task
 import com.br.asbuilt.unitMeasurement.UnitMeasurement
@@ -14,9 +14,10 @@ data class TaskResponse(
     val unitaryValue: Double,
     val dimension: Double,
     val unitMeasurement: UnitMeasurement,
-    val costCenter: CostCenterResponse,
-    val taskLocation: LocationResponse,
-    val startDate: Date,
+    val costCenter: CostCenter,
+    val taskLocation: Location,
+    val expectedStartDate: Date,
+    val startDate: Date?,
     val expectedEndDate: Date,
     val finalDate: Date?,
     val amount: Double,
@@ -30,8 +31,9 @@ data class TaskResponse(
         task.unitaryValue,
         task.dimension,
         task.unitMeasurement,
-        CostCenterResponse(task.costCenter),
-        LocationResponse(task.taskLocation),
+        task.costCenter,
+        task.taskLocation,
+        task.expectedStartDate,
         task.startDate,
         task.expectedEndDate,
         task.finalDate,

@@ -2,8 +2,11 @@ package com.br.asbuilt.tasks
 
 import com.br.asbuilt.SortDir
 import com.br.asbuilt.costCenters.CostCenterRepository
+import com.br.asbuilt.exception.BadRequestException
 import com.br.asbuilt.exception.ForbiddenException
 import com.br.asbuilt.exception.NotFoundException
+import com.br.asbuilt.locations.LocationService
+import com.br.asbuilt.locations.LocationService.Companion
 import com.br.asbuilt.users.UserRepository
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Sort
@@ -19,95 +22,60 @@ class TaskService (
 ) {
 
     fun insert(task: Task): Task {
-        val centroDeCustoId = task.costCenter?.id
+        val existingTask = repository.existsTask(
+            task.costCenter.id!!,
+            task.taskType.id!!,
+            task.taskLocation.locationGroup,
+            task.taskLocation.subGroup1,
+            task.taskLocation.subGroup2,
+            task.taskLocation.subGroup3
+        )
+
+        if (existingTask != null) {
+            throw BadRequestException("Task already exists")
+        }
+
+        val centroDeCustoId = task.costCenter.id
 
         val centroDeCusto = centroDeCustoId?.let {
             costCenterRepository.findById(it)
                 .orElseThrow { NotFoundException("Cost center not found with ID: $centroDeCustoId") }
         }
 
-//        val executor =  task.executor.mapNotNull { it.id?.let { it1 -> userRepository.findByIdOrNull(it1) } }
-//        val conferente =  task.conferente.mapNotNull { it.id?.let { it1 -> userRepository.findByIdOrNull(it1) } }
-
         if (centroDeCusto == null) {
             throw NotFoundException("Cost center not found!")
         }
 
-//        if (executor.isEmpty()) {
-//            throw NotFoundException("Executor not found!")
-//        }
-//        if (conferente.isEmpty()) {
-//            throw NotFoundException("Conferente not found!")
-//        }
-
-//        val nonAdminConferentes = conferente.filter { !it.isAdmin }
-//
-//        if (nonAdminConferentes.isNotEmpty()) {
-//            val usernames = nonAdminConferentes.joinToString { it.name }
-//            throw ForbiddenException("The following 'Conferente' users do not have Administrator permission: $usernames")
-//        }
-
         task.costCenter = centroDeCusto
-//        task.executor = executor.toMutableSet()
-//        task.conferente = conferente.toMutableSet()
 
         return repository.save(task)
             .also{ log.info("Task inserted: {}", it.id) }
     }
 
-    fun findByIdOrNull(id: Long) = repository.findById(id).getOrNull()
-
-    fun update(id: Long, request: Task): Task? {
-        val centroDeCustoId = request.costCenter?.id
-
-        val centroDeCusto = centroDeCustoId?.let {
-            costCenterRepository.findById(it)
-                .orElseThrow { NotFoundException("Centro de Custo not found with ID: $centroDeCustoId") }
+    fun updateTask(request: Task): Task? {
+        val existingTask = request.id!!.let {
+            repository.findById(it)
+                .orElseThrow { NotFoundException("Task not found!") }
+                .also { log.info("Task not found with id: ${request.id}") }
         }
 
-        val executor =  request.executor.mapNotNull { it.id?.let { it1 -> userRepository.findByIdOrNull(it1) } }
-        val conferente =  request.conferente.mapNotNull { it.id?.let { it1 -> userRepository.findByIdOrNull(it1) } }
-
-        if (centroDeCusto == null) {
-            throw NotFoundException("Cost center not found!")
+        if (existingTask != request) {
+                return repository.save(request)
+                    .also { log.info("Task updated: {}", it.id) }
+        } else {
+            throw BadRequestException("No changes detected! Task not updated!")
+                .also { log.info("Task not updated (nothing changed): {}", request.id) }
         }
-
-        if (executor.isEmpty()) {
-            throw NotFoundException("Executor not found!")
-        }
-        if (conferente.isEmpty()) {
-            throw NotFoundException("Conferente not found!")
-        }
-
-        val nonAdminConferentes = conferente.filter { !it.isAdmin }
-
-        if (nonAdminConferentes.isNotEmpty()) {
-            val usernames = nonAdminConferentes.joinToString { it.name }
-            throw ForbiddenException("The following 'Conferente' users do not have Administrator permission: $usernames")
-        }
-
-        var taskAntiga = findByIdOrNull(id)
-        if (taskAntiga == request) return null
-
-        request.costCenter = centroDeCusto
-        request.executor = executor.toMutableSet()
-        request.conferente = conferente.toMutableSet()
-
-        return repository.save(request)
-            .also{ log.info("Task updated: {}", it.id) }
     }
 
     fun findAll(dir: SortDir = SortDir.ASC): List<Task> = when (dir) {
-        SortDir.ASC -> repository.findAll(Sort.by("dataInicio").ascending())
-        SortDir.DESC -> repository.findAll(Sort.by("dataInicio").descending())
+        SortDir.ASC -> repository.findAll(Sort.by("expectedStartDate").ascending())
+        SortDir.DESC -> repository.findAll(Sort.by("expectedStartDate").descending())
     }
 
     fun delete(idTask: Long): Boolean {
         val task = repository.findByIdOrNull(idTask) ?: return false
-        //Não consegui fazer isso funcionar!!!
-        //Remove o valor total do serviço no centro de custo antes de deletar a task
-//        costCenterRepository.decreaseValueUndertaken(task.centroDeCusto!!.id!!, task.valorTotal)
-
+        // TODO: Implementar condição que verifica se existem avaliações relacionadas ao serviço
         repository.delete(task)
         log.info("Task deleted: {}", task.id)
         return true

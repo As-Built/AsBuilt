@@ -29,7 +29,9 @@ data class CreateTaskRequest(
     val taskLocation: Location,
 
     @field:NotNull
-    val startDate: Date,
+    val expectedStartDate: Date,
+
+    val startDate: Date?,
 
     @field:NotNull
     val expectedEndDate: Date,
@@ -50,6 +52,7 @@ data class CreateTaskRequest(
         dimension = dimension,
         unitMeasurement = unitMeasurement,
         taskLocation = taskLocation,
+        expectedStartDate = expectedStartDate,
         startDate = startDate,
         expectedEndDate = expectedEndDate,
         finalDate = finalDate,
