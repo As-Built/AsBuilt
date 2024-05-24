@@ -159,7 +159,9 @@ export class LocalServicoComponent implements OnInit {
   }
 
   cadastrarLocalServico() {
-    this.validarCampos(this.cadastroLocalServico);
+    if (!this.validarCampos(this.cadastroLocalServico)){
+      return;
+    };
     this.localServicoService.cadastrarLocal(this.cadastroLocalServico).pipe(
       tap(retorno => {
         Swal.fire({
@@ -193,7 +195,9 @@ export class LocalServicoComponent implements OnInit {
   }
 
   atualizarLocalServico(local: LocalServicoModel) {
-    this.validarCampos(local);
+    if (!this.validarCampos(local)) {
+      return;
+    }
     this.localServicoService.atualizarLocal(local).pipe(
       tap(retorno => {
         Swal.fire({
@@ -234,6 +238,7 @@ export class LocalServicoComponent implements OnInit {
       });
       return;
     }
+    return true;
   }
 
   modalEditarLocalServico(local: LocalServicoModel) {

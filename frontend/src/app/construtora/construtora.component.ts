@@ -155,7 +155,9 @@ export class ConstrutoraComponent implements OnInit {
   }
 
   atualizarDadosConstrutora(construtora: ConstrutoraModel) {
-    this.validarCampos(construtora);
+    if (!this.validarCampos(construtora)) {
+      return;
+    };
     this.construtoraService.atualizarDadosConstrutora(construtora).pipe(
       tap(retorno => {
         Swal.fire({

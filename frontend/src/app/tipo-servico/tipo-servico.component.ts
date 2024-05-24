@@ -76,7 +76,9 @@ export class TipoServicoComponent implements OnInit {
   }
 
   cadastrarTipoDeServico() {
-    this.validarCampos(this.cadastroTipoDeServico);
+    if (!this.validarCampos(this.cadastroTipoDeServico)) {
+      return;
+    };
     this.tipoDeServicoService.cadastrarTipoDeServico(this.cadastroTipoDeServico).pipe(
       tap(retorno => {
         Swal.fire({
@@ -111,7 +113,9 @@ export class TipoServicoComponent implements OnInit {
   }
 
   atualizarTipoDeServico(tipoServico: TipoServicoModel) {
-    this.validarCampos(tipoServico);
+    if (!this.validarCampos(tipoServico)) {
+      return;
+    };
     this.tipoDeServicoService.atualizarTipoDeServico(tipoServico).pipe(
       tap(retorno => {
         Swal.fire({
@@ -192,6 +196,7 @@ export class TipoServicoComponent implements OnInit {
       });
       return;
     }
+    return true;
   }
 
   visualizarDetalhes(tipoDeServico: TipoServicoModel) {

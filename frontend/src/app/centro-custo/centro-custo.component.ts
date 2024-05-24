@@ -80,7 +80,9 @@ export class CentroCustoComponent implements OnInit {
   }
 
   cadastrarCentroDeCusto() {
-    this.validarCampos(this.cadastroCentroCusto);
+    if (!this.validarCampos(this.cadastroCentroCusto)) {
+      return;
+    };
     this.centroCustoService.cadastrarCentroDeCusto(this.cadastroCentroCusto).pipe(
       tap(retorno => {
         Swal.fire({
@@ -113,7 +115,8 @@ export class CentroCustoComponent implements OnInit {
   }
 
   atualizarDadosCentroDeCusto(centro: CentroCustoModel) {
-    this.validarCampos(centro);
+    if (!this.validarCampos(centro)) {
+      return;    };
     this.centroCustoService.atualizarDadosCentroDeCusto(centro).pipe(
       tap(retorno => {
         Swal.fire({
@@ -197,6 +200,7 @@ export class CentroCustoComponent implements OnInit {
       });
       return;
     }
+    return true;
   }
 
   visualizarDetalhes(centro: CentroCustoModel) {
