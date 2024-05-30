@@ -119,7 +119,9 @@ export class ConstrutoraComponent implements OnInit {
 }
 
   cadastrarConstrutora() {
-    this.validarCampos(this.cadastroConstrutora);
+    if (!this.validarCampos(this.cadastroConstrutora)) {
+      return;
+    }
     this.construtoraService.cadastrarConstrutora(this.cadastroConstrutora).pipe(
       tap(retorno => {
         Swal.fire({
@@ -131,8 +133,18 @@ export class ConstrutoraComponent implements OnInit {
         this.cadastroConstrutora = new ConstrutoraModel();
       }),
       catchError(error => {
+        let msgErro = error.error;
+
+        if (error.error === "A Builder with the same CNPJ already exists") {
+          msgErro = "Já existe uma construtora com o mesmo CNPJ cadastrado!";
+        }
+
+        if (error.error === "A Builder with the same name already exists") {
+          msgErro = "Já existe uma construtora com o mesmo nome cadastrado!";
+        }
+
         Swal.fire({
-          text: error.error,
+          text: msgErro,
           icon: "error",
           showConfirmButton: false,
           timer: 2000
@@ -143,7 +155,9 @@ export class ConstrutoraComponent implements OnInit {
   }
 
   atualizarDadosConstrutora(construtora: ConstrutoraModel) {
-    this.validarCampos(construtora);
+    if (!this.validarCampos(construtora)) {
+      return;
+    };
     this.construtoraService.atualizarDadosConstrutora(construtora).pipe(
       tap(retorno => {
         Swal.fire({
@@ -167,7 +181,8 @@ export class ConstrutoraComponent implements OnInit {
   }
 
   validarCampos(construtora: ConstrutoraModel) {
-    if (this.validaCNPJ(construtora.cnpj) === false) {
+    let teste = this.validaCNPJ(construtora.cnpj);
+    if (!this.validaCNPJ(construtora.cnpj)) {
       Swal.fire({
         text: "CNPJ inválido!",
         icon: "warning",
@@ -226,6 +241,18 @@ export class ConstrutoraComponent implements OnInit {
       });
       return;
     }
+
+    if (construtora.phone === null || construtora.phone.trim() === ""
+      || construtora.phone === undefined) {
+      Swal.fire({
+        text: "O campo 'Telefone' é obrigatório!",
+        icon: "warning",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return;
+    }
+    return true;
   }
 
   visualizarDetalhes(construtora: ConstrutoraModel) {

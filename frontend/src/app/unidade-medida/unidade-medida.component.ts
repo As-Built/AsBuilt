@@ -47,7 +47,9 @@ export class UnidadeMedidaComponent implements OnInit {
   }
 
   cadastrarUnidadeDeMedida() {
-    this.validarCampos(this.cadastroUnidadeDeMedida);
+    if (!this.validarCampos(this.cadastroUnidadeDeMedida)) {
+      return;
+    };
     this.unidadeDeMedidaService.cadastrarUnidadesDeMedida(this.cadastroUnidadeDeMedida).pipe(
       tap(retorno => {
         Swal.fire({
@@ -94,6 +96,7 @@ export class UnidadeMedidaComponent implements OnInit {
       });
       return;
     }
+    return true;
   }
 
 }
