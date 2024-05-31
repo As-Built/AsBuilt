@@ -131,6 +131,10 @@ class CostCenterService(
         return repository.findCostCenterByName(costCenterName) ?: throw NotFoundException("Cost Center not found: $costCenterName")
     }
 
+    fun findCostCentersByBuilderId(builderId: Long): List<CostCenter> {
+        return repository.findCostCentersByBuilderId(builderId)
+    }
+
     fun delete(id: Long): Boolean {
         val costCenter = id.let {
             repository.findById(it)

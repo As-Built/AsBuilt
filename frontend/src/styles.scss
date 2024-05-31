@@ -168,5 +168,23 @@ button{
 	background: $button-confirm-hover;
 }
 
+.btn-cancel {
+	background-color: $button-cancel;
+}
+
+.btn-cancel:hover{
+	background: $button-cancel-hover;
+}
+
+.btn-warning {
+	background-color: $button-warning;
+}
+
+.btn-warning:hover{
+	background: $button-warning-hover;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

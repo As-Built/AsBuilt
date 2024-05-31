@@ -3,22 +3,18 @@ package com.br.asbuilt.tasks
 import com.br.asbuilt.SortDir
 import com.br.asbuilt.costCenters.CostCenterRepository
 import com.br.asbuilt.exception.BadRequestException
-import com.br.asbuilt.exception.ForbiddenException
 import com.br.asbuilt.exception.NotFoundException
-import com.br.asbuilt.locations.LocationService
-import com.br.asbuilt.locations.LocationService.Companion
-import com.br.asbuilt.users.UserRepository
+import com.br.asbuilt.locations.LocationRepository
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
-import kotlin.jvm.optionals.getOrNull
 
 @Service
 class TaskService (
     val repository: TaskRepository,
-    val userRepository: UserRepository,
-    val costCenterRepository: CostCenterRepository
+    val costCenterRepository: CostCenterRepository,
+    val locationRepository: LocationRepository
 ) {
 
     fun insert(task: Task): Task {
@@ -47,6 +43,9 @@ class TaskService (
         }
 
         task.costCenter = centroDeCusto
+
+        val location = locationRepository.save(task.taskLocation)
+        task.taskLocation = location
 
         return repository.save(task)
             .also{ log.info("Task inserted: {}", it.id) }

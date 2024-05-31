@@ -10,6 +10,8 @@ import { LocalServicoModel } from '../local-servico/model/local-servico.model';
 import { LocalServicoService } from '../local-servico/service/local-servico.service';
 import { TiposServicoService } from '../tipo-servico/service/tipos-servico.service';
 import { TipoServicoModel } from '../tipo-servico/model/tipo-servico.model';
+import { ConstrutoraService } from '../construtora/service/construtora.service';
+import { ConstrutoraModel } from '../construtora/model/construtora.model';
 
 
 @Component({
@@ -24,9 +26,15 @@ export class ServicoComponent implements OnInit {
 
   servicoModel = new ServicoModel();
   cadastroServico = new ServicoModel();
+  construtora: ConstrutoraModel | null = null;
+  centroCusto: CentroCustoModel | null = null;
   listaServicos: ServicoModel[] = [];
+  listaConstrutoras: ConstrutoraModel[] = [];
   listaCentrosDeCusto: CentroCustoModel[] = [];
   listaLocais: LocalServicoModel[] = [];
+  listaSubGroup1: string[] = [];
+  listaSubGroup2: string[] = [];
+  listaSubGroup3: string[] = [];
   listaTiposServico: TipoServicoModel[] = [];
   displayedColumns: string[] = ["acoes", "costCenter", "locationGroup", 'subGroup1', 'subGroup2', 'subGroup3'];
   renderModalVisualizar = false;
@@ -35,15 +43,10 @@ export class ServicoComponent implements OnInit {
   filtroSelecionado: string | null = null;
   listaServicosFiltrada: ServicoModel[] = [];
   listaCentrosDeCustoFiltrada: CentroCustoModel[] = [];
-  // filtroLocationGroup: string | null = null;
-  // listaLocationGroup: string[] = [];
-  // filtroSubGroup1: string | null = null;
-  // filtroSubGroup2: string | null = null;
-  // listaSubGroup1: string[] = [];
-  // listaSubGroup2: string[] = [];
 
   constructor(
     private servicoService: ServicoService,
+    private construtoraService: ConstrutoraService,
     private centroCustoService: CentroCustoService,
     private localService: LocalServicoService,
     private tiposServicoService: TiposServicoService
@@ -51,126 +54,69 @@ export class ServicoComponent implements OnInit {
 
   ngOnInit(): void {
     this.buscarServicos();
-    this.buscarCentrosDeCusto();
-    this.buscarLocais();
+    this.buscarConstrutoras();
     this.buscarTiposServico();
-    // this.filtrarDados();
+    this.cadastroServico.taskLocation = {
+      locationGroup: '',
+      subGroup1: '',
+      subGroup2: '',
+      subGroup3: '',
+      costCenter: {} as CentroCustoModel
+    };
   }
 
-  onFiltroChange(event: Event) {
-    const novoFiltro = (event.target as HTMLSelectElement).value;
-    if (novoFiltro === 'Todos') {
-      this.filtroSelecionado = null;
-    } else {
-      this.filtroSelecionado = novoFiltro;
+  compareFnConstrutora(c1: ConstrutoraModel, c2: ConstrutoraModel): boolean {
+    return c1 && c2 ? c1.id === c2.id : c1 === c2;
+  }
+
+  compareFnCentroCusto(c1: CentroCustoModel, c2: CentroCustoModel): boolean {
+    return c1 && c2 ? c1.id === c2.id : c1 === c2;
+  }
+
+  setCostCenter(value: CentroCustoModel | null) {
+    if (value !== null && value.id !== undefined) {
+      this.cadastroServico.costCenter = value;
+      this.buscarLocaisPorCentroDeCusto(value.id);
     }
-    // this.filtroLocationGroup = null;
-    // this.filtroSubGroup1 = null;
-    // this.filtroSubGroup2 = null;
-    // this.filtrarDados();
   }
-
-  // onFiltroLocationGroupChange(event: Event) {
-  //   const novoFiltro = (event.target as HTMLSelectElement).value;
-  //   if (novoFiltro === 'Todos') {
-  //     this.filtroLocationGroup = null;
-  //   } else {
-  //     this.filtroLocationGroup = novoFiltro;
-  //   }
-  //   this.filtroSubGroup1 = null;
-  //   this.filtroSubGroup2 = null;
-  //   this.filtrarDados();
-  // }
-
-  // onFiltroSubGroup1Change(event: Event) {
-  //   const novoFiltro = (event.target as HTMLSelectElement).value;
-  //   if (novoFiltro === 'Todos') {
-  //     this.filtroSubGroup1 = null;
-  //   } else {
-  //     this.filtroSubGroup1 = novoFiltro;
-  //   }
-  //   this.filtroSubGroup2 = null;
-  //   this.filtrarDados();
-  // }
-
-  // onFiltroSubGroup2Change(event: Event) {
-  //   const novoFiltro = (event.target as HTMLSelectElement).value;
-  //   if (novoFiltro === 'Todos') {
-  //     this.filtroSubGroup2 = null;
-  //   } else {
-  //     this.filtroSubGroup2 = novoFiltro;
-  //   }
-  //   this.filtrarDados();
-  // }
-
-  // filtrarDados() {
-  //   const costCenters = this.listaServicos.map(item => item.costCenter);
-  //   this.listaCentrosDeCustoFiltrada = Array.from(new Set(costCenters.map(cc => cc.costCenterName)))
-  //     .map(name => {
-  //       return costCenters.find(cc => cc.costCenterName === name)
-  //     })
-  //     .filter((cc): cc is CentroCustoModel => Boolean(cc));
-
-  //   if (this.filtroSelecionado) {
-  //     this.listaServicosFiltrada = this.listaServicos.filter(localServico => 
-  //       localServico.costCenter.costCenterName === this.filtroSelecionado
-  //     );
-  //   } else {
-  //     this.listaServicosFiltrada = [...this.listaServicos];
-  //   }
-
-  //   this.listaLocationGroup = Array.from(new Set(this.listaServicosFiltrada.map(ls => ls.locationGroup)));
-
-  //   if (this.filtroLocationGroup) {
-  //     this.listaServicosFiltrada = this.listaServicosFiltrada.filter(localServico => 
-  //       localServico.locationGroup === this.filtroLocationGroup
-  //     );
-  //   }
-  //   this.listaSubGroup1 = Array.from(new Set(this.listaServicosFiltrada.map(ls => ls.subGroup1).filter((sg): sg is string => sg !== undefined)));
-  //   this.listaSubGroup2 = Array.from(new Set(this.listaServicosFiltrada.map(ls => ls.subGroup2).filter((sg): sg is string => sg !== undefined)));
-
-  //   if (this.filtroSubGroup1) {
-  //     this.listaServicosFiltrada = this.listaServicosFiltrada.filter(localServico => 
-  //       localServico.subGroup1 === this.filtroSubGroup1
-  //     );
-  //   }
-
-  //   if (this.filtroSubGroup2) {
-  //     this.listaServicosFiltrada = this.listaServicosFiltrada.filter(localServico => 
-  //       localServico.subGroup2 === this.filtroSubGroup2
-  //     );
-  //   }
-  // }
 
 
   async buscarServicos() {
     try {
       const servicos: any = await firstValueFrom(this.servicoService.listarServicos());
       this.listaServicos = servicos;
-      // this.filtrarDados();
     } catch (error) {
       console.error(error);
     }
   }
 
-  async buscarLocais() {
+  async buscarConstrutoras() {
     try {
-      const locais: any = await firstValueFrom(this.localService.listarLocais());
-      this.listaLocais = locais;
-      // this.filtrarDados();
+      const construtoras: any = await firstValueFrom(this.construtoraService.listarConstrutoras());
+      this.listaConstrutoras = construtoras;
     } catch (error) {
       console.error(error);
     }
   }
 
-  async buscarCentrosDeCusto() {
+  async buscarCentrosDeCustoPorConstrutora(id: number) {
     try {
-      const centros: any = await firstValueFrom(this.centroCustoService.listarCentrosDeCusto());
+      const centros: any = await firstValueFrom(this.centroCustoService.listarCentrosDeCustoPorConstrutora(id));
       this.listaCentrosDeCusto = centros;
     } catch (error) {
       console.error(error);
     }
   }
+
+  async buscarLocaisPorCentroDeCusto(id: number) {
+    try {
+      const locais: any = await firstValueFrom(this.localService.listarLocaisPorCentroDeCusto(id));
+      this.listaLocais = locais;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
 
   async buscarTiposServico() {
     try {
@@ -181,10 +127,44 @@ export class ServicoComponent implements OnInit {
     }
   }
 
+  filtrarNivel2(nivel1: string | undefined) {
+    if (nivel1 !== undefined) {
+      // Filtrar dados do nível 2 baseado na seleção do nível 1
+      this.listaSubGroup1 = this.listaLocais
+        .filter(local => local.locationGroup === nivel1)
+        .map(local => local.subGroup1)
+        .filter((subGroup): subGroup is string => subGroup !== undefined)
+        .filter((value, index, self) => self.indexOf(value) === index); // Remove duplicatas
+    }
+  }
+
+  filtrarNivel3(nivel1: string | undefined, nivel2: string | undefined) {
+    if (nivel1 !== undefined && nivel2 !== undefined) {
+      // Filtrar dados do nível 3 baseado na seleção do nível 1 e 2
+      this.listaSubGroup2 = this.listaLocais
+        .filter(local => local.locationGroup === nivel1 && local.subGroup1 === nivel2)
+        .map(local => local.subGroup2)
+        .filter((subGroup): subGroup is string => subGroup !== undefined)
+        .filter((value, index, self) => self.indexOf(value) === index); // Remove duplicatas
+    }
+  }
+
+  filtrarNivel4(nivel1: string | undefined, nivel2: string | undefined, nivel3: string | undefined) {
+    if (nivel1 !== undefined && nivel2 !== undefined && nivel3 !== undefined) {
+      // Filtrar dados do nível 4 baseado na seleção do nível 1, 2 e 3
+      this.listaSubGroup3 = this.listaLocais
+        .filter(local => local.locationGroup === nivel1 && local.subGroup1 === nivel2 &&
+          local.subGroup2 === nivel3).map(local => local.subGroup3)
+        .filter((subGroup): subGroup is string => subGroup !== undefined)
+        .filter((value, index, self) => self.indexOf(value) === index); // Remove duplicatas
+    }
+  }
+
+
   getLocationGroups() {
     const locationGroups = this.listaLocais.map(location => location.locationGroup);
     return locationGroups.filter((location, index) => locationGroups.indexOf(location) === index);
-}
+  }
 
   getSubGroup1Locations() {
     if (!this.cadastroServico.taskLocation.locationGroup) {
@@ -240,8 +220,19 @@ export class ServicoComponent implements OnInit {
     this.cadastroServico = new ServicoModel();
   }
 
+  parseValue(inputValue: string): number {
+    let numberValue = inputValue.replace('R$ ', '').replace(/\./g, '').replace(',', '.');
+    return parseFloat(numberValue);
+  }
+  
+  calcularValorTotal() {
+    this.cadastroServico.amount = this.cadastroServico.dimension * this.cadastroServico.unitaryValue;
+  }
+
   cadastrarServico() {
-    this.validarCampos(this.cadastroServico);
+    // this.validarCampos(this.cadastroServico);
+    this.cadastroServico.taskLocation.costCenter = this.cadastroServico.costCenter;
+    this.cadastroServico.unitMeasurement = this.cadastroServico.taskType.unitMeasurement;
     this.servicoService.cadastrarServico(this.cadastroServico).pipe(
       tap(retorno => {
         Swal.fire({

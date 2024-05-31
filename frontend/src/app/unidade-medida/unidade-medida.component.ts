@@ -20,7 +20,7 @@ export class UnidadeMedidaComponent implements OnInit {
   displayedColumns: string[] = ["name", 'description'];
   renderModalVisualizar = false;
   indDesabilitaCampos = true;
-  isCadastro = true;
+  isCadastroUnidade = true;
 
   constructor(
     private unidadeDeMedidaService: UnidadeMedidaService
@@ -42,7 +42,7 @@ export class UnidadeMedidaComponent implements OnInit {
 
   mudarAba() {
     this.buscarUnidadesDeMedida();
-    this.isCadastro = !this.isCadastro;
+    this.isCadastroUnidade = !this.isCadastroUnidade;
     this.cadastroUnidadeDeMedida = new UnidadeMedidaModel();
   }
 

@@ -30,4 +30,7 @@ interface LocationRepository : JpaRepository<Location, Long> {
                          @Param("subGroup1") subGroup1: String?,
                          @Param("subGroup2") subGroup2: String?,
                          @Param("subGroup3") subGroup3: String?): Location?
+
+    @Query("SELECT l FROM Location l WHERE l.costCenter.id = :costCenterId")
+    fun findLocationByCostCenterId(costCenterId: Long): List<Location>
 }

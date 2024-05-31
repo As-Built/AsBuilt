@@ -23,6 +23,10 @@ export class CentroCustoService {
     return this.httpClient.get<CentroCustoModel[]>('http://localhost:8080/asbuilt/costCenter', this.httpOptions);
   }
 
+  listarCentrosDeCustoPorConstrutora(id: number): Observable<CentroCustoModel[]> {
+    return this.httpClient.get<CentroCustoModel[]>(`http://localhost:8080/asbuilt/costCenter/getCostCenterByBuilder/${id}`, this.httpOptions);
+  }
+
   cadastrarCentroDeCusto(cadastroModel: CentroCustoModel) {
 
     let body = JSON.stringify({

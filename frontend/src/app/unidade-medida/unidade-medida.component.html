@@ -2,19 +2,19 @@
     <div class="container conteudo">
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link" [ngClass]="{'active': isCadastro}" id="cadastro-tab" data-toggle="tab"
+                <a class="nav-link" [ngClass]="{'active': isCadastroUnidade}" id="cadastro-tab" data-toggle="tab"
                     (click)="mudarAba()">Cadastro</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" [ngClass]="{'active': !isCadastro}" id="consulta-tab" data-toggle="tab"
+                <a class="nav-link" [ngClass]="{'active': !isCadastroUnidade}" id="consulta-tab" data-toggle="tab"
                     (click)="mudarAba()">Consulta</a>
             </li>
         </ul>
         <div class="tab-content">
-            <div *ngIf="isCadastro" class="tab-pane fade" [ngClass]="{'show active': isCadastro}" id="cadastro">
+            <div *ngIf="isCadastroUnidade" class="tab-pane fade" [ngClass]="{'show active': isCadastroUnidade}" id="cadastro">
                 <div class="row centralizar-conteudo">
                     <div class="col-12 titulo">
-                        <h2>Cadastro de Unidades de Medida</h2>
+                        <h1>Cadastro de Unidades de Medida</h1>
                     </div>
                 </div>
                 <form (ngSubmit)="cadastrarUnidadeDeMedida()" #form="ngForm"
@@ -40,10 +40,10 @@
                     </div>
                 </form>
             </div>
-            <div *ngIf="!isCadastro" [ngClass]="{'show active': !isCadastro}" class="tab-pane fade" id="consulta">
+            <div *ngIf="!isCadastroUnidade" [ngClass]="{'show active': !isCadastroUnidade}" class="tab-pane fade" id="consulta">
                 <div class="row centralizar-conteudo">
                     <div class="col-12 titulo">
-                        <h2>Unidades de Medida Cadastradas</h2>
+                        <h1>Unidades de Medida Cadastradas</h1>
                     </div>
                     <div class="row">
                         <div class="col-12">

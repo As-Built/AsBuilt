@@ -14,7 +14,7 @@
       <div *ngIf="isCadastroServico" class="tab-pane fade" [ngClass]="{'show active': isCadastroServico}" id="cadastro">
         <div class="row centralizar-conteudo">
           <div class="col-12 titulo">
-            <h2>Cadastro de Serviço</h2>
+            <h1>Cadastro de Serviço</h1>
           </div>
         </div>
         <form (ngSubmit)="cadastrarServico()" #form="ngForm"
@@ -22,73 +22,139 @@
           <div class="row">
             <div class="col-12">
               <hr style="margin-left: 25px;">
-              <h4 style="padding-left: 15px;">Rastreabilidade</h4>
+              <h2 style="padding-left: 15px;">Rastreabilidade</h2>
             </div>
           </div>
           <div class="row">
-            <div class="col-12">
+            <div class="col-6">
+              <label for="construtora">Consrutora</label>
+              <select style="height: 40px" name="construtora" id="construtora" required matTooltip="Construtora"
+                matTooltipShowDelay="1500" [(ngModel)]="construtora"
+                (change)="construtora && construtora.id ? buscarCentrosDeCustoPorConstrutora(construtora.id) : null"
+                [compareWith]="compareFnConstrutora">
+                <option [value]="null" disabled>Selecione uma construtora</option>
+                <option *ngFor="let construtora of listaConstrutoras" [ngValue]="construtora">
+                  {{construtora.builderName}}</option>
+              </select>
+            </div>
+            <div class="col-6">
               <label for="centroDeCusto">Centro de Custo</label>
               <select style="height: 40px" name="centroDeCusto" id="centroDeCusto" required matTooltip="Centro de custo"
-                matTooltipShowDelay="1500" [(ngModel)]="cadastroServico.costCenter">
-                <option value="" disabled selected>Selecione uma construtora</option>
+                matTooltipShowDelay="1500" [(ngModel)]="centroCusto" (change)="setCostCenter(centroCusto)"
+                [compareWith]="compareFnCentroCusto">
+                <option [value]="null" disabled>Selecione um centro de custo</option>
                 <option *ngFor="let centroCusto of listaCentrosDeCusto" [ngValue]="centroCusto">
                   {{centroCusto.costCenterName}}</option>
               </select>
             </div>
           </div>
           <div class="row">
-            <div class="col-12">
+            <div class="col-6">
               <label for="nivel1">1º Nível de localização *</label>
-              <select name="nivel1" id="nivel1" required [(ngModel)]="cadastroServico.taskLocation.locationGroup">
-                <option *ngFor="let locationGroup of getLocationGroups()" [ngValue]="locationGroup">{{locationGroup}}</option>
-            </select>
+              <select name="nivel1" id="nivel1" required [(ngModel)]="cadastroServico.taskLocation.locationGroup"
+                (change)="filtrarNivel2(cadastroServico.taskLocation.locationGroup)">
+                <option value="" disabled>Selecione o 1º nível de localização</option>
+                <option *ngFor="let locationGroup of getLocationGroups()" [ngValue]="locationGroup">{{locationGroup}}
+                </option>
+              </select>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
+            <div class="col-6">
               <label for="nivel2">2º Nível de localização *</label>
-              <select name="nivel2" id="nivel2" required [(ngModel)]="cadastroServico.taskLocation.subGroup1">
-                <option *ngFor="let location of getSubGroup1Locations()" [ngValue]="location">{{location}}</option>
+              <select name="nivel2" id="nivel2" required [(ngModel)]="cadastroServico.taskLocation.subGroup1"
+                (change)="filtrarNivel3(cadastroServico.taskLocation.locationGroup, cadastroServico.taskLocation.subGroup1)">
+                <option value="" disabled>Selecione o 2º nível de localização</option>
+                <option *ngFor="let location of listaSubGroup1" [ngValue]="location">{{location}}</option>
               </select>
             </div>
           </div>
           <div class="row">
-            <div class="col-12">
+            <div class="col-6">
               <label for="nivel3">3º Nível de localização *</label>
-              <select name="nivel3" id="nivel3" required [(ngModel)]="cadastroServico.taskLocation.subGroup2">
-                <option *ngFor="let location of getSubGroup2Locations()" [ngValue]="location">{{location}}</option>
+              <select name="nivel3" id="nivel3" required [(ngModel)]="cadastroServico.taskLocation.subGroup2"
+                (change)="filtrarNivel4(cadastroServico.taskLocation.locationGroup, cadastroServico.taskLocation.subGroup1, cadastroServico.taskLocation.subGroup2)">
+                <option value="" disabled>Selecione o 3º nível de localização</option>
+                <option *ngFor="let location of listaSubGroup2" [ngValue]="location">{{location}}</option>
               </select>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
+            <div class="col-6">
               <label for="nivel4">4º Nível de localização *</label>
               <select name="nivel4" id="nivel4" required [(ngModel)]="cadastroServico.taskLocation.subGroup3">
-                <option *ngFor="let location of getSubGroup3Locations()" [ngValue]="location">{{location}}</option>
+                <option value="" disabled>Selecione o 4º nível de localização (opcional)</option>
+                <option *ngFor="let location of listaSubGroup3" [ngValue]="location">{{location}}</option>
               </select>
             </div>
           </div>
           <div class="row">
             <div class="col-12">
               <hr style="margin-left: 25px;">
-              <h4 style="padding-left: 15px;">Tipo de Serviço</h4>
+              <h2 style="padding-left: 15px;">Dados do Serviço</h2>
             </div>
           </div>
           <div class="row">
-            <div class="col-12">
+            <div class="col-7">
               <label for="tipoServico">Tipo de Serviço</label>
               <select name="tipoServico" id="tipoServico" required matTooltip="Tipo de Serviço"
                 matTooltipShowDelay="1500" [(ngModel)]="cadastroServico.taskType">
                 <option value="" disabled selected>Selecione um tipo de serviço</option>
-                <option *ngFor="let tipos of listaTiposServico;" [ngValue]="cadastroServico.taskType">
-                  {{cadastroServico.taskType.taskTypeName}}</option>
+                <option *ngFor="let tipos of listaTiposServico;" [ngValue]="tipos">
+                  {{tipos.taskTypeName}}</option>
               </select>
             </div>
+            <div class="col-2">
+              <label for="dimensao">Dimensão</label>
+              <input name="dimensao" id="dimensao" required type="number" min="0" step="0.01"
+                matTooltip="Tamanho do serviço a ser executado" matTooltipShowDelay="1500"
+                [(ngModel)]="cadastroServico.dimension"
+                (ngModelChange)="cadastroServico.dimension = cadastroServico.dimension < 0 ? 0 : cadastroServico.dimension; calcularValorTotal()" />
+            </div>
+            <div class="col-3">
+              <label for="unidadeMedida">Unidade de medida</label>
+              <input name="unidadeMedida" id="unidadeMedida" required matTooltip="Unidade de medida"
+                matTooltipShowDelay="1500" [value]="cadastroServico.taskType.unitMeasurement.name" disabled />
+              <input type="hidden" [(ngModel)]="cadastroServico.taskType.unitMeasurement" name="unitMeasurement" />
+            </div>
           </div>
-
-          <div class="row centralizar-conteudo">
-            <div class="col-6 centralizar-conteudo">
+          <div class="row">
+            <div class="col-3">
+              <label for="valorUnitario">Valor unitário</label>
+              <input #valorUnitario name="valorUnitario" id="valorUnitario" required
+                matTooltip="Valor unitário por unidade de medida" matTooltipShowDelay="1500"
+                [value]="cadastroServico.unitaryValue | real"
+                (blur)="cadastroServico.unitaryValue = parseValue(valorUnitario.value); calcularValorTotal()" />
+            </div>
+            <div class="col-3">
+              <label for="valorTotal">Valor Total</label>
+              <input name="valorTotal" id="valorTotal" required matTooltip="Valor total" matTooltipShowDelay="1500"
+                [(ngModel)]="cadastroServico.amount" currencyMask
+                [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" readonly />
+            </div>
+            <div class="col-3">
+              <label for="dataPrevistaInicio">Previsão de início</label>
+              <input style="text-align: end; direction: rtl;" name="dataPrevistaInicio" id="dataPrevistaInicio" required
+                matTooltip="Data prevista para o início do serviço" matTooltipShowDelay="1500"
+                [(ngModel)]="cadastroServico.expectedStartDate" type="date" />
+            </div>
+            <div class="col-3">
+              <label for="dataPrevistaTermino">Previsão de término</label>
+              <input style="text-align: end; direction: rtl;" name="dataPrevistaTermino" id="dataPrevistaTermino" required
+                matTooltip="Data prevista para o início do serviço" matTooltipShowDelay="1500"
+                [(ngModel)]="cadastroServico.expectedEndDate" type="date" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <label for="comments">Observações</label>
+              <textarea type="text" name="comments" id="comments" matTooltip="Observações gerais"
+                matTooltipShowDelay="1500" [(ngModel)]="cadastroServico.obs"
+                placeholder="Qualquer observação pertinente"></textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
               <button class="btn-confirm" type="submit">Cadastrar</button>
+            </div>
+            <div class="col-6 centralizar-conteudo">
+              <button class="btn-cancel" type="submit">Limpar campos</button>
             </div>
           </div>
         </form>
@@ -97,7 +163,7 @@
         id="consulta">
         <div class="row centralizar-conteudo">
           <div class="col-12 titulo">
-            <h2>Locais cadastrados</h2>
+            <h1>Locais cadastrados</h1>
           </div>
           <div class="row">
             <div class="col-4">
@@ -141,7 +207,7 @@
               </select>
             </div>
           </div> -->
-          <!-- <div class="row">
+      <!-- <div class="row">
             <div class="col-12">
               <table mat-table [dataSource]="listaServicosFiltrada" class="mat-elevation-z8">
                 <ng-container matColumnDef="acoes">
@@ -188,7 +254,7 @@
               </table>
             </div>
           </div> -->
-        <!-- </div> -->
+      <!-- </div> -->
       <!-- </div> -->
     </div>
   </div>
@@ -200,7 +266,7 @@
     <div class="row">
       <div class="col-12">
         <hr style="margin-left: 25px;">
-        <h4 style="padding-left: 15px;">Dados do Local de Serviço</h4>
+        <h2 style="padding-left: 15px;">Dados do Local de Serviço</h2>
       </div>
     </div>
     <div class="row">

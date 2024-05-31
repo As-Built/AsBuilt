@@ -15,7 +15,7 @@
         id="cadastro">
         <div class="row centralizar-conteudo">
           <div class="col-12 titulo">
-            <h2>Cadastro de Centro de Custos</h2>
+            <h1>Cadastro de Centro de Custos</h1>
           </div>
         </div>
         <form (ngSubmit)="cadastrarCentroDeCusto()" #form="ngForm"
@@ -31,7 +31,7 @@
           <div class="row">
             <div class="col-12">
               <hr style="margin-left: 25px;">
-              <h4 style="padding-left: 15px;">Endereço</h4>
+              <h2 style="padding-left: 15px;">Endereço</h2>
             </div>
           </div>
           <div class="row">
@@ -72,7 +72,7 @@
           <div class="row">
             <div class="col-12">
               <hr style="margin-left: 25px;">
-              <h4 style="padding-left: 15px;">Dados do centro de custo</h4>
+              <h2 style="padding-left: 15px;">Dados do centro de custo</h2>
             </div>
           </div>
           <div class="row">
@@ -113,7 +113,7 @@
         id="consulta">
         <div class="row centralizar-conteudo">
           <div class="col-12 titulo">
-            <h2>Centros de custo cadastrados</h2>
+            <h1>Centros de custo cadastrados</h1>
           </div>
           <div class="row">
             <div class="col-12">
@@ -167,29 +167,29 @@
     <div class="row">
       <div class="col-12">
         <hr style="margin-left: 25px;">
-        <h4 style="padding-left: 15px;">Dados do Centro de Custo</h4>
+        <h2 style="padding-left: 15px;">Dados do Centro de Custo</h2>
       </div>
     </div>
     <div class="row">
       <div class="col-12">
         <label for="nomeCentroDeCusto">Nome do Centro de Custo *</label>
         <input type="text" name="nomeCentroDeCusto" id="nomeCentroDeCusto" [disabled]="indDesabilitaCampos"
-          matTooltip="Nome do centro de custo" matTooltipShowDelay="1500" 
-          [(ngModel)]="centroCustoModel.costCenterName" placeholder="Nome da obra">
+          matTooltip="Nome do centro de custo" matTooltipShowDelay="1500" [(ngModel)]="centroCustoModel.costCenterName"
+          placeholder="Nome da obra">
       </div>
     </div>
     <div class="row">
       <div class="col-12">
         <hr style="margin-left: 25px;">
-        <h4 style="padding-left: 15px;">Endereço</h4>
+        <h2 style="padding-left: 15px;">Endereço</h2>
       </div>
     </div>
     <div class="row">
       <div class="col-4">
         <label for="cep">CEP *</label>
-        <input type="text" name="cep" id="cep" mask="00.000-000" 
-          matTooltip="CEP" matTooltipShowDelay="1500" [disabled]="indDesabilitaCampos"
-          placeholder="00.000-000" [(ngModel)]="centroCustoModel.costCenterAddress.postalCode"
+        <input type="text" name="cep" id="cep" mask="00.000-000" matTooltip="CEP" matTooltipShowDelay="1500"
+          [disabled]="indDesabilitaCampos" placeholder="00.000-000"
+          [(ngModel)]="centroCustoModel.costCenterAddress.postalCode"
           (change)="getAddress(centroCustoModel.costCenterAddress.postalCode)">
       </div>
     </div>
@@ -203,7 +203,8 @@
       <div class="col-4">
         <label for="numero">Número *</label>
         <input type="number" name="numero" id="numero" required matTooltip="Para 'Sem Número' inserir '0'"
-          matTooltipShowDelay="1500" [(ngModel)]="centroCustoModel.costCenterAddress.number" [disabled]="indDesabilitaCampos">
+          matTooltipShowDelay="1500" [(ngModel)]="centroCustoModel.costCenterAddress.number"
+          [disabled]="indDesabilitaCampos">
       </div>
     </div>
     <div class="row">
@@ -222,18 +223,19 @@
     <div class="row">
       <div class="col-12">
         <hr style="margin-left: 25px;">
-        <h4 style="padding-left: 15px;">Dados do centro de custo</h4>
+        <h2 style="padding-left: 15px;">Dados do centro de custo</h2>
       </div>
     </div>
     <div class="row">
       <div class="col-12">
         <label for="proprietario">Construtora</label>
-        <select style="height: 40px" name="proprietario" id="proprietario" required matTooltip="Proprietário do centro de custo"
-        matTooltipShowDelay="1500" [(ngModel)]="centroCustoModel.builder.builderName" [disabled]="indDesabilitaCampos">
-        <option value="" disabled selected>Selecione uma construtora</option>
-        <option *ngFor="let construtora of listaConstrutoras" [value]="construtora.builderName">
-          {{construtora.builderName}}</option>
-      </select>
+        <select style="height: 40px" name="proprietario" id="proprietario" required
+          matTooltip="Proprietário do centro de custo" matTooltipShowDelay="1500"
+          [(ngModel)]="centroCustoModel.builder.builderName" [disabled]="indDesabilitaCampos">
+          <option value="" disabled selected>Selecione uma construtora</option>
+          <option *ngFor="let construtora of listaConstrutoras" [value]="construtora.builderName">
+            {{construtora.builderName}}</option>
+        </select>
       </div>
     </div>
     <div class="row">

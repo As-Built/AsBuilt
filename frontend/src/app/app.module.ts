@@ -32,6 +32,8 @@ import { LocalServicoComponent } from './local-servico/local-servico.component';
 import { TipoServicoComponent } from './tipo-servico/tipo-servico.component';
 import { UnidadeMedidaComponent } from './unidade-medida/unidade-medida.component';
 import { ServicoComponent } from './servico/servico.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 @NgModule({
@@ -76,6 +78,8 @@ import { ServicoComponent } from './servico/servico.component';
     MatInputModule,
     NgxMaskModule.forRoot(), //npm i ngx-mask@13.1.13
     MatTableModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
     CurrencyPipe,

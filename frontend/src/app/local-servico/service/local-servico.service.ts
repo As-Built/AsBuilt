@@ -23,6 +23,10 @@ export class LocalServicoService {
     return this.httpClient.get<LocalServicoModel[]>('http://localhost:8080/asbuilt/location', this.httpOptions);
   }
 
+  listarLocaisPorCentroDeCusto(id: number): Observable<LocalServicoModel[]> {
+    return this.httpClient.get<LocalServicoModel[]>(`http://localhost:8080/asbuilt/location/findLocationByCostCenter/${id}`, this.httpOptions);
+  }
+
   cadastrarLocal(localServico: LocalServicoModel) {
     let body = JSON.stringify({
       costCenter: localServico.costCenter,

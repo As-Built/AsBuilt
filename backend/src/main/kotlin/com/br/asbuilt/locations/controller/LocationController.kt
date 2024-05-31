@@ -66,6 +66,13 @@ class LocationController(val service: LocationService) {
             .map { LocationResponse(it) }.let { ResponseEntity.ok(it) }
 
     @SecurityRequirement(name="AsBuilt")
+    @PreAuthorize("permitAll()")
+    @GetMapping("/findLocationByCostCenter/{costCenterId}")
+    fun findLocationByCostCenterId(@PathVariable costCenterId: Long) =
+        service.findLocationByCostCenterId(costCenterId)
+            .map { LocationResponse(it) }.let { ResponseEntity.ok(it) }
+
+    @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("hasRole('ADMIN') || hasRole('CONFERENTE')")
     @DeleteMapping("/deleteLocation/{id}")
     fun delete(@PathVariable id: Long): ResponseEntity<Void> =

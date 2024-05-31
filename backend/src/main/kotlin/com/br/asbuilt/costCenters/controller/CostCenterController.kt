@@ -46,6 +46,13 @@ class CostCenterController(val service: CostCenterService) {
             ?: ResponseEntity.notFound().build()
 
     @SecurityRequirement(name="AsBuilt")
+    @PreAuthorize("permitAll()")
+    @GetMapping("/getCostCenterByBuilder/{builderId}")
+    fun getCostCenterByBuilder(@PathVariable builderId: Long) =
+        service.findCostCentersByBuilderId(builderId)
+            .map { CostCenterResponse(it) }.let { ResponseEntity.ok(it) }
+
+    @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/deleteCostCenter/{id}")
     fun delete(@PathVariable id: Long): ResponseEntity<Void> =

@@ -90,6 +90,8 @@ class LocationService(
 
     fun findLocationBySubGroup3(subGroup3: String): List<Location> = repository.findLocationBySubGroup3(subGroup3)
 
+    fun findLocationByCostCenterId(costCenterId: Long): List<Location> = repository.findLocationByCostCenterId(costCenterId)
+
     fun delete(id: Long): Boolean {
         if (repository.existsById(id)) {
 
