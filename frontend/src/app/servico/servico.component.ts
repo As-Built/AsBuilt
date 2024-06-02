@@ -455,4 +455,7 @@ export class ServicoComponent implements OnInit {
     });
   }
 
+  limparCampos() {
+    this.cadastroServico = new ServicoModel();
+  }
 }

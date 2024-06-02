@@ -136,8 +136,8 @@
             </div>
             <div class="col-3">
               <label for="dataPrevistaTermino">Previsão de término</label>
-              <input style="text-align: end; direction: rtl;" name="dataPrevistaTermino" id="dataPrevistaTermino" required
-                matTooltip="Data prevista para o início do serviço" matTooltipShowDelay="1500"
+              <input style="text-align: end; direction: rtl;" name="dataPrevistaTermino" id="dataPrevistaTermino"
+                required matTooltip="Data prevista para o início do serviço" matTooltipShowDelay="1500"
                 [(ngModel)]="cadastroServico.expectedEndDate" type="date" />
             </div>
           </div>
@@ -151,10 +151,10 @@
           </div>
           <div class="row">
             <div class="col-6">
-              <button class="btn-confirm" type="submit">Cadastrar</button>
+              <button class="btn-cancel" type="buttton" (click)="limparCampos()">Limpar campos</button>
             </div>
-            <div class="col-6 centralizar-conteudo">
-              <button class="btn-cancel" type="submit">Limpar campos</button>
+            <div class="col-6">
+              <button class="btn-confirm" type="buttton">Cadastrar</button>
             </div>
           </div>
         </form>
