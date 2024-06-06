@@ -436,4 +436,15 @@ export class TipoServicoComponent implements OnInit {
     });
   }
 
+  limparCampos() {
+    this.tipoServicoModel = new TipoServicoModel();
+    this.cadastroTipoDeServico = new TipoServicoModel();
+    this.listaTipoDeServico = [];
+    this.listaUnidadesDeMedida = [];
+    this.filtroSelecionado = null;
+    this.additionalParameters = [];
+    this.buscarTiposDeServico();
+    this.buscarUnidadesDeMedida();
+  }
+
 }

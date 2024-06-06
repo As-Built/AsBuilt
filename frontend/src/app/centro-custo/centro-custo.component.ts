@@ -352,4 +352,13 @@ export class CentroCustoComponent implements OnInit {
     });
   }
 
+  limparCampos() {
+    this.centroCustoModel = new CentroCustoModel();
+    this.cadastroCentroCusto = new CentroCustoModel();
+    this.listaConstrutoras = [];
+    this.listaCentrosDeCusto = [];
+    this.buscarConstrutoras();
+    this.buscarCentroDeCusto();
+  }
+
 }

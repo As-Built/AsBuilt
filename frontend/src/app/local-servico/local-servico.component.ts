@@ -303,4 +303,23 @@ export class LocalServicoComponent implements OnInit {
     });
   }
 
+  limparCampos() {
+    this.localServicoModel = new LocalServicoModel();
+    this.cadastroLocalServico = new LocalServicoModel();
+    this.listaLocalServico = [];
+    this.listaCentrosDeCusto = [];
+    this.filtroSelecionado = null;
+    this.listaLocalServicoFiltrada = [];
+    this.listaCentrosDeCustoFiltrada = [];
+    this.filtroLocationGroup = null;
+    this.listaLocationGroup = [];
+    this.filtroSubGroup1 = null;
+    this.filtroSubGroup2 = null;
+    this.listaSubGroup1 = [];
+    this.listaSubGroup2 = [];
+    this.buscarLocais();
+    this.buscarCentrosDeCusto();
+    this.filtrarDados();
+  }
+
 }

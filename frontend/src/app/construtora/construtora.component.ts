@@ -402,4 +402,10 @@ export class ConstrutoraComponent implements OnInit {
       }
     });
   }
+
+  limparCampos() {
+    this.construtoraModel = new ConstrutoraModel();
+    this.cadastroConstrutora = new ConstrutoraModel();
+    this.buscarConstrutoras();
+  }
 }

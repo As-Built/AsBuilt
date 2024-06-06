@@ -102,9 +102,12 @@
                 [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
             </div>
           </div>
-          <div class="row centralizar-conteudo">
-            <div class="col-6 centralizar-conteudo">
-              <button class="btn-confirm" type="submit">Cadastrar</button>
+          <div class="row">
+            <div class="col-6">
+              <button class="btn-cancel" type="button" (click)="limparCampos()">Limpar campos</button>
+            </div>
+            <div class="col-6">
+              <button class="btn-confirm" type="buttton">Cadastrar</button>
             </div>
           </div>
         </form>
