@@ -230,7 +230,9 @@ export class ServicoComponent implements OnInit {
   }
 
   cadastrarServico() {
-    // this.validarCampos(this.cadastroServico);
+    if (!this.validarCampos(this.cadastroServico)){
+      return;
+    };
     this.cadastroServico.taskLocation.costCenter = this.cadastroServico.costCenter;
     this.cadastroServico.unitMeasurement = this.cadastroServico.taskType.unitMeasurement;
     this.servicoService.cadastrarServico(this.cadastroServico).pipe(
@@ -266,6 +268,9 @@ export class ServicoComponent implements OnInit {
   }
 
   atualizarServico(servico: ServicoModel) {
+    if (!this.validarCampos(this.cadastroServico)){
+      return;
+    };
     this.validarCampos(servico);
     this.servicoService.atualizarServico(servico).pipe(
       tap(retorno => {
@@ -304,7 +309,7 @@ export class ServicoComponent implements OnInit {
         showConfirmButton: false,
         timer: 3000
       });
-      return;
+      return false;
     }
 
     if (servico.taskType === null || servico.taskType === undefined) {
@@ -314,7 +319,7 @@ export class ServicoComponent implements OnInit {
         showConfirmButton: false,
         timer: 3000
       });
-      return;
+      return false;
     }
 
     if (servico.taskLocation === null || servico.taskLocation === undefined) {
@@ -324,7 +329,7 @@ export class ServicoComponent implements OnInit {
         showConfirmButton: false,
         timer: 3000
       });
-      return;
+      return false;
     }
 
     if (servico.dimension === null || servico.dimension == 0
@@ -335,7 +340,7 @@ export class ServicoComponent implements OnInit {
         showConfirmButton: false,
         timer: 3000
       });
-      return;
+      return false;
     }
 
     if (servico.expectedStartDate === null || servico.taskLocation === undefined) {
@@ -345,7 +350,7 @@ export class ServicoComponent implements OnInit {
         showConfirmButton: false,
         timer: 3000
       });
-      return;
+      return false;
     }
 
     if (servico.expectedEndDate === null || servico.expectedEndDate === undefined) {
@@ -355,17 +360,17 @@ export class ServicoComponent implements OnInit {
         showConfirmButton: false,
         timer: 3000
       });
-      return;
+      return false;
     }
 
-    if (servico.expectedEndDate < servico.expectedEndDate) {
+    if (servico.expectedStartDate > servico.expectedEndDate) {
       Swal.fire({
         text: "A data de início previsto não pode ser posterior a data de final prevista!",
         icon: "warning",
         showConfirmButton: false,
         timer: 3000
       });
-      return;
+      return false;
     }
 
     if (servico.unitaryValue === null || servico.unitaryValue === undefined
@@ -376,8 +381,9 @@ export class ServicoComponent implements OnInit {
         showConfirmButton: false,
         timer: 3000
       });
-      return;
+      return false;
     }
+    return true;
   }
 
   visualizarDetalhes(servico: ServicoModel) {
@@ -464,5 +470,16 @@ export class ServicoComponent implements OnInit {
     this.cadastroServico = new ServicoModel();
     this.centroCusto = null;
     this.construtora = null;
+    this.listaTiposServico = [];
+    this.buscarServicos();
+    this.buscarConstrutoras();
+    this.buscarTiposServico();
+    this.cadastroServico.taskLocation = {
+      locationGroup: '',
+      subGroup1: '',
+      subGroup2: '',
+      subGroup3: '',
+      costCenter: {} as CentroCustoModel
+    };
   }
 }
