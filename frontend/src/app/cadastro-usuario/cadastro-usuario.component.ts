@@ -105,7 +105,7 @@ export class CadastroUsuarioComponent {
     let confirmPassword = this.cadastroUsuarioForm.get('confirmPassword')?.value ?? '';
     let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,12}$/;
-    let nomeValidoRegex = /^[a-zA-Z]{3,}\s[a-zA-Z]{3,}$/;
+    let nomeValidoRegex = /^[a-zA-Z]{3,}\s(?:[a-zA-Z]{3,}\s?)+$/;
 
     if (this.validaCPF(cadastroUsuarioModel.cpf) === false) {
       Swal.fire({
