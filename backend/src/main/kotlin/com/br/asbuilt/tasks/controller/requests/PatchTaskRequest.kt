@@ -10,10 +10,10 @@ import jakarta.validation.constraints.NotNull
 import java.util.*
 
 data class PatchTaskRequest(
-    @field: NotNull
+    @field:NotNull
     val id: Long,
 
-    @field:NotBlank
+    @field:NotNull
      val taskType: TaskType,
 
     @field:NotNull
@@ -22,7 +22,7 @@ data class PatchTaskRequest(
     @field:NotNull
      val dimension: Double,
 
-    @field:NotBlank
+    @field:NotNull
      val unitMeasurement: UnitMeasurement,
 
     @field:NotNull

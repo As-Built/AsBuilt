@@ -49,6 +49,7 @@ export class ServicoService {
 
   atualizarServico(servico: ServicoModel) {
     let body = JSON.stringify({
+      id: servico.id,
       taskType: servico.taskType,
       unitaryValue: servico.unitaryValue,
       dimension: servico.dimension,

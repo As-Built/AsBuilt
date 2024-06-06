@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ServicoModel } from './model/servico.model';
 import { ServicoService } from './service/servico.service';
-import { SidebarComponent } from '../shared/sidebar/sidebar.component';
 import { CentroCustoModel } from '../centro-custo/model/centro-custo.model';
 import { CentroCustoService } from '../centro-custo/service/centro-custo.service';
 import { catchError, firstValueFrom, of, tap } from 'rxjs';
@@ -12,6 +11,7 @@ import { TiposServicoService } from '../tipo-servico/service/tipos-servico.servi
 import { TipoServicoModel } from '../tipo-servico/model/tipo-servico.model';
 import { ConstrutoraService } from '../construtora/service/construtora.service';
 import { ConstrutoraModel } from '../construtora/model/construtora.model';
+
 
 
 @Component({
@@ -36,7 +36,7 @@ export class ServicoComponent implements OnInit {
   listaSubGroup2: string[] = [];
   listaSubGroup3: string[] = [];
   listaTiposServico: TipoServicoModel[] = [];
-  displayedColumns: string[] = ["acoes", "costCenter", "locationGroup", 'subGroup1', 'subGroup2', 'subGroup3'];
+  displayedColumns: string[] = ["acoes", "costCenter", "locationGroup", 'subGroup1', 'subGroup2', 'taskType', 'dimension', 'unitMeasurement'];
   renderModalVisualizar = false;
   indDesabilitaCampos = true;
   isCadastroServico = true;
@@ -399,6 +399,7 @@ export class ServicoComponent implements OnInit {
   modalEditarServico(servico: ServicoModel) {
     this.indDesabilitaCampos = false;
     this.servicoModel = JSON.parse(JSON.stringify(servico)); //Clonando objeto e não a sua referência
+    this.servicoModel.id = servico.id;
     this.renderModalVisualizar = true;
     Swal.fire({
       title: 'Editar Local de Serviço',
@@ -416,6 +417,10 @@ export class ServicoComponent implements OnInit {
         this.servicoModel = new ServicoModel();
       }
     });
+  }
+
+  calcularValorTotalModal() {
+    this.servicoModel.amount = this.servicoModel.dimension * this.servicoModel.unitaryValue;
   }
 
   excluirServico(id: number) {
@@ -457,5 +462,7 @@ export class ServicoComponent implements OnInit {
 
   limparCampos() {
     this.cadastroServico = new ServicoModel();
+    this.centroCusto = null;
+    this.construtora = null;
   }
 }
