@@ -148,7 +148,7 @@ export class CentroCustoComponent implements OnInit {
         showConfirmButton: false,
         timer: 2000
       });
-      return;
+      return false;
     }
     if (centro.costCenterAddress.street === null || centro.costCenterAddress.street.trim() === ""
       || centro.costCenterAddress.street === undefined) {
@@ -158,7 +158,7 @@ export class CentroCustoComponent implements OnInit {
         showConfirmButton: false,
         timer: 2000
       });
-      return;
+      return false;
     }
     if (centro.costCenterAddress.postalCode === null || centro.costCenterAddress.postalCode.trim() === ""
       || centro.costCenterAddress.postalCode === undefined) {
@@ -168,7 +168,7 @@ export class CentroCustoComponent implements OnInit {
         showConfirmButton: false,
         timer: 2000
       });
-      return;
+      return false;
     }
     if (centro.costCenterAddress.city === null || centro.costCenterAddress.city.trim() === ""
       || centro.costCenterAddress.city === undefined) {
@@ -178,7 +178,7 @@ export class CentroCustoComponent implements OnInit {
         showConfirmButton: false,
         timer: 2000
       });
-      return;
+      return false;
     }
     if (centro.costCenterAddress.state === null || centro.costCenterAddress.state.trim() === ""
       || centro.costCenterAddress.state === undefined) {
@@ -188,7 +188,7 @@ export class CentroCustoComponent implements OnInit {
         showConfirmButton: false,
         timer: 2000
       });
-      return;
+      return false;
     }
 
     if (centro.builder === null || centro.builder === undefined) {
@@ -198,8 +198,79 @@ export class CentroCustoComponent implements OnInit {
         showConfirmButton: false,
         timer: 2000
       });
-      return;
+      return false;
     }
+
+    if (centro.costCenterName.length < 6) {
+      Swal.fire({
+        text: "O campo 'Nome' requer ao menos 6 caracteres!",
+        icon: "warning",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return false;
+    }
+
+    if (centro.costCenterName.length > 254) {
+      Swal.fire({
+        text: "O campo 'Nome' aceita no máximo 254 caracteres!",
+        icon: "warning",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return false;
+    }
+
+    if (centro.costCenterAddress.postalCode.length != 9) {
+      Swal.fire({
+        text: "O campo 'CEP' deve ter 9 caracteres!",
+        icon: "warning",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return false;
+    }
+
+    if (centro.costCenterAddress.street.length < 6) {
+      Swal.fire({
+        text: "O campo 'Logradouro' deve ter no mínimo 6 caracteres!",
+        icon: "warning",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return false;
+    }
+
+    if (centro.costCenterAddress.street.length > 254) {
+      Swal.fire({
+        text: "O campo 'Logradouro' deve ter no máximo 254 caracteres!",
+        icon: "warning",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return false;
+    }
+
+    if (centro.costCenterAddress.city.length < 6) {
+      Swal.fire({
+        text: "O campo 'Cidade' deve ter no mínimo 6 caracteres!",
+        icon: "warning",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return false;
+    }
+
+    if (centro.costCenterAddress.city.length > 254) {
+      Swal.fire({
+        text: "O campo 'Cidade' deve ter no máximo 254 caracteres!",
+        icon: "warning",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return false;
+    }
+
     return true;
   }
 

@@ -128,6 +128,26 @@ export class CadastroUsuarioComponent {
       return;
     }
 
+    if (cadastroUsuarioModel.name.length < 6) {
+      Swal.fire({
+        text: "O campo 'Nome' requer ao menos 6 caracteres!",
+        icon: "warning",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return;
+    }
+
+    if (cadastroUsuarioModel.name.length > 254) {
+      Swal.fire({
+        text: "O campo 'Nome' aceita no máximo 254 caracteres!",
+        icon: "warning",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return;
+    }
+
     if (cadastroUsuarioModel.name === null || cadastroUsuarioModel.name.trim() === ""
       || cadastroUsuarioModel.name === undefined) {
       Swal.fire({

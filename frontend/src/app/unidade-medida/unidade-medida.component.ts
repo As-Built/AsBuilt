@@ -74,7 +74,7 @@ export class UnidadeMedidaComponent implements OnInit {
     ).subscribe();
   }
 
-  
+
   validarCampos(unidadeDeMedida: UnidadeMedidaModel) {
     if (unidadeDeMedida.name === null || unidadeDeMedida.name.trim() === ""
       || unidadeDeMedida.name === undefined) {
@@ -84,7 +84,7 @@ export class UnidadeMedidaComponent implements OnInit {
         showConfirmButton: false,
         timer: 2000
       });
-      return;
+      return false;
     }
     if (unidadeDeMedida.description === null || unidadeDeMedida.description.trim() === ""
       || unidadeDeMedida.description === undefined) {
@@ -94,7 +94,43 @@ export class UnidadeMedidaComponent implements OnInit {
         showConfirmButton: false,
         timer: 2000
       });
-      return;
+      return false;
+    }
+    if (unidadeDeMedida.name.length < 2) {
+      Swal.fire({
+        text: "O campo 'Sigla da Unidade de Medida' deve ter no mínimo 2 caracteres!",
+        icon: "warning",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return false;
+    }
+    if (unidadeDeMedida.name.length > 4) {
+      Swal.fire({
+        text: "O campo 'Sigla da Unidade de Medida' deve ter no máximo 4 caracteres!",
+        icon: "warning",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return false;
+    }
+    if (unidadeDeMedida.name.length < 6) {
+      Swal.fire({
+        text: "O campo 'Descrição da Unidade de Medida' deve ter no mínimo 6 caracteres!",
+        icon: "warning",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return false;
+    }
+    if (unidadeDeMedida.name.length > 254) {
+      Swal.fire({
+        text: "O campo 'Descrição da Unidade de Medida' deve ter no máximo 254 caracteres!",
+        icon: "warning",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return false;
     }
     return true;
   }

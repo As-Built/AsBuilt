@@ -181,7 +181,6 @@ export class ConstrutoraComponent implements OnInit {
   }
 
   validarCampos(construtora: ConstrutoraModel) {
-    let teste = this.validaCNPJ(construtora.cnpj);
     if (!this.validaCNPJ(construtora.cnpj)) {
       Swal.fire({
         text: "CNPJ inválido!",
@@ -189,7 +188,7 @@ export class ConstrutoraComponent implements OnInit {
         showConfirmButton: false,
         timer: 2000
       });
-      return;
+      return false;
     }
     if (construtora.builderName === null || construtora.builderName.trim() === ""
       || construtora.builderName === undefined) {
@@ -199,7 +198,7 @@ export class ConstrutoraComponent implements OnInit {
         showConfirmButton: false,
         timer: 2000
       });
-      return;
+      return false;
     }
     if (construtora.builderAddress.street === null || construtora.builderAddress.street.trim() === ""
       || construtora.builderAddress.street === undefined) {
@@ -209,7 +208,7 @@ export class ConstrutoraComponent implements OnInit {
         showConfirmButton: false,
         timer: 2000
       });
-      return;
+      return false;
     }
     if (construtora.builderAddress.postalCode === null || construtora.builderAddress.postalCode.trim() === ""
       || construtora.builderAddress.postalCode === undefined) {
@@ -219,7 +218,7 @@ export class ConstrutoraComponent implements OnInit {
         showConfirmButton: false,
         timer: 2000
       });
-      return;
+      return false;
     }
     if (construtora.builderAddress.city === null || construtora.builderAddress.city.trim() === ""
       || construtora.builderAddress.city === undefined) {
@@ -229,7 +228,7 @@ export class ConstrutoraComponent implements OnInit {
         showConfirmButton: false,
         timer: 2000
       });
-      return;
+      return false;
     }
     if (construtora.builderAddress.state === null || construtora.builderAddress.state.trim() === ""
       || construtora.builderAddress.state === undefined) {
@@ -239,7 +238,7 @@ export class ConstrutoraComponent implements OnInit {
         showConfirmButton: false,
         timer: 2000
       });
-      return;
+      return false;
     }
 
     if (construtora.phone === null || construtora.phone.trim() === ""
@@ -250,8 +249,79 @@ export class ConstrutoraComponent implements OnInit {
         showConfirmButton: false,
         timer: 2000
       });
-      return;
+      return false;
     }
+
+    if (construtora.builderName.length < 6) {
+      Swal.fire({
+        text: "O campo 'Nome' requer ao menos 6 caracteres!",
+        icon: "warning",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return false;
+    }
+
+    if (construtora.builderName.length > 254) {
+      Swal.fire({
+        text: "O campo 'Nome' aceita no máximo 254 caracteres!",
+        icon: "warning",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return false;
+    }
+
+    if (construtora.builderAddress.postalCode.length != 9) {
+      Swal.fire({
+        text: "O campo 'CEP' deve ter 9 caracteres!",
+        icon: "warning",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return false;
+    }
+
+    if (construtora.builderAddress.street.length < 6) {
+      Swal.fire({
+        text: "O campo 'Logradouro' deve ter no mínimo 6 caracteres!",
+        icon: "warning",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return false;
+    }
+
+    if (construtora.builderAddress.street.length > 254) {
+      Swal.fire({
+        text: "O campo 'Logradouro' deve ter no máximo 254 caracteres!",
+        icon: "warning",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return false;
+    }
+
+    if (construtora.builderAddress.city.length < 6) {
+      Swal.fire({
+        text: "O campo 'Cidade' deve ter no mínimo 6 caracteres!",
+        icon: "warning",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return false;
+    }
+
+    if (construtora.builderAddress.city.length > 254) {
+      Swal.fire({
+        text: "O campo 'Cidade' deve ter no máximo 254 caracteres!",
+        icon: "warning",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return false;
+    }
+
     return true;
   }
 
