@@ -11,22 +11,24 @@
             </li>
         </ul>
         <div class="tab-content">
-            <div *ngIf="isCadastroUnidade" class="tab-pane fade" [ngClass]="{'show active': isCadastroUnidade}" id="cadastro">
+            <div *ngIf="isCadastroUnidade" class="tab-pane fade" 
+                [ngClass]="{'show active': isCadastroUnidade}" id="cadastro">
                 <div class="row centralizar-conteudo">
                     <div class="col-12 titulo">
                         <h1>Cadastro de Unidades de Medida</h1>
+                        <hr style="margin-left: 25px;">
                     </div>
                 </div>
                 <form (ngSubmit)="cadastrarUnidadeDeMedida()" #form="ngForm"
                     style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between;">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-3">
                             <label for="siglaUnidadeMedida">Sigla da Unidade de Medida *</label>
                             <input type="text" name="siglaUnidadeMedida" id="siglaUnidadeMedida" required
                                 matTooltip="Sigla da Unidade de Medida" matTooltipShowDelay="1500"
                                 [(ngModel)]="cadastroUnidadeDeMedida.name" placeholder="un">
                         </div>
-                        <div class="col-6">
+                        <div class="col-9">
                             <label for="descricaoUnidadeMedida">Descrição da Unidade de Medida *</label>
                             <input type="text" name="descricaoUnidadeMedida" id="descricaoUnidadeMedida" required
                                 matTooltip="Descrição da Unidade de Medida" matTooltipShowDelay="1500"

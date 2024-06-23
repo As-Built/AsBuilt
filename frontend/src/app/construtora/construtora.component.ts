@@ -252,6 +252,16 @@ export class ConstrutoraComponent implements OnInit {
       return false;
     }
 
+    if (construtora.phone.length < 10) {
+      Swal.fire({
+        text: "O telefone deve ter no mínimo 10 caracteres! (DDD + Número)",
+        icon: "warning",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return false;
+    }
+
     if (construtora.builderName.length < 6) {
       Swal.fire({
         text: "O campo 'Nome' requer ao menos 6 caracteres!",
@@ -329,7 +339,6 @@ export class ConstrutoraComponent implements OnInit {
     this.construtoraModel = JSON.parse(JSON.stringify(construtora)); //Clonando objeto e não a sua referência
     this.renderModalVisualizar = true;
     Swal.fire({
-      title: 'Detalhes da Construtora',
       html: this.modalVisualizarDetalhes.nativeElement,
       showCloseButton: true,
       confirmButtonColor: 'green',
@@ -401,6 +410,14 @@ export class ConstrutoraComponent implements OnInit {
         ).subscribe();
       }
     });
+  }
+
+  numberOnly(event: { which: any; keyCode: any; }): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
   }
 
   limparCampos() {

@@ -16,20 +16,33 @@
                 <div class="row centralizar-conteudo">
                     <div class="col-12 titulo">
                         <h1>Cadastro de Local de Serviço</h1>
+                        <hr style="margin-left: 25px;">
                     </div>
                 </div>
                 <form (ngSubmit)="cadastrarLocalServico()" #form="ngForm"
                     style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between;">
                     <div class="row">
                         <div class="col-12">
+                            <label for="construtora">Construtora</label>
+                            <select style="height: 40px" name="construtora" id="construtora" required
+                                matTooltip="Centro de custo" matTooltipShowDelay="1500"
+                                [(ngModel)]="construtoraSelecionada" (ngModelChange)="onConstrutoraChange()">
+                                <option value="" disabled selected>Selecione uma construtora</option>
+                                <option *ngFor="let construtora of listaConstrutoras" [ngValue]="construtora">
+                                    {{construtora.builderName}}
+                                </option>
+                        </select>
+                        </div>
+                        <div class="col-12">
                             <label for="centroDeCusto">Centro de Custo</label>
                             <select style="height: 40px" name="centroDeCusto" id="centroDeCusto" required
                                 matTooltip="Centro de custo" matTooltipShowDelay="1500"
-                                [(ngModel)]="cadastroLocalServico.costCenter">
-                                <option value="" disabled selected>Selecione uma construtora</option>
-                                <option *ngFor="let centroCusto of listaCentrosDeCusto" [ngValue]="centroCusto">
-                                    {{centroCusto.costCenterName}}</option>
-                            </select>
+                                [(ngModel)]="cadastroLocalServico.costCenter" [disabled]="!construtoraSelecionada.id">
+                                <option value="" disabled selected>Selecione um Centro de Custo</option>
+                                <option *ngFor="let centroCusto of listaCentrosDeCustoFiltrados" [ngValue]="centroCusto">
+                                    {{centroCusto.costCenterName}}
+                                </option>
+                        </select>
                         </div>
                     </div>
                     <div class="row">
@@ -37,7 +50,7 @@
                             <label for="grupo">1º Nível de localização *</label>
                             <input type="text" name="grupo" id="grupo" required matTooltip="1º Nível de localização"
                                 matTooltipShowDelay="1500" [(ngModel)]="cadastroLocalServico.locationGroup"
-                                placeholder="Ex: Pavimento">
+                                placeholder="Ex: Pavimento" [disabled]="!cadastroLocalServico.costCenter.id">
                         </div>
                     </div>
                     <div class="row">
@@ -45,7 +58,7 @@
                             <label for="subGrupo1">2º Nível de localização (Opcional)</label>
                             <input type="text" name="subGrupo1" id="subGrupo1" matTooltip="2º Nível de localização"
                                 matTooltipShowDelay="1500" [(ngModel)]="cadastroLocalServico.subGroup1"
-                                placeholder="Ex: Apartamento 101">
+                                placeholder="Ex: Apartamento 101" [disabled]="cadastroLocalServico.locationGroup.length < 1">
                         </div>
                     </div>
                     <div class="row">
@@ -53,7 +66,7 @@
                             <label for="subGrupo2">3º Nível de localização (Opcional)</label>
                             <input type="text" name="subGrupo2" id="subGrupo2" matTooltip="3º Nível de localização"
                                 matTooltipShowDelay="1500" [(ngModel)]="cadastroLocalServico.subGroup2"
-                                placeholder="Ex: Cozinha">
+                                placeholder="Ex: Cozinha" [disabled]="!cadastroLocalServico.subGroup1">
                         </div>
                     </div>
                     <div class="row">
@@ -61,7 +74,8 @@
                             <label for="subGrupo3">4º Nível de localização (Opcional)</label>
                             <input type="text" name="subGrupo3" id="subGrupo3" matTooltip="4º Nível de localização"
                                 matTooltipShowDelay="1500" [(ngModel)]="cadastroLocalServico.subGroup3"
-                                placeholder="Usado apenas em casos onde é necessário um maior detalhamento do cômodo">
+                                placeholder="Usado apenas em casos onde é necessário um maior detalhamento do cômodo"
+                                [disabled]="!cadastroLocalServico.subGroup2">
                         </div>
                     </div>
                     <div class="row">
@@ -82,10 +96,19 @@
                     </div>
                     <div class="row">
                         <div class="col-4">
-                            <label for="filterTable">Filtrar por Centro de Custo:</label>
-                            <select (change)="onFiltroChange($event)">
+                            <label for="filterTableConstrutora">Filtrar por Construtora:</label>
+                            <select name="filterTableConstrutora" id="filterTableConstrutora" (change)="onFiltroConstrutoraChange($event)">
                                 <option>Todos</option>
-                                <option *ngFor="let centroDeCusto of listaCentrosDeCustoFiltrada" [value]="centroDeCusto.costCenterName">
+                                <option *ngFor="let construtora of listaConstrutorasConsulta" [value]="construtora.builderName">
+                                    {{construtora.builderName}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-4" *ngIf="filtroConstrutoraSelecionado && filtroSelecionado !== 'Todos'">
+                            <label for="filterTable">Filtrar por Centro de Custo:</label>
+                            <select name="filterTable" id="filterTable" (change)="onFiltroChange($event)">
+                                <option>Todos</option>
+                                <option *ngFor="let centroDeCusto of listaCentrosDeCustoFiltradaConsulta" [value]="centroDeCusto.costCenterName">
                                     {{centroDeCusto.costCenterName}}
                                 </option>
                             </select>

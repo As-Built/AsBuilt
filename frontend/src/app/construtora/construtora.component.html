@@ -16,13 +16,13 @@
         <div class="row centralizar-conteudo">
           <div class="col-12 titulo">
             <h1>Cadastro de Construtora</h1>
+            <hr style="margin-left: 25px;">
           </div>
         </div>
         <form (ngSubmit)="cadastrarConstrutora()" #form="ngForm"
           style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between;">
           <div class="row">
             <div class="col-12">
-              <hr style="margin-left: 25px;">
               <h2 style="padding-left: 15px;">Dados da Construtora</h2>
             </div>
           </div>
@@ -41,9 +41,9 @@
                 matTooltipShowDelay="1500" [(ngModel)]="cadastroConstrutora.cnpj" placeholder="00.000.000/0000-00">
             </div>
             <div class="col-6">
-              <label for="telefone">Telefone</label>
-              <input type="text" name="telefone" id="telefone" required mask="(00) 0.0000-0000" matTooltip="Telefone"
-                matTooltipShowDelay="1500" [(ngModel)]="cadastroConstrutora.phone" placeholder="(XX) 0.1234-5678">
+              <label for="telefone">Telefone *</label>
+              <input type="text" name="telefone" id="telefone" required mask="(00) 0000-00000" matTooltip="Telefone"
+                matTooltipShowDelay="1500" [(ngModel)]="cadastroConstrutora.phone" placeholder="(XX) 0123-45678">
             </div>
           </div>
           <div class="row">
@@ -65,23 +65,27 @@
               <label for="logradouro">Logradouro *</label>
               <input type="text" name="logradouro" id="logradouro" required matTooltip="Rua, Avenida, Travessa, Alameda"
                 matTooltipShowDelay="1500" [(ngModel)]="cadastroConstrutora.builderAddress.street"
+                [disabled]="cadastroConstrutora.builderAddress.postalCode.length > 0"
                 placeholder="Rua Exemplo">
             </div>
             <div class="col-2">
               <label for="numero">Número *</label>
               <input type="number" name="numero" id="numero" required matTooltip="Para 'Sem Número' inserir '0'"
-                matTooltipShowDelay="1500" [(ngModel)]="cadastroConstrutora.builderAddress.number">
+                matTooltipShowDelay="1500" [(ngModel)]="cadastroConstrutora.builderAddress.number"
+                min="0" (keypress)="numberOnly($event)">
             </div>
           </div>
           <div class="row">
             <div class="col-6">
               <label for="cidade">Cidade *</label>
               <input type="text" name="cidade" id="cidade" required matTooltip="Cidade" matTooltipShowDelay="1500"
-                [(ngModel)]="cadastroConstrutora.builderAddress.city" placeholder="Cidade">
+                [(ngModel)]="cadastroConstrutora.builderAddress.city" placeholder="Cidade"
+                [disabled]="cadastroConstrutora.builderAddress.postalCode.length > 0">
             </div>
             <div class="col-2">
               <label for="estado">UF *</label>
-              <select name="estado" [(ngModel)]="cadastroConstrutora.builderAddress.state">
+              <select name="estado" [(ngModel)]="cadastroConstrutora.builderAddress.state"
+                [disabled]="cadastroConstrutora.builderAddress.postalCode.length > 0">
                 <option *ngFor="let estado of estadosBrasileiros" [value]="estado">{{estado}}</option>
               </select>
             </div>
@@ -153,30 +157,30 @@
   <div *ngIf="renderModalVisualizar" class="modal-body text-left modal-scroll">
     <div class="row">
       <div class="col-12">
-        <hr style="margin-left: 25px;">
         <h2 style="padding-left: 15px;">Dados da Construtora</h2>
+        <hr style="margin-left: 25px;">
       </div>
     </div>
     <div class="row">
       <div class="col-12">
-        <label for="nomeConstrutora">Nome da Construtora</label>
+        <label for="nomeConstrutora">Nome da Construtora *</label>
         <input type="text" name="nomeConstrutora" id="nomeConstrutora" [disabled]="indDesabilitaCampos"
           matTooltip="Nome da Construtora ou Empremteira" matTooltipShowDelay="1500"
           [(ngModel)]="construtoraModel.builderName" placeholder="Nome da construtora">
       </div>
-      <div class="row">
-        <div class="col-6">
-          <label for="cnpj">CNPJ</label>
-          <input type="text" name="cnpj" id="cnpj" required mask="00.000.000/0000-00" 
-            matTooltip="CNPJ" matTooltipShowDelay="1500" [disabled]="indDesabilitaCampos"
-            [(ngModel)]="construtoraModel.cnpj" placeholder="00.000.000/0000-00">
-        </div>
-        <div class="col-6">
-          <label for="telefone">Telefone</label>
-          <input type="text" name="telefone" id="telefone" required mask="(00) 0.0000-0000" 
-            matTooltip="Telefone" matTooltipShowDelay="1500" [disabled]="indDesabilitaCampos"
-            [(ngModel)]="construtoraModel.phone" placeholder="(XX) 0.1234-5678">
-        </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <label for="cnpj">CNPJ *</label>
+        <input type="text" name="cnpj" id="cnpj" required mask="00.000.000/0000-00" 
+          matTooltip="CNPJ" matTooltipShowDelay="1500" [disabled]="indDesabilitaCampos"
+          [(ngModel)]="construtoraModel.cnpj" placeholder="00.000.000/0000-00">
+      </div>
+      <div class="col-6">
+        <label for="telefone">Telefone *</label>
+        <input type="text" name="telefone" id="telefone" required mask="(00) 0000-00000" 
+          matTooltip="Telefone" matTooltipShowDelay="1500" [disabled]="indDesabilitaCampos"
+          [(ngModel)]="construtoraModel.phone" placeholder="(XX) 0123-45678">
       </div>
     </div>
     <div class="row">
@@ -187,7 +191,7 @@
     </div>
     <div class="row">
       <div class="col-4">
-        <label for="cep">CEP</label>
+        <label for="cep">CEP *</label>
         <input type="text" name="cep" id="cep" mask="00.000-000" required matTooltip="CEP" matTooltipShowDelay="1500"
           [(ngModel)]="construtoraModel.builderAddress.postalCode" [disabled]="indDesabilitaCampos"
           (change)="getAddress(construtoraModel.builderAddress.postalCode, true)" placeholder="00.000-000">
@@ -195,26 +199,30 @@
     </div>
     <div class="row">
       <div class="col-8">
-        <label for="logradouro">Logradouro</label>
+        <label for="logradouro">Logradouro *</label>
         <input type="text" name="logradouro" id="logradouro" required matTooltip="Rua, Avenida, Travessa, Alameda"
           matTooltipShowDelay="1500" [(ngModel)]="construtoraModel.builderAddress.street"
-          placeholder="Rua Exemplo" [disabled]="indDesabilitaCampos">
+          placeholder="Rua Exemplo" 
+          [disabled]="construtoraModel.builderAddress.postalCode.length > 0 || indDesabilitaCampos">
       </div>
       <div class="col-4">
-        <label for="numero">Número</label>
+        <label for="numero">Número *</label>
         <input type="number" name="numero" id="numero" required matTooltip="Para 'Sem Número' inserir '0'"
-          matTooltipShowDelay="1500" [(ngModel)]="construtoraModel.builderAddress.number" [disabled]="indDesabilitaCampos">
+          matTooltipShowDelay="1500" [(ngModel)]="construtoraModel.builderAddress.number" 
+          (keypress)="numberOnly($event)">
       </div>
     </div>
     <div class="row">
       <div class="col-8">
-        <label for="cidade">Cidade</label>
+        <label for="cidade">Cidade *</label>
         <input type="text" name="cidade" id="cidade" required matTooltip="Cidade" matTooltipShowDelay="1500"
-          [(ngModel)]="construtoraModel.builderAddress.city" placeholder="Cidade" [disabled]="indDesabilitaCampos">
+          [(ngModel)]="construtoraModel.builderAddress.city" placeholder="Cidade" 
+          [disabled]="construtoraModel.builderAddress.postalCode.length > 0 || indDesabilitaCampos">
       </div>
       <div class="col-4">
-        <label for="estado">UF</label>
-        <select name="estado" [(ngModel)]="construtoraModel.builderAddress.state" [disabled]="indDesabilitaCampos">
+        <label for="estado">UF *</label>
+        <select name="estado" [(ngModel)]="construtoraModel.builderAddress.state" 
+          [disabled]="construtoraModel.builderAddress.postalCode.length > 0 || indDesabilitaCampos">
           <option *ngFor="let estado of estadosBrasileiros" [value]="estado">{{estado}}</option>
         </select>
       </div>

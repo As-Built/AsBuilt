@@ -9,6 +9,10 @@
     margin-right: 60px;
 }
 
+body {
+    display: flex;
+}
+
 button {
     width: 60%;
 }
@@ -16,6 +20,7 @@ button {
 label {
     padding-top: 30px;
     justify-content: center;
+	cursor: pointer;
 }
 
 input {

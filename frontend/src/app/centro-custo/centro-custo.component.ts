@@ -24,7 +24,7 @@ export class CentroCustoComponent implements OnInit {
   listaConstrutoras: ConstrutoraModel[] = [];
   listaCentrosDeCusto: CentroCustoModel[] = [];
   estadosBrasileiros = ["AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"];
-  displayedColumns: string[] = ["acoes", "costCenterName", 'builder', 'valueUndertaken'];
+  displayedColumns: string[] = ["acoes", "costCenterName", 'builder', 'valueUndertaken', 'expectedBudget'];
   renderModalVisualizar = false;
   indDesabilitaCampos = true;
   isCadastroCentroCusto = true;
@@ -91,6 +91,7 @@ export class CentroCustoComponent implements OnInit {
           showConfirmButton: false,
           timer: 2000
         });
+        this.cadastroCentroCusto = new CentroCustoModel();
       }),
       catchError(error => {
         if (error.error == "Cost Center already exists") {
@@ -350,6 +351,14 @@ export class CentroCustoComponent implements OnInit {
         ).subscribe();
       }
     });
+  }
+
+  numberOnly(event: { which: any; keyCode: any; }): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
   }
 
   limparCampos() {
