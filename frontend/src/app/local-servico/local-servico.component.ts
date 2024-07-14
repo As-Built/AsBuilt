@@ -32,17 +32,17 @@ export class LocalServicoComponent implements OnInit {
   indDesabilitaCampos = true;
   isCadastroLocalServico = true;
   filtroConstrutoraSelecionado: string | null = null;
-  filtroSelecionado: string | null = null;
+  filtroCentroCustoSelecionado: string | null = null;
   listaLocalServicoFiltrada: LocalServicoModel[] = [];
   listaConstrutorasConsulta: ConstrutoraModel[] = [];
   listaCentrosDeCustoFiltradaConsulta: CentroCustoModel[] = [];
   construtoraFiltro: string | null = null;
   filtroLocationGroup: string | null = null;
-  listaLocationGroup: string[] = [];
+  listaLocationGroupFiltradaConsulta: LocalServicoModel[] = [];
   filtroSubGroup1: string | null = null;
   filtroSubGroup2: string | null = null;
-  listaSubGroup1: string[] = [];
-  listaSubGroup2: string[] = [];
+  listaSubGroup1FiltradaConsulta: string[] = [];
+  listaSubGroup2FiltradaConsulta: string[] = [];
 
   constructor(
     private localServicoService: LocalServicoService,
@@ -68,19 +68,19 @@ export class LocalServicoComponent implements OnInit {
     } else {
       this.filtroConstrutoraSelecionado = novoFiltro;
     }
-    this.filtroSelecionado = null;
+    this.filtroCentroCustoSelecionado = null;
     this.filtroLocationGroup = null;
     this.filtroSubGroup1 = null;
     this.filtroSubGroup2 = null;
     this.filtrarDados();
   }
 
-  onFiltroChange(event: Event) {
+  onFiltroCostCenterChange(event: Event) {
     const novoFiltro = (event.target as HTMLSelectElement).value;
     if (novoFiltro === 'Todos') {
-      this.filtroSelecionado = null;
+      this.filtroCentroCustoSelecionado = null;
     } else {
-      this.filtroSelecionado = novoFiltro;
+      this.filtroCentroCustoSelecionado = novoFiltro;
     }
     this.filtroLocationGroup = null;
     this.filtroSubGroup1 = null;
@@ -123,60 +123,65 @@ export class LocalServicoComponent implements OnInit {
   
   filtrarDados() {
     const construtoras = this.listaLocalServico.map(item => item.costCenter.builder);
-    this.listaConstrutorasConsulta = Array.from(new Set(construtoras.map(c => c.builderName)))
-      .map(name => {
-        return construtoras.find(c => c.builderName === name)
-      })
-      .filter((c): c is ConstrutoraModel => Boolean(c));
-
+    const uniqueConstrutoras: { [key: string]: any } = {}; //Adiciona um index a consulta para não trazer valores repetidos
+    construtoras.forEach(c => {
+      uniqueConstrutoras[c.builderName] = c;
+    });
+    this.listaConstrutorasConsulta = Object.values(uniqueConstrutoras);
+  
     if (this.filtroConstrutoraSelecionado) {
-      this.listaLocalServicoFiltrada = this.listaLocalServico.filter(construtora => 
-        construtora.costCenter.builder.builderName === this.filtroConstrutoraSelecionado
-      );
-    } else {
-      this.listaLocalServicoFiltrada = [...this.listaLocalServico];
-    }
-    
-    // const costCenters = this.listaLocalServico.map(item => item.costCenter);
-    // this.listaCentrosDeCustoFiltradaConsulta = Array.from(new Set(costCenters.map(cc => cc.costCenterName)))
-    //   .map(name => {
-    //     return costCenters.find(cc => cc.costCenterName === name)
-    //   })
-    //   .filter((cc): cc is CentroCustoModel => Boolean(cc));
-
-    this.listaCentrosDeCustoFiltradaConsulta = Array.from(new Set(this.listaLocalServicoFiltrada.map(ls => ls.costCenter)));
-
-    
-    if (this.filtroSelecionado) {
-      this.listaLocalServicoFiltrada = this.listaLocalServico.filter(localServico => 
-        localServico.costCenter.costCenterName === this.filtroSelecionado
-      );
+      this.listaCentrosDeCustoFiltradaConsulta = this.listaCentrosDeCusto.filter(centroCusto => centroCusto.builder.builderName === this.filtroConstrutoraSelecionado);
+      this.listaLocalServicoFiltrada = this.listaLocalServico.filter(localServico => localServico.costCenter.builder.builderName === this.filtroConstrutoraSelecionado);
     } else {
       this.listaLocalServicoFiltrada = [...this.listaLocalServico];
     }
   
-    this.listaLocationGroup = Array.from(new Set(this.listaLocalServicoFiltrada.map(ls => ls.locationGroup)));
-  
+    if (this.filtroCentroCustoSelecionado) {
+      this.listaLocalServicoFiltrada = this.listaLocalServicoFiltrada.filter(localServico => localServico.costCenter.costCenterName === this.filtroCentroCustoSelecionado);
+      
+      const uniqueLocationGroups: { [key: string]: LocalServicoModel } = {}; //Adiciona um index a consulta para não trazer valores repetidos
+      this.listaLocalServicoFiltrada.forEach(localServico => {
+        uniqueLocationGroups[localServico.locationGroup] = localServico;
+      });
+      this.listaLocationGroupFiltradaConsulta = Object.values(uniqueLocationGroups);
+    }
+
     if (this.filtroLocationGroup) {
-      this.listaLocalServicoFiltrada = this.listaLocalServicoFiltrada.filter(localServico => 
-        localServico.locationGroup === this.filtroLocationGroup
-      );
+      this.listaLocalServicoFiltrada = this.listaLocalServicoFiltrada.filter(localServico => localServico.locationGroup === this.filtroLocationGroup);
+
+      const uniqueLocationSubGroups1: { [key: string]: string } = {}; //Adiciona um index a consulta para não trazer valores repetidos
+      this.listaLocalServicoFiltrada.forEach(localServico => {
+        if (localServico.subGroup1) {
+          uniqueLocationSubGroups1[localServico.subGroup1] = localServico.subGroup1;
+        }
+      });
+      this.listaSubGroup1FiltradaConsulta = Object.values(uniqueLocationSubGroups1);
     }
-    this.listaSubGroup1 = Array.from(new Set(this.listaLocalServicoFiltrada.map(ls => ls.subGroup1).filter((sg): sg is string => sg !== undefined)));
-    this.listaSubGroup2 = Array.from(new Set(this.listaLocalServicoFiltrada.map(ls => ls.subGroup2).filter((sg): sg is string => sg !== undefined)));
-  
+
     if (this.filtroSubGroup1) {
-      this.listaLocalServicoFiltrada = this.listaLocalServicoFiltrada.filter(localServico => 
-        localServico.subGroup1 === this.filtroSubGroup1
-      );
+      this.listaLocalServicoFiltrada = this.listaLocalServicoFiltrada.filter(localServico => localServico.subGroup1 === this.filtroSubGroup1);
+    
+      const uniqueLocationSubGroups2: { [key: string]: string } = {};
+      this.listaLocalServicoFiltrada.forEach(localServico => {
+        if (localServico.subGroup2) {
+          uniqueLocationSubGroups2[localServico.subGroup2] = localServico.subGroup2;
+        }
+      });
+      this.listaSubGroup2FiltradaConsulta = Object.values(uniqueLocationSubGroups2);
     }
-  
+
     if (this.filtroSubGroup2) {
-      this.listaLocalServicoFiltrada = this.listaLocalServicoFiltrada.filter(localServico => 
-        localServico.subGroup2 === this.filtroSubGroup2
-      );
+      this.listaLocalServicoFiltrada = this.listaLocalServicoFiltrada.filter(localServico => localServico.subGroup2 === this.filtroSubGroup2);
+    
+      const uniqueLocationSubGroups3: { [key: string]: string } = {};
+      this.listaLocalServicoFiltrada.forEach(localServico => {
+        if (localServico.subGroup3) {
+          uniqueLocationSubGroups3[localServico.subGroup3] = localServico.subGroup3;
+        }
+      });
     }
   }
+  
 
   async buscarLocais() {
     try {
@@ -362,15 +367,15 @@ export class LocalServicoComponent implements OnInit {
     this.cadastroLocalServico = new LocalServicoModel();
     this.listaLocalServico = [];
     this.listaCentrosDeCusto = [];
-    this.filtroSelecionado = null;
+    this.filtroCentroCustoSelecionado = null;
     this.listaLocalServicoFiltrada = [];
     this.listaCentrosDeCustoFiltradaConsulta = [];
     this.filtroLocationGroup = null;
-    this.listaLocationGroup = [];
+    this.listaLocationGroupFiltradaConsulta = []
     this.filtroSubGroup1 = null;
     this.filtroSubGroup2 = null;
-    this.listaSubGroup1 = [];
-    this.listaSubGroup2 = [];
+    this.listaSubGroup1FiltradaConsulta = [];
+    this.listaSubGroup2FiltradaConsulta = [];
     this.buscarLocais();
     this.buscarCentrosDeCusto();
     this.filtrarDados();

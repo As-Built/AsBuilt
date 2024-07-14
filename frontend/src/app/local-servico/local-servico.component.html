@@ -10,6 +10,7 @@
                     (click)="mudarAba()">Consulta</a>
             </li>
         </ul>
+        <!-- ABA DE CADASTRO -->
         <div class="tab-content">
             <div *ngIf="isCadastroLocalServico" class="tab-pane fade"
                 [ngClass]="{'show active': isCadastroLocalServico}" id="cadastro">
@@ -88,6 +89,7 @@
                     </div>
                 </form>
             </div>
+            <!-- ABA DE CONSULTA -->
             <div *ngIf="!isCadastroLocalServico" [ngClass]="{'show active': !isCadastroLocalServico}"
                 class="tab-pane fade" id="consulta">
                 <div class="row centralizar-conteudo">
@@ -104,41 +106,41 @@
                                 </option>
                             </select>
                         </div>
-                        <div class="col-4" *ngIf="filtroConstrutoraSelecionado && filtroSelecionado !== 'Todos'">
-                            <label for="filterTable">Filtrar por Centro de Custo:</label>
-                            <select name="filterTable" id="filterTable" (change)="onFiltroChange($event)">
+                        <div class="col-4" *ngIf="filtroConstrutoraSelecionado">
+                            <label for="filterTableCostCenter">Filtrar por Centro de Custo:</label>
+                            <select name="filterTableCostCenter" id="filterTableCostCenter" (change)="onFiltroCostCenterChange($event)">
                                 <option>Todos</option>
                                 <option *ngFor="let centroDeCusto of listaCentrosDeCustoFiltradaConsulta" [value]="centroDeCusto.costCenterName">
                                     {{centroDeCusto.costCenterName}}
                                 </option>
                             </select>
                         </div>
-                        <div class="col-4" *ngIf="filtroSelecionado && filtroSelecionado !== 'Todos'">
-                            <label for="filterTable">Filtrar pelo 1º Nível:</label>
-                            <select (change)="onFiltroLocationGroupChange($event)" [(ngModel)]="filtroLocationGroup">
+                        <div class="col-4" *ngIf="filtroCentroCustoSelecionado && listaLocationGroupFiltradaConsulta.length > 0">
+                            <label for="filterTable1">Filtrar pelo 1º Nível:</label>
+                            <select name="filterTable1" id="filterTable1" (change)="onFiltroLocationGroupChange($event)">
                                 <option value="">Todos</option>
-                                <option *ngFor="let locationGroup of listaLocationGroup" [value]="locationGroup">
-                                    {{locationGroup}}
+                                <option *ngFor="let locationGroup of listaLocationGroupFiltradaConsulta" [value]="locationGroup.locationGroup">
+                                    {{locationGroup.locationGroup}}
                                 </option>
                             </select>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-4" *ngIf="filtroLocationGroup && filtroLocationGroup !== 'Todos'">
-                            <label for="filterTable">Filtrar pelo 2º Nível:</label>
-                            <select (change)="onFiltroSubGroup1Change($event)" [(ngModel)]="filtroSubGroup1">
+                        <div class="col-4" *ngIf="filtroLocationGroup && listaSubGroup1FiltradaConsulta.length > 0">
+                            <label for="filterTable2">Filtrar pelo 2º Nível:</label>
+                            <select name="filterTable2" id="filterTable2" (change)="onFiltroSubGroup1Change($event)">
                                 <option value="">Todos</option>
-                                <option *ngFor="let subGroup1 of listaSubGroup1" [value]="subGroup1">
+                                <option *ngFor="let subGroup1 of listaSubGroup1FiltradaConsulta" [value]="subGroup1">
                                     {{subGroup1}}
                                 </option>
                             </select>
                         </div>
                         
-                        <div class="col-4" *ngIf="filtroSubGroup1 && filtroSubGroup1 !== 'Todos'">
-                            <label for="filterTable">Filtrar pelo 3º Nível:</label>
-                            <select (change)="onFiltroSubGroup2Change($event)" [(ngModel)]="filtroSubGroup2">
+                        <div class="col-4" *ngIf="filtroSubGroup1 && listaSubGroup2FiltradaConsulta.length > 0">
+                            <label for="filterTable3">Filtrar pelo 3º Nível:</label>
+                            <select name="filterTable3" id="filterTable3" (change)="onFiltroSubGroup2Change($event)">
                                 <option value="">Todos</option>
-                                <option *ngFor="let subGroup2 of listaSubGroup2" [value]="subGroup2">
+                                <option *ngFor="let subGroup2 of listaSubGroup2FiltradaConsulta" [value]="subGroup2">
                                     {{subGroup2}}
                                 </option>
                             </select>
@@ -208,13 +210,18 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <label for="centroDeCusto">Centro de Custo</label>
-                <select style="height: 40px" name="centroDeCusto" id="centroDeCusto" required
-                    matTooltip="Centro de custo" matTooltipShowDelay="1500" [(ngModel)]="localServicoModel.costCenter">
-                    <option *ngFor="let centroCusto of listaCentrosDeCusto" [ngValue]="centroCusto">
-                        {{centroCusto.costCenterName}}
-                    </option>
-                </select>
+                <label for="construtoraModalEdicao">Construtora</label>
+                <input type="text" name="construtoraModalEdicao" id="construtoraModalEdicao" required matTooltip="Obra"
+                    matTooltipShowDelay="1500" [(ngModel)]="localServicoModel.costCenter.builder.builderName" placeholder="Construtora"
+                    disabled="disabled">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <label for="centroDeCustoModalEdicao">Centro de Custo</label>
+                <input type="text" name="centroDeCustoModalEdicao" id="centroDeCustoModalEdicao" required matTooltip="Obra"
+                    matTooltipShowDelay="1500" [(ngModel)]="localServicoModel.costCenter.costCenterName" placeholder="Obra"
+                    disabled="disabled">
             </div>
         </div>
         <div class="row">
