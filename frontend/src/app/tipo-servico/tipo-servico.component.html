@@ -130,7 +130,7 @@
                     <div class="col-12 titulo">
                         <h1>Tipos de Serviço cadastrados</h1>
                     </div>
-                    <div class="row">
+                    <div class="row" *ngIf="listaTipoDeServico.length > 0">
                         <div class="col-12">
                             <table mat-table [dataSource]="listaTipoDeServico" class="mat-elevation-z8">
                                 <ng-container matColumnDef="acoes">
@@ -171,6 +171,11 @@
                                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                             </table>
                         </div>
+                    </div>
+                    <div class="row centralizar-conteudo" *ngIf="listaTipoDeServico.length === 0">
+                        <h3>
+                            Nenhum Tipo de Serviço encontrado
+                        </h3>
                     </div>
                 </div>
             </div>

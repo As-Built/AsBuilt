@@ -146,7 +146,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" *ngIf="listaLocalServicoFiltrada.length > 0">
                         <div class="col-12">
                             <table mat-table [dataSource]="listaLocalServicoFiltrada" class="mat-elevation-z8">
                                 <ng-container matColumnDef="acoes">
@@ -192,6 +192,11 @@
                                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                             </table>
                         </div>
+                    </div>
+                    <div class="row centralizar-conteudo" *ngIf="listaLocalServicoFiltrada.length === 0">
+                        <h3>
+                            Nenhum local de serviço encontrado
+                        </h3>
                     </div>
                 </div>
             </div>
