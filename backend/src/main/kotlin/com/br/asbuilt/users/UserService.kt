@@ -11,6 +11,7 @@ import com.br.asbuilt.users.controller.responses.UserResponse
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Sort
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import kotlin.jvm.optionals.getOrNull
 
@@ -19,6 +20,7 @@ class UserService(
     val repository: UserRepository,
     val roleRepository: RoleRepository,
     val jwt: Jwt,
+    val passwordEncoder: BCryptPasswordEncoder,
 
     @Autowired
     val mailService: MailService
@@ -84,7 +86,7 @@ class UserService(
 
     fun login(email: String, password: String): LoginResponse? {
         val user = repository.findByEmail(email) ?: return null
-        if (user.password != password) return null
+        if (!passwordEncoder.matches(password, user.password)) return null // Usar matches para comparar as senhas
 
         log.info("User logged in. id={}, name={}", user.id, user.name)
         return LoginResponse(

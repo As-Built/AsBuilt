@@ -4,6 +4,9 @@ import com.br.asbuilt.address.Address
 import com.br.asbuilt.roles.Role
 import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
+import org.springframework.context.ApplicationContext
+import org.springframework.context.ApplicationContextAware
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 @Entity
 @Table(name = "TblUser")
@@ -38,8 +41,26 @@ class User(
         inverseJoinColumns = [JoinColumn(name = "idRole")]
     )
     val roles: MutableSet<Role> = mutableSetOf()
-) {
+) : ApplicationContextAware {
     @get:JsonIgnore
     @get:Transient
     val isAdmin: Boolean get() = roles.any { it.name == "ADMIN" }
+
+    companion object {
+        @Transient
+        private var applicationContext: ApplicationContext? = null
+
+        fun getBCryptPasswordEncoder(): BCryptPasswordEncoder =
+            applicationContext?.getBean(BCryptPasswordEncoder::class.java) ?: throw IllegalStateException("Application context is not set")
+    }
+
+    override fun setApplicationContext(applicationContext: ApplicationContext) {
+        User.applicationContext = applicationContext
+    }
+
+    @PrePersist
+    @PreUpdate
+    private fun hashPassword() {
+        this.password = getBCryptPasswordEncoder().encode(this.password)
+    }
 }
