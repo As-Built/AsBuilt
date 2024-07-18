@@ -6,6 +6,7 @@ import com.br.asbuilt.exception.NotFoundException
 import com.br.asbuilt.mail.MailService
 import com.br.asbuilt.roles.RoleRepository
 import com.br.asbuilt.security.Jwt
+import com.br.asbuilt.users.controller.requests.PatchUserRequest
 import com.br.asbuilt.users.controller.responses.LoginResponse
 import com.br.asbuilt.users.controller.responses.UserResponse
 import org.slf4j.LoggerFactory
@@ -43,10 +44,18 @@ class UserService(
         }
     }
 
-    fun update(id: Long, name: String): User? {
-        val user = findByIdOrThrow(id)
-        if (user.name == name) return null
-        user.name = name
+    fun update(userRequest: PatchUserRequest): User? {
+        val user = findByIdOrThrow(userRequest.id!!)
+        if (user.name == userRequest.name) return null
+        user.name = userRequest.name!!
+        if (user.cpf == userRequest.cpf!!) return null
+        user.cpf = userRequest.cpf
+        if (user.phone == userRequest.phone) return null
+        user.phone = userRequest.phone!!
+        if (user.userAddress == userRequest.userAddress) return null
+        user.userAddress = userRequest.userAddress!!
+        if (userRequest.photo == null) return null
+        user.photo = userRequest.photo
         return repository.save(user)
     }
 

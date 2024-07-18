@@ -9,6 +9,7 @@ import { ConstrutoraComponent } from './construtora/construtora.component';
 import { LocalServicoComponent } from './local-servico/local-servico.component';
 import { TipoServicoComponent } from './tipo-servico/tipo-servico.component';
 import { UnidadeMedidaComponent } from './unidade-medida/unidade-medida.component';
+import { PerfilUsuarioComponent } from './perfil-usuario/perfil-usuario.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'localServico', component: LocalServicoComponent, canActivate: [AuthGuard], data: { authorities: ['ADMIN', 'CONFERENTE'] } },
   { path: 'tipoServico', component: TipoServicoComponent, canActivate: [AuthGuard], data: { authorities: ['ADMIN', 'CONFERENTE'] } },
   { path: 'unidadeDeMedida', component: UnidadeMedidaComponent, canActivate: [AuthGuard], data: { authorities: ['ADMIN', 'CONFERENTE'] } },
+  { path: 'perfilUsuario', component: PerfilUsuarioComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', redirectTo: 'home' }
 ];

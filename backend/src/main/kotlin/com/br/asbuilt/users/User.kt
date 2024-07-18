@@ -34,6 +34,9 @@ class User(
 
     var phone: String = "",
 
+    @Lob
+    var photo: ByteArray? = null,
+
     @ManyToMany
     @JoinTable(
         name="UserRole",

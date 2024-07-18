@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { jwtDecode } from "jwt-decode";
 
 
 @Component({
@@ -6,7 +7,14 @@ import { Component, Input, OnInit } from '@angular/core';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit{
+
+
+  ngOnInit(): void {
+    this.userName = this.getUserName();
+  }
+
+  public userName: string = '';
 
   @Input ()
   isSidebarOpen = true;
@@ -15,4 +23,15 @@ export class SidebarComponent {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
 
+  getUserName(): string {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return "";
+    }
+  
+    const decodedToken = jwtDecode(token) as any;
+    const fullName = decodedToken.user.name;
+    const firstName = fullName.split(' ')[0];
+    return firstName;
+  }
 }

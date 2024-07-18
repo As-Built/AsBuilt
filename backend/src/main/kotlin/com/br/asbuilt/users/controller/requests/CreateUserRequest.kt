@@ -16,7 +16,7 @@ data class CreateUserRequest(
     val email: String?,
     //A senha deve possuir ao menos uma letra maíuscula e uma letra minúscula
     //A senha deve possuir ao menos um número
-    //A senha deve conter pelo menos um  caractere especial (@, $, !, %, *, #, ?, &)
+    //A senha deve conter pelo menos um caractere especial (@, $, !, %, *, #, ?, &)
     //A senha deve ter pelo menos 8 dígitos
     @field:Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@\$!%*#?&])[A-Za-z\\d@\$!%*#?&]{8,12}\$")
     val password: String?,

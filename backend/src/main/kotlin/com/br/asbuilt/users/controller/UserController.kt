@@ -35,16 +35,13 @@ class UserController(val service: UserService) {
 
     @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("permitAll()")
-    @PatchMapping("/{id}")
+    @PatchMapping("/updateUser")
     fun update(
-        @PathVariable id: Long,
         @Valid @RequestBody request: PatchUserRequest,
         auth: Authentication
     ): ResponseEntity<UserResponse> {
-        val token = auth.principal as? UserToken ?: throw ForbiddenException()
-        if (token.id != id && !token.isAdmin) throw ForbiddenException()
-
-        return service.update(id, request.name!!)
+        //TODO: Implementar a criação de endereço
+        return service.update(request)
             ?.let { ResponseEntity.ok(UserResponse(it)) }
             ?: ResponseEntity.noContent().build()
     }

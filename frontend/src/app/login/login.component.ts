@@ -66,7 +66,6 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    console.log(this.loginForm);
     if (this.loginForm.valid) {
       this.loginService.signIn(autenticacao).subscribe(retorno => {
         localStorage.setItem('token', retorno.token);
@@ -83,8 +82,7 @@ export class LoginComponent implements OnInit {
         if (authority === "ADMIN" || authority === "CONFERENTE") {
           this.router.navigate(['servico']);
         } else if (authority === "FUNCIONARIO") {
-          //TODO: CRIAR ROTA PARA DASHBOARD DO USUÁRIO
-          this.router.navigate(['home']);
+          this.router.navigate(['perfilUsuario']);
         } else {
           // Redirecionamento padrão para algum lugar caso a autoridade não seja "ADMIN", "CONFERENTE" ou "FUNCIONARIO"
           this.router.navigate(['home']);

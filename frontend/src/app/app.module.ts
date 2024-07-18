@@ -34,6 +34,7 @@ import { UnidadeMedidaComponent } from './unidade-medida/unidade-medida.componen
 import { ServicoComponent } from './servico/servico.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { PerfilUsuarioComponent } from './perfil-usuario/perfil-usuario.component';
 
 
 @NgModule({
@@ -55,7 +56,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     RealPipe,
     LocalServicoComponent,
     TipoServicoComponent,
-    UnidadeMedidaComponent
+    UnidadeMedidaComponent,
+    PerfilUsuarioComponent
   ],
   imports: [
     BrowserModule,
