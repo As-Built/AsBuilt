@@ -1,8 +1,6 @@
 package com.br.asbuilt.users.controller
 
 import com.br.asbuilt.SortDir
-import com.br.asbuilt.exception.ForbiddenException
-import com.br.asbuilt.security.UserToken
 import com.br.asbuilt.users.UserService
 import com.br.asbuilt.users.controller.requests.CreateUserRequest
 import com.br.asbuilt.users.controller.requests.LoginRequest
@@ -40,7 +38,6 @@ class UserController(val service: UserService) {
         @Valid @RequestBody request: PatchUserRequest,
         auth: Authentication
     ): ResponseEntity<UserResponse> {
-        //TODO: Implementar a criação de endereço
         return service.update(request)
             ?.let { ResponseEntity.ok(UserResponse(it)) }
             ?: ResponseEntity.noContent().build()

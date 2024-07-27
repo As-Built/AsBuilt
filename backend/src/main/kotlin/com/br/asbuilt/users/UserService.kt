@@ -1,6 +1,9 @@
 package com.br.asbuilt.users
 
 import com.br.asbuilt.SortDir
+import com.br.asbuilt.address.AddressRepository
+import com.br.asbuilt.costCenters.CostCenterService
+import com.br.asbuilt.costCenters.CostCenterService.Companion
 import com.br.asbuilt.exception.BadRequestException
 import com.br.asbuilt.exception.NotFoundException
 import com.br.asbuilt.mail.MailService
@@ -20,6 +23,7 @@ import kotlin.jvm.optionals.getOrNull
 class UserService(
     val repository: UserRepository,
     val roleRepository: RoleRepository,
+    val addressRepository: AddressRepository,
     val jwt: Jwt,
     val passwordEncoder: BCryptPasswordEncoder,
 
@@ -45,18 +49,18 @@ class UserService(
     }
 
     fun update(userRequest: PatchUserRequest): User? {
-        val user = findByIdOrThrow(userRequest.id!!)
-        if (user.name == userRequest.name) return null
-        user.name = userRequest.name!!
-        if (user.cpf == userRequest.cpf!!) return null
+        val user = repository.findById(userRequest.id)
+            .orElseThrow { NotFoundException("User not found with id: ${userRequest.id}") }
+        val savedAddress = addressRepository.save(userRequest.userAddress)
+            .also { log.info("Address inserted: {}", it.id) }
+        user.name = userRequest.name
+        user.email = userRequest.email
         user.cpf = userRequest.cpf
-        if (user.phone == userRequest.phone) return null
-        user.phone = userRequest.phone!!
-        if (user.userAddress == userRequest.userAddress) return null
-        user.userAddress = userRequest.userAddress!!
-        if (userRequest.photo == null) return null
-        user.photo = userRequest.photo
+        user.userAddress = savedAddress
+        user.phone = userRequest.phone
+
         return repository.save(user)
+            .also { log.info("User updated: {}", it.id) }
     }
 
     fun findAll(dir: SortDir = SortDir.ASC): List<User> = when (dir) {

@@ -64,6 +64,8 @@ class User(
     @PrePersist
     @PreUpdate
     private fun hashPassword() {
-        this.password = getBCryptPasswordEncoder().encode(this.password)
+        if (this.password.isNotEmpty() && !this.password.startsWith("\$2a\$")) {
+            this.password = getBCryptPasswordEncoder().encode(this.password)
+        }
     }
 }
