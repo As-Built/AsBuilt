@@ -1,7 +1,9 @@
 package com.br.asbuilt.users.controller.requests
 
+import com.br.asbuilt.Uint8ArrayDeserializer
 import com.br.asbuilt.address.Address
 import com.br.asbuilt.users.User
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 
@@ -15,8 +17,6 @@ data class PatchUserRequest(
     @field:NotBlank
     val email: String,
 
-//    val password: String?,
-
     @field:NotBlank
     val cpf: String,
 
@@ -26,10 +26,11 @@ data class PatchUserRequest(
     @field:NotBlank
     val phone: String,
 
+    @JsonDeserialize(using = Uint8ArrayDeserializer::class)
     val photo: ByteArray?
 
-
 ) {
+    constructor() : this(0L, "", "", "", Address(), "", null)
 
     fun toUser() = User(
         id = id,

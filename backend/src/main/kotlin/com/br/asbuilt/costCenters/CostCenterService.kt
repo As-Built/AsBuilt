@@ -97,7 +97,7 @@ class CostCenterService(
                 costCenter.costCenterAddress = savedAddress
 
                 val updateCostCenter = repository.save(existingCostCenter)
-                log.info("Builder updated: {}", updateCostCenter.id)
+                log.info("Cost Center updated: {}", updateCostCenter.id)
                 return updateCostCenter
             }
         }

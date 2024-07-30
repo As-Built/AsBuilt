@@ -9,6 +9,12 @@
         <form (ngSubmit)="updatePerfilUsuario()" #form="ngForm"
             style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between;">
             <div class="row">
+                <div class="col-7">
+                    <label for="userImage">Imagem</label>
+                    <input type="file" id="userImage" name="userImage" accept="image/*" (change)="handleFileInput($event.target)">
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-6">
                     <label for="userName">Nome *</label>
                     <input type="text" name="userName" id="userName" required matTooltip="Nome completo"

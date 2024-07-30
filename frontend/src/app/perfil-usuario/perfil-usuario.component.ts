@@ -16,6 +16,7 @@ export class PerfilUsuarioComponent implements OnInit{
 
   perfilUsuario = new PerfilUsuarioModel();
   estadosBrasileiros = ["AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"];
+  fileToUpload: File | null = null;
 
   constructor(private perfilUsuarioService: PerfilUsuarioService,
     private http: HttpClient
@@ -44,6 +45,27 @@ export class PerfilUsuarioComponent implements OnInit{
       console.error(error)
     }
   }
+
+  handleFileInput(target: EventTarget | null) {
+    if (!target) {
+        return;
+    }
+    const files = (target as HTMLInputElement).files;
+    if (!files || files.length === 0) {
+        return;
+    }
+    this.fileToUpload = files.item(0);
+    if (!this.fileToUpload) {
+        return;
+    }
+    const reader = new FileReader();
+    reader.onload = (event: any) => {
+      const byteArray = new Uint8Array(event.target.result);
+      const base64String = btoa(String.fromCharCode(...byteArray));
+      this.perfilUsuario.photo = base64String;
+  }
+    reader.readAsArrayBuffer(this.fileToUpload);
+}
 
   updatePerfilUsuario() {
     this.perfilUsuarioService.updatePerfilUsuario(this.perfilUsuario).pipe(

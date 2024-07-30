@@ -2,8 +2,6 @@ package com.br.asbuilt.users
 
 import com.br.asbuilt.SortDir
 import com.br.asbuilt.address.AddressRepository
-import com.br.asbuilt.costCenters.CostCenterService
-import com.br.asbuilt.costCenters.CostCenterService.Companion
 import com.br.asbuilt.exception.BadRequestException
 import com.br.asbuilt.exception.NotFoundException
 import com.br.asbuilt.mail.MailService
@@ -28,7 +26,8 @@ class UserService(
     val passwordEncoder: BCryptPasswordEncoder,
 
     @Autowired
-    val mailService: MailService
+    val mailService: MailService,
+    private val userRepository: UserRepository
 ) {
 
     fun insert(user: User): User {
@@ -49,18 +48,58 @@ class UserService(
     }
 
     fun update(userRequest: PatchUserRequest): User? {
-        val user = repository.findById(userRequest.id)
-            .orElseThrow { NotFoundException("User not found with id: ${userRequest.id}") }
-        val savedAddress = addressRepository.save(userRequest.userAddress)
-            .also { log.info("Address inserted: {}", it.id) }
-        user.name = userRequest.name
-        user.email = userRequest.email
-        user.cpf = userRequest.cpf
-        user.userAddress = savedAddress
-        user.phone = userRequest.phone
+        val existingUser = userRequest.id.let {
+            repository.findById(it)
+                .orElseThrow { NotFoundException("User not found with id: ${userRequest.id}") }
+        }
+        if (existingUser != null) {
+            var isChanged = false
 
-        return repository.save(user)
-            .also { log.info("User updated: {}", it.id) }
+            if (userRequest.name != existingUser.name) {
+                existingUser.name = userRequest.name
+                isChanged = true
+            }
+
+            if (userRequest.email != existingUser.email) {
+                existingUser.email = userRequest.email
+                isChanged = true
+            }
+
+            if (userRequest.cpf != existingUser.cpf) {
+                existingUser.name = userRequest.name
+                isChanged = true
+            }
+
+            if (userRequest.phone != existingUser.phone) {
+                existingUser.phone = userRequest.phone
+                isChanged = true
+            }
+
+            if (userRequest.userAddress != existingUser.userAddress) {
+                existingUser.userAddress = userRequest.userAddress
+                isChanged = true
+            }
+
+            if (!userRequest.photo.contentEquals(existingUser.photo)) {
+                existingUser.photo = userRequest.photo
+                isChanged = true
+            }
+
+            if (isChanged) {
+
+                val newAddress = userRequest.userAddress
+                newAddress.id = userRequest.userAddress.id
+
+                val savedAddress = addressRepository.save(newAddress)
+                    .also { log.info("Address updated: {}", it.id)}
+                userRequest.userAddress = savedAddress
+
+                val updateUser = repository.save(existingUser)
+                log.info("User updated: {}", updateUser.id)
+                return updateUser
+            }
+        }
+        return null
     }
 
     fun findAll(dir: SortDir = SortDir.ASC): List<User> = when (dir) {

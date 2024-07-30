@@ -2,6 +2,7 @@ package com.br.asbuilt.address
 
 import com.br.asbuilt.builders.Builder
 import com.br.asbuilt.costCenters.CostCenter
+import com.br.asbuilt.users.User
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
@@ -43,5 +44,17 @@ interface AddressRepository : JpaRepository<Address, Long>{
         state: String?,
         postalCode: String?
     ): CostCenter?
+
+    @Query("SELECT u FROM User u " +
+            "INNER JOIN u.userAddress a " +
+            "WHERE a.street = :street AND a.number = :number AND a.city = :city " +
+            "AND a.state = :state AND a.postalCode = :postalCode")
+    fun  findUserByFullAddress(
+        street: String?,
+        number: Int?,
+        city: String?,
+        state: String?,
+        postalCode: String?
+    ): User?
 
 }

@@ -1,6 +1,9 @@
 package com.br.asbuilt.security
 
+import com.br.asbuilt.ByteArrayDeserializer
 import com.br.asbuilt.users.User
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.module.SimpleModule
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType
 import io.swagger.v3.oas.annotations.security.SecurityScheme
 import jakarta.servlet.http.HttpServletResponse
@@ -11,9 +14,11 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
 import org.springframework.http.HttpMethod
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy.STATELESS
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter
@@ -25,7 +30,9 @@ import org.springframework.web.filter.CorsFilter
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector
 
 @Configuration
+@EnableWebSecurity
 @EnableMethodSecurity
+
 @SecurityScheme(
     name="AsBuilt",
     type=SecuritySchemeType.HTTP,
@@ -93,7 +100,7 @@ class SecurityConfig(
                     .anyRequest().authenticated()
             }
             .addFilterBefore(jwtTokenFilter, BasicAuthenticationFilter::class.java)
-            .build()
+            .build()!!
 
     @Bean
     fun corsFilter() =
@@ -110,6 +117,18 @@ class SecurityConfig(
     @Bean
     fun bCryptPasswordEncoder(): BCryptPasswordEncoder {
         return BCryptPasswordEncoder()
+    }
+
+    @Bean
+    fun objectMapper(): ObjectMapper {
+        val module = SimpleModule()
+        module.addDeserializer(ByteArray::class.java, ByteArrayDeserializer())
+        return ObjectMapper().registerModule(module)
+    }
+
+    @Bean
+    fun jackson2ObjectMapperBuilder(): Jackson2ObjectMapperBuilder {
+        return Jackson2ObjectMapperBuilder().modulesToInstall(SimpleModule::class.java)
     }
 
     @ConfigurationProperties("security.admin")
