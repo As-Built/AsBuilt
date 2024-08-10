@@ -26,6 +26,12 @@ configurations {
 	}
 }
 
+dependencyManagement {
+	imports {
+		mavenBom("com.azure.spring:spring-cloud-azure-dependencies:5.14.0")
+	}
+}
+
 dependencies {
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
@@ -46,12 +52,13 @@ dependencies {
 	testImplementation("io.mockk:mockk:1.13.7")
 	testImplementation("io.kotest:kotest-runner-junit5-jvm:5.6.2")
 	runtimeOnly("io.kotest:kotest-assertions-core:5.6.2")
-
 	implementation("com.microsoft.sqlserver:mssql-jdbc:9.4.0.jre8")
 	implementation("org.springframework.boot:spring-boot-starter-mail")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-security")
-	implementation("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.6.8")}
+	implementation("com.azure.spring:spring-cloud-azure-starter-storage-blob")
+	implementation("com.azure:azure-storage-blob:12.14.2")
+}
 
 
 tasks.withType<KotlinCompile> {

@@ -1,24 +1,20 @@
 package com.br.asbuilt.security
 
-import com.br.asbuilt.ByteArrayDeserializer
+import com.br.asbuilt.azureBlobStorage.AzureBlobResourceProvider
+import com.br.asbuilt.azureBlobStorage.controller.AzureBlobController
 import com.br.asbuilt.users.User
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.module.SimpleModule
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType
 import io.swagger.v3.oas.annotations.security.SecurityScheme
 import jakarta.servlet.http.HttpServletResponse
 import org.slf4j.LoggerFactory
 import org.springframework.boot.context.properties.ConfigurationProperties
-
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
 import org.springframework.http.HttpMethod
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy.STATELESS
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter
@@ -30,12 +26,10 @@ import org.springframework.web.filter.CorsFilter
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector
 
 @Configuration
-@EnableWebSecurity
 @EnableMethodSecurity
-
 @SecurityScheme(
-    name="AsBuilt",
-    type=SecuritySchemeType.HTTP,
+    name = "AsBuilt",
+    type = SecuritySchemeType.HTTP,
     scheme = "bearer",
     bearerFormat = "JWT"
 )
@@ -54,11 +48,10 @@ class SecurityConfig(
             .exceptionHandling {
                 it.authenticationEntryPoint { _, res, ex ->
                     res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "UNAUTHORIZED")
-                        .also { log.warn("Authorization failed", ex)  }
+                        .also { log.warn("Authorization failed", ex) }
                 }
             }
-
-            .headers { header -> header.frameOptions { it.disable() }}
+            .headers { header -> header.frameOptions { it.disable() } }
             .authorizeHttpRequests { requests ->
                 requests
                     .requestMatchers(antMatcher(HttpMethod.GET)).permitAll()
@@ -97,10 +90,12 @@ class SecurityConfig(
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/taskType/insertTaskType")).hasAnyRole("ADMIN", "CONFERENTE")
                     .requestMatchers(mvc.pattern(HttpMethod.PATCH, "/taskType/updateTaskType")).hasAnyRole("ADMIN", "CONFERENTE")
                     .requestMatchers(mvc.pattern(HttpMethod.DELETE, "/taskType/deleteTaskType/**")).hasAnyRole("ADMIN", "CONFERENTE")
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/blob")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/blob")).permitAll()
                     .anyRequest().authenticated()
             }
             .addFilterBefore(jwtTokenFilter, BasicAuthenticationFilter::class.java)
-            .build()!!
+            .build()
 
     @Bean
     fun corsFilter() =
@@ -120,15 +115,8 @@ class SecurityConfig(
     }
 
     @Bean
-    fun objectMapper(): ObjectMapper {
-        val module = SimpleModule()
-        module.addDeserializer(ByteArray::class.java, ByteArrayDeserializer())
-        return ObjectMapper().registerModule(module)
-    }
-
-    @Bean
-    fun jackson2ObjectMapperBuilder(): Jackson2ObjectMapperBuilder {
-        return Jackson2ObjectMapperBuilder().modulesToInstall(SimpleModule::class.java)
+    fun azureBlobController(azureBlobResourceProvider: AzureBlobResourceProvider): AzureBlobController {
+        return AzureBlobController(azureBlobResourceProvider)
     }
 
     @ConfigurationProperties("security.admin")

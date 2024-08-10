@@ -24,6 +24,17 @@ export class PerfilUsuarioService {
     return this.httpClient.get<PerfilUsuarioModel>(`http://localhost:8080/asbuilt/users/${id}`, this.httpOptions);
 
   }
+  updatePerfilUsuarioFoto(photo: Uint8Array): Observable<any> {
+    let formData = new FormData();
+    formData.append('blobName', 'newProfilePicture.jpg');
+    formData.append('data', new Blob([photo.buffer]), 'newProfilePicture.jpg');
+  
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`
+    });
+  
+    return this.httpClient.post("http://localhost:8080/asbuilt/blob/writeBlobFile", formData, { headers });
+  }
 
   updatePerfilUsuario(perfilUsuario: PerfilUsuarioModel): Observable<PerfilUsuarioModel> {
     let body = JSON.stringify({
@@ -32,7 +43,7 @@ export class PerfilUsuarioService {
       email: perfilUsuario.email,
       cpf: perfilUsuario.cpf,
       phone: perfilUsuario.phone,
-      photo: perfilUsuario.photo,
+      // photo: perfilUsuario.photo,
       userAddress: {
         id: perfilUsuario.userAddress.id,
         street: perfilUsuario.userAddress.street,

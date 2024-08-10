@@ -105,7 +105,7 @@ export class CadastroUsuarioComponent {
     let confirmPassword = this.cadastroUsuarioForm.get('confirmPassword')?.value ?? '';
     let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,12}$/;
-    let nomeValidoRegex = /^[a-zA-Z]{3,}\s(?:[a-zA-Z]{3,}\s?)+$/;
+    let nomeValidoRegex = /^[a-zA-ZÀ-ÿ]{3,}\s(?:[a-zA-ZÀ-ÿ]{2,}\s?)+$/;
 
     if (this.validaCPF(cadastroUsuarioModel.cpf) === false) {
       Swal.fire({
@@ -159,7 +159,9 @@ export class CadastroUsuarioComponent {
       return;
     }
 
-    if (!nomeValidoRegex.test(cadastroUsuarioModel.name)) {
+    let testName = nomeValidoRegex.test(cadastroUsuarioModel.name);
+    
+    if (!testName) {
       Swal.fire({
         text: "O nome digitado não possui um formato válido! Exemplo: 'Nome Sobrenome'",
         icon: "error",

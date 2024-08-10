@@ -46,26 +46,46 @@ export class PerfilUsuarioComponent implements OnInit{
     }
   }
 
+  fileIsLoading = false;
+
   handleFileInput(target: EventTarget | null) {
     if (!target) {
         return;
     }
     const files = (target as HTMLInputElement).files;
     if (!files || files.length === 0) {
-        return;
+      return;
     }
     this.fileToUpload = files.item(0);
     if (!this.fileToUpload) {
-        return;
+      return;
     }
     const reader = new FileReader();
+    this.fileIsLoading = true;
     reader.onload = (event: any) => {
       const byteArray = new Uint8Array(event.target.result);
-      const base64String = btoa(String.fromCharCode(...byteArray));
-      this.perfilUsuario.photo = base64String;
-  }
+      let base64String = '';
+      const chunkSize = 5000; // Tamanho do pedaço
+      for (let i = 0; i < byteArray.length; i += chunkSize) {
+        const chunk = byteArray.slice(i, i + chunkSize);
+        base64String += btoa(String.fromCharCode(...chunk));
+      }
+        this.perfilUsuario.photo = new Uint8Array(byteArray.buffer);
+        this.fileIsLoading = false;
+    }
     reader.readAsArrayBuffer(this.fileToUpload);
-}
+  }
+  
+  updatePerfilUsuarioFoto(){
+    this.perfilUsuarioService.updatePerfilUsuarioFoto(this.perfilUsuario.photo).subscribe(
+      response => {
+        console.log('Foto atualizada com sucesso');
+      },
+      error => {
+        console.error('Erro ao atualizar a foto', error);
+      }
+    );
+  }
 
   updatePerfilUsuario() {
     this.perfilUsuarioService.updatePerfilUsuario(this.perfilUsuario).pipe(

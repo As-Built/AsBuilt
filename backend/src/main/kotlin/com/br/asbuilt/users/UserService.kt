@@ -80,10 +80,10 @@ class UserService(
                 isChanged = true
             }
 
-            if (!userRequest.photo.contentEquals(existingUser.photo)) {
-                existingUser.photo = userRequest.photo
-                isChanged = true
-            }
+//            if (!userRequest.photo.contentEquals(existingUser.photo)) {
+//                existingUser.photo = userRequest.photo
+//                isChanged = true
+//            }
 
             if (isChanged) {
 
