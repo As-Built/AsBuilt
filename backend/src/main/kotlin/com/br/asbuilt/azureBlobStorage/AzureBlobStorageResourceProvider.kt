@@ -8,7 +8,7 @@ import java.io.BufferedInputStream
 import java.io.InputStream
 
 @Component
-class AzureBlobResourceProvider {
+class AzureBlobStorageResourceProvider {
 
     @Value("\${azure.blob.sas.url}")
     private lateinit var blobUrl: String

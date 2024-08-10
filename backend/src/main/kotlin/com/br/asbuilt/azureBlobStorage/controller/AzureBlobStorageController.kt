@@ -1,6 +1,6 @@
 package com.br.asbuilt.azureBlobStorage.controller
 
-import com.br.asbuilt.azureBlobStorage.AzureBlobResourceProvider
+import com.br.asbuilt.azureBlobStorage.AzureBlobStorageResourceProvider
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
@@ -10,8 +10,8 @@ import java.util.*
 
 @RestController
 @RequestMapping("blob")
-class AzureBlobController @Autowired constructor(
-    private val azureBlobResourceProvider: AzureBlobResourceProvider
+class AzureBlobStorageController @Autowired constructor(
+    private val azureBlobStorageResourceProvider: AzureBlobStorageResourceProvider
 ) {
 
     @PostMapping("/writeBlobFile")
@@ -22,12 +22,12 @@ class AzureBlobController @Autowired constructor(
         } else {
             blobName
         }
-        azureBlobResourceProvider.uploadBlob(finalBlobName, data.inputStream, data.size, overwrite = true)
+        azureBlobStorageResourceProvider.uploadBlob(finalBlobName, data.inputStream, data.size, overwrite = true)
         log.info("File updated: {}", finalBlobName)
         return "File was updated"
     }
 
     companion object {
-        private val log = LoggerFactory.getLogger(AzureBlobController::class.java)
+        private val log = LoggerFactory.getLogger(AzureBlobStorageController::class.java)
     }
 }

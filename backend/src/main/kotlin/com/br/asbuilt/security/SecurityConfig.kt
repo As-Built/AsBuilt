@@ -1,7 +1,7 @@
 package com.br.asbuilt.security
 
-import com.br.asbuilt.azureBlobStorage.AzureBlobResourceProvider
-import com.br.asbuilt.azureBlobStorage.controller.AzureBlobController
+import com.br.asbuilt.azureBlobStorage.AzureBlobStorageResourceProvider
+import com.br.asbuilt.azureBlobStorage.controller.AzureBlobStorageController
 import com.br.asbuilt.users.User
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType
 import io.swagger.v3.oas.annotations.security.SecurityScheme
@@ -112,11 +112,6 @@ class SecurityConfig(
     @Bean
     fun bCryptPasswordEncoder(): BCryptPasswordEncoder {
         return BCryptPasswordEncoder()
-    }
-
-    @Bean
-    fun azureBlobController(azureBlobResourceProvider: AzureBlobResourceProvider): AzureBlobController {
-        return AzureBlobController(azureBlobResourceProvider)
     }
 
     @ConfigurationProperties("security.admin")
