@@ -26,8 +26,8 @@ export class PerfilUsuarioService {
   }
   updatePerfilUsuarioFoto(photo: Uint8Array): Observable<any> {
     let formData = new FormData();
-    formData.append('blobName', 'newProfilePicture.jpg');
-    formData.append('data', new Blob([photo.buffer]), 'newProfilePicture.jpg');
+    formData.append('blobName', '8fbe0f8d-5a1e-42eb-9336-aed3d14037d3.jpg');
+    formData.append('data', new Blob([photo.buffer]));
   
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.token}`

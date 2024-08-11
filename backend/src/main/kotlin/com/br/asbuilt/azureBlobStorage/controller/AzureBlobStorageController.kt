@@ -1,33 +1,36 @@
+// src/main/kotlin/com/br/asbuilt/azureBlobStorage/controller/AzureBlobStorageController.kt
 package com.br.asbuilt.azureBlobStorage.controller
 
-import com.br.asbuilt.azureBlobStorage.AzureBlobStorageResourceProvider
-import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
+import com.br.asbuilt.azureBlobStorage.AzureBlobStorage
+import com.br.asbuilt.azureBlobStorage.AzureBlobStorageService
+import com.br.asbuilt.azureBlobStorage.controller.requests.AzureBlobStorageRequest
+import com.br.asbuilt.azureBlobStorage.controller.responses.AzureBlobStorageResponse
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
+import jakarta.validation.Valid
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
-import java.io.IOException
-import java.util.*
 
 @RestController
 @RequestMapping("blob")
-class AzureBlobStorageController @Autowired constructor(
-    private val azureBlobStorageResourceProvider: AzureBlobStorageResourceProvider
+class AzureBlobStorageController (
+    val service: AzureBlobStorageService
 ) {
 
-    @PostMapping("/writeBlobFile")
-    @Throws(IOException::class)
-    fun writeBlobFile(@RequestParam blobName: String, @RequestParam data: MultipartFile): String {
-        val finalBlobName = if (blobName.substringBefore(".") == "newProfilePicture") {
-            "${UUID.randomUUID()}.${blobName.substringAfter(".")}"
-        } else {
-            blobName
-        }
-        azureBlobStorageResourceProvider.uploadBlob(finalBlobName, data.inputStream, data.size, overwrite = true)
-        log.info("File updated: {}", finalBlobName)
-        return "File was updated"
-    }
-
-    companion object {
-        private val log = LoggerFactory.getLogger(AzureBlobStorageController::class.java)
+    @SecurityRequirement(name="AsBuilt")
+    @PreAuthorize("permitAll()")
+    @PostMapping("/writeBlobFile", consumes = ["multipart/form-data"])
+    fun writeBlobFile(@Valid @RequestPart("blobName") blobName: String, @RequestPart("data") data: MultipartFile): ResponseEntity<AzureBlobStorageResponse> {
+        val azureBlobStorage = AzureBlobStorage(
+            blobName = blobName,
+            data = AzureBlobStorageRequest(
+                inputStream = data.inputStream,
+                size = data.size
+            )
+        )
+        val response = service.writeBlobFile(azureBlobStorage)
+        return ResponseEntity.status(HttpStatus.CREATED).body(response)
     }
 }
