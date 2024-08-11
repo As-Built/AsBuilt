@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PerfilUsuarioModel } from '../model/perfil-usuario.model';
 import { Observable } from 'rxjs';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -24,17 +25,24 @@ export class PerfilUsuarioService {
     return this.httpClient.get<PerfilUsuarioModel>(`http://localhost:8080/asbuilt/users/${id}`, this.httpOptions);
 
   }
-  updatePerfilUsuarioFoto(photo: Uint8Array): Observable<any> {
-    let formData = new FormData();
-    formData.append('blobName', '8fbe0f8d-5a1e-42eb-9336-aed3d14037d3.jpg');
-    formData.append('data', new Blob([photo.buffer]));
   
+  updatePerfilUsuarioFoto(photo: Uint8Array): Observable<any> {
+    let token = localStorage.getItem('token');
+    let helper = new JwtHelperService();
+    let decodedToken = token ? helper.decodeToken(token) : null;
+    let userId = decodedToken && decodedToken.user ? decodedToken.user.id : null;
+
+    let formData = new FormData();
+    formData.append('userId', userId.toString());
+    formData.append('blobName', 'newProfilePicture.jpg');
+    formData.append('data', new Blob([photo.buffer]));
+
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.token}`
     });
-  
+
     return this.httpClient.post("http://localhost:8080/asbuilt/blob/writeBlobFile", formData, { headers });
-  }
+}
 
   updatePerfilUsuario(perfilUsuario: PerfilUsuarioModel): Observable<PerfilUsuarioModel> {
     let body = JSON.stringify({

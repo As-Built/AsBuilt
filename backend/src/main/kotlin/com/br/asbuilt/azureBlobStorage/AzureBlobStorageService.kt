@@ -1,6 +1,7 @@
 package com.br.asbuilt.azureBlobStorage
 
 import com.br.asbuilt.azureBlobStorage.controller.responses.AzureBlobStorageResponse
+import com.br.asbuilt.users.UserRepository
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -10,14 +11,19 @@ import java.util.*
 
 @Service
 class AzureBlobStorageService @Autowired constructor(
-    private val azureBlobStorageResourceProvider: AzureBlobStorageResourceProvider
+    private val azureBlobStorageResourceProvider: AzureBlobStorageResourceProvider,
+    private val userRepository: UserRepository
 ) {
 
-    fun writeBlobFile(azureBlobStorage: AzureBlobStorage): ResponseEntity<AzureBlobStorageResponse> {
-        val finalBlobName = if (azureBlobStorage.blobName.substringBefore(".") == "newProfilePicture") {
-            "${UUID.randomUUID()}.${azureBlobStorage.blobName.substringAfter(".")}"
+    fun writeBlobFile(userId: Long, azureBlobStorage: AzureBlobStorage): ResponseEntity<AzureBlobStorageResponse> {
+        val user = userRepository.findById(userId).orElseThrow { Exception("User not found") }
+        val finalBlobName = if (user.photo == null) {
+            val newGuid = UUID.randomUUID().toString()
+            user.photo = newGuid.toByteArray()
+            userRepository.save(user)
+            "$newGuid.${azureBlobStorage.blobName.substringAfter(".")}"
         } else {
-            azureBlobStorage.blobName
+            String(user.photo!!) + "." + azureBlobStorage.blobName.substringAfter(".")
         }
 
         return try {
