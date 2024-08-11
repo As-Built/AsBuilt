@@ -77,14 +77,26 @@ export class PerfilUsuarioComponent implements OnInit{
   }
   
   updatePerfilUsuarioFoto(){
-    this.perfilUsuarioService.updatePerfilUsuarioFoto(this.perfilUsuario.photo).subscribe(
-      response => {
-        console.log('Foto atualizada com sucesso');
-      },
-      error => {
-        console.error('Erro ao atualizar a foto', error);
-      }
-    );
+    this.perfilUsuarioService.updatePerfilUsuarioFoto(this.perfilUsuario.photo).pipe(
+      tap(retorno => {
+        Swal.fire({
+          text: "Foto de perfil atualizada com sucesso!",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 2000
+        });
+        this.buscarPerfilUsuario();
+      }),
+      catchError(error => {
+        Swal.fire({
+          text: error.error,
+          icon: "error",
+          showConfirmButton: false,
+          timer: 2000
+        });
+        return of();
+      })
+    ).subscribe();
   }
 
   updatePerfilUsuario() {
