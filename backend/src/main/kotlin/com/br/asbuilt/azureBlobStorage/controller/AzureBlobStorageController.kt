@@ -1,4 +1,3 @@
-// src/main/kotlin/com/br/asbuilt/azureBlobStorage/controller/AzureBlobStorageController.kt
 package com.br.asbuilt.azureBlobStorage.controller
 
 import com.br.asbuilt.azureBlobStorage.AzureBlobStorage
@@ -7,7 +6,6 @@ import com.br.asbuilt.azureBlobStorage.controller.requests.AzureBlobStorageReque
 import com.br.asbuilt.azureBlobStorage.controller.responses.AzureBlobStorageResponse
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import jakarta.validation.Valid
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
@@ -30,7 +28,6 @@ class AzureBlobStorageController (
                 size = data.size
             )
         )
-        val response = service.writeBlobFile(azureBlobStorage)
-        return ResponseEntity.status(HttpStatus.CREATED).body(response)
+        return service.writeBlobFile(azureBlobStorage)
     }
 }
