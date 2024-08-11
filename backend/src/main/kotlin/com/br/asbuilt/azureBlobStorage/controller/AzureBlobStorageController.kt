@@ -20,7 +20,8 @@ class AzureBlobStorageController (
     @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("permitAll()")
     @PostMapping("/writeBlobFile", consumes = ["multipart/form-data"])
-    fun writeBlobFile(@RequestParam("userId") userId: Long, @Valid @RequestPart("blobName") blobName: String, @RequestPart("data") data: MultipartFile): ResponseEntity<AzureBlobStorageResponse> {
+    fun updateProfilePicture(@RequestParam("userId") userId: Long, @Valid @RequestPart("blobName") blobName: String,
+                             @RequestPart("data") data: MultipartFile): ResponseEntity<AzureBlobStorageResponse> {
         val azureBlobStorage = AzureBlobStorage(
             blobName = blobName,
             data = AzureBlobStorageRequest(
