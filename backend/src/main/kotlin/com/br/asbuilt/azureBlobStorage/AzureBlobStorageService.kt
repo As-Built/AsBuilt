@@ -19,11 +19,11 @@ class AzureBlobStorageService @Autowired constructor(
         val user = userRepository.findById(userId).orElseThrow { Exception("User not found") }
         val finalBlobName = if (user.photo == null) {
             val newGuid = UUID.randomUUID().toString()
-            user.photo = newGuid.toByteArray()
+            user.photo = newGuid
             userRepository.save(user)
             "$newGuid.${azureBlobStorage.blobName.substringAfter(".")}"
         } else {
-            String(user.photo!!) + "." + azureBlobStorage.blobName.substringAfter(".")
+            user.photo!! + "." + azureBlobStorage.blobName.substringAfter(".")
         }
 
         return try {

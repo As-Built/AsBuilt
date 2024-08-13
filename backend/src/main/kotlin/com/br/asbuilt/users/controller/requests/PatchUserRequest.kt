@@ -24,7 +24,7 @@ data class PatchUserRequest(
     @field:NotBlank
     val phone: String,
 
-    val photo: ByteArray?
+    val photo: String?
 
 ) {
     constructor() : this(0L, "", "", "", Address(), "", null)
@@ -51,9 +51,5 @@ data class PatchUserRequest(
         } else if (other.photo != null) return false
 
         return true
-    }
-
-    override fun hashCode(): Int {
-        return photo?.contentHashCode() ?: 0
     }
 }

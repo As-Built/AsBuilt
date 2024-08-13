@@ -10,7 +10,7 @@ data class UserResponse(
     val cpf: String,
     val userAddress: Address,
     val phone: String,
-    val photo: ByteArray?,
+    val photo: String?,
 ) {
     constructor(user: User) : this(
         user.id!!,
@@ -34,9 +34,5 @@ data class UserResponse(
         } else if (other.photo != null) return false
 
         return true
-    }
-
-    override fun hashCode(): Int {
-        return photo?.contentHashCode() ?: 0
     }
 }
