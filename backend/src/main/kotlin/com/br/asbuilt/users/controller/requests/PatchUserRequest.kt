@@ -27,7 +27,6 @@ data class PatchUserRequest(
     val photo: String?
 
 ) {
-    constructor() : this(0L, "", "", "", Address(), "", null)
 
     fun toUser() = User(
         id = id,
@@ -38,18 +37,4 @@ data class PatchUserRequest(
         phone = phone,
         photo = photo
     )
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as PatchUserRequest
-
-        if (photo != null) {
-            if (other.photo == null) return false
-            if (!photo.contentEquals(other.photo)) return false
-        } else if (other.photo != null) return false
-
-        return true
-    }
 }

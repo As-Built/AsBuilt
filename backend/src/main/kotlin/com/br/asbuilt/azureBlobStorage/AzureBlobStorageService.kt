@@ -29,11 +29,15 @@ class AzureBlobStorageService @Autowired constructor(
         return try {
             azureBlobStorageResourceProvider.uploadBlob(finalBlobName, azureBlobStorage.data.inputStream,
                 azureBlobStorage.data.size, overwrite = true)
+            val blobUrl = azureBlobStorageResourceProvider.getBlobUrl(finalBlobName)
+
             log.info("Blob uploaded successfully: {}", finalBlobName)
-            ResponseEntity.status(HttpStatus.OK).body(AzureBlobStorageResponse(finalBlobName, "URL to access the blob"))
+            ResponseEntity.status(HttpStatus.OK).body(AzureBlobStorageResponse(finalBlobName, blobUrl))
         } catch (e: Exception) {
+            val blobUrl = azureBlobStorageResourceProvider.getBlobUrl(finalBlobName)
+
             log.error("Failed to upload blob: {}", finalBlobName, e)
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(AzureBlobStorageResponse("Failed to upload blob", "Error URL"))
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(AzureBlobStorageResponse("Failed to upload blob", blobUrl))
         }
     }
 
