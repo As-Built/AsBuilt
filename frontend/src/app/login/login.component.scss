@@ -27,3 +27,43 @@ input {
     margin-left: 60px;
     width: 65%;
 }
+
+@media (max-width: 576px) {
+    .conteudo {
+        padding: 10px;
+        width: 100%;
+    }
+
+    .row {
+        flex-direction: column;
+        margin-bottom: 15px;
+    }
+
+    .col-6, .col-7, .col-12, .col-3, .col-8, .col-4, .col-2 {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .btn-cancel, .btn-confirm {
+        width: 100%;
+        margin-top: 10px;
+    }
+}
+
+.table-responsive {
+    overflow-x: auto;
+  }
+  
+  .mat-table {
+    width: 100%;
+  }
+  
+  .mat-header-cell, .mat-cell {
+    white-space: nowrap;
+  }
+  
+  @media (max-width: 768px) {
+    .mat-header-cell, .mat-cell {
+      font-size: 12px;
+    }
+  }

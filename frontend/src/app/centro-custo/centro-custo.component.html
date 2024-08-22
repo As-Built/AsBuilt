@@ -126,7 +126,7 @@
             <h1>Centros de custo cadastrados</h1>
           </div>
           <div class="row" *ngIf="listaCentrosDeCusto.length > 0">
-            <div class="col-12">
+            <div class="col-12 table-responsive">
               <table mat-table [dataSource]="listaCentrosDeCusto" class="mat-elevation-z8">
                 <ng-container matColumnDef="acoes">
                   <th mat-header-cell *matHeaderCellDef>Ações</th>

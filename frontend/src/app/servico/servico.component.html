@@ -166,7 +166,7 @@
             <h1>Serviços cadastrados</h1>
           </div>
           <div class="row" *ngIf="listaServicos.length > 0">
-            <div class="col-12">
+            <div class="col-12 table-responsive">
               <table mat-table [dataSource]="listaServicos" class="mat-elevation-z8">
                 <ng-container matColumnDef="acoes">
                   <th mat-header-cell *matHeaderCellDef>Ações</th>
