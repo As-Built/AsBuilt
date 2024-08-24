@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PerfilUsuarioModel } from '../model/perfil-usuario.model';
 import { Observable } from 'rxjs';
@@ -64,4 +64,8 @@ export class PerfilUsuarioService {
     return this.httpClient.patch<PerfilUsuarioModel>("http://localhost:8080/asbuilt/users/updateUser", body, this.httpOptions);
   }
 
+  downloadBlobFile(blobNameWithoutExtension: string): Observable<Blob> {
+    const params = new HttpParams().set('blobName', blobNameWithoutExtension);
+    return this.httpClient.get('http://localhost:8080/asbuilt/blob/downloadBlobFile', { params, responseType: 'blob' });
+  }
 }

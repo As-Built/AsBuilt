@@ -1,5 +1,6 @@
 package com.br.asbuilt.azureBlobStorage.controller
 
+import com.azure.core.management.Resource
 import com.br.asbuilt.azureBlobStorage.AzureBlobStorage
 import com.br.asbuilt.azureBlobStorage.AzureBlobStorageService
 import com.br.asbuilt.azureBlobStorage.controller.requests.AzureBlobStorageRequest
@@ -30,5 +31,12 @@ class AzureBlobStorageController (
             )
         )
         return service.writeBlobFile(userId, azureBlobStorage)
+    }
+
+    @SecurityRequirement(name="AsBuilt")
+    @PreAuthorize("permitAll()")
+    @GetMapping("/downloadBlobFile")
+    fun downloadBlobFile(@RequestParam("blobName") blobNameWithoutExtension: String): ResponseEntity<org.springframework.core.io.Resource> {
+        return service.downloadBlobFile(blobNameWithoutExtension)
     }
 }

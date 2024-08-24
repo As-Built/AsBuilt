@@ -1,4 +1,3 @@
-// src/main/kotlin/com/br/asbuilt/azureBlobStorage/AzureBlobStorageResourceProvider.kt
 package com.br.asbuilt.azureBlobStorage
 
 import com.azure.storage.blob.BlobServiceClientBuilder
@@ -31,5 +30,19 @@ class AzureBlobStorageResourceProvider {
 
     fun getBlobUrl(blobName: String): String {
         return "https://asbuiltstoragedata.blob.core.windows.net/asbuilt-photos/${blobName}"
+    }
+
+    fun downloadBlob(blobNameWithoutExtension: String): Pair<String, InputStream> {
+        val containerClient = BlobServiceClientBuilder()
+            .endpoint(blobUrl)
+            .buildClient()
+            .getBlobContainerClient("asbuilt-photos")
+
+        val blobItem = containerClient.listBlobs()
+            .firstOrNull { it.name.startsWith(blobNameWithoutExtension) }
+            ?: throw Exception("Blob not found")
+
+        val blobClient = containerClient.getBlobClient(blobItem.name).blockBlobClient
+        return Pair(blobItem.name, blobClient.openInputStream())
     }
 }

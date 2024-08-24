@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { jwtDecode } from "jwt-decode";
 import { HttpClient } from '@angular/common/http';
 import { PerfilUsuarioService } from './service/perfil-usuario.service';
@@ -12,11 +12,12 @@ import Swal from 'sweetalert2';
   templateUrl: './perfil-usuario.component.html',
   styleUrls: ['./perfil-usuario.component.scss']
 })
-export class PerfilUsuarioComponent implements OnInit{
+export class PerfilUsuarioComponent implements OnInit, AfterViewInit{
 
   perfilUsuario = new PerfilUsuarioModel();
   estadosBrasileiros = ["AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"];
   fileToUpload: File | null = null;
+  imageUrl: string | null = null;
 
   constructor(private perfilUsuarioService: PerfilUsuarioService,
     private http: HttpClient
@@ -24,6 +25,12 @@ export class PerfilUsuarioComponent implements OnInit{
 
   ngOnInit(): void {
     this.buscarPerfilUsuario();
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.fetchImage('1539fc35-f00a-44f0-8b92-4df16b0478c3');
+    }, 0);
   }
 
   getUserId(): string {
@@ -129,5 +136,12 @@ export class PerfilUsuarioComponent implements OnInit{
     }
     return true;
   }
+
+fetchImage(blobNameWithoutExtension: string): void {
+  this.perfilUsuarioService.downloadBlobFile(blobNameWithoutExtension)
+    .subscribe(blob => {
+      this.imageUrl = URL.createObjectURL(blob);
+    });
+}
 
 }
