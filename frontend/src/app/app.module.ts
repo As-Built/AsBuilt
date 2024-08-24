@@ -35,6 +35,7 @@ import { ServicoComponent } from './servico/servico.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { PerfilUsuarioComponent } from './perfil-usuario/perfil-usuario.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 @NgModule({
@@ -81,7 +82,8 @@ import { PerfilUsuarioComponent } from './perfil-usuario/perfil-usuario.componen
     NgxMaskModule.forRoot(), //npm i ngx-mask@13.1.13
     MatTableModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatMenuModule
   ],
   providers: [
     CurrencyPipe,

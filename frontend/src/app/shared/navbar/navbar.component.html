@@ -7,7 +7,16 @@
       <a routerLink="login" class="nav-link">Cadastre-se | Login</a>
     </li>
     <li class="nav-item" *ngIf="isNotHomeOrLogin()">
-      <a (click)="logout()" class="nav-link">Logout</a>
+      <div class="user-menu" mat-button [matMenuTriggerFor]="userMenu">
+        <div class="image-container">
+          <img class="profile-picture" [src]="profilePicture">
+        </div>
+        <a class="nav-link">{{ perfilUsuario.name }}</a>
+      </div>
+      <mat-menu #userMenu="matMenu">
+        <a mat-menu-item routerLink="/perfilUsuario">Perfil de usuário</a>
+        <a mat-menu-item (click)="logout()">Logout</a>
+      </mat-menu>
     </li>
   </ul>
 </nav>

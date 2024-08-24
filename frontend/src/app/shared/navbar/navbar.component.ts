@@ -1,6 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { SidebarComponent } from '../sidebar/sidebar.component';
+import { jwtDecode } from "jwt-decode";
+import { PerfilUsuarioService } from '../../perfil-usuario/service/perfil-usuario.service';
+import { lastValueFrom } from 'rxjs';
+import { PerfilUsuarioModel } from '../../perfil-usuario/model/perfil-usuario.model';
 
 @Component({
   selector: 'app-navbar',
@@ -8,10 +12,17 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit{
+
+  perfilUsuario = new PerfilUsuarioModel();
+  profilePicture: string | null = null;
   
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+    private perfilUsuarioService: PerfilUsuarioService,
+    private http: HttpClient
+  ) { }
 
   ngOnInit(): void {
+    this.buscarPerfilUsuario();
   }
 
   isHomePage() {
@@ -19,6 +30,39 @@ export class NavbarComponent implements OnInit{
   }
   isNotHomeOrLogin() {
     return this.router.url !== '/home' && this.router.url !== '/login';
+  }
+
+  getUserId(): string {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return "";
+    }
+
+    const decodedToken = jwtDecode(token) as any;
+    const userId = decodedToken.user.id;
+    return userId;
+  }
+
+  async buscarPerfilUsuario() {
+    try {
+      const usuarioId = this.getUserId();
+      let teste = await lastValueFrom(this.perfilUsuarioService.buscarPerfilUsuario(Number(usuarioId)));
+      this.perfilUsuario = teste;
+      this.fetchImage(this.perfilUsuario.photo);
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  fetchImage(blobNameWithoutExtension: string): void {
+    if (blobNameWithoutExtension === "" || blobNameWithoutExtension === null) {
+      this.profilePicture = "assets/EmptyProfilePicture.png"; // Imagem padrão
+    } else {
+      this.perfilUsuarioService.downloadProfilePicture(blobNameWithoutExtension)
+      .subscribe(blob => {
+        this.profilePicture = URL.createObjectURL(blob);
+      });
+    }
   }
 
   logout() {
