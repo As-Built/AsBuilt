@@ -10,10 +10,6 @@
     </span>
   </div>
   <div *ngIf="isSidebarOpen" class="sidebar-content">
-    <button class="menu-item" routerLink="/perfilUsuario">
-      <mat-icon class="icons">account_circle</mat-icon>
-      <span>{{ userName }}</span>
-    </button>
     <button class="menu-item" routerLink="/servico">
       <mat-icon class="icons">build</mat-icon>
       <span>Serviços</span>
@@ -40,10 +36,6 @@
     </button>
   </div>
   <div *ngIf="!isSidebarOpen" class="sidebar-content-closed">
-    <button class="menu-item-sidebar-closed" routerLink="/perfilUsuario" matTooltip="Perfil de Usuário"
-      matTooltipShowDelay="1500">
-      <mat-icon class="icons">account_circle</mat-icon>
-    </button>
     <button class="menu-item-sidebar-closed" routerLink="/servico" matTooltip="Serviços"
       matTooltipShowDelay="1500">
       <mat-icon class="icons">build</mat-icon>
