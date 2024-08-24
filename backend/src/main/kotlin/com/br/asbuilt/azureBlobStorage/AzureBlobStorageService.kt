@@ -21,9 +21,11 @@ class AzureBlobStorageService @Autowired constructor(
     private val userRepository: UserRepository
 ) {
 
-    fun writeBlobFile(userId: Long, azureBlobStorage: AzureBlobStorage): ResponseEntity<AzureBlobStorageResponse> {
+    fun updateProfilePicture(userId: Long, azureBlobStorage: AzureBlobStorage): ResponseEntity<AzureBlobStorageResponse> {
+        //Pesquisar usuário pelo id
         val user = userRepository.findById(userId).orElseThrow { Exception("User not found") }
-        val finalBlobName = if (user.photo == null) {
+        //Caso o usuário não tenha foto, é gerado um novo guid e salvo no banco
+        val finalFileName = if (user.photo == null) {
             val newGuid = UUID.randomUUID().toString()
             user.photo = newGuid
             userRepository.save(user)
@@ -33,37 +35,48 @@ class AzureBlobStorageService @Autowired constructor(
         }
 
         return try {
-            azureBlobStorageResourceProvider.uploadBlob(finalBlobName, azureBlobStorage.data.inputStream,
+            //Upload da foto no blob storage
+            azureBlobStorageResourceProvider.uploadBlob(finalFileName, azureBlobStorage.data.inputStream,
                 azureBlobStorage.data.size, overwrite = true)
-            val blobUrl = azureBlobStorageResourceProvider.getBlobUrl(finalBlobName)
-
-            log.info("Blob uploaded successfully: {}", finalBlobName)
-            ResponseEntity.status(HttpStatus.OK).body(AzureBlobStorageResponse(finalBlobName, blobUrl))
+            //Retorno do nome da foto e a url do blob storage
+            val fileUrl = azureBlobStorageResourceProvider.getBlobUrl(finalFileName)
+            //Log de sucesso
+            log.info("Profile picture uploaded successfully: {}", finalFileName)
+            //Retorno do nome da foto e a url do blob storage
+            ResponseEntity.status(HttpStatus.OK).body(AzureBlobStorageResponse(finalFileName, fileUrl))
         } catch (e: Exception) {
-            val blobUrl = azureBlobStorageResourceProvider.getBlobUrl(finalBlobName)
-
-            log.error("Failed to upload blob: {}", finalBlobName, e)
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(AzureBlobStorageResponse("Failed to upload blob", blobUrl))
+            //Caso ocorra algum erro, é retornado um erro interno
+            val fileUrl = azureBlobStorageResourceProvider.getBlobUrl(finalFileName)
+            log.error("Failed to upload profilePicture: {}", finalFileName, e)
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(AzureBlobStorageResponse("Failed to upload profilePicture", fileUrl))
         }
     }
 
-    fun downloadBlobFile(blobNameWithoutExtension: String): ResponseEntity<Resource> {
+    fun downloadProfilePicture(fileNameWithoutExtension: String): ResponseEntity<Resource> {
         return try {
-            val (blobName, inputStream) = azureBlobStorageResourceProvider.downloadBlob(blobNameWithoutExtension)
-            val tempFile = File.createTempFile(blobName, null)
+            //Download da foto do blob storage
+            val (fileName, inputStream) = azureBlobStorageResourceProvider.downloadBlob(fileNameWithoutExtension)
+            val tempFile = File.createTempFile(fileName, null)
+            //Criação de um arquivo temporário para armazenar a foto
             FileOutputStream(tempFile).use { outputStream ->
                 inputStream.copyTo(outputStream)
             }
+            //Retorno do arquivo temporário
             val resource = FileSystemResource(tempFile)
             log.also { log ->
-                log.info("Blob downloaded successfully: {}", blobName)
+                log.info("Profile picture downloaded successfully: {}", fileName)
             }
+            //Retorno do arquivo temporário
             ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"$blobName\"")
+                //Adiciona o header para download do arquivo
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"$fileName\"")
+                //Adiciona o tipo do arquivo
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                //Adiciona o arquivo
                 .body(resource)
         } catch (e: Exception) {
-            log.error("Erro ao baixar o blob: ${e.message}", e)
+            //Caso ocorra algum erro, é retornado um erro interno
+            log.error("Error when downloading profile picture: ${e.message}", e)
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()
         }
     }

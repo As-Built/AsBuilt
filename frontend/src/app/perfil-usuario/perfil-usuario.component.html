@@ -12,7 +12,7 @@
                 <div class="col-7">
                     <label for="userImage">Imagem</label>
                     <input type="file" id="userImage" name="userImage" accept="image/*" (change)="handleFileInput($event.target)">
-                    <img [src]="imageUrl" alt="Imagem Baixada">
+                    <img [src]="imageUrl" alt="Imagem Baixada" width="150px">
                 </div>
                 <div class="col-3 centralizar-conteudo">
                     <button class="btn-confirm" type="submit" [disabled]="fileIsLoading">Atualizar foto</button>

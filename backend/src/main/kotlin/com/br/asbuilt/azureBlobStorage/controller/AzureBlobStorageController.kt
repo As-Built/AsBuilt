@@ -1,6 +1,5 @@
 package com.br.asbuilt.azureBlobStorage.controller
 
-import com.azure.core.management.Resource
 import com.br.asbuilt.azureBlobStorage.AzureBlobStorage
 import com.br.asbuilt.azureBlobStorage.AzureBlobStorageService
 import com.br.asbuilt.azureBlobStorage.controller.requests.AzureBlobStorageRequest
@@ -20,23 +19,24 @@ class AzureBlobStorageController (
 
     @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("permitAll()")
-    @PostMapping("/writeBlobFile", consumes = ["multipart/form-data"])
-    fun updateProfilePicture(@RequestParam("userId") userId: Long, @Valid @RequestPart("blobName") blobName: String,
+    @PostMapping("/updateProfilePicture", consumes = ["multipart/form-data"])
+    fun updateProfilePicture(@RequestParam("userId") userId: Long, @Valid @RequestPart("fileName") fileName: String,
                              @RequestPart("data") data: MultipartFile): ResponseEntity<AzureBlobStorageResponse> {
+        // Cria um AzureBlobStorage object
         val azureBlobStorage = AzureBlobStorage(
-            blobName = blobName,
+            blobName = fileName,
             data = AzureBlobStorageRequest(
                 inputStream = data.inputStream,
                 size = data.size
             )
         )
-        return service.writeBlobFile(userId, azureBlobStorage)
+        return service.updateProfilePicture(userId, azureBlobStorage)
     }
 
     @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("permitAll()")
-    @GetMapping("/downloadBlobFile")
-    fun downloadBlobFile(@RequestParam("blobName") blobNameWithoutExtension: String): ResponseEntity<org.springframework.core.io.Resource> {
-        return service.downloadBlobFile(blobNameWithoutExtension)
+    @GetMapping("/downloadProfilePicture")
+    fun downloadBlobFile(@RequestParam("fileName") fileNameWithoutExtension: String): ResponseEntity<org.springframework.core.io.Resource> {
+        return service.downloadProfilePicture(fileNameWithoutExtension)
     }
 }

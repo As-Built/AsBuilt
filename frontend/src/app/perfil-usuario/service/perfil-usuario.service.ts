@@ -34,14 +34,14 @@ export class PerfilUsuarioService {
 
     let formData = new FormData();
     formData.append('userId', userId.toString());
-    formData.append('blobName', 'newProfilePicture.jpg');
+    formData.append('fileName', 'newProfilePicture.jpg');
     formData.append('data', new Blob([photo.buffer]));
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.token}`
     });
 
-    return this.httpClient.post("http://localhost:8080/asbuilt/blob/writeBlobFile", formData, { headers });
+    return this.httpClient.post("http://localhost:8080/asbuilt/blob/updateProfilePicture", formData, { headers });
 }
 
   updatePerfilUsuario(perfilUsuario: PerfilUsuarioModel): Observable<PerfilUsuarioModel> {
@@ -64,8 +64,8 @@ export class PerfilUsuarioService {
     return this.httpClient.patch<PerfilUsuarioModel>("http://localhost:8080/asbuilt/users/updateUser", body, this.httpOptions);
   }
 
-  downloadBlobFile(blobNameWithoutExtension: string): Observable<Blob> {
-    const params = new HttpParams().set('blobName', blobNameWithoutExtension);
-    return this.httpClient.get('http://localhost:8080/asbuilt/blob/downloadBlobFile', { params, responseType: 'blob' });
+  downloadBlobFile(fileNameWithoutExtension: string): Observable<Blob> {
+    const params = new HttpParams().set('fileName', fileNameWithoutExtension);
+    return this.httpClient.get('http://localhost:8080/asbuilt/blob/downloadProfilePicture', { params, responseType: 'blob' });
   }
 }
