@@ -26,7 +26,7 @@ export class PerfilUsuarioService {
 
   }
   
-  updatePerfilUsuarioFoto(photo: Uint8Array): Observable<any> {
+  updateProfilePicture(photo: Uint8Array): Observable<any> {
     let token = localStorage.getItem('token');
     let helper = new JwtHelperService();
     let decodedToken = token ? helper.decodeToken(token) : null;
@@ -42,7 +42,7 @@ export class PerfilUsuarioService {
     });
 
     return this.httpClient.post("http://localhost:8080/asbuilt/blob/updateProfilePicture", formData, { headers });
-}
+  }
 
   updatePerfilUsuario(perfilUsuario: PerfilUsuarioModel): Observable<PerfilUsuarioModel> {
     let body = JSON.stringify({
@@ -64,7 +64,7 @@ export class PerfilUsuarioService {
     return this.httpClient.patch<PerfilUsuarioModel>("http://localhost:8080/asbuilt/users/updateUser", body, this.httpOptions);
   }
 
-  downloadBlobFile(fileNameWithoutExtension: string): Observable<Blob> {
+  downloadProfilePicture(fileNameWithoutExtension: string): Observable<Blob> {
     const params = new HttpParams().set('fileName', fileNameWithoutExtension);
     return this.httpClient.get('http://localhost:8080/asbuilt/blob/downloadProfilePicture', { params, responseType: 'blob' });
   }

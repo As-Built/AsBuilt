@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { jwtDecode } from "jwt-decode";
 import { HttpClient } from '@angular/common/http';
 import { PerfilUsuarioService } from './service/perfil-usuario.service';
@@ -12,12 +12,17 @@ import Swal from 'sweetalert2';
   templateUrl: './perfil-usuario.component.html',
   styleUrls: ['./perfil-usuario.component.scss']
 })
-export class PerfilUsuarioComponent implements OnInit, AfterViewInit{
+export class PerfilUsuarioComponent implements OnInit {
+
+  @ViewChild('userImage') userImage!: ElementRef;
 
   perfilUsuario = new PerfilUsuarioModel();
   estadosBrasileiros = ["AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"];
   fileToUpload: File | null = null;
-  imageUrl: string | null = null;
+  fileIsLoading = false;
+  isFileValid = false;
+  profilePicture: string | null = null;
+  profilePictureBlob: Uint8Array = new Uint8Array();
 
   constructor(private perfilUsuarioService: PerfilUsuarioService,
     private http: HttpClient
@@ -27,18 +32,12 @@ export class PerfilUsuarioComponent implements OnInit, AfterViewInit{
     this.buscarPerfilUsuario();
   }
 
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.fetchImage('1539fc35-f00a-44f0-8b92-4df16b0478c3');
-    }, 0);
-  }
-
   getUserId(): string {
     const token = localStorage.getItem('token');
     if (!token) {
       return "";
     }
-  
+
     const decodedToken = jwtDecode(token) as any;
     const userId = decodedToken.user.id;
     return userId;
@@ -47,44 +46,69 @@ export class PerfilUsuarioComponent implements OnInit, AfterViewInit{
   async buscarPerfilUsuario() {
     try {
       const usuarioId = this.getUserId();
-      this.perfilUsuario = await firstValueFrom(this.perfilUsuarioService.buscarPerfilUsuario(Number(usuarioId)));
+      let teste = await lastValueFrom(this.perfilUsuarioService.buscarPerfilUsuario(Number(usuarioId)));
+      this.perfilUsuario = teste;
+      this.fetchImage(this.perfilUsuario.photo);
     } catch (error) {
       console.error(error)
     }
   }
 
-  fileIsLoading = false;
-
   handleFileInput(target: EventTarget | null) {
     if (!target) {
-        return;
+      return;
     }
+
     const files = (target as HTMLInputElement).files;
     if (!files || files.length === 0) {
       return;
     }
-    this.fileToUpload = files.item(0);
-    if (!this.fileToUpload) {
+
+    const file = files.item(0);
+    if (!file) {
       return;
     }
-    const reader = new FileReader();
-    this.fileIsLoading = true;
-    reader.onload = (event: any) => {
-      const byteArray = new Uint8Array(event.target.result);
-      let base64String = '';
-      const chunkSize = 5000; // Tamanho do pedaço
-      for (let i = 0; i < byteArray.length; i += chunkSize) {
-        const chunk = byteArray.slice(i, i + chunkSize);
-        base64String += btoa(String.fromCharCode(...chunk));
-      }
-        this.perfilUsuario.photo = new Uint8Array(byteArray.buffer);
-        this.fileIsLoading = false;
-    }
-    reader.readAsArrayBuffer(this.fileToUpload);
-  }
   
-  updatePerfilUsuarioFoto(){
-    this.perfilUsuarioService.updatePerfilUsuarioFoto(this.perfilUsuario.photo).pipe(
+    if (file.type !== 'image/png' && file.type !== 'image/jpeg') {
+      Swal.fire({
+        text: "Por favor, selecione uma imagem em formato .png ou .jpg",
+        icon: "error",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      this.isFileValid = false;
+      return;
+    } else {
+      this.isFileValid = true;
+    }
+
+    if (this.isFileValid) {
+      this.fileToUpload = file;
+
+      if (!this.fileToUpload) {
+        return;
+      }
+      
+      const reader = new FileReader();
+      this.fileIsLoading = true;
+      reader.onload = (event: any) => {
+        const byteArray = new Uint8Array(event.target.result);
+        let base64String = '';
+        const chunkSize = 5000; // Tamanho do pedaço
+        for (let i = 0; i < byteArray.length; i += chunkSize) {
+          const chunk = byteArray.slice(i, i + chunkSize);
+          base64String += btoa(String.fromCharCode(...chunk));
+        }
+        this.profilePictureBlob = new Uint8Array(byteArray.buffer);
+        this.fileIsLoading = false;
+      }
+      reader.readAsArrayBuffer(this.fileToUpload);
+      this.profilePicture = URL.createObjectURL(this.fileToUpload);
+    }
+  }
+
+  updatePerfilUsuarioFoto() {
+    this.perfilUsuarioService.updateProfilePicture(this.profilePictureBlob).pipe(
       tap(retorno => {
         Swal.fire({
           text: "Foto de perfil atualizada com sucesso!",
@@ -92,6 +116,7 @@ export class PerfilUsuarioComponent implements OnInit, AfterViewInit{
           showConfirmButton: false,
           timer: 2000
         });
+        this.isFileValid = false;
         this.buscarPerfilUsuario();
       }),
       catchError(error => {
@@ -137,11 +162,19 @@ export class PerfilUsuarioComponent implements OnInit, AfterViewInit{
     return true;
   }
 
-fetchImage(blobNameWithoutExtension: string): void {
-  this.perfilUsuarioService.downloadBlobFile(blobNameWithoutExtension)
-    .subscribe(blob => {
-      this.imageUrl = URL.createObjectURL(blob);
-    });
-}
+  fetchImage(blobNameWithoutExtension: string): void {
+    if (blobNameWithoutExtension === "" || blobNameWithoutExtension === null) {
+      this.profilePicture = "assets/EmptyProfilePicture.png"; // Imagem padrão
+    } else {
+      this.perfilUsuarioService.downloadProfilePicture(blobNameWithoutExtension)
+      .subscribe(blob => {
+        this.profilePicture = URL.createObjectURL(blob);
+      });
+    }
+  }
+
+  triggerFileInput() {
+    this.userImage.nativeElement.click();
+  }
 
 }

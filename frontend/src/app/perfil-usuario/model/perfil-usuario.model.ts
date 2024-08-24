@@ -7,5 +7,5 @@ export class PerfilUsuarioModel {
     public cpf: string = "";
     public phone: string = "";
     public userAddress: EnderecoModel = new EnderecoModel();
-    public photo: Uint8Array = new Uint8Array();
+    public photo: string = "";
 }
