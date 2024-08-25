@@ -14,7 +14,7 @@ data class CreateAppraisalRequest(
     val taskExecutors: List<User>,
 
     @field:NotNull
-    val tasklecturer: User,
+    val taskLecturer: User,
 
     @field:NotNull
     val appraisalDate: Date,
@@ -28,7 +28,7 @@ data class CreateAppraisalRequest(
     fun toAppraisal() = Appraisal(
         task = task,
         taskExecutors = taskExecutors.toMutableList(),
-        tasklecturer = tasklecturer,
+        taskLecturer = taskLecturer,
         appraisalDate = appraisalDate,
         appraisalResult = appraisalResult,
         obs = obs

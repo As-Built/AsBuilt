@@ -9,7 +9,7 @@ data class AppraisalResponse(
     val id: Long?,
     val task: TaskResponse,
     val taskExecutors: List<UserResponse>,
-    val tasklecturer: UserResponse,
+    val taskLecturer: UserResponse,
     val appraisalDate: Date,
     val appraisalResult: Boolean,
     val obs: String?
@@ -18,7 +18,7 @@ data class AppraisalResponse(
         appraisal.id,
         appraisal.task?.let { TaskResponse(it) }!!,
         appraisal.taskExecutors.map { UserResponse(it) },
-        UserResponse(appraisal.tasklecturer),
+        UserResponse(appraisal.taskLecturer),
         appraisal.appraisalDate,
         appraisal.appraisalResult!!,
         appraisal.obs

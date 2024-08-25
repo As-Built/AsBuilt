@@ -31,12 +31,12 @@ class AppraisalService(
 
         appraisal.taskExecutors = taskExecutors.toMutableList()
 
-        val taskLecturer = appraisal.tasklecturer?.let {
+        val taskLecturer = appraisal.taskLecturer.let {
             userRepository.findById(it.id!!)
                 .orElseThrow { NotFoundException("Lecturer not found with ID: ${it.id}") }
         }
 
-        appraisal.tasklecturer = taskLecturer
+        appraisal.taskLecturer = taskLecturer
 
         return repository.save(appraisal)
             .also { log.info("Appraisal inserted: {}", it.id) }

@@ -40,7 +40,7 @@ class AppraisalController(
             throw NotFoundException("Task executors not found!")
         }
 
-        val taskLecturer = appraisal.tasklecturer.let {
+        val taskLecturer = appraisal.taskLecturer.let {
             userService.findByIdOrNull(it.id!!)
         } ?: throw NotFoundException("Task lecturer not found!")
 
@@ -48,7 +48,7 @@ class AppraisalController(
 
         appraisalEntity.task = task
         appraisalEntity.taskExecutors = executors.toMutableList()
-        appraisalEntity.tasklecturer = taskLecturer
+        appraisalEntity.taskLecturer = taskLecturer
 
         return AppraisalResponse(service.insert(appraisalEntity))
             .let { ResponseEntity.status(HttpStatus.CREATED).body(it) }

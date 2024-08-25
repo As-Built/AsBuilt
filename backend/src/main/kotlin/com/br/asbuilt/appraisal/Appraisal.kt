@@ -35,7 +35,7 @@ class Appraisal(
         joinColumns = [JoinColumn(name = "idAppraisal")],
         inverseJoinColumns = [JoinColumn(name = "idUser")]
     )
-    var tasklecturer: User,
+    var taskLecturer: User,
 
     @Column(nullable = false)
     var appraisalDate: Date,
