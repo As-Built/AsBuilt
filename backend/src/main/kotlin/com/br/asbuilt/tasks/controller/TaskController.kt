@@ -7,7 +7,6 @@ import com.br.asbuilt.tasks.TaskService
 import com.br.asbuilt.tasks.controller.requests.CreateTaskRequest
 import com.br.asbuilt.tasks.controller.requests.PatchTaskRequest
 import com.br.asbuilt.tasks.controller.responses.TaskResponse
-import com.br.asbuilt.users.UserService
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
@@ -17,7 +16,9 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/tasks")
-class TaskController(val service: TaskService, val userService: UserService, val costCenterService: CostCenterService) {
+class TaskController(
+    val service: TaskService,
+    val costCenterService: CostCenterService) {
 
     @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("hasRole('ADMIN') || hasRole('CONFERENTE')")

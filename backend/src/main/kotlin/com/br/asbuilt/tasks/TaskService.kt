@@ -85,6 +85,8 @@ class TaskService (
         return repository.findByUserName(userName, sort)
     }
 
+    fun findByIdOrNull(id: Long): Task? = repository.findByIdOrNull(id)
+
     companion object {
         private val log = LoggerFactory.getLogger(TaskService::class.java)
     }
