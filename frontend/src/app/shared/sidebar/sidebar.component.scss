@@ -37,6 +37,7 @@
   color: white;
   font-size: 20px;
   padding: 16px;
+  margin-top: -70px;
 }
 
 .button-open-close {
@@ -100,7 +101,6 @@ a {
   }
 
   &:first-child::before {
-    content: "";
     position: absolute;
     left: 0;
     right: 0;
@@ -131,7 +131,7 @@ a {
   margin: 0 !important;
   text-align: center !important;
   align-items: middle !important;
-  
+  margin-top: -70px !important;
 }
 
 .menu-item-sidebar-closed {
@@ -177,7 +177,6 @@ a {
   }
 
   &:first-child::before {
-    content: "" !important;
     position: absolute;
     left: 0;
     right: 0;
