@@ -36,7 +36,7 @@ export class AuthGuard implements CanActivate {
               return of(true);
             } else {
               alert("Acesso negado. Você não tem as autoridades necessárias.");
-              return of(this.router.createUrlTree(['/home']));
+              return of(this.router.createUrlTree(['/perfilUsuario']));
             }
           })
         );
