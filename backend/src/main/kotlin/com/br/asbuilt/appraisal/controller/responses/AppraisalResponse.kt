@@ -11,7 +11,8 @@ data class AppraisalResponse(
     val taskExecutors: List<UserResponse>,
     val tasklecturer: UserResponse,
     val appraisalDate: Date,
-    val appraisalResult: Boolean
+    val appraisalResult: Boolean,
+    val obs: String?
 ) {
     constructor(appraisal: Appraisal) : this(
         appraisal.id,
@@ -19,6 +20,7 @@ data class AppraisalResponse(
         appraisal.taskExecutors.map { UserResponse(it) },
         UserResponse(appraisal.tasklecturer),
         appraisal.appraisalDate,
-        appraisal.appraisalResult!!
+        appraisal.appraisalResult!!,
+        appraisal.obs
     )
 }

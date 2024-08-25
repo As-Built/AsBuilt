@@ -20,7 +20,9 @@ data class CreateAppraisalRequest(
     val appraisalDate: Date,
 
     @field:NotNull
-    val appraisalResult: Boolean
+    val appraisalResult: Boolean,
+
+    val obs: String? = null
 
     ) {
     fun toAppraisal() = Appraisal(
@@ -28,6 +30,7 @@ data class CreateAppraisalRequest(
         taskExecutors = taskExecutors.toMutableList(),
         tasklecturer = tasklecturer,
         appraisalDate = appraisalDate,
-        appraisalResult = appraisalResult
+        appraisalResult = appraisalResult,
+        obs = obs
     )
 }

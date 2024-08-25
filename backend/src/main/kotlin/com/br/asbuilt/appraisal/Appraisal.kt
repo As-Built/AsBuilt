@@ -41,5 +41,8 @@ class Appraisal(
     var appraisalDate: Date,
 
     @Column(nullable = false)
-    var appraisalResult: Boolean? = null
+    var appraisalResult: Boolean? = null,
+
+    @Column
+    var obs: String? = null
 )
