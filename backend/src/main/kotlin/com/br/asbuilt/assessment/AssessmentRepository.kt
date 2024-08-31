@@ -1,9 +1,9 @@
-package com.br.asbuilt.appraisal
+package com.br.asbuilt.assessment
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface AppraisalRepository : JpaRepository <Appraisal, Long> {
+interface AssessmentRepository : JpaRepository <Assessment, Long> {
 
 }

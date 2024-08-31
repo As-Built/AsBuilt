@@ -5,6 +5,7 @@ import { UsuarioModel } from '../usuario/model/usuario.model';
 import { Autenticacao } from './model/login.model';
 import { LoginService } from './service/login.service';
 import Swal from 'sweetalert2'
+import { AuthguardService } from '../shared/authguard/authguard.service';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private loginService: LoginService,
-    private router: Router
+    private router: Router,
+    private authGuardService: AuthguardService
   ) { }
 
   ngOnInit(): void {
@@ -78,6 +80,7 @@ export class LoginComponent implements OnInit {
   
         const payload = JSON.parse(atob(retorno.token.split('.')[1]));
         const authority = payload.user.roles[0];
+        this.authGuardService.updateAuthorities([authority]);
   
         if (authority === "ADMIN" || authority === "CONFERENTE") {
           this.router.navigate(['servico']);
