@@ -10,7 +10,7 @@ export class AuthguardService {
   private _isLoggedIn$ = new BehaviorSubject<boolean>(false);
   isLoggedIn$ = this._isLoggedIn$.asObservable();
   private _authorities$ = new BehaviorSubject<string[]>([]);
-  public readonly authorities$ = this._authorities$.asObservable();
+  authorities$ = this._authorities$.asObservable();
 
   constructor(private apiService: ApiService, private jwtHelper: JwtHelperService) {
     const token = localStorage.getItem('token');
