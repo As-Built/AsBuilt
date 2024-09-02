@@ -1,8 +1,8 @@
-package com.br.asbuilt.appraisal.controller
+package com.br.asbuilt.assessment.controller
 
-import com.br.asbuilt.appraisal.AppraisalService
-import com.br.asbuilt.appraisal.controller.requests.CreateAppraisalRequest
-import com.br.asbuilt.appraisal.controller.responses.AppraisalResponse
+import com.br.asbuilt.assessment.AssessmentService
+import com.br.asbuilt.assessment.controller.requests.CreateAssessmentRequest
+import com.br.asbuilt.assessment.controller.responses.AssessmentResponse
 import com.br.asbuilt.exception.NotFoundException
 import com.br.asbuilt.tasks.TaskService
 import com.br.asbuilt.users.UserService
@@ -17,22 +17,22 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/appraisal")
-class AppraisalController(
-    val service: AppraisalService,
+@RequestMapping("/assessment")
+class AssessmentController(
+    val service: AssessmentService,
     val taskService: TaskService,
     val userService: UserService
 ) {
 
     @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("hasRole('ADMIN') || hasRole('CONFERENTE')")
-    @PostMapping("/insertAppraisal")
-    fun insert(@Valid @RequestBody appraisal: CreateAppraisalRequest): ResponseEntity<AppraisalResponse> {
-        val task = appraisal.task.let {
-            taskService.findByIdOrNull(appraisal.task.id!!)
+    @PostMapping("/insertAssessment")
+    fun insert(@Valid @RequestBody assessment: CreateAssessmentRequest): ResponseEntity<AssessmentResponse> {
+        val task = assessment.task.let {
+            taskService.findByIdOrNull(assessment.task.id!!)
         } ?: throw NotFoundException("Task not found!")
 
-        val executors = appraisal.taskExecutors.mapNotNull {
+        val executors = assessment.taskExecutors.mapNotNull {
             userService.findByIdOrNull(it.id!!)
         }
 
@@ -40,17 +40,17 @@ class AppraisalController(
             throw NotFoundException("Task executors not found!")
         }
 
-        val taskLecturer = appraisal.taskLecturer.let {
+        val taskEvaluator = assessment.taskEvaluator.let {
             userService.findByIdOrNull(it.id!!)
-        } ?: throw NotFoundException("Task lecturer not found!")
+        } ?: throw NotFoundException("Task evaluator not found!")
 
-        val appraisalEntity = appraisal.toAppraisal()
+        val assessmentEntity = assessment.toAssessment()
 
-        appraisalEntity.task = task
-        appraisalEntity.taskExecutors = executors.toMutableList()
-        appraisalEntity.taskLecturer = taskLecturer
+        assessmentEntity.task = task
+        assessmentEntity.taskExecutors = executors.toMutableList()
+        assessmentEntity.taskEvaluator = taskEvaluator
 
-        return AppraisalResponse(service.insert(appraisalEntity))
+        return AssessmentResponse(service.insert(assessmentEntity))
             .let { ResponseEntity.status(HttpStatus.CREATED).body(it) }
     }
 }

@@ -10,53 +10,61 @@
     </span>
   </div>
   <div *ngIf="isSidebarOpen" class="sidebar-content">
-    <button class="menu-item" routerLink="/servico">
+    <button *ngIf="userRole == 'ADMIN' || userRole == 'CONFERENTE'" class="menu-item" routerLink="/avaliacao">
+      <mat-icon class="icons">done_outline</mat-icon>
+      <span>Avaliações</span>
+    </button>
+    <button *ngIf="userRole == 'ADMIN' || userRole == 'CONFERENTE'" class="menu-item" routerLink="/servico">
       <mat-icon class="icons">build</mat-icon>
       <span>Serviços</span>
     </button>
-    <button class="menu-item" routerLink="/unidadeDeMedida">
+    <button *ngIf="userRole == 'ADMIN'" class="menu-item" routerLink="/unidadeDeMedida">
       <mat-icon class="icons">square_foot</mat-icon>
       <span>Und. de Medida</span>
     </button>
-    <button class="menu-item" routerLink="/tipoServico">
+    <button *ngIf="userRole == 'ADMIN'" class="menu-item" routerLink="/tipoServico">
       <mat-icon class="icons">handyman</mat-icon>
       <span>Tipos de Serviço</span>
     </button>
-    <button class="menu-item" routerLink="/localServico">
+    <button *ngIf="userRole == 'ADMIN' || userRole == 'CONFERENTE'" class="menu-item" routerLink="/localServico">
       <mat-icon class="icons">map</mat-icon>
       <span>Locais de Serviço</span>
     </button>
-    <button class="menu-item" routerLink="/centroCusto">
+    <button *ngIf="userRole == 'ADMIN'" class="menu-item" routerLink="/centroCusto">
       <mat-icon class="icons">apartment</mat-icon>
       <span>Centros de Custo</span>
     </button>
-    <button class="menu-item" routerLink="/construtora">
+    <button *ngIf="userRole == 'ADMIN'" class="menu-item" routerLink="/construtora">
       <mat-icon class="icons">engineering</mat-icon>
       <span>Construtoras</span>
     </button>
   </div>
   <div *ngIf="!isSidebarOpen" class="sidebar-content-closed">
-    <button class="menu-item-sidebar-closed" routerLink="/servico" matTooltip="Serviços"
+    <button  *ngIf="userRole == 'ADMIN' || userRole == 'CONFERENTE'" class="menu-item-sidebar-closed" routerLink="/avaliacao" matTooltip="Avaliações"
+    matTooltipShowDelay="1500">
+    <mat-icon class="icons">done_outline</mat-icon>
+  </button>
+    <button  *ngIf="userRole == 'ADMIN' || userRole == 'CONFERENTE'" class="menu-item-sidebar-closed" routerLink="/servico" matTooltip="Serviços"
       matTooltipShowDelay="1500">
       <mat-icon class="icons">build</mat-icon>
     </button>
-    <button class="menu-item-sidebar-closed" routerLink="/unidadeDeMedida" matTooltip="Unidades de Medida"
+    <button *ngIf="userRole == 'ADMIN'" class="menu-item-sidebar-closed" routerLink="/unidadeDeMedida" matTooltip="Unidades de Medida"
     matTooltipShowDelay="1500">
     <mat-icon class="icons">square_foot</mat-icon>
   </button>
-    <button class="menu-item-sidebar-closed" routerLink="/tipoServico" matTooltip="Tipos de serviço"
+    <button *ngIf="userRole == 'ADMIN'" class="menu-item-sidebar-closed" routerLink="/tipoServico" matTooltip="Tipos de serviço"
       matTooltipShowDelay="1500">
       <mat-icon class="icons">handyman</mat-icon>
     </button>
-    <button class="menu-item-sidebar-closed" routerLink="/localServico" matTooltip="Locais de serviço"
+    <button *ngIf="userRole == 'ADMIN' || userRole == 'CONFERENTE'" class="menu-item-sidebar-closed" routerLink="/localServico" matTooltip="Locais de serviço"
       matTooltipShowDelay="1500">
       <mat-icon class="icons">map</mat-icon>
     </button>
-    <button class="menu-item-sidebar-closed" routerLink="/centroCusto" matTooltip="Centros de custo"
+    <button *ngIf="userRole == 'ADMIN'" class="menu-item-sidebar-closed" routerLink="/centroCusto" matTooltip="Centros de custo"
       matTooltipShowDelay="1500">
       <mat-icon class="icons">apartment</mat-icon>
     </button>
-    <button class="menu-item-sidebar-closed" routerLink="/construtora" matTooltip="Construtoras e Proprietários"
+    <button *ngIf="userRole == 'ADMIN'" class="menu-item-sidebar-closed" routerLink="/construtora" matTooltip="Construtoras e Proprietários"
       matTooltipShowDelay="1500">
       <mat-icon class="icons">device_hub</mat-icon>
     </button>
