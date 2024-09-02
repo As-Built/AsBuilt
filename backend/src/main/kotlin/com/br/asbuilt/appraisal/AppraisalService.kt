@@ -1,4 +1,4 @@
-package com.br.asbuilt.assessment
+package com.br.asbuilt.appraisal
 
 import com.br.asbuilt.exception.NotFoundException
 import com.br.asbuilt.tasks.TaskRepository
@@ -7,13 +7,13 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
-class AssessmentService(
-    val repository: AssessmentRepository,
+class AppraisalService(
+    val repository: AppraisalRepository,
     val taskRepository: TaskRepository,
     val userRepository: UserRepository
 ) {
-    fun insert(assessment: Assessment): Assessment {
-        val task = assessment.task?.let {
+    fun insert(appraisal: Appraisal): Appraisal {
+        val task = appraisal.task?.let {
             taskRepository.findById(it.id!!)
                 .orElseThrow { NotFoundException("Task not found with ID: ${it.id}") }
         }
@@ -22,27 +22,27 @@ class AssessmentService(
             throw NotFoundException("Task not found!")
         }
 
-        assessment.task = task
+        appraisal.task = task
 
-        val taskExecutors = assessment.taskExecutors.map {
+        val taskExecutors = appraisal.taskExecutors.map {
             userRepository.findById(it.id!!)
                 .orElseThrow { NotFoundException("Executor not found with ID: ${it.id}") }
         }
 
-        assessment.taskExecutors = taskExecutors.toMutableList()
+        appraisal.taskExecutors = taskExecutors.toMutableList()
 
-        val taskEvaluator = assessment.taskEvaluator.let {
+        val taskLecturer = appraisal.taskLecturer.let {
             userRepository.findById(it.id!!)
-                .orElseThrow { NotFoundException("Evaluator not found with ID: ${it.id}") }
+                .orElseThrow { NotFoundException("Lecturer not found with ID: ${it.id}") }
         }
 
-        assessment.taskEvaluator = taskEvaluator
+        appraisal.taskLecturer = taskLecturer
 
-        return repository.save(assessment)
-            .also { log.info("Assessment inserted: {}", it.id) }
+        return repository.save(appraisal)
+            .also { log.info("Appraisal inserted: {}", it.id) }
     }
 
     companion object {
-        private val log = LoggerFactory.getLogger(AssessmentService::class.java)
+        private val log = LoggerFactory.getLogger(AppraisalService::class.java)
     }
 }

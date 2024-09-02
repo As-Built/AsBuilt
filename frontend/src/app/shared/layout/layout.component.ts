@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { AuthguardService } from '../authguard/authguard.service';
 import { SidebarComponent } from '../sidebar/sidebar.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-layout',
@@ -9,30 +8,19 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
   styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnInit {
-  authorities: string[] = [];
-  mostrarSidebar = true;
-  isSidebarOpen = true;
-  private authSubscription: Subscription = new Subscription();
-
-  constructor(private authGuardService: AuthguardService) { }
-
   @ViewChild(SidebarComponent, { static: false }) 
-  sidebarComponent: SidebarComponent = new SidebarComponent(this.authGuardService);  
+  sidebarComponent: SidebarComponent = new SidebarComponent();  
 
+  constructor(private router: Router) { }
   ngOnInit(): void {
-    const authority = localStorage.getItem('authority');
-    this.authorities = [authority ? authority : ''];
-  
-    this.authSubscription = this.authGuardService.authorities$.subscribe(
-      authorities => this.authorities = authorities
-    );
-
-    this.sidebarComponent.sidebarToggle.subscribe(isOpen => {
-      this.isSidebarOpen = isOpen;
-    });
+    if (this.sidebarComponent === undefined) {
+      this.sidebarComponent = new SidebarComponent();
+      this.sidebarComponent.isSidebarOpen = true;
+    }
   }
 
-  ngOnDestroy() {
-    this.authorities.splice(0, this.authorities.length);
+  public get mostrarSidebar(): boolean {
+    const url = this.router.url;
+    return !['/home','/login'].includes(url);
   }
 }

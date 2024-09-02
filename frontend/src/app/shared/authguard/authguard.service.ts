@@ -37,9 +37,4 @@ export class AuthguardService {
       this._authorities$.next([]);
     }
   }
-
-  public updateAuthorities(authorities: string[]) {
-    this._authorities$.next(authorities);
-  }
-  
 }

@@ -90,8 +90,8 @@ class SecurityConfig(
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/taskType/insertTaskType")).hasAnyRole("ADMIN", "CONFERENTE")
                     .requestMatchers(mvc.pattern(HttpMethod.PATCH, "/taskType/updateTaskType")).hasAnyRole("ADMIN", "CONFERENTE")
                     .requestMatchers(mvc.pattern(HttpMethod.DELETE, "/taskType/deleteTaskType/**")).hasAnyRole("ADMIN", "CONFERENTE")
-                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/blob/**")).permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/blob/**")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/blob")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/blob")).permitAll()
                     .anyRequest().authenticated()
             }
             .addFilterBefore(jwtTokenFilter, BasicAuthenticationFilter::class.java)

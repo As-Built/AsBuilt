@@ -36,7 +36,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { PerfilUsuarioComponent } from './perfil-usuario/perfil-usuario.component';
 import { MatMenuModule } from '@angular/material/menu';
-import { AvaliacaoComponent } from './avaliacao/avaliacao.component';
 
 
 @NgModule({
@@ -59,8 +58,7 @@ import { AvaliacaoComponent } from './avaliacao/avaliacao.component';
     LocalServicoComponent,
     TipoServicoComponent,
     UnidadeMedidaComponent,
-    PerfilUsuarioComponent,
-    AvaliacaoComponent
+    PerfilUsuarioComponent
   ],
   imports: [
     BrowserModule,

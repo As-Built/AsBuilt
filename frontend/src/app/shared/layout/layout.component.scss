@@ -5,21 +5,17 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
-    transition: transform 1200ms ease-in-out;
-}
-
-.container.sidebar-closed {
-    transform: translateX(-92.5px);
+    transition: margin-left 0.3s ease;
 }
   
 .sidenav { 
     width: $sidebar-width;
-    transition: margin-left 1200ms ease-in-out;
+    transition: ease-in-out 1200ms width;
 }
   
 .sidenav.closed {
     width: 0;
-    transition: margin-left 1200ms ease-in-out;
+    transition: ease-in-out 1200ms width;
 }
 
 .content {
