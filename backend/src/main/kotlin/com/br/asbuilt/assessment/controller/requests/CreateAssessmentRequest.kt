@@ -14,7 +14,7 @@ data class CreateAssessmentRequest(
     val taskExecutors: List<User>,
 
     @field:NotNull
-    val taskEvaluator: User,
+    val taskEvaluators: List<User>,
 
     @field:NotNull
     val assessmentDate: Date,
@@ -45,13 +45,25 @@ data class CreateAssessmentRequest(
     @field:NotNull
     val assessmentResult: Boolean,
 
-    val obs: String? = null
+    val obs: String? = null,
+
+    val assessmentPhoto0: String? = null,
+
+    val assessmentPhoto1: String? = null,
+
+    val assessmentPhoto2: String? = null,
+
+    val assessmentPhoto3: String? = null,
+
+    val assessmentPhoto4: String? = null,
+
+    val assessmentPhoto5: String? = null
 
     ) {
     fun toAssessment() = Assessment(
         task = task,
         taskExecutors = taskExecutors.toMutableList(),
-        taskEvaluator = taskEvaluator,
+        taskEvaluators = taskEvaluators.toMutableList(),
         assessmentDate = assessmentDate,
         parameter0Result = parameter0Result,
         parameter1Result = parameter1Result,
@@ -64,6 +76,12 @@ data class CreateAssessmentRequest(
         parameter8Result = parameter8Result,
         parameter9Result = parameter9Result,
         assessmentResult = assessmentResult,
-        obs = obs
+        obs = obs,
+        assessmentPhoto0 = assessmentPhoto0,
+        assessmentPhoto1 = assessmentPhoto1,
+        assessmentPhoto2 = assessmentPhoto2,
+        assessmentPhoto3 = assessmentPhoto3,
+        assessmentPhoto4 = assessmentPhoto4,
+        assessmentPhoto5 = assessmentPhoto5
     )
 }

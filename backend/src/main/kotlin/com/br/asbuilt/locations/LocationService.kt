@@ -82,6 +82,11 @@ class LocationService(
         SortDir.DESC -> repository.findAll(Sort.by("locationGroup", "subGroup1", "subGroup2", "subGroup3").descending())
     }
 
+    fun findLocationId(costCenterId: Long, locationGroup: String, subGroup1: String?, subGroup2: String?, subGroup3: String?): Long {
+        return repository.findLocationId(costCenterId, locationGroup, subGroup1, subGroup2, subGroup3)
+            ?: throw NotFoundException("Location ID not found")
+    }
+
     fun findLocationByGroup(locationGroup: String): List<Location> = repository.findLocationByGroup(locationGroup)
 
     fun findLocationBySubGroup1(subGroup1: String): List<Location> = repository.findLocationBySubGroup1(subGroup1)

@@ -29,13 +29,13 @@ class Assessment(
     )
     var taskExecutors: MutableList<User> = mutableListOf(),
 
-    @ManyToOne
+    @ManyToMany
     @JoinTable(
         name = "AssessmentTaskEvaluator",
         joinColumns = [JoinColumn(name = "idAssessment")],
         inverseJoinColumns = [JoinColumn(name = "idUser")]
     )
-    var taskEvaluator: User,
+    var taskEvaluators: MutableList<User> = mutableListOf(),
 
     @Column(nullable = false)
     var assessmentDate: Date,
@@ -74,5 +74,24 @@ class Assessment(
     var assessmentResult: Boolean? = null,
 
     @Column
-    var obs: String? = null
+    var obs: String? = null,
+
+    @Column
+    var assessmentPhoto0: String? = null,
+
+    @Column
+    var assessmentPhoto1: String? = null,
+
+    @Column
+    var assessmentPhoto2: String? = null,
+
+    @Column
+    var assessmentPhoto3: String? = null,
+
+    @Column
+    var assessmentPhoto4: String? = null,
+
+    @Column
+    var assessmentPhoto5: String? = null
+
 )

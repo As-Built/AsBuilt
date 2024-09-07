@@ -72,15 +72,15 @@ class Task(
         joinColumns = [JoinColumn(name = "idTask")],
         inverseJoinColumns = [JoinColumn(name = "idUser")]
     )
-    var executor: MutableSet<User> = mutableSetOf(),
+    var executors: MutableSet<User> = mutableSetOf(),
 
     @ManyToMany
     @JoinTable(
-        name = "TaskConferente",
+        name = "TaskEvaluator",
         joinColumns = [JoinColumn(name = "idTask")],
         inverseJoinColumns = [JoinColumn(name = "idUser")]
     )
-    var conferente: MutableSet<User> = mutableSetOf()
+    var evaluators: MutableSet<User> = mutableSetOf()
 
 
 )

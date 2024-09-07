@@ -11,9 +11,9 @@ interface TaskRepository : JpaRepository <Task, Long> {
 
     @Query("SELECT DISTINCT t " +
             "FROM Task t " +
-            "JOIN t.conferente c " +
-            "JOIN t.executor e " +
-            "WHERE UPPER(c.name) LIKE UPPER(CONCAT('%', :userName, '%')) OR UPPER(e.name) LIKE UPPER(CONCAT('%', :userName, '%'))")
+            "JOIN t.evaluators ev " +
+            "JOIN t.executors ex " +
+            "WHERE UPPER(ev.name) LIKE UPPER(CONCAT('%', :userName, '%')) OR UPPER(ex.name) LIKE UPPER(CONCAT('%', :userName, '%'))")
     fun findByUserName(@Param("userName") userName: String, sort: Sort): List<Task>
 
     @Query("SELECT t FROM Task t WHERE t.costCenter.id = :costCenterId")

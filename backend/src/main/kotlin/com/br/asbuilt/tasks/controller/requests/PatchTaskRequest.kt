@@ -42,9 +42,9 @@ data class PatchTaskRequest(
 
     val obs: String?,
 
-    val executor: Set<Long>?,
+    val executors: Set<Long>?,
 
-    val conferente: Set<Long>?,
+    val evaluators: Set<Long>?,
 
     ){
     fun toTask() = Task (

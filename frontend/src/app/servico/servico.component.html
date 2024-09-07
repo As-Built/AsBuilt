@@ -27,7 +27,7 @@
           </div>
           <div class="row">
             <div class="col-6">
-              <label for="construtora">Consrutora</label>
+              <label for="construtora">Consrutora<span style="color: red;">*</span></label>
               <select style="height: 40px" name="construtora" id="construtora" required matTooltip="Construtora"
                 matTooltipShowDelay="1500" [(ngModel)]="construtora"
                 (change)="construtora && construtora.id ? buscarCentrosDeCustoPorConstrutora(construtora.id) : null"
@@ -38,7 +38,7 @@
               </select>
             </div>
             <div class="col-6">
-              <label for="centroDeCusto">Centro de Custo</label>
+              <label for="centroDeCusto">Centro de Custo<span style="color: red;">*</span></label>
               <select style="height: 40px" name="centroDeCusto" id="centroDeCusto" required matTooltip="Centro de custo"
                 matTooltipShowDelay="1500" [(ngModel)]="centroCusto" (change)="setCostCenter(centroCusto)"
                 [compareWith]="compareFnCentroCusto">
@@ -50,7 +50,7 @@
           </div>
           <div class="row">
             <div class="col-6">
-              <label for="nivel1">1º Nível de localização *</label>
+              <label for="nivel1">1º Nível de localização<span style="color: red;">*</span></label>
               <select name="nivel1" id="nivel1" required [(ngModel)]="cadastroServico.taskLocation.locationGroup"
                 (change)="filtrarNivel2(cadastroServico.taskLocation.locationGroup)">
                 <option value="" disabled>Selecione o 1º nível de localização</option>
@@ -59,7 +59,7 @@
               </select>
             </div>
             <div class="col-6">
-              <label for="nivel2">2º Nível de localização *</label>
+              <label for="nivel2">2º Nível de localização<span style="color: red;">*</span></label>
               <select name="nivel2" id="nivel2" required [(ngModel)]="cadastroServico.taskLocation.subGroup1"
                 (change)="filtrarNivel3(cadastroServico.taskLocation.locationGroup, cadastroServico.taskLocation.subGroup1)">
                 <option value="" disabled>Selecione o 2º nível de localização</option>
@@ -69,7 +69,7 @@
           </div>
           <div class="row">
             <div class="col-6">
-              <label for="nivel3">3º Nível de localização *</label>
+              <label for="nivel3">3º Nível de localização</label>
               <select name="nivel3" id="nivel3" required [(ngModel)]="cadastroServico.taskLocation.subGroup2"
                 (change)="filtrarNivel4(cadastroServico.taskLocation.locationGroup, cadastroServico.taskLocation.subGroup1, cadastroServico.taskLocation.subGroup2)">
                 <option value="" disabled>Selecione o 3º nível de localização</option>
@@ -77,7 +77,7 @@
               </select>
             </div>
             <div class="col-6">
-              <label for="nivel4">4º Nível de localização *</label>
+              <label for="nivel4">4º Nível de localização</label>
               <select name="nivel4" id="nivel4" required [(ngModel)]="cadastroServico.taskLocation.subGroup3">
                 <option value="" disabled>Selecione o 4º nível de localização (opcional)</option>
                 <option *ngFor="let location of listaSubGroup3" [ngValue]="location">{{location}}</option>
@@ -92,7 +92,7 @@
           </div>
           <div class="row">
             <div class="col-7">
-              <label for="tipoServico">Tipo de Serviço</label>
+              <label for="tipoServico">Tipo de Serviço<span style="color: red;">*</span></label>
               <select name="tipoServico" id="tipoServico" required matTooltip="Tipo de Serviço"
                 matTooltipShowDelay="1500" [(ngModel)]="cadastroServico.taskType">
                 <option value="" disabled selected>Selecione um tipo de serviço</option>
@@ -101,14 +101,14 @@
               </select>
             </div>
             <div class="col-2">
-              <label for="dimensao">Dimensão</label>
+              <label for="dimensao">Dimensão<span style="color: red;">*</span></label>
               <input name="dimensao" id="dimensao" required type="number" min="0" step="0.01"
                 matTooltip="Tamanho do serviço a ser executado" matTooltipShowDelay="1500"
                 [(ngModel)]="cadastroServico.dimension"
                 (ngModelChange)="cadastroServico.dimension = cadastroServico.dimension < 0 ? 0 : cadastroServico.dimension; calcularValorTotal()" />
             </div>
             <div class="col-3">
-              <label for="unidadeMedida">Unidade de medida</label>
+              <label for="unidadeMedida">Unidade de medida<span style="color: red;">*</span></label>
               <input name="unidadeMedida" id="unidadeMedida" required matTooltip="Unidade de medida"
                 matTooltipShowDelay="1500" [value]="cadastroServico.taskType.unitMeasurement.name" disabled />
               <input type="hidden" [(ngModel)]="cadastroServico.taskType.unitMeasurement" name="unitMeasurement" />
@@ -116,26 +116,26 @@
           </div>
           <div class="row">
             <div class="col-3">
-              <label for="valorUnitario">Valor unitário</label>
+              <label for="valorUnitario">Valor unitário<span style="color: red;">*</span></label>
               <input #valorUnitario name="valorUnitario" id="valorUnitario" required
                 matTooltip="Valor unitário por unidade de medida" matTooltipShowDelay="1500"
                 [value]="cadastroServico.unitaryValue | real"
                 (blur)="cadastroServico.unitaryValue = parseValue(valorUnitario.value); calcularValorTotal()" />
             </div>
             <div class="col-3">
-              <label for="valorTotal">Valor Total</label>
+              <label for="valorTotal">Valor Total<span style="color: red;">*</span></label>
               <input name="valorTotal" id="valorTotal" required matTooltip="Valor total" matTooltipShowDelay="1500"
                 [(ngModel)]="cadastroServico.amount" currencyMask
                 [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" readonly />
             </div>
             <div class="col-3">
-              <label for="dataPrevistaInicio">Previsão de início</label>
+              <label for="dataPrevistaInicio">Previsão de início<span style="color: red;">*</span></label>
               <input style="text-align: end; direction: rtl;" name="dataPrevistaInicio" id="dataPrevistaInicio" required
                 matTooltip="Data prevista para o início do serviço" matTooltipShowDelay="1500"
                 [(ngModel)]="cadastroServico.expectedStartDate" type="date" />
             </div>
             <div class="col-3">
-              <label for="dataPrevistaTermino">Previsão de término</label>
+              <label for="dataPrevistaTermino">Previsão de término<span style="color: red;">*</span></label>
               <input style="text-align: end; direction: rtl;" name="dataPrevistaTermino" id="dataPrevistaTermino"
                 required matTooltip="Data prevista para o início do serviço" matTooltipShowDelay="1500"
                 [(ngModel)]="cadastroServico.expectedEndDate" type="date" />
@@ -232,7 +232,7 @@
                 Nenhum Serviço encontrado
               </h3>
             </div>
-        </div>
+          </div>
         </div>
       </div>
     </div>
@@ -249,42 +249,37 @@
       </div>
       <div class="row">
         <div class="col-12">
-          <label for="centroDeCusto">Centro de Custo</label>
-          <input name="centroDeCusto" id="centroDeCusto" required type="text"
-            matTooltip="Centro de custo" matTooltipShowDelay="1500"
-            [(ngModel)]="servicoModel.costCenter.costCenterName" disabled />
+          <label for="centroDeCusto">Centro de Custo<span style="color: red;">*</span></label>
+          <input name="centroDeCusto" id="centroDeCusto" required type="text" matTooltip="Centro de custo"
+            matTooltipShowDelay="1500" [(ngModel)]="servicoModel.costCenter.costCenterName" disabled />
         </div>
       </div>
       <div class="row">
         <div class="col-12">
-          <label for="nivel1">1º Nível de localização *</label>
-          <input name="nivel1" id="nivel1" required type="text"
-            matTooltip="1º nível de localização do serviço" matTooltipShowDelay="1500"
-            [(ngModel)]="servicoModel.taskLocation.locationGroup" disabled />
+          <label for="nivel1">1º Nível de localização<span style="color: red;">*</span></label>
+          <input name="nivel1" id="nivel1" required type="text" matTooltip="1º nível de localização do serviço"
+            matTooltipShowDelay="1500" [(ngModel)]="servicoModel.taskLocation.locationGroup" disabled />
         </div>
       </div>
       <div class="row">
         <div class="col-12">
-          <label for="nivel2">2º Nível de localização *</label>
-          <input name="nivel2" id="nivel2" required type="text"
-            matTooltip="2º nível de localização do serviço" matTooltipShowDelay="1500"
-            [(ngModel)]="servicoModel.taskLocation.subGroup1" disabled />
+          <label for="nivel2">2º Nível de localização<span style="color: red;">*</span></label>
+          <input name="nivel2" id="nivel2" required type="text" matTooltip="2º nível de localização do serviço"
+            matTooltipShowDelay="1500" [(ngModel)]="servicoModel.taskLocation.subGroup1" disabled />
         </div>
       </div>
       <div class="row">
         <div class="col-12">
-          <label for="nivel3">3º Nível de localização *</label>
-          <input name="nivel3" id="nivel3" required type="text"
-            matTooltip="3º nível de localização do serviço" matTooltipShowDelay="1500"
-            [(ngModel)]="servicoModel.taskLocation.subGroup2" disabled />
+          <label for="nivel3">3º Nível de localização</label>
+          <input name="nivel3" id="nivel3" required type="text" matTooltip="3º nível de localização do serviço"
+            matTooltipShowDelay="1500" [(ngModel)]="servicoModel.taskLocation.subGroup2" disabled />
         </div>
       </div>
       <div class="row">
         <div class="col-12">
-          <label for="nivel4">4º Nível de localização *</label>
-          <input name="nivel4" id="nivel4" required type="text"
-            matTooltip="4º nível de localização do serviço" matTooltipShowDelay="1500"
-            [(ngModel)]="servicoModel.taskLocation.subGroup3" disabled />
+          <label for="nivel4">4º Nível de localização</label>
+          <input name="nivel4" id="nivel4" required type="text" matTooltip="4º nível de localização do serviço"
+            matTooltipShowDelay="1500" [(ngModel)]="servicoModel.taskLocation.subGroup3" disabled />
         </div>
       </div>
       <div class="row">
@@ -295,17 +290,16 @@
       </div>
       <div *ngIf="indDesabilitaCampos" class="row">
         <div class="col-12">
-          <label for="tipoServico">Tipo de Serviço</label>
-          <input name="tipoServico" id="tipoServico" required type="text"
-            matTooltip="Tipo de serviço" matTooltipShowDelay="1500"
-            [(ngModel)]="servicoModel.taskType.taskTypeName" disabled />
+          <label for="tipoServico">Tipo de Serviço<span style="color: red;">*</span></label>
+          <input name="tipoServico" id="tipoServico" required type="text" matTooltip="Tipo de serviço"
+            matTooltipShowDelay="1500" [(ngModel)]="servicoModel.taskType.taskTypeName" disabled />
         </div>
       </div>
       <div *ngIf="!indDesabilitaCampos" class="row">
         <div class="col-12">
-          <label for="tipoServico">Tipo de Serviço</label>
-          <select name="tipoServico" id="tipoServico" required matTooltip="Tipo de Serviço"
-            matTooltipShowDelay="1500" [(ngModel)]="servicoModel.taskType" [disabled]="indDesabilitaCampos">
+          <label for="tipoServico">Tipo de Serviço<span style="color: red;">*</span></label>
+          <select name="tipoServico" id="tipoServico" required matTooltip="Tipo de Serviço" matTooltipShowDelay="1500"
+            [(ngModel)]="servicoModel.taskType" [disabled]="indDesabilitaCampos">
             <option value="" disabled selected>Selecione um tipo de serviço</option>
             <option *ngFor="let tipos of listaTiposServico;" [ngValue]="tipos">
               {{tipos.taskTypeName}}</option>
@@ -314,14 +308,14 @@
       </div>
       <div class="row">
         <div class="col-6">
-          <label for="dimensao">Dimensão</label>
+          <label for="dimensao">Dimensão<span style="color: red;">*</span></label>
           <input name="dimensao" id="dimensao" required type="number" min="0" step="0.01"
             matTooltip="Tamanho do serviço a ser executado" matTooltipShowDelay="1500"
             [(ngModel)]="servicoModel.dimension" [disabled]="indDesabilitaCampos"
             (ngModelChange)="servicoModel.dimension = servicoModel.dimension < 0 ? 0 : servicoModel.dimension; calcularValorTotalModal()" />
         </div>
         <div class="col-6">
-          <label for="unidadeMedida">Und. de medida</label>
+          <label for="unidadeMedida">Und. de medida<span style="color: red;">*</span></label>
           <input name="unidadeMedida" id="unidadeMedida" required matTooltip="Unidade de medida"
             matTooltipShowDelay="1500" [value]="servicoModel.taskType.unitMeasurement.name" disabled />
           <input type="hidden" [(ngModel)]="servicoModel.taskType.unitMeasurement" name="unitMeasurement" />
@@ -329,14 +323,14 @@
       </div>
       <div class="row">
         <div class="col-6">
-          <label for="valorUnitario">Valor unitário</label>
+          <label for="valorUnitario">Valor unitário<span style="color: red;">*</span></label>
           <input #valorUnitario name="valorUnitario" id="valorUnitario" required
             matTooltip="Valor unitário por unidade de medida" matTooltipShowDelay="1500"
             [value]="servicoModel.unitaryValue | real" [disabled]="indDesabilitaCampos"
             (blur)="servicoModel.unitaryValue = parseValue(valorUnitario.value); calcularValorTotalModal()" />
         </div>
         <div class="col-6">
-          <label for="valorTotal">Valor Total</label>
+          <label for="valorTotal">Valor Total<span style="color: red;">*</span></label>
           <input name="valorTotal" id="valorTotal" required matTooltip="Valor total" matTooltipShowDelay="1500"
             [(ngModel)]="servicoModel.amount" currencyMask disabled
             [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" readonly />
@@ -344,24 +338,24 @@
       </div>
       <div class="row">
         <div class="col-6">
-          <label for="dataPrevistaInicio">Prev. de Início</label>
+          <label for="dataPrevistaInicio">Prev. de Início<span style="color: red;">*</span></label>
           <input style="text-align: end; direction: rtl;" name="dataPrevistaInicio" id="dataPrevistaInicio" required
             matTooltip="Data prevista para o início do serviço" matTooltipShowDelay="1500"
-            [(ngModel)]="servicoModel.expectedStartDate" type="date" [disabled]="indDesabilitaCampos"/>
+            [(ngModel)]="servicoModel.expectedStartDate" type="date" [disabled]="indDesabilitaCampos" />
         </div>
         <div class="col-6">
-          <label for="dataPrevistaTermino">Prev. de Término</label>
-          <input style="text-align: end; direction: rtl;" name="dataPrevistaTermino" id="dataPrevistaTermino"
-            required matTooltip="Data prevista para o início do serviço" matTooltipShowDelay="1500"
-            [(ngModel)]="servicoModel.expectedEndDate" type="date" [disabled]="indDesabilitaCampos"/>
+          <label for="dataPrevistaTermino">Prev. de Término<span style="color: red;">*</span></label>
+          <input style="text-align: end; direction: rtl;" name="dataPrevistaTermino" id="dataPrevistaTermino" required
+            matTooltip="Data prevista para o início do serviço" matTooltipShowDelay="1500"
+            [(ngModel)]="servicoModel.expectedEndDate" type="date" [disabled]="indDesabilitaCampos" />
         </div>
       </div>
       <div class="row">
         <div class="col-12">
           <label for="comments">Observações</label>
-          <textarea type="text" name="comments" id="comments" matTooltip="Observações gerais"
-            matTooltipShowDelay="1500" [(ngModel)]="servicoModel.obs"
-            placeholder="Qualquer observação pertinente" [disabled]="indDesabilitaCampos"></textarea>
+          <textarea type="text" name="comments" id="comments" matTooltip="Observações gerais" matTooltipShowDelay="1500"
+            [(ngModel)]="servicoModel.obs" placeholder="Qualquer observação pertinente"
+            [disabled]="indDesabilitaCampos"></textarea>
         </div>
       </div>
     </div>

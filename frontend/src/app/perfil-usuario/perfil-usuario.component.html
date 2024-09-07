@@ -34,24 +34,24 @@
             </div>
             <div class="row">
                 <div class="col-6">
-                    <label for="userName">Nome *</label>
+                    <label for="userName">Nome<span style="color: red;">*</span></label>
                     <input type="text" name="userName" id="userName" required matTooltip="Nome completo"
                         matTooltipShowDelay="1500" [(ngModel)]="perfilUsuario.name">
                 </div>
                 <div class="col-3">
-                    <label for="cpf">CPF *</label>
+                    <label for="cpf">CPF<span style="color: red;">*</span></label>
                     <input type="text" name="cpf" id="cpf" required matTooltip="CPF" matTooltipShowDelay="1500"
                         [(ngModel)]="perfilUsuario.cpf">
                 </div>
                 <div class="col-3">
-                    <label for="phone">Telefone *</label>
+                    <label for="phone">Telefone<span style="color: red;">*</span></label>
                     <input type="text" name="phone" id="phone" required matTooltip="CPF" matTooltipShowDelay="1500"
                         [(ngModel)]="perfilUsuario.phone">
                 </div>
             </div>
             <div class="row">
                 <div class="col-6">
-                    <label for="email">E-mail *</label>
+                    <label for="email">E-mail<span style="color: red;">*</span></label>
                     <input type="email" name="email" id="email" required matTooltip="E-mail" matTooltipShowDelay="1500"
                         [(ngModel)]="perfilUsuario.email">
                 </div>
@@ -64,19 +64,19 @@
             </div>
             <div class="row">
                 <div class="col-3">
-                    <label for="cep">CEP *</label>
+                    <label for="cep">CEP<span style="color: red;">*</span></label>
                     <input type="text" name="cep" id="cep" mask="00.000-000" required matTooltip="CEP"
                         matTooltipShowDelay="1500" placeholder="00.000-000"
                         [(ngModel)]="perfilUsuario.userAddress.postalCode">
                 </div>
                 <div class="col-7">
-                    <label for="logradouro">Logradouro *</label>
+                    <label for="logradouro">Logradouro<span style="color: red;">*</span></label>
                     <input type="text" name="logradouro" id="logradouro" required placeholder="Rua Exemplo"
                         matTooltip="Rua, Avenida, Travessa, Alameda" matTooltipShowDelay="1500"
                         [(ngModel)]="perfilUsuario.userAddress.street">
                 </div>
                 <div class="col-2">
-                    <label for="numero">Número *</label>
+                    <label for="numero">Número<span style="color: red;">*</span></label>
                     <input type="number" name="numero" id="numero" required matTooltip="Para 'Sem Número' inserir '0'"
                         matTooltipShowDelay="1500" [(ngModel)]="perfilUsuario.userAddress.number" min="0"
                         (keypress)="numberOnly($event)">
@@ -84,12 +84,12 @@
             </div>
             <div class="row">
                 <div class="col-7">
-                    <label for="cidade">Cidade *</label>
+                    <label for="cidade">Cidade<span style="color: red;">*</span></label>
                     <input type="text" name="cidade" id="cidade" required matTooltip="Cidade" matTooltipShowDelay="1500"
                         placeholder="Cidade" [(ngModel)]="perfilUsuario.userAddress.city">
                 </div>
                 <div class="col-2">
-                    <label for="estado">UF *</label>
+                    <label for="estado">UF<span style="color: red;">*</span></label>
                     <select name="estado" [(ngModel)]="perfilUsuario.userAddress.state">
                         <option *ngFor="let estado of estadosBrasileiros" [value]="estado">{{estado}}</option>
                     </select>

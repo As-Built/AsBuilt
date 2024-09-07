@@ -197,9 +197,9 @@ export class TipoServicoComponent implements OnInit {
       return false;
     }
 
-    if (tipoServico.taskTypeName.length < 6) {
+    if (tipoServico.taskTypeName.length < 6 || tipoServico.taskTypeName.length > 254) {
       Swal.fire({
-        text: "O campo 'Nome' deve ter no mínimo 6 caracteres!",
+        text: "O campo 'Nome' deve ter no mínimo 6 caracteres e no máximo 254 caracteres!",
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -207,9 +207,9 @@ export class TipoServicoComponent implements OnInit {
       return false;
     }
 
-    if (tipoServico.taskTypeName.length > 254) {
+    if (tipoServico.parameter0Name.length < 3 || tipoServico.parameter0Name.length > 254) {
       Swal.fire({
-        text: "O campo 'Nome' deve ter no máximo 254 caracteres!",
+        text: "O campo '1º Parâmetro de avaliação' deve ter no mínimo 3 caracteres e no máximo 254 caracteres!",
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -217,9 +217,9 @@ export class TipoServicoComponent implements OnInit {
       return false;
     }
 
-    if (tipoServico.parameter0Name.length < 6) {
+    if (tipoServico.parameter1Name.length < 3 || tipoServico.parameter1Name.length > 254) {
       Swal.fire({
-        text: "O campo '1º Parâmetro de avaliação' deve ter no mínimo 6 caracteres!",
+        text: "O campo '2º Parâmetro de avaliação' deve ter no mínimo 3 caracteres e no máximo 254 caracteres!",
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -227,9 +227,9 @@ export class TipoServicoComponent implements OnInit {
       return false;
     }
 
-    if (tipoServico.parameter0Name.length > 254) {
+    if (tipoServico.parameter2Name.length < 3 || tipoServico.parameter2Name.length > 254) {
       Swal.fire({
-        text: "O campo '1º Parâmetro de avaliação' deve ter no máximo 254 caracteres!",
+        text: "O campo '3º Parâmetro de avaliação' deve ter no mínimo 3 caracteres e no máximo 254 caracteres!",
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -237,49 +237,9 @@ export class TipoServicoComponent implements OnInit {
       return false;
     }
 
-    if (tipoServico.parameter1Name.length < 6) {
+    if (tipoServico.parameter3Name !== undefined && (tipoServico.parameter3Name!.length < 3 || tipoServico.parameter3Name!.length > 254)) {
       Swal.fire({
-        text: "O campo '2º Parâmetro de avaliação' deve ter no mínimo 6 caracteres!",
-        icon: "warning",
-        showConfirmButton: false,
-        timer: 2000
-      });
-      return false;
-    }
-
-    if (tipoServico.parameter1Name.length > 254) {
-      Swal.fire({
-        text: "O campo '2º Parâmetro de avaliação' deve ter no máximo 254 caracteres!",
-        icon: "warning",
-        showConfirmButton: false,
-        timer: 2000
-      });
-      return false;
-    }
-
-    if (tipoServico.parameter2Name.length < 6) {
-      Swal.fire({
-        text: "O campo '3º Parâmetro de avaliação' deve ter no mínimo 6 caracteres!",
-        icon: "warning",
-        showConfirmButton: false,
-        timer: 2000
-      });
-      return false;
-    }
-
-    if (tipoServico.parameter2Name.length > 254) {
-      Swal.fire({
-        text: "O campo '3º Parâmetro de avaliação' deve ter no máximo 254 caracteres!",
-        icon: "warning",
-        showConfirmButton: false,
-        timer: 2000
-      });
-      return false;
-    }
-
-    if (tipoServico.parameter3Name !== undefined && (tipoServico.parameter3Name!.length < 6 || tipoServico.parameter3Name!.length > 254)) {
-      Swal.fire({
-        text: "O campo '4º Parâmetro de avaliação' deve ter no mínimo 6 e no máximo 254 caracteres!",
+        text: "O campo '4º Parâmetro de avaliação' deve ter no mínimo 3 e no máximo 254 caracteres!",
         icon: "warning",
         showConfirmButton: false,
         timer: 3000
@@ -287,9 +247,9 @@ export class TipoServicoComponent implements OnInit {
       return false;
     }
 
-    if (tipoServico.parameter4Name !== undefined && (tipoServico.parameter4Name!.length < 6 || tipoServico.parameter4Name!.length > 254)) {
+    if (tipoServico.parameter4Name !== undefined && (tipoServico.parameter4Name!.length < 3 || tipoServico.parameter4Name!.length > 254)) {
       Swal.fire({
-        text: "O campo '5º Parâmetro de avaliação' deve ter no mínimo 6 e no máximo 254 caracteres!",
+        text: "O campo '5º Parâmetro de avaliação' deve ter no mínimo 3 e no máximo 254 caracteres!",
         icon: "warning",
         showConfirmButton: false,
         timer: 3000
@@ -297,7 +257,7 @@ export class TipoServicoComponent implements OnInit {
       return false;
     }
 
-    if (tipoServico.parameter5Name !== undefined && (tipoServico.parameter5Name!.length < 6 || tipoServico.parameter5Name!.length > 254)) {
+    if (tipoServico.parameter5Name !== undefined && (tipoServico.parameter5Name!.length < 3 || tipoServico.parameter5Name!.length > 254)) {
       Swal.fire({
         text: "O campo '6º Parâmetro de avaliação' deve ter no mínimo 6 e no máximo 254 caracteres!",
         icon: "warning",
@@ -307,7 +267,7 @@ export class TipoServicoComponent implements OnInit {
       return false;
     }
 
-    if (tipoServico.parameter6Name !== undefined && (tipoServico.parameter6Name!.length < 6 || tipoServico.parameter6Name!.length > 254)) {
+    if (tipoServico.parameter6Name !== undefined && (tipoServico.parameter6Name!.length < 3 || tipoServico.parameter6Name!.length > 254)) {
       Swal.fire({
         text: "O campo '7º Parâmetro de avaliação' deve ter no mínimo 6 e no máximo 254 caracteres!",
         icon: "warning",
@@ -317,9 +277,9 @@ export class TipoServicoComponent implements OnInit {
       return false;
     }
 
-    if (tipoServico.parameter7Name !== undefined && (tipoServico.parameter7Name!.length < 6 || tipoServico.parameter7Name!.length > 254)) {
+    if (tipoServico.parameter7Name !== undefined && (tipoServico.parameter7Name!.length < 3 || tipoServico.parameter7Name!.length > 254)) {
       Swal.fire({
-        text: "O campo '8º Parâmetro de avaliação' deve ter no mínimo 6 e no máximo 254 caracteres!",
+        text: "O campo '8º Parâmetro de avaliação' deve ter no mínimo 3 e no máximo 254 caracteres!",
         icon: "warning",
         showConfirmButton: false,
         timer: 3000
@@ -327,9 +287,9 @@ export class TipoServicoComponent implements OnInit {
       return false;
     }
 
-    if (tipoServico.parameter8Name !== undefined && (tipoServico.parameter8Name!.length < 6 || tipoServico.parameter8Name!.length > 254)) {
+    if (tipoServico.parameter8Name !== undefined && (tipoServico.parameter8Name!.length < 3 || tipoServico.parameter8Name!.length > 254)) {
       Swal.fire({
-        text: "O campo '9º Parâmetro de avaliação' deve ter no mínimo 6 e no máximo 254 caracteres!",
+        text: "O campo '9º Parâmetro de avaliação' deve ter no mínimo 3 e no máximo 254 caracteres!",
         icon: "warning",
         showConfirmButton: false,
         timer: 3000
@@ -337,9 +297,9 @@ export class TipoServicoComponent implements OnInit {
       return false;
     }
 
-    if (tipoServico.parameter9Name !== undefined && (tipoServico.parameter9Name!.length < 6 || tipoServico.parameter9Name!.length > 254)) {
+    if (tipoServico.parameter9Name !== undefined && (tipoServico.parameter9Name!.length < 3 || tipoServico.parameter9Name!.length > 254)) {
       Swal.fire({
-        text: "O campo '10º Parâmetro de avaliação' deve ter no mínimo 6 e no máximo 254 caracteres!",
+        text: "O campo '10º Parâmetro de avaliação' deve ter no mínimo 3 e no máximo 254 caracteres!",
         icon: "warning",
         showConfirmButton: false,
         timer: 3000

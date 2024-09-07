@@ -39,8 +39,8 @@ export class ServicoService {
       finalDate: cadastroModel.finalDate,
       amount: cadastroModel.amount,
       obs: cadastroModel.obs,
-      executor: cadastroModel.executor,
-      cadastroModel: cadastroModel.conferente
+      executor: cadastroModel.executors,
+      evaluators: cadastroModel.evaluators
     });
 
     return this.httpClient.
@@ -62,8 +62,8 @@ export class ServicoService {
       finalDate: servico.finalDate,
       amount: servico.amount,
       obs: servico.obs,
-      executor: servico.executor,
-      cadastroModel: servico.conferente
+      executors: servico.executors,
+      evaluators: servico.evaluators
     });
     return this.httpClient.
       patch<ServicoModel>('http://localhost:8080/asbuilt/tasks/updateTask', body, this.httpOptions);

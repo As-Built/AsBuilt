@@ -44,7 +44,35 @@ class TaskService (
 
         task.costCenter = centroDeCusto
 
-        val location = locationRepository.save(task.taskLocation)
+        if (task.taskLocation.subGroup1 == "") {
+            task.taskLocation.subGroup1 = null
+        }
+
+        if (task.taskLocation.subGroup2 == "") {
+            task.taskLocation.subGroup2 = null
+        }
+
+        if (task.taskLocation.subGroup3 == "") {
+            task.taskLocation.subGroup3 = null
+        }
+
+        val locationId = locationRepository.findLocationId(
+            task.costCenter.id!!,
+            task.taskLocation.locationGroup,
+            task.taskLocation.subGroup1,
+            task.taskLocation.subGroup2,
+            task.taskLocation.subGroup3
+        )
+
+        val location = locationId?.let {
+            locationRepository.findById(it)
+                .orElseThrow { NotFoundException("Location not found with ID: $locationId") }
+        }
+
+        if (location == null) {
+            throw NotFoundException("Location not found!")
+        }
+
         task.taskLocation = location
 
         return repository.save(task)

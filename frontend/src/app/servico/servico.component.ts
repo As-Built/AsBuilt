@@ -142,7 +142,8 @@ export class ServicoComponent implements OnInit {
     if (nivel1 !== undefined && nivel2 !== undefined) {
       // Filtrar dados do nível 3 baseado na seleção do nível 1 e 2
       this.listaSubGroup2 = this.listaLocais
-        .filter(local => local.locationGroup === nivel1 && local.subGroup1 === nivel2)
+        .filter(local => local.locationGroup === nivel1 && local.subGroup1 === nivel2 && 
+          local.subGroup2 !== undefined && local.subGroup2 !== '' && local.subGroup2 !== null)
         .map(local => local.subGroup2)
         .filter((subGroup): subGroup is string => subGroup !== undefined)
         .filter((value, index, self) => self.indexOf(value) === index); // Remove duplicatas
@@ -229,7 +230,7 @@ export class ServicoComponent implements OnInit {
     this.cadastroServico.amount = this.cadastroServico.dimension * this.cadastroServico.unitaryValue;
   }
 
-  cadastrarServico() {
+  async cadastrarServico() {
     if (!this.validarCampos(this.cadastroServico)){
       return;
     };
@@ -243,7 +244,7 @@ export class ServicoComponent implements OnInit {
           showConfirmButton: false,
           timer: 3000
         });
-        this.cadastroServico = new ServicoModel();
+        this.limparCampos()
       }),
       catchError(error => {
         if (error.error == "Task already exists") {
@@ -473,6 +474,7 @@ export class ServicoComponent implements OnInit {
     this.listaTiposServico = [];
     this.buscarServicos();
     this.buscarConstrutoras();
+    this.buscarCentrosDeCustoPorConstrutora(0);
     this.buscarTiposServico();
     this.cadastroServico.taskLocation = {
       locationGroup: '',

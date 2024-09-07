@@ -40,15 +40,15 @@ class AssessmentController(
             throw NotFoundException("Task executors not found!")
         }
 
-        val taskEvaluator = assessment.taskEvaluator.let {
+        val evaluators = assessment.taskEvaluators.mapNotNull {
             userService.findByIdOrNull(it.id!!)
-        } ?: throw NotFoundException("Task evaluator not found!")
+        }
 
         val assessmentEntity = assessment.toAssessment()
 
         assessmentEntity.task = task
         assessmentEntity.taskExecutors = executors.toMutableList()
-        assessmentEntity.taskEvaluator = taskEvaluator
+        assessmentEntity.taskEvaluators = evaluators.toMutableList()
 
         return AssessmentResponse(service.insert(assessmentEntity))
             .let { ResponseEntity.status(HttpStatus.CREATED).body(it) }

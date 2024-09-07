@@ -23,7 +23,7 @@
           style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between;">
           <div class="row">
             <div class="col-12">
-              <label for="nomeCentroDeCusto">Nome do Centro de Custo *</label>
+              <label for="nomeCentroDeCusto">Nome do Centro de Custo<span style="color: red;">*</span></label>
               <input type="text" name="nomeCentroDeCusto" id="nomeCentroDeCusto" required
                 matTooltip="Nome do centro de custo" matTooltipShowDelay="1500"
                 [(ngModel)]="cadastroCentroCusto.costCenterName" placeholder="Nome da obra">
@@ -37,7 +37,7 @@
           </div>
           <div class="row">
             <div class="col-3">
-              <label for="cep">CEP *</label>
+              <label for="cep">CEP<span style="color: red;">*</span></label>
               <input type="text" name="cep" id="cep" mask="00.000-000" required matTooltip="CEP"
                 matTooltipShowDelay="1500" placeholder="00.000-000"
                 [(ngModel)]="cadastroCentroCusto.costCenterAddress.postalCode"
@@ -46,14 +46,14 @@
           </div>
           <div class="row">
             <div class="col-7">
-              <label for="logradouro">Logradouro *</label>
+              <label for="logradouro">Logradouro<span style="color: red;">*</span></label>
               <input type="text" name="logradouro" id="logradouro" required placeholder="Rua Exemplo"
                 matTooltip="Rua, Avenida, Travessa, Alameda" matTooltipShowDelay="1500"
                 [disabled]="cadastroCentroCusto.costCenterAddress.postalCode.length > 0"
                 [(ngModel)]="cadastroCentroCusto.costCenterAddress.street">
             </div>
             <div class="col-2">
-              <label for="numero">Número *</label>
+              <label for="numero">Número<span style="color: red;">*</span></label>
               <input type="number" name="numero" id="numero" required matTooltip="Para 'Sem Número' inserir '0'"
                 matTooltipShowDelay="1500" [(ngModel)]="cadastroCentroCusto.costCenterAddress.number"
                 min="0" (keypress)="numberOnly($event)">
@@ -61,13 +61,13 @@
           </div>
           <div class="row">
             <div class="col-7">
-              <label for="cidade">Cidade *</label>
+              <label for="cidade">Cidade<span style="color: red;">*</span></label>
               <input type="text" name="cidade" id="cidade" required matTooltip="Cidade" matTooltipShowDelay="1500"
                 [disabled]="cadastroCentroCusto.costCenterAddress.postalCode.length > 0"
                 placeholder="Cidade" [(ngModel)]="cadastroCentroCusto.costCenterAddress.city">
             </div>
             <div class="col-2">
-              <label for="estado">UF *</label>
+              <label for="estado">UF<span style="color: red;">*</span></label>
               <select name="estado" [(ngModel)]="cadastroCentroCusto.costCenterAddress.state"
                 [disabled]="cadastroCentroCusto.costCenterAddress.postalCode.length > 0">
                 <option *ngFor="let estado of estadosBrasileiros" [value]="estado">{{estado}}</option>
@@ -82,7 +82,7 @@
           </div>
           <div class="row">
             <div class="col-12">
-              <label for="proprietario">Construtora *</label>
+              <label for="proprietario">Construtora<span style="color: red;">*</span></label>
               <select name="proprietario" id="proprietario" required matTooltip="Proprietário do centro de custo"
                 matTooltipShowDelay="1500" [(ngModel)]="selectedConstrutoraIndex">
                 <option value="" disabled selected>Selecione uma construtora</option>
@@ -193,7 +193,7 @@
     </div>
     <div class="row">
       <div class="col-12">
-        <label for="nomeCentroDeCusto">Nome do Centro de Custo *</label>
+        <label for="nomeCentroDeCusto">Nome do Centro de Custo<span style="color: red;">*</span></label>
         <input type="text" name="nomeCentroDeCusto" id="nomeCentroDeCusto" [disabled]="indDesabilitaCampos"
           matTooltip="Nome do centro de custo" matTooltipShowDelay="1500" [(ngModel)]="centroCustoModel.costCenterName"
           placeholder="Nome da obra">
@@ -207,7 +207,7 @@
     </div>
     <div class="row">
       <div class="col-4">
-        <label for="cep">CEP *</label>
+        <label for="cep">CEP<span style="color: red;">*</span></label>
         <input type="text" name="cep" id="cep" mask="00.000-000" matTooltip="CEP" matTooltipShowDelay="1500"
           [disabled]="indDesabilitaCampos" placeholder="00.000-000"
           [(ngModel)]="centroCustoModel.costCenterAddress.postalCode"
@@ -216,14 +216,14 @@
     </div>
     <div class="row">
       <div class="col-8">
-        <label for="logradouro">Logradouro *</label>
+        <label for="logradouro">Logradouro<span style="color: red;">*</span></label>
         <input type="text" name="logradouro" id="logradouro" required placeholder="Rua Exemplo"
           matTooltip="Rua, Avenida, Travessa, Alameda" matTooltipShowDelay="1500"
           [disabled]="centroCustoModel.costCenterAddress.postalCode.length > 0 || indDesabilitaCampos"
           [(ngModel)]="centroCustoModel.costCenterAddress.street">
       </div>
       <div class="col-4">
-        <label for="numero">Número *</label>
+        <label for="numero">Número<span style="color: red;">*</span></label>
         <input type="number" name="numero" id="numero" required matTooltip="Para 'Sem Número' inserir '0'"
           matTooltipShowDelay="1500" [(ngModel)]="centroCustoModel.costCenterAddress.number"
           [disabled]="indDesabilitaCampos" min="0" (keypress)="numberOnly($event)">
@@ -231,13 +231,13 @@
     </div>
     <div class="row">
       <div class="col-8">
-        <label for="cidade">Cidade *</label>
+        <label for="cidade">Cidade<span style="color: red;">*</span></label>
         <input type="text" name="cidade" id="cidade" required matTooltip="Cidade" matTooltipShowDelay="1500"
           [disabled]="centroCustoModel.costCenterAddress.postalCode.length > 0 || indDesabilitaCampos"
           placeholder="Cidade" [(ngModel)]="centroCustoModel.costCenterAddress.city">
       </div>
       <div class="col-4">
-        <label for="estado">UF *</label>
+        <label for="estado">UF<span style="color: red;">*</span></label>
         <select name="estado" [(ngModel)]="centroCustoModel.costCenterAddress.state"
           [disabled]="centroCustoModel.costCenterAddress.postalCode.length > 0 || indDesabilitaCampos">
           <option *ngFor="let estado of estadosBrasileiros" [value]="estado">{{estado}}</option>
@@ -252,7 +252,7 @@
     </div>
     <div class="row">
       <div class="col-12">
-        <label for="proprietario">Construtora *</label>
+        <label for="proprietario">Construtora<span style="color: red;">*</span></label>
         <select style="height: 40px" name="proprietario" id="proprietario" required
           matTooltip="Proprietário do centro de custo" matTooltipShowDelay="1500"
           [(ngModel)]="centroCustoModel.builder.builderName" [disabled]="indDesabilitaCampos">

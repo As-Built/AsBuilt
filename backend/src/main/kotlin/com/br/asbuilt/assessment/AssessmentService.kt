@@ -31,16 +31,20 @@ class AssessmentService(
 
         assessment.taskExecutors = taskExecutors.toMutableList()
 
-        val taskEvaluator = assessment.taskEvaluator.let {
+        val taskEvaluator = assessment.taskEvaluators.map {
             userRepository.findById(it.id!!)
                 .orElseThrow { NotFoundException("Evaluator not found with ID: ${it.id}") }
         }
 
-        assessment.taskEvaluator = taskEvaluator
+        assessment.taskEvaluators = taskEvaluator.toMutableList()
 
         return repository.save(assessment)
             .also { log.info("Assessment inserted: {}", it.id) }
     }
+
+//    fun getServicesWithOutAssessments(): List<Assessment> {
+//        return repository.findAll().filter { it.assessmentResult == null }
+//    }
 
     companion object {
         private val log = LoggerFactory.getLogger(AssessmentService::class.java)

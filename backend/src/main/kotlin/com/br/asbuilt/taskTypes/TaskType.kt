@@ -20,7 +20,7 @@ class TaskType (
     @ManyToOne
     @JoinTable(
         name = "TaskTypeUnitMeasurement",
-        joinColumns = [JoinColumn(name = "idTaskTÿpe")],
+        joinColumns = [JoinColumn(name = "idTaskType")],
         inverseJoinColumns = [JoinColumn(name = "idUnitMeasurement")]
     )
     var unitMeasurement: UnitMeasurement,

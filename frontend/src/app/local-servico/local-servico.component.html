@@ -24,7 +24,7 @@
                     style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between;">
                     <div class="row">
                         <div class="col-12">
-                            <label for="construtora">Construtora</label>
+                            <label for="construtora">Construtora<span style="color: red;">*</span></label>
                             <select style="height: 40px" name="construtora" id="construtora" required
                                 matTooltip="Centro de custo" matTooltipShowDelay="1500"
                                 [(ngModel)]="construtoraSelecionada" (ngModelChange)="onConstrutoraChange()">
@@ -35,7 +35,7 @@
                         </select>
                         </div>
                         <div class="col-12">
-                            <label for="centroDeCusto">Centro de Custo</label>
+                            <label for="centroDeCusto">Centro de Custo<span style="color: red;">*</span></label>
                             <select style="height: 40px" name="centroDeCusto" id="centroDeCusto" required
                                 matTooltip="Centro de custo" matTooltipShowDelay="1500"
                                 [(ngModel)]="cadastroLocalServico.costCenter" [disabled]="!construtoraSelecionada.id">
@@ -48,7 +48,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <label for="grupo">1º Nível de localização *</label>
+                            <label for="grupo">1º Nível de localização<span style="color: red;">*</span></label>
                             <input type="text" name="grupo" id="grupo" required matTooltip="1º Nível de localização"
                                 matTooltipShowDelay="1500" [(ngModel)]="cadastroLocalServico.locationGroup"
                                 placeholder="Ex: Pavimento" [disabled]="!cadastroLocalServico.costCenter.id">
@@ -215,7 +215,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <label for="construtoraModalEdicao">Construtora</label>
+                <label for="construtoraModalEdicao">Construtora<span style="color: red;">*</span></label>
                 <input type="text" name="construtoraModalEdicao" id="construtoraModalEdicao" required matTooltip="Obra"
                     matTooltipShowDelay="1500" [(ngModel)]="localServicoModel.costCenter.builder.builderName" placeholder="Construtora"
                     disabled="disabled">
@@ -223,7 +223,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <label for="centroDeCustoModalEdicao">Centro de Custo</label>
+                <label for="centroDeCustoModalEdicao">Centro de Custo<span style="color: red;">*</span></label>
                 <input type="text" name="centroDeCustoModalEdicao" id="centroDeCustoModalEdicao" required matTooltip="Obra"
                     matTooltipShowDelay="1500" [(ngModel)]="localServicoModel.costCenter.costCenterName" placeholder="Obra"
                     disabled="disabled">
@@ -231,7 +231,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <label for="grupo">1º Nível de localização *</label>
+                <label for="grupo">1º Nível de localização<span style="color: red;">*</span></label>
                 <input type="text" name="grupo" id="grupo" required matTooltip="1º Nível de localização"
                     matTooltipShowDelay="1500" [(ngModel)]="localServicoModel.locationGroup" placeholder="Ex: Pavimento"
                     [disabled]="indDesabilitaCampos">

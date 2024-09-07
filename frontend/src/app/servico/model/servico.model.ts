@@ -18,6 +18,6 @@ export class ServicoModel {
     finalDate?: Date;
     amount: number = 0;
     obs: string = "";
-    executor?: UsuarioModel[];
-    conferente?: UsuarioModel[];
+    executors?: UsuarioModel[];
+    evaluators?: UsuarioModel[];
 }

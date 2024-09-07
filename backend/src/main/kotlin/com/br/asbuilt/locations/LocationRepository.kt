@@ -7,6 +7,19 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface LocationRepository : JpaRepository<Location, Long> {
+
+    @Query("SELECT l.id FROM Location l " +
+            "WHERE (l.costCenter.id = :costCenterId) " +
+            "AND (l.locationGroup = :locationGroup) " +
+            "AND ((:subGroup1 IS NULL AND l.subGroup1 IS NULL) OR l.subGroup1 = :subGroup1) " +
+            "AND ((:subGroup2 IS NULL AND l.subGroup2 IS NULL) OR l.subGroup2 = :subGroup2) " +
+            "AND ((:subGroup3 IS NULL AND l.subGroup3 IS NULL) OR l.subGroup3 = :subGroup3) ")
+    fun findLocationId(@Param("costCenterId") costCenterId: Long,
+                       @Param("locationGroup") locationGroup: String,
+                       @Param("subGroup1") subGroup1: String?,
+                       @Param("subGroup2") subGroup2: String?,
+                       @Param("subGroup3") subGroup3: String?): Long?
+
     @Query("SELECT l FROM Location l WHERE l.locationGroup = :group")
     fun findLocationByGroup(group: String): List<Location>
 

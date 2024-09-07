@@ -79,6 +79,7 @@ class SecurityConfig(
                     .requestMatchers(mvc.pattern(HttpMethod.DELETE, "/builder/deleteBuilder/**")).hasRole("ADMIN")
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/location")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/location/**")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/location/findLocationId/**")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/location/insertLocation")).hasAnyRole("ADMIN", "CONFERENTE")
                     .requestMatchers(mvc.pattern(HttpMethod.PATCH, "/location/updateLocation")).hasAnyRole("ADMIN", "CONFERENTE")
                     .requestMatchers(mvc.pattern(HttpMethod.DELETE, "/location/deleteLocation/**")).hasAnyRole("ADMIN", "CONFERENTE")
@@ -90,8 +91,8 @@ class SecurityConfig(
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/taskType/insertTaskType")).hasAnyRole("ADMIN", "CONFERENTE")
                     .requestMatchers(mvc.pattern(HttpMethod.PATCH, "/taskType/updateTaskType")).hasAnyRole("ADMIN", "CONFERENTE")
                     .requestMatchers(mvc.pattern(HttpMethod.DELETE, "/taskType/deleteTaskType/**")).hasAnyRole("ADMIN", "CONFERENTE")
-                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/blob")).permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/blob")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/blob/**")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/blob/**")).permitAll()
                     .anyRequest().authenticated()
             }
             .addFilterBefore(jwtTokenFilter, BasicAuthenticationFilter::class.java)
