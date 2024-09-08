@@ -28,7 +28,9 @@ data class AssessmentResponse(
     val assementPhoto2: String?,
     val assementPhoto3: String?,
     val assementPhoto4: String?,
-    val assementPhoto5: String?
+    val assementPhoto5: String?,
+    val isReassessment: Boolean
+
 ) {
     constructor(assessment: Assessment) : this(
         assessment.id,
@@ -46,13 +48,14 @@ data class AssessmentResponse(
         assessment.parameter7Result,
         assessment.parameter8Result,
         assessment.parameter9Result,
-        assessment.assessmentResult!!,
+        assessment.assessmentResult,
         assessment.obs,
         assessment.assessmentPhoto0,
         assessment.assessmentPhoto1,
         assessment.assessmentPhoto2,
         assessment.assessmentPhoto3,
         assessment.assessmentPhoto4,
-        assessment.assessmentPhoto5
+        assessment.assessmentPhoto5,
+        assessment.isReassessment
     )
 }

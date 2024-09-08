@@ -71,7 +71,7 @@ class Assessment(
     var parameter9Result: Boolean? = null,
 
     @Column(nullable = false)
-    var assessmentResult: Boolean? = null,
+    var assessmentResult: Boolean = false,
 
     @Column
     var obs: String? = null,
@@ -92,6 +92,9 @@ class Assessment(
     var assessmentPhoto4: String? = null,
 
     @Column
-    var assessmentPhoto5: String? = null
+    var assessmentPhoto5: String? = null,
+
+    @Column(nullable = false)
+    var isReassessment: Boolean = false
 
 )

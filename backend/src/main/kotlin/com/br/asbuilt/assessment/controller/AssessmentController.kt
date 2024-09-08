@@ -2,15 +2,15 @@ package com.br.asbuilt.assessment.controller
 
 import com.br.asbuilt.assessment.AssessmentService
 import com.br.asbuilt.assessment.controller.requests.CreateAssessmentRequest
+import com.br.asbuilt.assessment.controller.requests.PatchAssessmentRequest
 import com.br.asbuilt.assessment.controller.responses.AssessmentResponse
-import com.br.asbuilt.exception.NotFoundException
-import com.br.asbuilt.tasks.TaskService
-import com.br.asbuilt.users.UserService
+import com.br.asbuilt.tasks.controller.responses.TaskResponse
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -20,37 +20,43 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/assessment")
 class AssessmentController(
     val service: AssessmentService,
-    val taskService: TaskService,
-    val userService: UserService
 ) {
 
     @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("hasRole('ADMIN') || hasRole('CONFERENTE')")
     @PostMapping("/insertAssessment")
-    fun insert(@Valid @RequestBody assessment: CreateAssessmentRequest): ResponseEntity<AssessmentResponse> {
-        val task = assessment.task.let {
-            taskService.findByIdOrNull(assessment.task.id!!)
-        } ?: throw NotFoundException("Task not found!")
-
-        val executors = assessment.taskExecutors.mapNotNull {
-            userService.findByIdOrNull(it.id!!)
-        }
-
-        if (executors.isEmpty()) {
-            throw NotFoundException("Task executors not found!")
-        }
-
-        val evaluators = assessment.taskEvaluators.mapNotNull {
-            userService.findByIdOrNull(it.id!!)
-        }
-
-        val assessmentEntity = assessment.toAssessment()
-
-        assessmentEntity.task = task
-        assessmentEntity.taskExecutors = executors.toMutableList()
-        assessmentEntity.taskEvaluators = evaluators.toMutableList()
-
-        return AssessmentResponse(service.insert(assessmentEntity))
+    fun insert(@Valid @RequestBody assessment: CreateAssessmentRequest) =
+        AssessmentResponse(service.insert(assessment.toAssessment()))
             .let { ResponseEntity.status(HttpStatus.CREATED).body(it) }
-    }
+
+    @SecurityRequirement(name="AsBuilt")
+    @PreAuthorize("permitAll()")
+    @GetMapping("/findTasksWithoutAssessment")
+    fun findTasksWithoutAssessment() =
+        service.findTasksWithoutAssessment()
+            .map { TaskResponse(it) }.let { ResponseEntity.ok(it) }
+
+    @SecurityRequirement(name="AsBuilt")
+    @PreAuthorize("permitAll()")
+    @GetMapping("/findTasksWithtAssessmentCompleted")
+    fun findTasksWithtAssessmentCompleted() =
+        service.findTasksWithtAssessmentCompleted()
+            .map { TaskResponse(it) }.let { ResponseEntity.ok(it) }
+
+    @SecurityRequirement(name="AsBuilt")
+    @PreAuthorize("permitAll()")
+    @GetMapping("/findTasksNeedReassessment")
+    fun findTasksNeedReassessment() =
+        service.findTasksNeedReassessment()
+            .map { TaskResponse(it) }.let { ResponseEntity.ok(it) }
+
+    @SecurityRequirement(name="AsBuilt")
+    @PreAuthorize("hasRole('ADMIN') || hasRole('CONFERENTE')")
+    @PostMapping("/reassessment")
+    fun reassessment(@Valid @RequestBody assessment: PatchAssessmentRequest) =
+        service.reassessment(assessment.toAssessment())?.let { it ->
+            AssessmentResponse(it)
+                .let { ResponseEntity.status(HttpStatus.CREATED).body(it) }
+        } ?: ResponseEntity.notFound().build()
+
 }

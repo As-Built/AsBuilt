@@ -6,7 +6,10 @@ import com.br.asbuilt.users.User
 import jakarta.validation.constraints.NotNull
 import java.util.*
 
-data class CreateAssessmentRequest(
+data class PatchAssessmentRequest(
+    @field: NotNull
+    val id: Long,
+
     @field:NotNull
     val task: Task,
 
@@ -62,29 +65,29 @@ data class CreateAssessmentRequest(
     val isReassessment: Boolean = false
 
     ) {
-    fun toAssessment() = Assessment(
-        task = task,
-        taskExecutors = taskExecutors.toMutableList(),
-        taskEvaluators = taskEvaluators.toMutableList(),
-        assessmentDate = assessmentDate,
-        parameter0Result = parameter0Result,
-        parameter1Result = parameter1Result,
-        parameter2Result = parameter2Result,
-        parameter3Result = parameter3Result,
-        parameter4Result = parameter4Result,
-        parameter5Result = parameter5Result,
-        parameter6Result = parameter6Result,
-        parameter7Result = parameter7Result,
-        parameter8Result = parameter8Result,
-        parameter9Result = parameter9Result,
-        assessmentResult = assessmentResult,
-        obs = obs,
-        assessmentPhoto0 = assessmentPhoto0,
-        assessmentPhoto1 = assessmentPhoto1,
-        assessmentPhoto2 = assessmentPhoto2,
-        assessmentPhoto3 = assessmentPhoto3,
-        assessmentPhoto4 = assessmentPhoto4,
-        assessmentPhoto5 = assessmentPhoto5,
-        isReassessment = isReassessment
-    )
+        fun toAssessment() = Assessment(
+            task = task,
+            taskExecutors = taskExecutors.toMutableList(),
+            taskEvaluators = taskEvaluators.toMutableList(),
+            assessmentDate = assessmentDate,
+            parameter0Result = parameter0Result,
+            parameter1Result = parameter1Result,
+            parameter2Result = parameter2Result,
+            parameter3Result = parameter3Result,
+            parameter4Result = parameter4Result,
+            parameter5Result = parameter5Result,
+            parameter6Result = parameter6Result,
+            parameter7Result = parameter7Result,
+            parameter8Result = parameter8Result,
+            parameter9Result = parameter9Result,
+            assessmentResult = assessmentResult,
+            obs = obs,
+            assessmentPhoto0 = assessmentPhoto0,
+            assessmentPhoto1 = assessmentPhoto1,
+            assessmentPhoto2 = assessmentPhoto2,
+            assessmentPhoto3 = assessmentPhoto3,
+            assessmentPhoto4 = assessmentPhoto4,
+            assessmentPhoto5 = assessmentPhoto5,
+            isReassessment = isReassessment
+        )
 }
