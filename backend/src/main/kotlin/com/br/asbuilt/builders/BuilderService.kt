@@ -2,6 +2,7 @@ package com.br.asbuilt.builders
 
 import com.br.asbuilt.SortDir
 import com.br.asbuilt.address.AddressRepository
+import com.br.asbuilt.address.AddressRepositoryCustom
 import com.br.asbuilt.costCenters.CostCenterRepository
 import com.br.asbuilt.costCenters.CostCenterService
 import com.br.asbuilt.exception.BadRequestException
@@ -14,7 +15,9 @@ import org.springframework.stereotype.Service
 class BuilderService(
     val repository: BuilderRepository,
     val addressRepository: AddressRepository,
-    val costCenterRepository: CostCenterRepository
+    val costCenterRepository: CostCenterRepository,
+    val addressRepositoryCustom: AddressRepositoryCustom
+
 ) {
     fun insert(builder: Builder): Builder {
         if (repository.findBuilderByName(builder.builderName) != null) {
@@ -63,6 +66,26 @@ class BuilderService(
         if (existingBuilder != null) {
             var isChanged = false
 
+            if (builder.builderAddress != existingBuilder.builderAddress) {
+                try{
+                    addressRepositoryCustom.validateAndUpdateEntityAddress(
+                        street = builder.builderAddress.street,
+                        number = builder.builderAddress.number,
+                        city = builder.builderAddress.city,
+                        state = builder.builderAddress.state,
+                        postalCode = builder.builderAddress.postalCode,
+                        entityId = existingBuilder.id,
+                        entityTable = "builder_address",
+                        entityAddressColumn = "id_address",
+                        entityIdColumn = "id_builder"
+                    )
+                    isChanged = true
+                }catch(ex: Exception){
+                    println(ex.message)
+                    throw BadRequestException("A Builder with the same address already exists!")
+                }
+
+            }
             if (builder.builderName != existingBuilder.builderName) {
                 existingBuilder.builderName = builder.builderName
                 isChanged = true
@@ -84,18 +107,6 @@ class BuilderService(
             }
 
             if (isChanged) {
-
-                val existingAddress = addressRepository.findBuilderByFullAddress(
-                    builder.builderAddress.street,
-                    builder.builderAddress.number,
-                    builder.builderAddress.city,
-                    builder.builderAddress.state,
-                    builder.builderAddress.postalCode
-                )
-
-                if (existingAddress != null && existingAddress.id != builder.id) {
-                    throw BadRequestException("A Builder with the same address already exists!")
-                }
 
                 val newAddress = builder.builderAddress
                 newAddress.id = builder.builderAddress.id

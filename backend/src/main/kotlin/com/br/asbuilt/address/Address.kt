@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name="TblAddress")
 class Address (
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
     @Column(name = "RUA")
