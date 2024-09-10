@@ -53,7 +53,7 @@ class AssessmentController(
     @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("hasRole('ADMIN') || hasRole('CONFERENTE')")
     @PostMapping("/reassessment")
-    fun reassessment(@Valid @RequestBody assessment: PatchAssessmentRequest) =
+    fun reassessment(@Valid @RequestBody assessment: CreateAssessmentRequest) =
         service.reassessment(assessment.toAssessment())?.let { it ->
             AssessmentResponse(it)
                 .let { ResponseEntity.status(HttpStatus.CREATED).body(it) }

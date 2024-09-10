@@ -1,22 +1,26 @@
-<!-- <div class="corpo">
+<div class="corpo">
     <div class="container conteudo">
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link" [ngClass]="{'active': isCadastroLocalServico}" id="cadastro-tab" data-toggle="tab"
-                    (click)="mudarAba()">Avaliação</a>
+                <a class="nav-link" [ngClass]="{'active': avaliacaoTab == 0}" id="cadastro-tab" data-toggle="tab"
+                    (click)="mudarAba(0)">Serviços aguardando avaliação</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" [ngClass]="{'active': !isCadastroLocalServico}" id="consulta-tab" data-toggle="tab"
-                    (click)="mudarAba()">Reavaliação</a>
+                <a class="nav-link" [ngClass]="{'active': avaliacaoTab == 1}" id="consulta-tab" data-toggle="tab"
+                    (click)="mudarAba(1)">Serviços aguardando reavaliação</a>
             </li>
-        </ul> -->
-        <!-- ABA DE AVALIAÇÃO -->
-        <!-- <div class="tab-content">
-            <div *ngIf="!isCadastroLocalServico" [ngClass]="{'show active': !isCadastroLocalServico}"
-                class="tab-pane fade" id="consulta">
+            <li class="nav-item">
+                <a class="nav-link" [ngClass]="{'active': avaliacaoTab == 2}" id="consulta-tab" data-toggle="tab"
+                    (click)="mudarAba(2)">Serviços com avaliação concluída</a>
+            </li>
+        </ul>
+        <!-- ABA DE SERVICOS AGUARDANDO AVALIACAO -->
+        <div class="tab-content">
+            <div *ngIf="avaliacaoTab == 0" [ngClass]="{'show active': avaliacaoTab == 0}" class="tab-pane fade"
+                id="consulta">
                 <div class="row centralizar-conteudo">
                     <div class="col-12 titulo">
-                        <h1>Serviços a serem avaliados</h1>
+                        <h1>Serviços aguardando avaliação</h1>
                     </div>
                     <div class="row">
                         <div class="col-4">
@@ -75,172 +79,44 @@
                             </select>
                         </div>
                     </div>
-                    <div class="row" *ngIf="listaLocalServicoFiltrada.length > 0">
+                    <div class="row" *ngIf="servicosAguardandoAvaliacao.length > 0">
                         <div class="col-12">
-                            <table mat-table [dataSource]="listaLocalServicoFiltrada" class="mat-elevation-z8">
-                                <ng-container matColumnDef="acoes">
-                                    <th mat-header-cell *matHeaderCellDef>Ações</th>
+                            <table mat-table [dataSource]="servicosAguardandoAvaliacao" class="mat-elevation-z8">
+                                <ng-container matColumnDef="avaliar">
+                                    <th mat-header-cell *matHeaderCellDef>Avaliar</th>
                                     <td mat-cell *matCellDef="let element">
-                                        <mat-icon class="icones-acoes" matTooltip="Editar" matTooltipShowDelay="1500"
-                                            (click)="modalEditarLocalServico(element)" style="cursor: pointer;">
-                                            edit-note
-                                        </mat-icon>
-                                        <mat-icon class="icones-acoes" matTooltip="Excluir" matTooltipShowDelay="1500"
-                                            (click)="excluirLocalServico(element.id)" style="cursor: pointer;">
-                                            delete
+                                        <mat-icon class="icones-acoes" matTooltip="Avaliar serviço"
+                                            matTooltipShowDelay="1500"
+                                            style="cursor: pointer; color: rgb(110, 235, 110);">
+                                            checklist
                                         </mat-icon>
                                     </td>
                                 </ng-container>
-
-                                <ng-container matColumnDef="costCenter">
-                                    <th mat-header-cell *matHeaderCellDef>Centro de Custo</th>
-                                    <td mat-cell *matCellDef="let element"> {{element.costCenter.costCenterName}} </td>
+                                <ng-container matColumnDef="taskType">
+                                    <th mat-header-cell *matHeaderCellDef>Serviço</th>
+                                    <td mat-cell *matCellDef="let element"> {{element.taskType.taskTypeName}} </td>
                                 </ng-container>
-
                                 <ng-container matColumnDef="locationGroup">
-                                    <th mat-header-cell *matHeaderCellDef>1º Nível</th>
-                                    <td mat-cell *matCellDef="let element"> {{element.locationGroup}} </td>
+                                    <th mat-header-cell *matHeaderCellDef>Pavimento</th>
+                                    <td mat-cell *matCellDef="let element"> {{element.taskLocation.locationGroup}} </td>
                                 </ng-container>
 
                                 <ng-container matColumnDef="subGroup1">
-                                    <th mat-header-cell *matHeaderCellDef>2º Nível</th>
-                                    <td mat-cell *matCellDef="let element"> {{element.subGroup1}} </td>
+                                    <th mat-header-cell *matHeaderCellDef>Local</th>
+                                    <td mat-cell *matCellDef="let element"> {{element.taskLocation.subGroup1}} </td>
                                 </ng-container>
 
                                 <ng-container matColumnDef="subGroup2">
-                                    <th mat-header-cell *matHeaderCellDef>3º Nível</th>
-                                    <td mat-cell *matCellDef="let element"> {{element.subGroup2}} </td>
+                                    <th mat-header-cell *matHeaderCellDef>Cômodo
+                                    <th>
+                                    <td mat-cell *matCellDef="let element"> {{element.taskLocation.subGroup2}} </td>
                                 </ng-container>
-
-                                <ng-container matColumnDef="subGroup3">
-                                    <th mat-header-cell *matHeaderCellDef>4º Nível</th>
-                                    <td mat-cell *matCellDef="let element"> {{element.subGroup3}} </td>
-                                </ng-container>
-
                                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                             </table>
                         </div>
                     </div>
-                    <div class="row centralizar-conteudo" *ngIf="listaLocalServicoFiltrada.length === 0">
-                        <h3>
-                            Nenhum local de serviço encontrado
-                        </h3>
-                    </div>
-                </div>
-            </div> -->
-            <!-- ABA DE REAVALIAÇÃO -->
-            <!-- <div *ngIf="!isCadastroLocalServico" [ngClass]="{'show active': !isCadastroLocalServico}"
-                class="tab-pane fade" id="consulta">
-                <div class="row centralizar-conteudo">
-                    <div class="col-12 titulo">
-                        <h1>Locais cadastrados</h1>
-                    </div>
-                    <div class="row">
-                        <div class="col-4">
-                            <label for="filterTableConstrutora">Filtrar por Construtora:</label>
-                            <select name="filterTableConstrutora" id="filterTableConstrutora"
-                                (change)="onFiltroConstrutoraChange($event)">
-                                <option>Todos</option>
-                                <option *ngFor="let construtora of listaConstrutorasConsulta"
-                                    [value]="construtora.builderName">
-                                    {{construtora.builderName}}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="col-4" *ngIf="filtroConstrutoraSelecionado">
-                            <label for="filterTableCostCenter">Filtrar por Centro de Custo:</label>
-                            <select name="filterTableCostCenter" id="filterTableCostCenter"
-                                (change)="onFiltroCostCenterChange($event)">
-                                <option>Todos</option>
-                                <option *ngFor="let centroDeCusto of listaCentrosDeCustoFiltradaConsulta"
-                                    [value]="centroDeCusto.costCenterName">
-                                    {{centroDeCusto.costCenterName}}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="col-4"
-                            *ngIf="filtroCentroCustoSelecionado && listaLocationGroupFiltradaConsulta.length > 0">
-                            <label for="filterTable1">Filtrar pelo 1º Nível:</label>
-                            <select name="filterTable1" id="filterTable1"
-                                (change)="onFiltroLocationGroupChange($event)">
-                                <option value="">Todos</option>
-                                <option *ngFor="let locationGroup of listaLocationGroupFiltradaConsulta"
-                                    [value]="locationGroup.locationGroup">
-                                    {{locationGroup.locationGroup}}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4" *ngIf="filtroLocationGroup && listaSubGroup1FiltradaConsulta.length > 0">
-                            <label for="filterTable2">Filtrar pelo 2º Nível:</label>
-                            <select name="filterTable2" id="filterTable2" (change)="onFiltroSubGroup1Change($event)">
-                                <option value="">Todos</option>
-                                <option *ngFor="let subGroup1 of listaSubGroup1FiltradaConsulta" [value]="subGroup1">
-                                    {{subGroup1}}
-                                </option>
-                            </select>
-                        </div>
-
-                        <div class="col-4" *ngIf="filtroSubGroup1 && listaSubGroup2FiltradaConsulta.length > 0">
-                            <label for="filterTable3">Filtrar pelo 3º Nível:</label>
-                            <select name="filterTable3" id="filterTable3" (change)="onFiltroSubGroup2Change($event)">
-                                <option value="">Todos</option>
-                                <option *ngFor="let subGroup2 of listaSubGroup2FiltradaConsulta" [value]="subGroup2">
-                                    {{subGroup2}}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row" *ngIf="listaLocalServicoFiltrada.length > 0">
-                        <div class="col-12">
-                            <table mat-table [dataSource]="listaLocalServicoFiltrada" class="mat-elevation-z8">
-                                <ng-container matColumnDef="acoes">
-                                    <th mat-header-cell *matHeaderCellDef>Ações</th>
-                                    <td mat-cell *matCellDef="let element">
-                                        <mat-icon class="icones-acoes" matTooltip="Editar" matTooltipShowDelay="1500"
-                                            (click)="modalEditarLocalServico(element)" style="cursor: pointer;">
-                                            edit-note
-                                        </mat-icon>
-                                        <mat-icon class="icones-acoes" matTooltip="Excluir" matTooltipShowDelay="1500"
-                                            (click)="excluirLocalServico(element.id)" style="cursor: pointer;">
-                                            delete
-                                        </mat-icon>
-                                    </td>
-                                </ng-container>
-
-                                <ng-container matColumnDef="costCenter">
-                                    <th mat-header-cell *matHeaderCellDef>Centro de Custo</th>
-                                    <td mat-cell *matCellDef="let element"> {{element.costCenter.costCenterName}} </td>
-                                </ng-container>
-
-                                <ng-container matColumnDef="locationGroup">
-                                    <th mat-header-cell *matHeaderCellDef>1º Nível</th>
-                                    <td mat-cell *matCellDef="let element"> {{element.locationGroup}} </td>
-                                </ng-container>
-
-                                <ng-container matColumnDef="subGroup1">
-                                    <th mat-header-cell *matHeaderCellDef>2º Nível</th>
-                                    <td mat-cell *matCellDef="let element"> {{element.subGroup1}} </td>
-                                </ng-container>
-
-                                <ng-container matColumnDef="subGroup2">
-                                    <th mat-header-cell *matHeaderCellDef>3º Nível</th>
-                                    <td mat-cell *matCellDef="let element"> {{element.subGroup2}} </td>
-                                </ng-container>
-
-                                <ng-container matColumnDef="subGroup3">
-                                    <th mat-header-cell *matHeaderCellDef>4º Nível</th>
-                                    <td mat-cell *matCellDef="let element"> {{element.subGroup3}} </td>
-                                </ng-container>
-
-                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="row centralizar-conteudo" *ngIf="listaLocalServicoFiltrada.length === 0">
+                    <div class="row centralizar-conteudo" *ngIf="servicosAguardandoAvaliacao.length === 0">
                         <h3>
                             Nenhum local de serviço encontrado
                         </h3>
@@ -249,65 +125,3 @@
             </div>
         </div>
     </div>
-</div> -->
-
-<!-- Modal de Edição de Locais-->
-<!-- <div #modalEditarDetalhes>
-    <div *ngIf="renderModalVisualizar" class="modal-body text-left modal-scroll">
-        <div class="row">
-            <div class="col-12">
-                <hr style="margin-left: 25px;">
-                <h2 style="padding-left: 15px;">Dados do Local de Serviço</h2>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <label for="construtoraModalEdicao">Construtora</label>
-                <input type="text" name="construtoraModalEdicao" id="construtoraModalEdicao" required matTooltip="Obra"
-                    matTooltipShowDelay="1500" [(ngModel)]="localServicoModel.costCenter.builder.builderName"
-                    placeholder="Construtora" disabled="disabled">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <label for="centroDeCustoModalEdicao">Centro de Custo</label>
-                <input type="text" name="centroDeCustoModalEdicao" id="centroDeCustoModalEdicao" required
-                    matTooltip="Obra" matTooltipShowDelay="1500"
-                    [(ngModel)]="localServicoModel.costCenter.costCenterName" placeholder="Obra" disabled="disabled">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <label for="grupo">1º Nível de localização *</label>
-                <input type="text" name="grupo" id="grupo" required matTooltip="1º Nível de localização"
-                    matTooltipShowDelay="1500" [(ngModel)]="localServicoModel.locationGroup" placeholder="Ex: Pavimento"
-                    [disabled]="indDesabilitaCampos">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <label for="subGrupo1">2º Nível de localização (Opcional)</label>
-                <input type="text" name="subGrupo1" id="subGrupo1" matTooltip="2º Nível de localização"
-                    matTooltipShowDelay="1500" [disabled]="indDesabilitaCampos"
-                    [(ngModel)]="localServicoModel.subGroup1" placeholder="Ex: Apartamento 101">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <label for="subGrupo2">3º Nível de localização (Opcional)</label>
-                <input type="text" name="subGrupo2" id="subGrupo2" [disabled]="indDesabilitaCampos"
-                    matTooltip="3º Nível de localização" matTooltipShowDelay="1500"
-                    [(ngModel)]="localServicoModel.subGroup2" placeholder="Ex: Cozinha">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <label for="subGrupo3">4º Nível de localização (Opcional)</label>
-                <input type="text" name="subGrupo3" id="subGrupo3" [disabled]="indDesabilitaCampos"
-                    matTooltip="4º Nível de localização" matTooltipShowDelay="1500"
-                    [(ngModel)]="localServicoModel.subGroup3"
-                    placeholder="Usado apenas em casos onde é necessário um maior detalhamento do cômodo">
-            </div>
-        </div>
-    </div>
-</div> -->

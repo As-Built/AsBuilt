@@ -10,7 +10,6 @@ export class ServicoService {
 
   constructor(private httpClient: HttpClient) { }
 
-
   private token = localStorage.getItem('token');
   private httpOptions = {
     headers: new HttpHeaders({
