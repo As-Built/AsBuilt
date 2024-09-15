@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AvaliacaoService } from './service/avaliacao.service';
-import { firstValueFrom } from 'rxjs';
+import { catchError, firstValueFrom, of, tap } from 'rxjs';
 import { ServicoModel } from '../servico/model/servico.model';
 import { LocalServicoModel } from '../local-servico/model/local-servico.model';
 import { CentroCustoModel } from '../centro-custo/model/centro-custo.model';
@@ -8,6 +8,12 @@ import { ConstrutoraModel } from '../construtora/model/construtora.model';
 import { CentroCustoService } from '../centro-custo/service/centro-custo.service';
 import { ConstrutoraService } from '../construtora/service/construtora.service';
 import { LocalServicoService } from '../local-servico/service/local-servico.service';
+import Swal from 'sweetalert2'
+import { AvaliacaoModel } from './model/avaliacao.model';
+import { formatDate } from '@angular/common';
+import { UsuarioService } from '../usuario/service/usuario.service';
+import { UsuarioModel } from '../usuario/model/usuario.model';
+import { cloneDeep } from 'lodash';
 
 @Component({
   selector: 'app-avaliacao',
@@ -16,6 +22,9 @@ import { LocalServicoService } from '../local-servico/service/local-servico.serv
 })
 export class AvaliacaoComponent implements OnInit {
 
+  @ViewChild('modalAvaliacaoServico', { static: true })
+  modalEditarDetalhes!: ElementRef;
+  
   avaliacaoTab: number = 0;
   servicosAguardandoAvaliacao: ServicoModel[] = [];
   servicosAguardandoAvaliacaoFiltrada: ServicoModel[] = [];
@@ -43,14 +52,22 @@ export class AvaliacaoComponent implements OnInit {
   filtroSubGroup2: string | null = null;
   listaSubGroup1FiltradaConsulta: string[] = [];
   listaSubGroup2FiltradaConsulta: string[] = [];
-  // displayedColumns = this.filtroConstrutoraSelecionado == null ? ["avaliar", "builder", "costCenter", "taskType", "locationGroup", 'subGroup1', 'subGroup2'] : ["avaliar", "costCenter", "taskType", "locationGroup", 'subGroup1', 'subGroup2'];
   displayedColumns: string[] = [];
+  servicoSelecionadoAvaliacao: ServicoModel = new ServicoModel();
+  avaliacaoModel = new AvaliacaoModel();
+  expectedStartDateFormatada: string = "";
+  expectedEndDateFormatada: string = "";
+  listaFuncionarios: UsuarioModel[] = [];
+  listaConferentes: UsuarioModel[] = [];
+  additionalExecutors: number[] = [];
+  additionalEvaluators: number[] = [];
 
   constructor(
     private avaliacaoService: AvaliacaoService,
     private localServicoService: LocalServicoService,
     private centroCustoService: CentroCustoService,
     private construtoraService: ConstrutoraService,
+    private usuarioService: UsuarioService
   ) { }
 
   ngOnInit(): void {
@@ -60,6 +77,8 @@ export class AvaliacaoComponent implements OnInit {
     this.buscarCentrosDeCusto();
     this.updateDisplayedColumnsBuilder();
     this.filtrarDados(); 
+    this.listarFuncionarios();
+    this.listarConferentes();
   }
 
   updateDisplayedColumnsBuilder() {
@@ -85,7 +104,6 @@ export class AvaliacaoComponent implements OnInit {
       ? ["avaliar", "taskType", "locationGroup", "subGroup1", "subGroup2", "dimension", "unitMeasurement"] 
       : ["avaliar", "taskType", "subGroup2", "dimension", "unitMeasurement"];
   }
-
 
   async buscarLocais() {
     try {
@@ -276,6 +294,113 @@ export class AvaliacaoComponent implements OnInit {
       this.filtrarDados();
     } catch (error) {
         console.error(error);
+    }
+  }
+
+  listarFuncionarios() {
+    this.usuarioService.listarUsuariosPorRole('FUNCIONARIO').pipe(
+      tap(retorno => {
+        this.listaFuncionarios = retorno;
+      }),
+      catchError(error => {
+        console.error(error);
+        return of();
+      })
+    ).subscribe();
+  }
+
+  listarConferentes() {
+    this.usuarioService.listarUsuariosPorRole('CONFERENTE').pipe(
+      tap(retorno => {
+        this.listaConferentes = retorno;
+      }),
+      catchError(error => {
+        console.error(error);
+        return of();
+      })
+    ).subscribe();
+  }
+
+  modalAvaliarServico(servico: ServicoModel) {
+    this.servicoSelecionadoAvaliacao = cloneDeep(servico);//Clonando objeto e não a sua referência
+    this.renderModalVisualizar = true;
+    this.expectedStartDateFormatada = formatDate(this.servicoSelecionadoAvaliacao.expectedStartDate, "dd/MM/yyyy", "pt-BR");
+    this.expectedEndDateFormatada = formatDate(this.servicoSelecionadoAvaliacao.expectedEndDate, "dd/MM/yyyy", "pt-BR");
+    Swal.fire({
+      title: 'Avaliação de Serviço',
+      width: '80%',
+      html: this.modalEditarDetalhes.nativeElement,
+      showCloseButton: true,
+      confirmButtonColor: 'green',
+      confirmButtonText: 'Concluir Avaliação',
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+      cancelButtonColor: 'red',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.atualizarLocalServico(this.avaliacaoModel);
+      } else if (result.isDismissed) {
+        this.servicoSelecionadoAvaliacao = new ServicoModel();
+      }
+    });
+  }
+
+  atualizarLocalServico(avaliacao: AvaliacaoModel) {
+    // if (!this.validarCampos(local)) {
+    //   return;
+    // }
+    this.avaliacaoService.avaliar(avaliacao).pipe(
+      tap(retorno => {
+        Swal.fire({
+          text: "Avaliação realizada com sucesso!",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 3000
+        });
+        this.buscarLocais();
+      }),
+      catchError(error => {
+        let msgErro = error.error;
+        if (error.error === "No changes detected! Location not updated!") {
+          msgErro = "Nenhuma alteração detectada! Local não atualizado!";
+        }
+        if (error.error === "Task not found!") {
+          msgErro = "Serviço não encontrado!";
+        }
+        Swal.fire({
+          text: msgErro,
+          icon: "error",
+          showConfirmButton: false,
+          timer: 3000
+        });
+        return of();
+      })
+    ).subscribe();
+  }
+
+  addExecutor() {
+    if (this.additionalExecutors.length < 5) { // Limita a adição de executores a 6
+      this.additionalExecutors.push(this.additionalExecutors.length + 1); // Começa a contar a partir do 2º executor
+    }
+  }
+
+  removeExecutor() {
+    if (this.additionalExecutors.length > 0) {
+      const lastExecutor = this.additionalExecutors.pop();
+      delete this.additionalExecutors['executor' + lastExecutor + 'Name' as keyof typeof this.additionalExecutors];
+    }
+  }
+
+  addEvaluator() {
+    if (this.additionalEvaluators.length < 3) { // Limita a adição de executores a 4
+      this.additionalEvaluators.push(this.additionalEvaluators.length + 1); // Começa a contar a partir do 2º conferente
+    }
+  }
+
+  removeEvaluator() {
+    if (this.additionalEvaluators.length > 0) {
+      const lastEvaluator = this.additionalEvaluators.pop();
+      delete this.additionalEvaluators['evaluator' + lastEvaluator + 'Name' as keyof typeof this.additionalEvaluators];
     }
   }
 

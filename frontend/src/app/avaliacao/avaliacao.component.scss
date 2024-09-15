@@ -79,3 +79,15 @@ select {
 .icones-acoes {
     margin-left: 5px;
 }
+
+.botoes-parametros {
+    margin-left: 15px;
+}
+
+.botoes-parametros.add {
+    color: green;
+}
+
+.botoes-parametros.remove {
+    color: red;
+}

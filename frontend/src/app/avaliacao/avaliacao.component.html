@@ -81,12 +81,13 @@
                     </div>
                     <div class="row" *ngIf="servicosAguardandoAvaliacaoFiltrada.length > 0">
                         <div class="col-12">
-                            <table mat-table [dataSource]="servicosAguardandoAvaliacaoFiltrada" class="mat-elevation-z8">
+                            <table mat-table [dataSource]="servicosAguardandoAvaliacaoFiltrada"
+                                class="mat-elevation-z8">
                                 <ng-container matColumnDef="avaliar">
                                     <th mat-header-cell *matHeaderCellDef>Avaliar</th>
                                     <td mat-cell *matCellDef="let element">
                                         <mat-icon class="icones-acoes" matTooltip="Avaliar serviço"
-                                            matTooltipShowDelay="1500"
+                                            matTooltipShowDelay="1500" (click)="modalAvaliarServico(element)"
                                             style="cursor: pointer; color: rgb(110, 235, 110);">
                                             checklist
                                         </mat-icon>
@@ -94,7 +95,8 @@
                                 </ng-container>
                                 <ng-container matColumnDef="builder">
                                     <th mat-header-cell *matHeaderCellDef>Construtora</th>
-                                    <td mat-cell *matCellDef="let element"> {{element.costCenter.builder.builderName}} </td>
+                                    <td mat-cell *matCellDef="let element"> {{element.costCenter.builder.builderName}}
+                                    </td>
                                 </ng-container>
                                 <ng-container matColumnDef="costCenter">
                                     <th mat-header-cell *matHeaderCellDef>Obra</th>
@@ -140,3 +142,298 @@
             </div>
         </div>
     </div>
+
+    <!-- MODAL DE AVALIAÇÃO DE SERVIÇOS -->
+    <div #modalAvaliacaoServico>
+        <div *ngIf="renderModalVisualizar" class="modal-body text-left modal-scroll">
+            <div class="row">
+                <div class="col-12">
+                    <hr style="margin-left: 25px;">
+                    <h2 style="padding-left: 15px;">Dados do Serviço</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label for="construtoraModalAvaliacao">Construtora</label>
+                    <input type="text" name="construtoraModalAvaliacao" id="construtoraModalAvaliacao"
+                        [ngModel]="servicoSelecionadoAvaliacao.costCenter.builder.builderName" disabled="disabled">
+                </div>
+                <div class="col-6">
+                    <label for="centroDeCustoModalAvaliacao">Centro de Custo</label>
+                    <input type="text" name="centroDeCustoModalAvaliacao" id="centroDeCustoModalAvaliacao"
+                        [ngModel]="servicoSelecionadoAvaliacao.costCenter.costCenterName" disabled="disabled">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <label for="localAvaliacao">1º Nível de localização</label>
+                    <input type="text" name="localAvaliacao" id="localAvaliacao"
+                        [ngModel]="servicoSelecionadoAvaliacao.taskLocation.locationGroup" disabled="disabled">
+                </div>
+                <div class="col-4" *ngIf="servicoSelecionadoAvaliacao.taskLocation.subGroup1">
+                    <label for="subGrupo1Avaliacao">2º Nível de localização</label>
+                    <input type="text" name="subGrupo1Avaliacao" id="subGrupo1Avaliacao"
+                        [ngModel]="servicoSelecionadoAvaliacao.taskLocation.subGroup1" disabled="disabled">
+                </div>
+                <div class="col-4" *ngIf="servicoSelecionadoAvaliacao.taskLocation.subGroup2">
+                    <label for="subGrupo3Avaliacao">3º Nível de localização</label>
+                    <input type="text" name="subGrupo3Avaliacao" id="subGrupo3Avaliacao"
+                        [ngModel]="servicoSelecionadoAvaliacao.taskLocation.subGroup2" disabled="disabled">
+                </div>
+            </div>
+            <div class="row" *ngIf="servicoSelecionadoAvaliacao.taskLocation.subGroup3">
+                <div class="col-4">
+                    <label for="subGrupo3Avaliacao">4º Nível de localização</label>
+                    <input type="text" name="subGrupo3Avaliacao" id="subGrupo3Avaliacao"
+                        [ngModel]="servicoSelecionadoAvaliacao.taskLocation.subGroup3" disabled="disabled">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <label for="taskTypeAvaliacao">Tipo de serviço</label>
+                    <input type="text" name="taskTypeAvaliacao" id="taskTypeAvaliacao"
+                        [ngModel]="servicoSelecionadoAvaliacao.taskType.taskTypeName" disabled="disabled">
+                </div>
+                <div class="col-2">
+                    <label for="dimensionAvaliacao">Dimensão</label>
+                    <input type="text" name="dimensionAvaliacao" id="dimensionAvaliacao"
+                        [ngModel]="servicoSelecionadoAvaliacao.dimension" disabled="disabled">
+                </div>
+                <div class="col-2">
+                    <label for="undMedidaAvaliacao">Und. Medida</label>
+                    <input type="text" name="undMedidaAvaliacao" id="undMedidaAvaliacao"
+                        [ngModel]="servicoSelecionadoAvaliacao.taskType.unitMeasurement.name" disabled="disabled">
+                </div>
+                <div class="col-4">
+                    <label for="amountAvaliacao">Valor da mão de obra do serviço</label>
+                    <input type="text" name="amountAvaliacao" id="amountAvaliacao"
+                        [ngModel]="servicoSelecionadoAvaliacao.amount" currencyMask
+                        [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" readonly disabled="disabled">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <label for="expectedStartDateAvaliacao">Data de início prevista</label>
+                    <input type="text" name="expectedStartDateAvaliacao" id="expectedStartDateAvaliacao"
+                        [value]="expectedStartDateFormatada" disabled="disabled">
+                </div>
+                <div class="col-3">
+                    <label for="expectedEndDateAvaliacao">Data de término prevista</label>
+                    <input type="text" name="expectedEndDateAvaliacao" id="expectedEndDateAvaliacao"
+                        [ngModel]="expectedEndDateFormatada" disabled="disabled">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <hr style="margin-left: 25px;">
+                    <h2 style="padding-left: 15px;">Executores e Avaliadores</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <label for="startDateAvaliacao">Data de início real<span style="color: red;">*</span></label>
+                    <input style="text-align: center;" name="startDateAvaliacao" id="startDateAvaliacao" required
+                        matTooltip="Data prevista para o início do serviço" matTooltipShowDelay="1500"
+                        [(ngModel)]="servicoSelecionadoAvaliacao.startDate" type="date" />
+                </div>
+                <div class="col-3">
+                    <label for="finalDateAvaliacao">Data de término real<span style="color: red;">*</span></label>
+                    <input style="text-align: center;" name="finalDateAvaliacao" id="finalDateAvaliacao" required
+                        matTooltip="Data prevista para o início do serviço" matTooltipShowDelay="1500"
+                        [(ngModel)]="servicoSelecionadoAvaliacao.finalDate" type="date" />
+                </div>
+            </div>
+            <div class="row" *ngIf="servicoSelecionadoAvaliacao.executors != undefined">
+                <div class="col-6">
+                    <label for="executorAvaliacao1">Funcionário executor<span style="color: red;">*</span></label>
+                    <select name="executorAvaliacao1" id="executorAvaliacao1"
+                        [(ngModel)]="servicoSelecionadoAvaliacao.executors">
+                        <option disabled [value]="''">Selecione um funcionário</option>
+                        <option *ngFor="let executor of listaFuncionarios" [ngValue]="executor">
+                            {{executor.name}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-6" *ngFor="let executor of additionalExecutors; index as i">
+                    <label [for]="'executor' + executor + 'Name'">{{executor + 1}}º Funcionário executor</label>
+                    <select type="text" [name]="'executor' + executor + 'Name'"
+                        [(ngModel)]="servicoSelecionadoAvaliacao.executors[i]">
+                        <option disabled [value]="servicoSelecionadoAvaliacao.executors[i]">Selecione um funcionário</option>
+                        <option *ngFor="let executor of listaFuncionarios" [ngValue]="executor">
+                            {{executor.name}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2" style="text-align: left;">
+                    <mat-icon *ngIf="additionalExecutors.length <= 4" class="botoes-parametros add"
+                        matTooltip="Adicionar Funcionário" matTooltipShowDelay="500" (click)="addExecutor()"
+                        style="cursor: pointer;">
+                        add_circle
+                    </mat-icon>
+                    <mat-icon *ngIf="additionalExecutors.length > 0" class="botoes-parametros remove"
+                        matTooltip="Remover Funcionário" matTooltipShowDelay="500" (click)="removeExecutor()"
+                        style="cursor: pointer;">
+                        remove_circle
+                    </mat-icon>
+                </div>
+            </div>
+            <div class="row" *ngIf="servicoSelecionadoAvaliacao.evaluators != undefined">
+                <div class="col-6">
+                    <label for="evaluatorAvaliacao1">Avaliador<span style="color: red;">*</span></label>
+                    <select name="evaluatorAvaliacao1" id="evaluatorAvaliacao1"
+                        [(ngModel)]="servicoSelecionadoAvaliacao.evaluators">
+                        <option disabled [value]="''">Selecione um avaliador</option>
+                        <option *ngFor="let evaluator of listaConferentes" [ngValue]="evaluator">
+                            {{evaluator.name}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-6" *ngFor="let evaluator of additionalEvaluators; index as i">
+                    <label [for]="'evaluator' + evaluator + 'Name'">{{evaluator + 1}}º Avaliador</label>
+                    <select type="text" [name]="'evaluator' + evaluator + 'Name'"
+                        [(ngModel)]="servicoSelecionadoAvaliacao.evaluators[i]">
+                        <option disabled [value]="servicoSelecionadoAvaliacao.evaluators[i]">Selecione um avaliador</option>
+                        <option *ngFor="let evaluator of listaConferentes" [ngValue]="evaluator">
+                            {{evaluator.name}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2" style="text-align: left;">
+                    <mat-icon *ngIf="additionalEvaluators.length <= 2" class="botoes-parametros add"
+                        matTooltip="Adicionar Avaliador" matTooltipShowDelay="500" (click)="addEvaluator()"
+                        style="cursor: pointer;">
+                        add_circle
+                    </mat-icon>
+                    <mat-icon *ngIf="additionalEvaluators.length > 0" class="botoes-parametros remove"
+                        matTooltip="Remover Avaliador" matTooltipShowDelay="500" (click)="removeEvaluator()"
+                        style="cursor: pointer;">
+                        remove_circle
+                    </mat-icon>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <hr style="margin-left: 25px;">
+                    <h2 style="padding-left: 15px;">Parâmetros da Avaliação</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <label for="parameter0ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter0Name }}<span style="color: red;">*</span></label>
+                    <select name="parameter0ResultAvaliacao" id="parameter0ResultAvaliacao"
+                        [(ngModel)]="avaliacaoModel.parameter0Result">
+                        <option disabled [value]="false">Selecione uma opção</option>
+                        <option [value]="true">Aprovado</option>
+                        <option [value]="false">Reprovado</option>
+                    </select>
+                </div>
+                <div class="col-3">
+                    <label for="parameter1ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter1Name }}<span style="color: red;">*</span></label>
+                    <select name="parameter1ResultAvaliacao" id="parameter1ResultAvaliacao"
+                        [(ngModel)]="avaliacaoModel.parameter1Result">
+                        <option disabled [value]="false">Selecione uma opção</option>
+                        <option [value]="true">Aprovado</option>
+                        <option [value]="false">Reprovado</option>
+                    </select>
+                </div>
+                <div class="col-3">
+                    <label for="parameter2ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter2Name }}<span style="color: red;">*</span></label>
+                    <select name="parameter2ResultAvaliacao" id="parameter2ResultAvaliacao"
+                        [(ngModel)]="avaliacaoModel.parameter2Result">
+                        <option disabled [value]="false">Selecione uma opção</option>
+                        <option [value]="true">Aprovado</option>
+                        <option [value]="false">Reprovado</option>
+                    </select>
+                </div>
+                <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter3Name">
+                    <label for="parameter3ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter3Name }}<span style="color: red;">*</span></label>
+                    <select name="parameter3ResultAvaliacao" id="parameter3ResultAvaliacao"
+                        [(ngModel)]="avaliacaoModel.parameter3Result">
+                        <option disabled [value]="undefined">Selecione uma opção</option>
+                        <option [value]="true">Aprovado</option>
+                        <option [value]="false">Reprovado</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter4Name || 
+                                    servicoSelecionadoAvaliacao.taskType.parameter5Name || 
+                                    servicoSelecionadoAvaliacao.taskType.parameter6Name || 
+                                    servicoSelecionadoAvaliacao.taskType.parameter7Name ||
+                                    servicoSelecionadoAvaliacao.taskType.parameter8Name ||
+                                    servicoSelecionadoAvaliacao.taskType.parameter9Name">
+                <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter4Name">
+                    <label for="parameter4ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter4Name }}<span style="color: red;">*</span></label>
+                    <select name="parameter4ResultAvaliacao" id="parameter4ResultAvaliacao"
+                        [(ngModel)]="avaliacaoModel.parameter4Result">
+                        <option disabled [value]="undefined">Selecione uma opção</option>
+                        <option [value]="true">Aprovado</option>
+                        <option [value]="false">Reprovado</option>
+                    </select>                
+                </div>
+                <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter5Name">
+                    <label for="parameter5ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter5Name }}<span style="color: red;">*</span></label>
+                    <select name="parameter5ResultAvaliacao" id="parameter5ResultAvaliacao"
+                        [(ngModel)]="avaliacaoModel.parameter5Result">
+                        <option disabled [value]="undefined">Selecione uma opção</option>
+                        <option [value]="true">Aprovado</option>
+                        <option [value]="false">Reprovado</option>
+                    </select>                
+                </div>
+                <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter6Name">
+                    <label for="parameter6ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter6Name }}<span style="color: red;">*</span></label>
+                    <select name="parameter6ResultAvaliacao" id="parameter6ResultAvaliacao"
+                        [(ngModel)]="avaliacaoModel.parameter6Result">
+                        <option disabled [value]="undefined">Selecione uma opção</option>
+                        <option [value]="true">Aprovado</option>
+                        <option [value]="false">Reprovado</option>
+                    </select>                
+                </div>
+                <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter7Name">
+                    <label for="parameter7ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter7Name }}<span style="color: red;">*</span></label>
+                    <select name="parameter7ResultAvaliacao" id="parameter7ResultAvaliacao"
+                        [(ngModel)]="avaliacaoModel.parameter7Result">
+                        <option disabled [value]="undefined">Selecione uma opção</option>
+                        <option [value]="true">Aprovado</option>
+                        <option [value]="false">Reprovado</option>
+                    </select>                
+                </div>
+                <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter8Name">
+                    <label for="parameter8ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter8Name }}<span style="color: red;">*</span></label>
+                    <select name="parameter8ResultAvaliacao" id="parameter8ResultAvaliacao"
+                        [(ngModel)]="avaliacaoModel.parameter8Result">
+                        <option disabled [value]="undefined">Selecione uma opção</option>
+                        <option [value]="true">Aprovado</option>
+                        <option [value]="false">Reprovado</option>
+                    </select>                
+                </div>
+                <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter9Name">
+                    <label for="parameter9ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter9Name }}<span style="color: red;">*</span></label>
+                    <select name="parameter9ResultAvaliacao" id="parameter9ResultAvaliacao"
+                        [(ngModel)]="avaliacaoModel.parameter9Result">
+                        <option disabled [value]="undefined">Selecione uma opção</option>
+                        <option [value]="true">Aprovado</option>
+                        <option [value]="false">Reprovado</option>
+                    </select>                
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                  <label for="comments">Observações</label>
+                  <textarea type="text" name="comments" id="comments" matTooltip="Observações gerais" matTooltipShowDelay="1500"
+                    [(ngModel)]="avaliacaoModel.obs" placeholder="Qualquer observação pertinente"
+                    [disabled]="indDesabilitaCampos"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <hr style="margin-left: 25px;">
+                    <h2 style="padding-left: 15px;">Fotos da Avaliação</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import Swal from 'sweetalert2'
-import { HttpClient } from '@angular/common/http';
 import { catchError, firstValueFrom, tap } from 'rxjs';
 import { of } from 'rxjs';
 import { LocalServicoModel } from './model/local-servico.model';
