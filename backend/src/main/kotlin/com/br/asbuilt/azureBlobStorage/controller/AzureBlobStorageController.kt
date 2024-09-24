@@ -39,4 +39,20 @@ class AzureBlobStorageController (
     fun downloadBlobFile(@RequestParam("fileName") fileNameWithoutExtension: String): ResponseEntity<org.springframework.core.io.Resource> {
         return service.downloadProfilePicture(fileNameWithoutExtension)
     }
+
+    @SecurityRequirement(name="AsBuilt")
+    @PreAuthorize("permitAll()")
+    @PostMapping("/uploadAssessmentPhotos", consumes = ["multipart/form-data"])
+    fun uploadAssessmentPhotos(
+        @RequestParam("assessmentId") assessmentId: Long,
+        @RequestPart("file0") file0: MultipartFile,
+        @RequestPart("file1") file1: MultipartFile,
+        @RequestPart("file2") file2: MultipartFile,
+        @RequestPart("file3", required = false) file3: MultipartFile?,
+        @RequestPart("file4", required = false) file4: MultipartFile?,
+        @RequestPart("file5", required = false) file5: MultipartFile?
+    ): ResponseEntity<List<AzureBlobStorageResponse>> {
+        val files = listOfNotNull(file0, file1, file2, file3, file4, file5)
+        return service.uploadAssessmentPhotos(assessmentId, files)
+    }
 }

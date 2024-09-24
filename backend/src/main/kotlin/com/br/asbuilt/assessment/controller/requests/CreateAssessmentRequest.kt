@@ -3,6 +3,7 @@ package com.br.asbuilt.assessment.controller.requests
 import com.br.asbuilt.assessment.Assessment
 import com.br.asbuilt.tasks.Task
 import com.br.asbuilt.users.User
+import com.br.asbuilt.users.controller.requests.PatchUserRequest
 import jakarta.validation.constraints.NotNull
 import java.util.*
 
@@ -11,10 +12,10 @@ data class CreateAssessmentRequest(
     val task: Task,
 
     @field:NotNull
-    val taskExecutors: List<User>,
+    val taskExecutorsIds: List<Long>,
 
     @field:NotNull
-    val taskEvaluators: List<User>,
+    val taskEvaluatorsIds: List<Long>,
 
     @field:NotNull
     val assessmentDate: Date,
@@ -62,7 +63,7 @@ data class CreateAssessmentRequest(
     val isReassessment: Boolean = false
 
     ) {
-    fun toAssessment() = Assessment(
+    fun toAssessment(taskExecutors: List<User>, taskEvaluators: List<User>) = Assessment(
         task = task,
         taskExecutors = taskExecutors.toMutableList(),
         taskEvaluators = taskEvaluators.toMutableList(),

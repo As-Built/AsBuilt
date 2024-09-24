@@ -23,8 +23,11 @@ import { cloneDeep } from 'lodash';
 export class AvaliacaoComponent implements OnInit {
 
   @ViewChild('modalAvaliacaoServico', { static: true })
-  modalEditarDetalhes!: ElementRef;
-  
+  modalAvaliacaoServico!: ElementRef;
+
+  @ViewChild('modalAnexarFotos', { static: true })
+  modalAnexarFotos!: ElementRef;
+
   avaliacaoTab: number = 0;
   servicosAguardandoAvaliacao: ServicoModel[] = [];
   servicosAguardandoAvaliacaoFiltrada: ServicoModel[] = [];
@@ -38,7 +41,7 @@ export class AvaliacaoComponent implements OnInit {
   construtoraSelecionada: ConstrutoraModel = new ConstrutoraModel();
   listaCentrosDeCustoFiltrados: CentroCustoModel[] = [];
   renderModalVisualizar = false;
-  indDesabilitaCampos = true;
+  renderModalAnexarFotos = false;
   isCadastroLocalServico = true;
   filtroConstrutoraSelecionado: string | null = null;
   filtroCentroCustoSelecionado: string | null = null;
@@ -61,6 +64,8 @@ export class AvaliacaoComponent implements OnInit {
   listaConferentes: UsuarioModel[] = [];
   additionalExecutors: number[] = [];
   additionalEvaluators: number[] = [];
+  msgErroValidacao: string = "";
+  campoErroValidacao: string = "";
 
   constructor(
     private avaliacaoService: AvaliacaoService,
@@ -76,32 +81,32 @@ export class AvaliacaoComponent implements OnInit {
     this.buscarConstrutoras();
     this.buscarCentrosDeCusto();
     this.updateDisplayedColumnsBuilder();
-    this.filtrarDados(); 
+    this.filtrarDados();
     this.listarFuncionarios();
     this.listarConferentes();
   }
 
   updateDisplayedColumnsBuilder() {
-    this.displayedColumns = this.filtroConstrutoraSelecionado == null 
-      ? ["avaliar", "builder", "costCenter", "taskType", "locationGroup", "subGroup1", "subGroup2"] 
+    this.displayedColumns = this.filtroConstrutoraSelecionado == null
+      ? ["avaliar", "builder", "costCenter", "taskType", "locationGroup", "subGroup1", "subGroup2"]
       : ["avaliar", "costCenter", "taskType", "locationGroup", "subGroup1", "subGroup2"];
   }
 
   updateDisplayedColumnsCostCenter() {
-    this.displayedColumns = this.filtroCentroCustoSelecionado == null 
-      ? ["avaliar", "costCenter", "taskType", "locationGroup", "subGroup1", "subGroup2"] 
+    this.displayedColumns = this.filtroCentroCustoSelecionado == null
+      ? ["avaliar", "costCenter", "taskType", "locationGroup", "subGroup1", "subGroup2"]
       : ["avaliar", "taskType", "locationGroup", "subGroup1", "subGroup2"];
   }
 
   updateDisplayedColumnsLocationGroup() {
-    this.displayedColumns = this.filtroCentroCustoSelecionado == null 
-      ? ["avaliar", "taskType", "locationGroup", "subGroup1", "subGroup2", "dimension", "unitMeasurement"] 
+    this.displayedColumns = this.filtroCentroCustoSelecionado == null
+      ? ["avaliar", "taskType", "locationGroup", "subGroup1", "subGroup2", "dimension", "unitMeasurement"]
       : ["avaliar", "taskType", "subGroup1", "subGroup2", "dimension", "unitMeasurement"];
   }
 
   updateDisplayedColumnsSubGroup1() {
-    this.displayedColumns = this.filtroCentroCustoSelecionado == null 
-      ? ["avaliar", "taskType", "locationGroup", "subGroup1", "subGroup2", "dimension", "unitMeasurement"] 
+    this.displayedColumns = this.filtroCentroCustoSelecionado == null
+      ? ["avaliar", "taskType", "locationGroup", "subGroup1", "subGroup2", "dimension", "unitMeasurement"]
       : ["avaliar", "taskType", "subGroup2", "dimension", "unitMeasurement"];
   }
 
@@ -140,7 +145,7 @@ export class AvaliacaoComponent implements OnInit {
       uniqueConstrutoras[c.builderName] = c;
     });
     this.listaConstrutorasConsulta = Object.values(uniqueConstrutoras);
-  
+
     if (this.filtroConstrutoraSelecionado) {
       this.listaCentrosDeCustoFiltradaConsulta = this.listaCentrosDeCusto.filter(centroCusto => centroCusto.builder.builderName === this.filtroConstrutoraSelecionado);
       this.listaLocalServicoFiltrada = this.listaLocalServico.filter(localServico => localServico.costCenter.builder.builderName === this.filtroConstrutoraSelecionado);
@@ -148,11 +153,11 @@ export class AvaliacaoComponent implements OnInit {
     } else {
       this.listaLocalServicoFiltrada = [...this.listaLocalServico];
     }
-  
+
     if (this.filtroCentroCustoSelecionado) {
       this.servicosAguardandoAvaliacaoFiltrada = this.servicosAguardandoAvaliacaoFiltrada.filter(localServico => localServico.costCenter.costCenterName === this.filtroCentroCustoSelecionado);
       this.listaLocalServicoFiltrada = this.listaLocalServicoFiltrada.filter(localServico => localServico.costCenter.costCenterName === this.filtroCentroCustoSelecionado);
-      
+
       const uniqueLocationGroups: { [key: string]: LocalServicoModel } = {}; //Adiciona um index a consulta para não trazer valores repetidos
       this.listaLocalServicoFiltrada.forEach(localServico => {
         uniqueLocationGroups[localServico.locationGroup] = localServico;
@@ -192,7 +197,7 @@ export class AvaliacaoComponent implements OnInit {
       this.servicosAguardandoAvaliacaoFiltrada = this.servicosAguardandoAvaliacaoFiltrada.filter(localServico => localServico.taskLocation.subGroup2 === this.filtroSubGroup2);
       this.listaLocalServicoFiltrada = this.servicosAguardandoAvaliacaoFiltrada.map(servico => servico.taskLocation);
       this.listaLocalServicoFiltrada = this.listaLocalServicoFiltrada.filter(localServico => localServico.subGroup2 === this.filtroSubGroup2);
-    
+
       const uniqueLocationSubGroups3: { [key: string]: string } = {};
       this.listaLocalServicoFiltrada.forEach(localServico => {
         if (localServico.subGroup3) {
@@ -263,7 +268,7 @@ export class AvaliacaoComponent implements OnInit {
     this.updateDisplayedColumnsSubGroup1()
     this.filtrarDados();
   }
-  
+
   onFiltroSubGroup2Change(event: Event) {
     const novoFiltro = (event.target as HTMLSelectElement).value;
     if (novoFiltro === 'Todos') {
@@ -293,7 +298,7 @@ export class AvaliacaoComponent implements OnInit {
       this.servicosAguardandoAvaliacaoFiltrada = servicos;
       this.filtrarDados();
     } catch (error) {
-        console.error(error);
+      console.error(error);
     }
   }
 
@@ -326,29 +331,129 @@ export class AvaliacaoComponent implements OnInit {
     this.renderModalVisualizar = true;
     this.expectedStartDateFormatada = formatDate(this.servicoSelecionadoAvaliacao.expectedStartDate, "dd/MM/yyyy", "pt-BR");
     this.expectedEndDateFormatada = formatDate(this.servicoSelecionadoAvaliacao.expectedEndDate, "dd/MM/yyyy", "pt-BR");
+    this.avaliacaoModel.task = this.servicoSelecionadoAvaliacao;
     Swal.fire({
       title: 'Avaliação de Serviço',
       width: '80%',
-      html: this.modalEditarDetalhes.nativeElement,
+      html: this.modalAvaliacaoServico.nativeElement,
       showCloseButton: true,
       confirmButtonColor: 'green',
-      confirmButtonText: 'Concluir Avaliação',
+      confirmButtonText: 'Anexar Fotos',
       showCancelButton: true,
       cancelButtonText: 'Cancelar',
       cancelButtonColor: 'red',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.atualizarLocalServico(this.avaliacaoModel);
+        if (this.avaliacaoModel.parameter0Result === false || this.avaliacaoModel.parameter1Result === false ||
+          this.avaliacaoModel.parameter2Result === false || this.avaliacaoModel.parameter3Result === false ||
+          this.avaliacaoModel.parameter4Result === false || this.avaliacaoModel.parameter5Result === false ||
+          this.avaliacaoModel.parameter6Result === false || this.avaliacaoModel.parameter7Result === false ||
+          this.avaliacaoModel.parameter8Result === false || this.avaliacaoModel.parameter9Result === false) {
+          this.avaliacaoModel.assessmentResult = false;
+          } else {
+            this.avaliacaoModel.assessmentResult = true;
+          }
+        this.avaliacaoModel.taskExecutors = this.servicoSelecionadoAvaliacao.executors ? this.servicoSelecionadoAvaliacao.executors : [];
+        this.avaliacaoModel.taskEvaluators = this.servicoSelecionadoAvaliacao.evaluators ? this.servicoSelecionadoAvaliacao.evaluators : [];
+        if (this.validarCampos(this.avaliacaoModel)) {
+          this.avaliacaoService.avaliar(this.avaliacaoModel).pipe(
+            tap(retorno => {
+              let teste = retorno;
+            }),
+            catchError(error => {
+                Swal.fire({
+                  text: error.error,
+                  icon: "error",
+                  showConfirmButton: false,
+                  timer: 2000
+                });
+              return of();
+            })
+          ).subscribe();
+          this.anexarFotos(this.avaliacaoModel);
+        } else {
+          Swal.fire({
+            text: this.msgErroValidacao,
+            icon: "error",
+            showConfirmButton: false,
+            timer: 1500,
+          }).then((resultWarn) => {
+            if (resultWarn.isDismissed) {
+              this.modalAvaliarServico(this.servicoSelecionadoAvaliacao);
+              this.modalAvaliacaoServico.nativeElement.querySelector(this.campoErroValidacao).focus();
+            };
+          });
+        }
+      } else {
+        Swal.fire({
+          text: "As alterações não salvas serão perdidas, confirmar?",
+          icon: "warning",
+          confirmButtonColor: '#4caf50',
+          confirmButtonText: 'Voltar a editar',
+          showCancelButton: true,
+          cancelButtonText: "Descartar",
+          cancelButtonColor: '#dc3741'
+        }).then((resultCancel) => {
+          if (resultCancel.isDismissed) {
+            Swal.fire({
+              text: "Alterações descartadas.",
+              icon: "success",
+              showConfirmButton: false,
+              timer: 1500,
+            })
+            // this.limparDados();
+          } else {
+            this.modalAvaliarServico(this.servicoSelecionadoAvaliacao);
+          }
+        })
+      }
+    });
+  }
+
+
+  addExecutor() {
+    if (this.additionalExecutors.length < 5) { // Limita a adição de executores a 6
+      this.additionalExecutors.push(this.additionalExecutors.length + 1); // Começa a contar a partir do 2º executor pois o primeiro é obrigatório
+    }
+  }
+
+  removeExecutor() {
+    if (this.additionalExecutors.length > 0) {
+      const lastExecutor = this.additionalExecutors.pop();
+      delete this.additionalExecutors['executor' + lastExecutor + 'Name' as keyof typeof this.additionalExecutors];
+    }
+  }
+
+  addEvaluator() {
+    if (this.additionalEvaluators.length < 3) { // Limita a adição de executores a 4
+      this.additionalEvaluators.push(this.additionalEvaluators.length + 1); // Começa a contar a partir do 2º conferente pois o 1º é obrigatório
+    }
+  }
+
+  removeEvaluator() {
+    if (this.additionalEvaluators.length > 0) {
+      const lastEvaluator = this.additionalEvaluators.pop();
+      delete this.additionalEvaluators['evaluator' + lastEvaluator + 'Name' as keyof typeof this.additionalEvaluators];
+    }
+  }
+
+  anexarFotos(avaliacao: AvaliacaoModel) {
+    Swal.fire({
+      title: 'Anexar Fotos',
+      html: this.modalAnexarFotos.nativeElement,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.anexarFotos(this.avaliacaoModel);
       } else if (result.isDismissed) {
         this.servicoSelecionadoAvaliacao = new ServicoModel();
       }
     });
   }
 
-  atualizarLocalServico(avaliacao: AvaliacaoModel) {
-    // if (!this.validarCampos(local)) {
-    //   return;
-    // }
+  avaliarServico(avaliacao: AvaliacaoModel) {
+    if (!this.validarCampos(avaliacao)) {
+      return;
+    }
     this.avaliacaoService.avaliar(avaliacao).pipe(
       tap(retorno => {
         Swal.fire({
@@ -378,31 +483,107 @@ export class AvaliacaoComponent implements OnInit {
     ).subscribe();
   }
 
-  addExecutor() {
-    if (this.additionalExecutors.length < 5) { // Limita a adição de executores a 6
-      this.additionalExecutors.push(this.additionalExecutors.length + 1); // Começa a contar a partir do 2º executor
+  validarCampos(avaliacao: AvaliacaoModel) {
+    if (avaliacao.task.startDate === null || avaliacao.task.startDate === undefined) {
+      this.msgErroValidacao = "É necessário informar da data de início real do serviço!";
+      this.campoErroValidacao = "#startDateAvaliacao";
+      return false;
     }
+
+    if (avaliacao.task.finalDate === null || avaliacao.task.finalDate === undefined) {
+      this.msgErroValidacao = "É necessário informar da data de término real do serviço!";
+      this.campoErroValidacao = "#finalDateAvaliacao";
+      return false;
+    }
+
+    if (avaliacao.taskExecutors === null || avaliacao.taskExecutors === undefined) {
+      this.msgErroValidacao = "É necessário informar pelo menos um Funcionário Executor!";
+      this.campoErroValidacao = "#executorAvaliacao1";
+      return false;
+    }
+
+    if (avaliacao.taskEvaluators === null || avaliacao.taskEvaluators === undefined) {
+      this.msgErroValidacao = "É necessário informar pelo menos um Avaliador!";
+      this.campoErroValidacao = "#evaluatorAvaliacao1";
+      return false;
+    }
+
+    if (avaliacao.parameter0Result === undefined || avaliacao.parameter0Result === null) {
+      this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter0Name + "!";
+      this.campoErroValidacao = "#parameter0ResultAvaliacao";
+      return false;
+    }
+
+    if (avaliacao.parameter1Result === undefined || avaliacao.parameter1Result === null) {
+      this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter1Name + "!";
+      this.campoErroValidacao = "#parameter1ResultAvaliacao";
+      return false;
+    }
+
+    if (avaliacao.parameter2Result === undefined || avaliacao.parameter2Result === null) {
+      this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter2Name + "!";
+      this.campoErroValidacao = "#parameter2ResultAvaliacao";
+      return false;
+    }
+
+    if (avaliacao.task.taskType.parameter3Name != null) {
+      if (avaliacao.parameter3Result === undefined || avaliacao.parameter3Result === null) {
+        this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter3Name + "!";
+        this.campoErroValidacao = "#parameter3ResultAvaliacao";
+        return false;
+      }
+    }
+
+    if (avaliacao.task.taskType.parameter4Name != null) {
+      if (avaliacao.parameter4Result === undefined || avaliacao.parameter4Result === null) {
+        this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter4Name + "!";
+        this.campoErroValidacao = "#parameter4ResultAvaliacao";
+        return false;
+      }
+    }
+
+    if (avaliacao.task.taskType.parameter5Name != null) {
+      if (avaliacao.parameter5Result === undefined || avaliacao.parameter5Result === null) {
+        this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter5Name + "!";
+        this.campoErroValidacao = "#parameter5ResultAvaliacao";
+        return false;
+      }
+    }
+
+    if (avaliacao.task.taskType.parameter6Name != null) {
+      if (avaliacao.parameter6Result === undefined || avaliacao.parameter6Result=== null) {
+        this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter6Name + "!";
+        this.campoErroValidacao = "#parameter6ResultAvaliacao";
+        return false;
+      }
+    }
+
+    if (avaliacao.task.taskType.parameter7Name != null) {
+      if (avaliacao.parameter7Result === undefined || avaliacao.parameter7Result === null) {
+        this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter7Name + "!";
+        this.campoErroValidacao = "#parameter7ResultAvaliacao";
+        return false;
+      }
+    }
+
+    if (avaliacao.task.taskType.parameter8Name != null) {
+      if (avaliacao.parameter8Result === undefined || avaliacao.parameter8Result === null) {
+        this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter8Name + "!";
+        this.campoErroValidacao = "#parameter8ResultAvaliacao";
+        return false;
+      }
+    }
+
+    if (avaliacao.task.taskType.parameter9Name != null) {
+      if (avaliacao.parameter9Result === undefined || avaliacao.parameter9Result === null) {
+        this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter9Name + "!";
+        this.campoErroValidacao = "#parameter9ResultAvaliacao";
+        return false;
+      }
+    }
+    return true;
   }
 
-  removeExecutor() {
-    if (this.additionalExecutors.length > 0) {
-      const lastExecutor = this.additionalExecutors.pop();
-      delete this.additionalExecutors['executor' + lastExecutor + 'Name' as keyof typeof this.additionalExecutors];
-    }
-  }
-
-  addEvaluator() {
-    if (this.additionalEvaluators.length < 3) { // Limita a adição de executores a 4
-      this.additionalEvaluators.push(this.additionalEvaluators.length + 1); // Começa a contar a partir do 2º conferente
-    }
-  }
-
-  removeEvaluator() {
-    if (this.additionalEvaluators.length > 0) {
-      const lastEvaluator = this.additionalEvaluators.pop();
-      delete this.additionalEvaluators['evaluator' + lastEvaluator + 'Name' as keyof typeof this.additionalEvaluators];
-    }
-  }
 
   async buscarServicosAvaliados() {
     this.servicosAvaliados = await firstValueFrom(this.avaliacaoService.buscarServicosAvaliados());

@@ -17,8 +17,11 @@ class User(
     @Column(unique = true)
     var email: String = "",
 
+    @JsonIgnore
+    @Column(nullable = false)
     var password: String = "",
 
+    @Column(nullable = false)
     var name: String = "",
 
     @Column(unique = true)

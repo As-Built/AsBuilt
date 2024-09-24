@@ -93,6 +93,8 @@ class SecurityConfig(
                     .requestMatchers(mvc.pattern(HttpMethod.DELETE, "/taskType/deleteTaskType/**")).hasAnyRole("ADMIN", "CONFERENTE")
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/blob/**")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/blob/**")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/assessment/insertAssessment")).hasAnyRole("ADMIN", "CONFERENTE")
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/users/**")).permitAll()
                     .anyRequest().authenticated()
             }
             .addFilterBefore(jwtTokenFilter, BasicAuthenticationFilter::class.java)

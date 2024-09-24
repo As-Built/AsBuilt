@@ -21,10 +21,25 @@ export class AvaliacaoService {
   };
 
   avaliar(avaliacaoModel: AvaliacaoModel) {
+
+    let taskExecutorsIds = [];
+    if (Array.isArray(avaliacaoModel.taskExecutors)) {
+      taskExecutorsIds = avaliacaoModel.taskExecutors.map((executor: any) => executor.userId);
+    } else if (avaliacaoModel.taskExecutors) {
+      taskExecutorsIds = [(avaliacaoModel.taskExecutors as any).id];
+    }
+    
+    let taskEvaluatorsIds = [];
+    if (Array.isArray(avaliacaoModel.taskEvaluators)) {
+      taskEvaluatorsIds = avaliacaoModel.taskEvaluators.map((evaluator: any) => evaluator.userId);
+    } else if (avaliacaoModel.taskEvaluators) {
+      taskEvaluatorsIds = [(avaliacaoModel.taskEvaluators as any).id];
+    }
+
     let body = JSON.stringify({
       task: avaliacaoModel.task,
-      taskExecutors: avaliacaoModel.taskExecutors,
-      taskEvaluators: avaliacaoModel.taskEvaluators,
+      taskExecutors: taskExecutorsIds,
+      taskEvaluators: taskEvaluatorsIds,
       assessmentDate: avaliacaoModel.assessmentDate,
       parameter0Result: avaliacaoModel.parameter0Result,
       parameter1Result: avaliacaoModel.parameter1Result,

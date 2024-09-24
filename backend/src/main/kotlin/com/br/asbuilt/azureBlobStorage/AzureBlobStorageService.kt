@@ -1,5 +1,6 @@
 package com.br.asbuilt.azureBlobStorage
 
+import com.br.asbuilt.assessment.AssessmentRepository
 import com.br.asbuilt.azureBlobStorage.controller.responses.AzureBlobStorageResponse
 import com.br.asbuilt.users.UserRepository
 import org.slf4j.LoggerFactory
@@ -12,13 +13,15 @@ import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import java.util.*
 import org.springframework.http.HttpHeaders
+import org.springframework.web.multipart.MultipartFile
 import java.io.File
 import java.io.FileOutputStream
 
 @Service
 class AzureBlobStorageService @Autowired constructor(
     private val azureBlobStorageResourceProvider: AzureBlobStorageResourceProvider,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val assessmentRepository: AssessmentRepository
 ) {
 
     fun updateProfilePicture(userId: Long, azureBlobStorage: AzureBlobStorage): ResponseEntity<AzureBlobStorageResponse> {
@@ -80,6 +83,42 @@ class AzureBlobStorageService @Autowired constructor(
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()
         }
     }
+
+    fun uploadAssessmentPhotos(assessmentId: Long, files: List<MultipartFile>): ResponseEntity<List<AzureBlobStorageResponse>> {
+        val assessment = assessmentRepository.findById(assessmentId).orElseThrow { Exception("Assessment not found") }
+        val responses = mutableListOf<AzureBlobStorageResponse>()
+
+        files.forEachIndexed { index, file ->
+            val newGuid = UUID.randomUUID().toString()
+            val finalFileName = "$newGuid.${file.originalFilename?.substringAfter(".")}"
+
+            try {
+                azureBlobStorageResourceProvider.uploadBlob(finalFileName, file.inputStream, file.size, overwrite = false)
+                val fileUrl = azureBlobStorageResourceProvider.getBlobUrl(finalFileName)
+                responses.add(AzureBlobStorageResponse(finalFileName, fileUrl))
+                log.info("Assessment picture uploaded successfully: {}", finalFileName)
+
+                // Atualiza a entidade Assessment com o GUID da imagem
+                when (index) {
+                    0 -> assessment.assessmentPhoto0 = newGuid
+                    1 -> assessment.assessmentPhoto1 = newGuid
+                    2 -> assessment.assessmentPhoto2 = newGuid
+                    3 -> assessment.assessmentPhoto3 = newGuid
+                    4 -> assessment.assessmentPhoto4 = newGuid
+                    5 -> assessment.assessmentPhoto5 = newGuid
+                }
+            } catch (e: Exception) {
+                log.error("Failed to upload assessment picture: {}", finalFileName, e)
+                responses.add(AzureBlobStorageResponse("Failed to upload assessment picture", ""))
+            }
+        }
+
+        // Salva a entidade Assessment atualizada no repositório
+        assessmentRepository.save(assessment)
+
+        return ResponseEntity.status(HttpStatus.OK).body(responses)
+    }
+
 
     companion object {
         private val log = LoggerFactory.getLogger(AzureBlobStorageService::class.java)

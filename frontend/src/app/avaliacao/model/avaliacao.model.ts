@@ -7,9 +7,9 @@ export class AvaliacaoModel {
     taskExecutors: UsuarioModel[] = [];
     taskEvaluators: UsuarioModel[] = [];
     assessmentDate: Date = new Date();
-    parameter0Result: boolean = false;
-    parameter1Result: boolean = false;
-    parameter2Result: boolean = false;
+    parameter0Result?: boolean;
+    parameter1Result?: boolean;
+    parameter2Result?: boolean;
     parameter3Result?: boolean;
     parameter4Result?: boolean;
     parameter5Result?: boolean;

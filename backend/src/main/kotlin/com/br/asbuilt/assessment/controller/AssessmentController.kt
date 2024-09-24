@@ -5,6 +5,7 @@ import com.br.asbuilt.assessment.controller.requests.CreateAssessmentRequest
 import com.br.asbuilt.assessment.controller.requests.PatchAssessmentRequest
 import com.br.asbuilt.assessment.controller.responses.AssessmentResponse
 import com.br.asbuilt.tasks.controller.responses.TaskResponse
+import com.br.asbuilt.users.UserRepository
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
@@ -20,14 +21,20 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/assessment")
 class AssessmentController(
     val service: AssessmentService,
+    val userRepository: UserRepository
 ) {
 
     @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("hasRole('ADMIN') || hasRole('CONFERENTE')")
     @PostMapping("/insertAssessment")
-    fun insert(@Valid @RequestBody assessment: CreateAssessmentRequest) =
-        AssessmentResponse(service.insert(assessment.toAssessment()))
-            .let { ResponseEntity.status(HttpStatus.CREATED).body(it) }
+    fun insert(@Valid @RequestBody assessmentRequest: CreateAssessmentRequest): ResponseEntity<AssessmentResponse> {
+        val taskExecutors = userRepository.findAllById(assessmentRequest.taskExecutorsIds)
+        val taskEvaluators = userRepository.findAllById(assessmentRequest.taskEvaluatorsIds)
+        val assessment = assessmentRequest.toAssessment(taskExecutors, taskEvaluators)
+        return service.insert(assessment).let { it ->
+            AssessmentResponse(it).let { ResponseEntity.status(HttpStatus.CREATED).body(it) }
+        }
+    }
 
     @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("permitAll()")
@@ -53,10 +60,13 @@ class AssessmentController(
     @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("hasRole('ADMIN') || hasRole('CONFERENTE')")
     @PostMapping("/reassessment")
-    fun reassessment(@Valid @RequestBody assessment: CreateAssessmentRequest) =
-        service.reassessment(assessment.toAssessment())?.let { it ->
-            AssessmentResponse(it)
-                .let { ResponseEntity.status(HttpStatus.CREATED).body(it) }
+    fun reassessment(@Valid @RequestBody assessmentRequest: CreateAssessmentRequest): ResponseEntity<AssessmentResponse> {
+        val taskExecutors = userRepository.findAllById(assessmentRequest.taskExecutorsIds)
+        val taskEvaluators = userRepository.findAllById(assessmentRequest.taskEvaluatorsIds)
+        val assessment = assessmentRequest.toAssessment(taskExecutors, taskEvaluators)
+        return service.reassessment(assessment)?.let { it ->
+            AssessmentResponse(it).let { ResponseEntity.status(HttpStatus.CREATED).body(it) }
         } ?: ResponseEntity.notFound().build()
+    }
 
 }
