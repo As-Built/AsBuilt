@@ -40,6 +40,7 @@ class User(
     @Lob
     var photo: String? = null,
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
         name="UserRole",

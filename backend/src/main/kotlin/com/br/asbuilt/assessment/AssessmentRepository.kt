@@ -12,22 +12,21 @@ interface AssessmentRepository : JpaRepository <Assessment, Long> {
             "WHERE NOT EXISTS " +
                 "(SELECT a FROM Assessment a " +
                     "WHERE a.task = t " +
-                        "AND a.assessmentResult IS FALSE " +
-                        "AND a.isReassessment IS FALSE) " +
-            "AND t.finalDate IS NULL ")
+                        "AND a.assessmentResult = TRUE " +
+                        "AND a.isReassessment = TRUE)")
     fun findTasksWithoutAssessment(): List<Task>
 
     @Query("SELECT t FROM Task t " +
             "INNER JOIN Assessment a ON a.task = t " +
-            "WHERE a.assessmentResult IS TRUE " +
-                "AND a.isReassessment IS FALSE " +
+            "WHERE a.assessmentResult = TRUE " +
+                "AND a.isReassessment = FALSE " +
                 "AND t.finalDate IS NOT NULL ")
     fun findTasksWithtAssessmentCompleted(): List<Task>
 
     @Query("SELECT t FROM Task t " +
             "INNER JOIN Assessment a ON a.task = t " +
-            "WHERE a.assessmentResult IS FALSE " +
-                "AND a.isReassessment IS TRUE " +
+            "WHERE a.assessmentResult = FALSE " +
+                "AND a.isReassessment = TRUE " +
                 "AND t.finalDate IS NULL ")
     fun findTasksNeedReassessment(): List<Task>
 

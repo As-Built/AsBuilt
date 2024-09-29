@@ -21,21 +21,21 @@ class Assessment(
     )
     var task: Task?,
 
-    @ManyToMany
+    @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     @JoinTable(
         name = "AssessmentTaskExecutor",
         joinColumns = [JoinColumn(name = "idAssessment")],
         inverseJoinColumns = [JoinColumn(name = "idUser")]
     )
-    var taskExecutors: MutableList<User> = mutableListOf(),
+    var taskExecutors: MutableSet<User> = mutableSetOf(),
 
-    @ManyToMany
+    @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     @JoinTable(
         name = "AssessmentTaskEvaluator",
         joinColumns = [JoinColumn(name = "idAssessment")],
         inverseJoinColumns = [JoinColumn(name = "idUser")]
     )
-    var taskEvaluators: MutableList<User> = mutableListOf(),
+    var taskEvaluators: MutableSet<User> = mutableSetOf(),
 
     @Column(nullable = false)
     var assessmentDate: Date,
@@ -77,21 +77,27 @@ class Assessment(
     var obs: String? = null,
 
     @Column
+    @Lob
     var assessmentPhoto0: String? = null,
 
     @Column
+    @Lob
     var assessmentPhoto1: String? = null,
 
     @Column
+    @Lob
     var assessmentPhoto2: String? = null,
 
     @Column
+    @Lob
     var assessmentPhoto3: String? = null,
 
     @Column
+    @Lob
     var assessmentPhoto4: String? = null,
 
     @Column
+    @Lob
     var assessmentPhoto5: String? = null,
 
     @Column(nullable = false)

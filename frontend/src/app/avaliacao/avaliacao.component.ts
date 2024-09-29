@@ -40,7 +40,7 @@ export class AvaliacaoComponent implements OnInit {
   cadastroLocalServico = new LocalServicoModel();
   construtoraSelecionada: ConstrutoraModel = new ConstrutoraModel();
   listaCentrosDeCustoFiltrados: CentroCustoModel[] = [];
-  renderModalVisualizar = false;
+  renderModalAvaliacaoServico = false;
   renderModalAnexarFotos = false;
   isCadastroLocalServico = true;
   filtroConstrutoraSelecionado: string | null = null;
@@ -328,7 +328,7 @@ export class AvaliacaoComponent implements OnInit {
 
   modalAvaliarServico(servico: ServicoModel) {
     this.servicoSelecionadoAvaliacao = cloneDeep(servico);//Clonando objeto e não a sua referência
-    this.renderModalVisualizar = true;
+    this.renderModalAvaliacaoServico = true;
     this.expectedStartDateFormatada = formatDate(this.servicoSelecionadoAvaliacao.expectedStartDate, "dd/MM/yyyy", "pt-BR");
     this.expectedEndDateFormatada = formatDate(this.servicoSelecionadoAvaliacao.expectedEndDate, "dd/MM/yyyy", "pt-BR");
     this.avaliacaoModel.task = this.servicoSelecionadoAvaliacao;
@@ -356,9 +356,24 @@ export class AvaliacaoComponent implements OnInit {
         this.avaliacaoModel.taskExecutors = this.servicoSelecionadoAvaliacao.executors ? this.servicoSelecionadoAvaliacao.executors : [];
         this.avaliacaoModel.taskEvaluators = this.servicoSelecionadoAvaliacao.evaluators ? this.servicoSelecionadoAvaliacao.evaluators : [];
         if (this.validarCampos(this.avaliacaoModel)) {
+          this.avaliacaoModel.task = this.servicoSelecionadoAvaliacao;
+          if (this.servicoSelecionadoAvaliacao && this.servicoSelecionadoAvaliacao.startDate) {
+            this.avaliacaoModel.task.startDate = new Date(this.servicoSelecionadoAvaliacao.startDate);
+          }
+
+          if (this.servicoSelecionadoAvaliacao && this.servicoSelecionadoAvaliacao.finalDate) {
+            this.avaliacaoModel.task.finalDate = new Date(this.servicoSelecionadoAvaliacao.finalDate);
+          }
+
           this.avaliacaoService.avaliar(this.avaliacaoModel).pipe(
             tap(retorno => {
-              let teste = retorno;
+              Swal.fire({
+                text: "Atualização realizada com sucesso!",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 2000
+              });
+            // this.anexarFotos(this.avaliacaoModel);
             }),
             catchError(error => {
                 Swal.fire({
@@ -370,7 +385,6 @@ export class AvaliacaoComponent implements OnInit {
               return of();
             })
           ).subscribe();
-          this.anexarFotos(this.avaliacaoModel);
         } else {
           Swal.fire({
             text: this.msgErroValidacao,
@@ -401,7 +415,6 @@ export class AvaliacaoComponent implements OnInit {
               showConfirmButton: false,
               timer: 1500,
             })
-            // this.limparDados();
           } else {
             this.modalAvaliarServico(this.servicoSelecionadoAvaliacao);
           }
@@ -438,6 +451,7 @@ export class AvaliacaoComponent implements OnInit {
   }
 
   anexarFotos(avaliacao: AvaliacaoModel) {
+    this.renderModalAnexarFotos = true;
     Swal.fire({
       title: 'Anexar Fotos',
       html: this.modalAnexarFotos.nativeElement,
@@ -462,7 +476,6 @@ export class AvaliacaoComponent implements OnInit {
           showConfirmButton: false,
           timer: 3000
         });
-        this.buscarLocais();
       }),
       catchError(error => {
         let msgErro = error.error;
@@ -591,6 +604,11 @@ export class AvaliacaoComponent implements OnInit {
 
   async buscarServicosParaReavaliacao() {
     this.servicosParaReavaliacao = await firstValueFrom(this.avaliacaoService.buscarServicosParaReavaliacao());
+  }
+
+  limparDados() {
+    this.servicoSelecionadoAvaliacao = new ServicoModel();
+    this.avaliacaoModel = new AvaliacaoModel();
   }
 
 }

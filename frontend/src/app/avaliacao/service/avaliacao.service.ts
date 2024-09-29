@@ -21,25 +21,11 @@ export class AvaliacaoService {
   };
 
   avaliar(avaliacaoModel: AvaliacaoModel) {
-
-    let taskExecutorsIds = [];
-    if (Array.isArray(avaliacaoModel.taskExecutors)) {
-      taskExecutorsIds = avaliacaoModel.taskExecutors.map((executor: any) => executor.userId);
-    } else if (avaliacaoModel.taskExecutors) {
-      taskExecutorsIds = [(avaliacaoModel.taskExecutors as any).id];
-    }
-    
-    let taskEvaluatorsIds = [];
-    if (Array.isArray(avaliacaoModel.taskEvaluators)) {
-      taskEvaluatorsIds = avaliacaoModel.taskEvaluators.map((evaluator: any) => evaluator.userId);
-    } else if (avaliacaoModel.taskEvaluators) {
-      taskEvaluatorsIds = [(avaliacaoModel.taskEvaluators as any).id];
-    }
-
+    // Mapeando apenas os IDs dos executores e avaliadores
     let body = JSON.stringify({
-      task: avaliacaoModel.task,
-      taskExecutors: taskExecutorsIds,
-      taskEvaluators: taskEvaluatorsIds,
+      taskId: avaliacaoModel.task.id, // Enviar apenas o ID da task
+      taskExecutorsIds: avaliacaoModel.taskExecutors.map(exec => exec.id), // Enviar apenas os IDs dos executores
+      taskEvaluatorsIds: avaliacaoModel.taskEvaluators.map(evaluator => evaluator.id), // Enviar apenas os IDs dos avaliadores
       assessmentDate: avaliacaoModel.assessmentDate,
       parameter0Result: avaliacaoModel.parameter0Result,
       parameter1Result: avaliacaoModel.parameter1Result,
@@ -61,9 +47,12 @@ export class AvaliacaoService {
       assessmentPhoto5: avaliacaoModel.assessmentPhoto5,
       isReassessment: avaliacaoModel.isReassessment
     });
-
-    return this.httpClient.
-      post<AvaliacaoModel>('http://localhost:8080/asbuilt/assessment/insertAssessment', body, this.httpOptions);
+  
+    return this.httpClient.post<AvaliacaoModel>(
+      'http://localhost:8080/asbuilt/assessment/insertAssessment',
+      body,
+      this.httpOptions
+    );
   }
 
   buscarServicosAguardandoAvaliacao(): Observable<ServicoModel[]> {

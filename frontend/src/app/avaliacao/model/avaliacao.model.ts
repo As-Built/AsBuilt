@@ -1,5 +1,5 @@
-import { ServicoModel } from "src/app/servico/model/servico.model";
-import { UsuarioModel } from "src/app/usuario/model/usuario.model";
+import { ServicoModel } from "../../servico/model/servico.model";
+import { UsuarioModel } from "../../usuario/model/usuario.model";
 
 export class AvaliacaoModel {
     id?: number;

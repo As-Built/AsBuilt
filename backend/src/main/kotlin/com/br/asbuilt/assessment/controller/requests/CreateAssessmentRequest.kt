@@ -9,13 +9,13 @@ import java.util.*
 
 data class CreateAssessmentRequest(
     @field:NotNull
-    val task: Task,
+    val taskId: Long, // Receba apenas o ID da Task
 
     @field:NotNull
-    val taskExecutorsIds: List<Long>,
+    val taskExecutorsIds: Set<Long>, // Receba apenas os IDs dos executores
 
     @field:NotNull
-    val taskEvaluatorsIds: List<Long>,
+    val taskEvaluatorsIds: Set<Long>, // Receba apenas os IDs dos avaliadores
 
     @field:NotNull
     val assessmentDate: Date,
@@ -61,31 +61,36 @@ data class CreateAssessmentRequest(
     val assessmentPhoto5: String? = null,
 
     val isReassessment: Boolean = false
-
-    ) {
-    fun toAssessment(taskExecutors: List<User>, taskEvaluators: List<User>) = Assessment(
-        task = task,
-        taskExecutors = taskExecutors.toMutableList(),
-        taskEvaluators = taskEvaluators.toMutableList(),
-        assessmentDate = assessmentDate,
-        parameter0Result = parameter0Result,
-        parameter1Result = parameter1Result,
-        parameter2Result = parameter2Result,
-        parameter3Result = parameter3Result,
-        parameter4Result = parameter4Result,
-        parameter5Result = parameter5Result,
-        parameter6Result = parameter6Result,
-        parameter7Result = parameter7Result,
-        parameter8Result = parameter8Result,
-        parameter9Result = parameter9Result,
-        assessmentResult = assessmentResult,
-        obs = obs,
-        assessmentPhoto0 = assessmentPhoto0,
-        assessmentPhoto1 = assessmentPhoto1,
-        assessmentPhoto2 = assessmentPhoto2,
-        assessmentPhoto3 = assessmentPhoto3,
-        assessmentPhoto4 = assessmentPhoto4,
-        assessmentPhoto5 = assessmentPhoto5,
-        isReassessment = isReassessment
-    )
+) {
+    fun toAssessment(
+        task: Task,
+        taskExecutors: Set<User>,
+        taskEvaluators: Set<User>
+    ): Assessment {
+        return Assessment(
+            task = task,
+            taskExecutors = taskExecutors.toMutableSet(),  // Usa toMutableSet() para criar o MutableSet
+            taskEvaluators = taskEvaluators.toMutableSet(),  // Usa toMutableSet() para criar o MutableSet
+            assessmentDate = assessmentDate,
+            parameter0Result = parameter0Result,
+            parameter1Result = parameter1Result,
+            parameter2Result = parameter2Result,
+            parameter3Result = parameter3Result,
+            parameter4Result = parameter4Result,
+            parameter5Result = parameter5Result,
+            parameter6Result = parameter6Result,
+            parameter7Result = parameter7Result,
+            parameter8Result = parameter8Result,
+            parameter9Result = parameter9Result,
+            assessmentResult = assessmentResult,
+            obs = obs,
+            assessmentPhoto0 = assessmentPhoto0,
+            assessmentPhoto1 = assessmentPhoto1,
+            assessmentPhoto2 = assessmentPhoto2,
+            assessmentPhoto3 = assessmentPhoto3,
+            assessmentPhoto4 = assessmentPhoto4,
+            assessmentPhoto5 = assessmentPhoto5,
+            isReassessment = isReassessment
+        )
+    }
 }

@@ -14,10 +14,10 @@ data class PatchAssessmentRequest(
     val task: Task,
 
     @field:NotNull
-    val taskExecutors: List<User>,
+    val taskExecutors: Set<User>,
 
     @field:NotNull
-    val taskEvaluators: List<User>,
+    val taskEvaluators: Set<User>,
 
     @field:NotNull
     val assessmentDate: Date,
@@ -67,8 +67,8 @@ data class PatchAssessmentRequest(
     ) {
         fun toAssessment() = Assessment(
             task = task,
-            taskExecutors = taskExecutors.toMutableList(),
-            taskEvaluators = taskEvaluators.toMutableList(),
+            taskExecutors = taskExecutors.toMutableSet(),
+            taskEvaluators = taskEvaluators.toMutableSet(),
             assessmentDate = assessmentDate,
             parameter0Result = parameter0Result,
             parameter1Result = parameter1Result,
