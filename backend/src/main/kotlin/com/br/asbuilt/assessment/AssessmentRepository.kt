@@ -13,7 +13,8 @@ interface AssessmentRepository : JpaRepository <Assessment, Long> {
                 "(SELECT a FROM Assessment a " +
                     "WHERE a.task = t " +
                         "AND a.assessmentResult = TRUE " +
-                        "AND a.isReassessment = TRUE)")
+                        "AND a.isReassessment = TRUE)" +
+            "AND t.finalDate IS NULL")
     fun findTasksWithoutAssessment(): List<Task>
 
     @Query("SELECT t FROM Task t " +

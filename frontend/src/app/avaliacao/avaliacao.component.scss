@@ -91,3 +91,12 @@ select {
 .botoes-parametros.remove {
     color: red;
 }
+
+.service-photo {
+    cursor: pointer;
+    transition: filter 0.5s ease;
+  }
+
+  .service-photo:hover {
+    filter: brightness(0.8);
+  }

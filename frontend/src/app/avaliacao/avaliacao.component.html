@@ -447,6 +447,21 @@
 <!-- MODAL DE ANEXAÇÃO DE FOTOS -->
 <div #modalAnexarFotos>
     <div *ngIf="renderModalAnexarFotos" class="modal-body text-left modal-scroll">
-        lixo de código
+        <div class="row">
+            <div class="col-12 titulo">
+                <h1>Favor inserir de 3 a 6 fotos do serviço avaliado</h1>
+                <hr style="margin-left: 12.5px; margin-right: 12.5px;">
+            </div>
+        </div>
+        <div class="row centralizar-conteudo">
+            <div class="col-2" *ngFor="let item of [0, 1, 2, 3, 4, 5]; let i = index">
+                <input style="display: none;" type="file" [id]="'avaliacaoFoto' + i" [name]="'avaliacaoFoto' + i" accept="image/*" 
+                  (change)="handleFileInput($event.target, i)" #avaliacaoFoto>
+                <div class="image-container centralizar-conteudo">
+                  <img class="service-photo" [src]="fotoServico0[i]" width="150px" 
+                    (click)="triggerFileInput(i)" matTooltip="Clique para inserir uma foto do serviço executado">
+                </div>
+              </div>
+        </div>
     </div>
 </div>

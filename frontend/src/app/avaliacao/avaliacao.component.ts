@@ -28,6 +28,8 @@ export class AvaliacaoComponent implements OnInit {
   @ViewChild('modalAnexarFotos', { static: true })
   modalAnexarFotos!: ElementRef;
 
+  @ViewChild('avaliacaoFoto0') avaliacaoFoto0!: ElementRef;
+
   avaliacaoTab: number = 0;
   servicosAguardandoAvaliacao: ServicoModel[] = [];
   servicosAguardandoAvaliacaoFiltrada: ServicoModel[] = [];
@@ -66,6 +68,11 @@ export class AvaliacaoComponent implements OnInit {
   additionalEvaluators: number[] = [];
   msgErroValidacao: string = "";
   campoErroValidacao: string = "";
+  fotoServico0: string[] = [];
+  fotoServico0Blob: Uint8Array[] = [];
+  fileToUpload: File[] = [];
+  fileIsLoading = false;
+  isFileValid = false;
 
   constructor(
     private avaliacaoService: AvaliacaoService,
@@ -76,6 +83,7 @@ export class AvaliacaoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.fotoServico0 = [];
     this.buscarServicosAguardandoAvaliacao();
     this.buscarLocais();
     this.buscarConstrutoras();
@@ -357,23 +365,13 @@ export class AvaliacaoComponent implements OnInit {
         this.avaliacaoModel.taskEvaluators = this.servicoSelecionadoAvaliacao.evaluators ? this.servicoSelecionadoAvaliacao.evaluators : [];
         if (this.validarCampos(this.avaliacaoModel)) {
           this.avaliacaoModel.task = this.servicoSelecionadoAvaliacao;
-          if (this.servicoSelecionadoAvaliacao && this.servicoSelecionadoAvaliacao.startDate) {
-            this.avaliacaoModel.task.startDate = new Date(this.servicoSelecionadoAvaliacao.startDate);
-          }
-
-          if (this.servicoSelecionadoAvaliacao && this.servicoSelecionadoAvaliacao.finalDate) {
-            this.avaliacaoModel.task.finalDate = new Date(this.servicoSelecionadoAvaliacao.finalDate);
-          }
-
+          this.avaliacaoModel.task.startDate = new Date(this.servicoSelecionadoAvaliacao.startDate!);
+          this.avaliacaoModel.task.finalDate = new Date(this.servicoSelecionadoAvaliacao.finalDate!);
+          let retornoAvaliacao: AvaliacaoModel = new AvaliacaoModel();
           this.avaliacaoService.avaliar(this.avaliacaoModel).pipe(
             tap(retorno => {
-              Swal.fire({
-                text: "Atualização realizada com sucesso!",
-                icon: "success",
-                showConfirmButton: false,
-                timer: 2000
-              });
-            // this.anexarFotos(this.avaliacaoModel);
+              retornoAvaliacao = retorno;
+              this.modalFotos(retornoAvaliacao);
             }),
             catchError(error => {
                 Swal.fire({
@@ -450,16 +448,70 @@ export class AvaliacaoComponent implements OnInit {
     }
   }
 
-  anexarFotos(avaliacao: AvaliacaoModel) {
+  modalFotos(avaliacao: AvaliacaoModel) {
     this.renderModalAnexarFotos = true;
+    this.fetchImage(avaliacao.id!);
     Swal.fire({
       title: 'Anexar Fotos',
+      width: '80%',
       html: this.modalAnexarFotos.nativeElement,
+      showCloseButton: true,
+      confirmButtonColor: 'green',
+      confirmButtonText: 'Concluir avaliação',
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar avaliação',
+      cancelButtonColor: 'red',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.anexarFotos(this.avaliacaoModel);
-      } else if (result.isDismissed) {
-        this.servicoSelecionadoAvaliacao = new ServicoModel();
+        let photos = this.fotoServico0Blob.map(file => {
+          return {
+            buffer: file,
+            name: '.jpg'
+          };
+        });
+        this.avaliacaoService.updateAssessmentPhotos(avaliacao.id!, photos).pipe(
+          tap(retorno => {
+            Swal.fire({
+              text: "Avaliação salva com sucesso!",
+              icon: "success",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            this.buscarServicosAguardandoAvaliacao();
+          }),
+          catchError(error => {
+            this.avaliacaoService.deletarAvaliacao(avaliacao.id!).pipe().subscribe();
+            Swal.fire({
+              text: error.error,
+              icon: "error",
+              showConfirmButton: false,
+              timer: 2000
+            });
+            return of();
+          })
+        ).subscribe();
+      } else {
+        Swal.fire({
+          text: "As alterações não salvas serão perdidas, confirmar?",
+          icon: "warning",
+          confirmButtonColor: '#4caf50',
+          confirmButtonText: 'Voltar a editar',
+          showCancelButton: true,
+          cancelButtonText: "Descartar",
+          cancelButtonColor: '#dc3741'
+        }).then((resultCancel) => {
+          if (resultCancel.isDismissed) {
+            this.avaliacaoService.deletarAvaliacao(avaliacao.id!).pipe().subscribe();
+            Swal.fire({
+              text: "Alterações descartadas.",
+              icon: "success",
+              showConfirmButton: false,
+              timer: 1500,
+            })
+          } else {
+            this.modalFotos(avaliacao);
+          }
+        })
       }
     });
   }
@@ -604,6 +656,88 @@ export class AvaliacaoComponent implements OnInit {
 
   async buscarServicosParaReavaliacao() {
     this.servicosParaReavaliacao = await firstValueFrom(this.avaliacaoService.buscarServicosParaReavaliacao());
+  }
+
+  handleFileInput(target: EventTarget | null, index: number) {
+    if (!target) {
+      return;
+    }
+  
+    const files = (target as HTMLInputElement).files;
+    if (!files || files.length === 0) {
+      return;
+    }
+  
+    const file = files.item(0);
+    if (!file) {
+      return;
+    }
+  
+    if (file.type !== 'image/png' && file.type !== 'image/jpeg') {
+      Swal.fire({
+        text: "Por favor, selecione uma imagem em formato .png ou .jpg",
+        icon: "error",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      this.isFileValid = false;
+      return;
+    } else {
+      this.isFileValid = true;
+    }
+  
+    if (this.isFileValid) {
+      if (this.fileToUpload) {
+        this.fileToUpload[index] = file;
+      }
+  
+      const reader = new FileReader();
+      this.fileIsLoading = true;
+      reader.onload = (event: any) => {
+        const byteArray = new Uint8Array(event.target.result);
+        let base64String = '';
+        const chunkSize = 5000; // Tamanho do pedaço
+        for (let i = 0; i < byteArray.length; i += chunkSize) {
+          const chunk = byteArray.slice(i, i + chunkSize);
+          base64String += btoa(String.fromCharCode(...chunk));
+        }
+        this.fotoServico0Blob[index] = new Uint8Array(byteArray.buffer);
+        this.fileIsLoading = false;
+      }
+      reader.readAsArrayBuffer(file);
+      const blob = new Blob([file]);
+      this.fotoServico0[index] = URL.createObjectURL(blob);
+    }
+  }
+  
+  triggerFileInput(index: number) {
+    const fileInput = document.getElementById('avaliacaoFoto' + index) as HTMLInputElement;
+    fileInput.click();
+  }
+
+  async fetchImage(avaliacaoId: number) {
+    let avaliacaoFotos: AvaliacaoModel = new AvaliacaoModel();
+    try {
+      const avaliacao: any = await firstValueFrom(this.avaliacaoService.buscarAvaliacaoPorId(avaliacaoId));
+      avaliacaoFotos = avaliacao;
+      const defaultImage = "assets/EmptyImg.jpg"; // Imagem padrão
+  
+      this.fotoServico0[0] = avaliacaoFotos.assessmentPhoto0 || defaultImage;
+      this.fotoServico0[1] = avaliacaoFotos.assessmentPhoto1 || defaultImage;
+      this.fotoServico0[2] = avaliacaoFotos.assessmentPhoto2 || defaultImage;
+      this.fotoServico0[3] = avaliacaoFotos.assessmentPhoto3 || defaultImage;
+      this.fotoServico0[4] = avaliacaoFotos.assessmentPhoto4 || defaultImage;
+      this.fotoServico0[5] = avaliacaoFotos.assessmentPhoto5 || defaultImage;
+    
+      // else {
+      //   this.perfilUsuarioService.downloadProfilePicture(blobNameWithoutExtension)
+      //   .subscribe(blob => {
+      //     this.fotoServico0 = URL.createObjectURL(blob);
+      //   });
+      // }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   limparDados() {

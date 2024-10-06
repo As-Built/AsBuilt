@@ -9,10 +9,10 @@ import java.util.*
 
 data class CreateAssessmentRequest(
     @field:NotNull
-    val taskId: Long, // Receba apenas o ID da Task
+    val task: Task,
 
     @field:NotNull
-    val taskExecutorsIds: Set<Long>, // Receba apenas os IDs dos executores
+    val taskExecutorsIds: Set<Long>,
 
     @field:NotNull
     val taskEvaluatorsIds: Set<Long>, // Receba apenas os IDs dos avaliadores

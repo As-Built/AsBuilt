@@ -51,7 +51,7 @@ export class PerfilUsuarioService {
       email: perfilUsuario.email,
       cpf: perfilUsuario.cpf,
       phone: perfilUsuario.phone,
-      // photo: perfilUsuario.photo,
+      photo: perfilUsuario.photo,
       userAddress: {
         id: perfilUsuario.userAddress.id,
         street: perfilUsuario.userAddress.street,

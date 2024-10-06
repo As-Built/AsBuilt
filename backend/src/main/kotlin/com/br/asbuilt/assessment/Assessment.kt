@@ -21,7 +21,7 @@ class Assessment(
     )
     var task: Task?,
 
-    @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(
         name = "AssessmentTaskExecutor",
         joinColumns = [JoinColumn(name = "idAssessment")],
@@ -29,7 +29,7 @@ class Assessment(
     )
     var taskExecutors: MutableSet<User> = mutableSetOf(),
 
-    @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(
         name = "AssessmentTaskEvaluator",
         joinColumns = [JoinColumn(name = "idAssessment")],

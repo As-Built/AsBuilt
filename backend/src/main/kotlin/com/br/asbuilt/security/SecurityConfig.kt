@@ -56,7 +56,9 @@ class SecurityConfig(
                 requests
                     .requestMatchers(antMatcher(HttpMethod.GET)).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/users")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/users/**")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/users/login")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.PATCH, "/users/updateUser/**")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/users/recuperarSenha/**")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/tasks")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/tasks/**")).permitAll()
@@ -94,7 +96,12 @@ class SecurityConfig(
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/blob/**")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/blob/**")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/assessment/insertAssessment")).hasAnyRole("ADMIN", "CONFERENTE")
-                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/users/**")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/assessment/findTasksWithoutAssessment")).hasAnyRole("ADMIN", "CONFERENTE")
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/assessment/findTasksWithtAssessmentCompleted")).hasAnyRole("ADMIN", "CONFERENTE")
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/assessment/findTasksNeedReassessment")).hasAnyRole("ADMIN", "CONFERENTE")
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/assessment/reassessment")).hasAnyRole("ADMIN", "CONFERENTE")
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/assessment/findAssessmentById/**")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.DELETE, "/assessment/deleteAssessmentById/**")).hasAnyRole("ADMIN", "CONFERENTE")
                     .anyRequest().authenticated()
             }
             .addFilterBefore(jwtTokenFilter, BasicAuthenticationFilter::class.java)

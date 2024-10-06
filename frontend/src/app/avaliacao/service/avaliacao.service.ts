@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { AvaliacaoModel } from '../model/avaliacao.model';
 import { Observable } from 'rxjs';
 import { ServicoModel } from 'src/app/servico/model/servico.model';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,7 @@ export class AvaliacaoService {
   avaliar(avaliacaoModel: AvaliacaoModel) {
     // Mapeando apenas os IDs dos executores e avaliadores
     let body = JSON.stringify({
-      taskId: avaliacaoModel.task.id, // Enviar apenas o ID da task
+      task: avaliacaoModel.task,
       taskExecutorsIds: avaliacaoModel.taskExecutors.map(exec => exec.id), // Enviar apenas os IDs dos executores
       taskEvaluatorsIds: avaliacaoModel.taskEvaluators.map(evaluator => evaluator.id), // Enviar apenas os IDs dos avaliadores
       assessmentDate: avaliacaoModel.assessmentDate,
@@ -53,6 +54,26 @@ export class AvaliacaoService {
       body,
       this.httpOptions
     );
+  }
+
+  updateAssessmentPhotos(assessmentId: number, photos: {buffer: Uint8Array, name: string}[]): Observable<any> {
+    let formData = new FormData();
+    formData.append('assessmentId', assessmentId.toString());
+  
+    photos.forEach((photo, index) => {
+      let file = new File([photo.buffer], photo.name);
+      formData.append(`file${index}`, file);
+    });
+  
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`
+    });
+  
+    return this.httpClient.post("http://localhost:8080/asbuilt/blob/uploadAssessmentPhotos", formData, { headers });
+}
+
+  buscarAvaliacaoPorId(id: number): Observable<AvaliacaoModel> {
+    return this.httpClient.get<AvaliacaoModel>(`http://localhost:8080/asbuilt/assessment/findAssessmentById/${id}`, this.httpOptions);
   }
 
   buscarServicosAguardandoAvaliacao(): Observable<ServicoModel[]> {
@@ -96,5 +117,9 @@ export class AvaliacaoService {
 
     return this.httpClient.
       post<AvaliacaoModel>('http://localhost:8080/asbuilt/assessment/reassessment', body, this.httpOptions);
+  }
+
+  deletarAvaliacao(id: number) {
+    return this.httpClient.delete(`http://localhost:8080/asbuilt/assessment/deleteAssessmentById/${id}`, this.httpOptions);
   }
 }
