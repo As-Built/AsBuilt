@@ -8,7 +8,6 @@ import com.br.asbuilt.users.UserRepository
 import org.slf4j.LoggerFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 @Service
 class AssessmentService(
@@ -103,7 +102,6 @@ class AssessmentService(
         return repository.findByIdOrNull(id) ?: throw NotFoundException("Assessment not found with id: $id")
     }
 
-    @Transactional // Precisa setar uma transação para atualizar a Task antes de deletar o Assessment
     fun deleteAssessmentById(id: Long): Assessment {
         return repository.findByIdOrNull(id)?.also {
             // Inicializa a coleção de itens que devem ser carregados para evitar LazyInitializationException
