@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 repositories {
 	mavenCentral()
 	maven { url = uri("https://repo.spring.io/milestone") }
@@ -48,6 +49,9 @@ dependencies {
 	implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
 
+	implementation("org.hibernate:hibernate-core:6.5.2.Final")
+	implementation("org.hibernate.common:hibernate-commons-annotations:6.0.6.Final")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.mockk:mockk:1.13.7")
 	testImplementation("io.kotest:kotest-runner-junit5-jvm:5.6.2")
@@ -59,7 +63,6 @@ dependencies {
 	implementation("com.azure.spring:spring-cloud-azure-starter-storage-blob")
 	implementation("com.azure:azure-storage-blob:12.14.2")
 }
-
 
 tasks.withType<KotlinCompile> {
 	kotlinOptions {

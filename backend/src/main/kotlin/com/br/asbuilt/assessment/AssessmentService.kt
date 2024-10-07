@@ -1,7 +1,6 @@
 package com.br.asbuilt.assessment
 
 import com.br.asbuilt.assessment.controller.requests.CreateAssessmentRequest
-import com.br.asbuilt.assessment.controller.responses.AssessmentResponse
 import com.br.asbuilt.exception.NotFoundException
 import com.br.asbuilt.tasks.Task
 import com.br.asbuilt.tasks.TaskRepository
