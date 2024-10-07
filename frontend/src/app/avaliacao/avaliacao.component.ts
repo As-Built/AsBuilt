@@ -28,13 +28,16 @@ export class AvaliacaoComponent implements OnInit {
   @ViewChild('modalAnexarFotos', { static: true })
   modalAnexarFotos!: ElementRef;
 
-  @ViewChild('avaliacaoFoto0') avaliacaoFoto0!: ElementRef;
+  @ViewChild('filterTableConstrutora') 
+  filterTableConstrutora!: ElementRef;
 
   avaliacaoTab: number = 0;
   servicosAguardandoAvaliacao: ServicoModel[] = [];
   servicosAguardandoAvaliacaoFiltrada: ServicoModel[] = [];
   servicosAvaliados: ServicoModel[] = [];
+  servicosAvaliadosFiltrados: ServicoModel[] = [];
   servicosParaReavaliacao: ServicoModel[] = [];
+  servicosParaReavaliacaoFiltrados: ServicoModel[] = [];
   listaLocalServico: LocalServicoModel[] = [];
   listaConstrutoras: ConstrutoraModel[] = [];
   listaCentrosDeCusto: CentroCustoModel[] = [];
@@ -153,17 +156,48 @@ export class AvaliacaoComponent implements OnInit {
       uniqueConstrutoras[c.builderName] = c;
     });
     this.listaConstrutorasConsulta = Object.values(uniqueConstrutoras);
+    if (this.avaliacaoTab == 0) {
+      this.listaConstrutorasConsulta = this.listaConstrutorasConsulta.filter(construtora => 
+        this.servicosAguardandoAvaliacao.some(servico => servico.costCenter.builder.builderName === construtora.builderName)
+      );
+    }
+    if (this.avaliacaoTab == 1) {
+      this.listaConstrutorasConsulta = this.listaConstrutorasConsulta.filter(construtora => 
+        this.servicosParaReavaliacao.some(servico => servico.costCenter.builder.builderName === construtora.builderName)
+      );
+    }
+    if (this.avaliacaoTab == 2) {
+      this.listaConstrutorasConsulta = this.listaConstrutorasConsulta.filter(construtora => 
+        this.servicosAvaliados.some(servico => servico.costCenter.builder.builderName === construtora.builderName)
+      );
+    }
 
     if (this.filtroConstrutoraSelecionado) {
       this.listaCentrosDeCustoFiltradaConsulta = this.listaCentrosDeCusto.filter(centroCusto => centroCusto.builder.builderName === this.filtroConstrutoraSelecionado);
       this.listaLocalServicoFiltrada = this.listaLocalServico.filter(localServico => localServico.costCenter.builder.builderName === this.filtroConstrutoraSelecionado);
-      this.servicosAguardandoAvaliacaoFiltrada = this.servicosAguardandoAvaliacaoFiltrada.filter(servico => servico.costCenter.builder.builderName === this.filtroConstrutoraSelecionado);
+      if (this.avaliacaoTab == 0) {
+        this.servicosAguardandoAvaliacaoFiltrada = this.servicosAguardandoAvaliacaoFiltrada.filter(servico => servico.costCenter.builder.builderName === this.filtroConstrutoraSelecionado);
+      }
+      if (this.avaliacaoTab == 1) {
+        this.servicosParaReavaliacaoFiltrados = this.servicosParaReavaliacaoFiltrados.filter(servico => servico.costCenter.builder.builderName === this.filtroConstrutoraSelecionado);
+      }
+      if (this.avaliacaoTab == 2) {
+        this.servicosAvaliadosFiltrados = this.servicosAvaliadosFiltrados.filter(servico => servico.costCenter.builder.builderName === this.filtroConstrutoraSelecionado);
+      }
     } else {
       this.listaLocalServicoFiltrada = [...this.listaLocalServico];
     }
 
     if (this.filtroCentroCustoSelecionado) {
-      this.servicosAguardandoAvaliacaoFiltrada = this.servicosAguardandoAvaliacaoFiltrada.filter(localServico => localServico.costCenter.costCenterName === this.filtroCentroCustoSelecionado);
+      if (this.avaliacaoTab == 0) {
+        this.servicosAguardandoAvaliacaoFiltrada = this.servicosAguardandoAvaliacaoFiltrada.filter(localServico => localServico.costCenter.costCenterName === this.filtroCentroCustoSelecionado);
+      }
+      if (this.avaliacaoTab == 1) {
+        this.servicosParaReavaliacaoFiltrados = this.servicosParaReavaliacaoFiltrados.filter(localServico => localServico.costCenter.costCenterName === this.filtroCentroCustoSelecionado);
+      }
+      if (this.avaliacaoTab == 2) {
+        this.servicosAvaliadosFiltrados = this.servicosAvaliadosFiltrados.filter(localServico => localServico.costCenter.costCenterName === this.filtroCentroCustoSelecionado);
+      }
       this.listaLocalServicoFiltrada = this.listaLocalServicoFiltrada.filter(localServico => localServico.costCenter.costCenterName === this.filtroCentroCustoSelecionado);
 
       const uniqueLocationGroups: { [key: string]: LocalServicoModel } = {}; //Adiciona um index a consulta para não trazer valores repetidos
@@ -171,11 +205,37 @@ export class AvaliacaoComponent implements OnInit {
         uniqueLocationGroups[localServico.locationGroup] = localServico;
       });
       this.listaLocationGroupFiltradaConsulta = Object.values(uniqueLocationGroups)
+      if (this.avaliacaoTab == 0) {
+        this.listaLocationGroupFiltradaConsulta = this.listaLocationGroupFiltradaConsulta.filter(local => 
+          this.servicosAguardandoAvaliacao.some(servico => servico.taskLocation.locationGroup === local.locationGroup)
+        );
+      }
+      if (this.avaliacaoTab == 1) {
+        this.listaLocationGroupFiltradaConsulta = this.listaLocationGroupFiltradaConsulta.filter(local => 
+          this.servicosParaReavaliacao.some(servico => servico.taskLocation.locationGroup === local.locationGroup)
+        );
+      }
+      if (this.avaliacaoTab == 2) {
+        this.listaLocationGroupFiltradaConsulta = this.listaLocationGroupFiltradaConsulta.filter(local => 
+          this.servicosAvaliados.some(servico => servico.taskLocation.locationGroup === local.locationGroup)
+        );
+      }
     }
 
     if (this.filtroLocationGroup) {
-      this.servicosAguardandoAvaliacaoFiltrada = this.servicosAguardandoAvaliacaoFiltrada.filter(localServico => localServico.taskLocation.locationGroup === this.filtroLocationGroup);;
-      this.listaLocalServicoFiltrada = this.servicosAguardandoAvaliacaoFiltrada.map(servico => servico.taskLocation);
+      if (this.avaliacaoTab == 0) {
+        this.servicosAguardandoAvaliacaoFiltrada = this.servicosAguardandoAvaliacaoFiltrada.filter(localServico => localServico.taskLocation.locationGroup === this.filtroLocationGroup);;
+        this.listaLocalServicoFiltrada = this.servicosAguardandoAvaliacaoFiltrada.map(servico => servico.taskLocation);
+      }
+      if (this.avaliacaoTab == 1) {
+        this.servicosParaReavaliacaoFiltrados = this.servicosParaReavaliacaoFiltrados.filter(localServico => localServico.taskLocation.locationGroup === this.filtroLocationGroup);;
+        this.listaLocalServicoFiltrada = this.servicosParaReavaliacaoFiltrados.map(servico => servico.taskLocation);
+      }
+      if (this.avaliacaoTab == 2) {
+        this.servicosAvaliadosFiltrados = this.servicosAvaliadosFiltrados.filter(localServico => localServico.taskLocation.locationGroup === this.filtroLocationGroup);;
+        this.listaLocalServicoFiltrada = this.servicosAvaliadosFiltrados.map(servico => servico.taskLocation);
+      }
+      
       this.listaLocalServicoFiltrada = this.listaLocalServicoFiltrada.filter(localServico => localServico.locationGroup === this.filtroLocationGroup);
 
       const uniqueLocationSubGroups1: { [key: string]: string } = {}; //Adiciona um index a consulta para não trazer valores repetidos
@@ -185,11 +245,37 @@ export class AvaliacaoComponent implements OnInit {
         }
       });
       this.listaSubGroup1FiltradaConsulta = Object.values(uniqueLocationSubGroups1);
+      if (this.avaliacaoTab == 0) {
+        this.listaSubGroup1FiltradaConsulta = this.listaSubGroup1FiltradaConsulta.filter(subGroup1 => 
+          this.servicosAguardandoAvaliacao.some(servico => servico.taskLocation.subGroup1 === subGroup1)
+        );
+      }
+      if (this.avaliacaoTab == 1) {
+        this.listaSubGroup1FiltradaConsulta = this.listaSubGroup1FiltradaConsulta.filter(subGroup1 => 
+          this.servicosParaReavaliacao.some(servico => servico.taskLocation.subGroup1 === subGroup1)
+        );
+      }
+      if (this.avaliacaoTab == 2) {
+        this.listaSubGroup1FiltradaConsulta = this.listaSubGroup1FiltradaConsulta.filter(subGroup1 => 
+          this.servicosAvaliados.some(servico => servico.taskLocation.subGroup1 === subGroup1)
+        );
+      }
     }
 
     if (this.filtroSubGroup1) {
-      this.servicosAguardandoAvaliacaoFiltrada = this.servicosAguardandoAvaliacaoFiltrada.filter(localServico => localServico.taskLocation.subGroup1 === this.filtroSubGroup1);
-      this.listaLocalServicoFiltrada = this.servicosAguardandoAvaliacaoFiltrada.map(servico => servico.taskLocation);
+      if (this.avaliacaoTab == 0) {
+        this.servicosAguardandoAvaliacaoFiltrada = this.servicosAguardandoAvaliacaoFiltrada.filter(localServico => localServico.taskLocation.subGroup1 === this.filtroSubGroup1);
+        this.listaLocalServicoFiltrada = this.servicosAguardandoAvaliacaoFiltrada.map(servico => servico.taskLocation);
+      }
+      if (this.avaliacaoTab == 1) {
+        this.servicosParaReavaliacaoFiltrados = this.servicosParaReavaliacaoFiltrados.filter(localServico => localServico.taskLocation.subGroup1 === this.filtroSubGroup1);
+        this.listaLocalServicoFiltrada = this.servicosParaReavaliacaoFiltrados.map(servico => servico.taskLocation);
+      }
+      if (this.avaliacaoTab == 2) {
+        this.servicosAvaliadosFiltrados = this.servicosAvaliadosFiltrados.filter(localServico => localServico.taskLocation.subGroup1 === this.filtroSubGroup1);
+        this.listaLocalServicoFiltrada = this.servicosAvaliadosFiltrados.map(servico => servico.taskLocation);
+      }
+           
       this.listaLocalServicoFiltrada = this.listaLocalServicoFiltrada.filter(localServico => localServico.subGroup1 === this.filtroSubGroup1);
 
       const uniqueLocationSubGroups2: { [key: string]: string } = {};
@@ -199,11 +285,37 @@ export class AvaliacaoComponent implements OnInit {
         }
       });
       this.listaSubGroup2FiltradaConsulta = Object.values(uniqueLocationSubGroups2);
+      if (this.avaliacaoTab == 0) {
+        this.listaSubGroup2FiltradaConsulta = this.listaSubGroup2FiltradaConsulta.filter(subGroup2 => 
+          this.servicosAguardandoAvaliacao.some(servico => servico.taskLocation.subGroup2 === subGroup2)
+        );
+      }
+      if (this.avaliacaoTab == 1) {
+        this.listaSubGroup2FiltradaConsulta = this.listaSubGroup2FiltradaConsulta.filter(subGroup2 => 
+          this.servicosParaReavaliacao.some(servico => servico.taskLocation.subGroup2 === subGroup2)
+        );
+      }
+      if (this.avaliacaoTab == 2) {
+        this.listaSubGroup2FiltradaConsulta = this.listaSubGroup2FiltradaConsulta.filter(subGroup2 => 
+          this.servicosAvaliados.some(servico => servico.taskLocation.subGroup2 === subGroup2)
+        );
+      }
     }
 
     if (this.filtroSubGroup2) {
-      this.servicosAguardandoAvaliacaoFiltrada = this.servicosAguardandoAvaliacaoFiltrada.filter(localServico => localServico.taskLocation.subGroup2 === this.filtroSubGroup2);
-      this.listaLocalServicoFiltrada = this.servicosAguardandoAvaliacaoFiltrada.map(servico => servico.taskLocation);
+      if (this.avaliacaoTab == 0) {
+        this.servicosAguardandoAvaliacaoFiltrada = this.servicosAguardandoAvaliacaoFiltrada.filter(localServico => localServico.taskLocation.subGroup2 === this.filtroSubGroup2);
+        this.listaLocalServicoFiltrada = this.servicosAguardandoAvaliacaoFiltrada.map(servico => servico.taskLocation);
+      }
+      if (this.avaliacaoTab == 1) {
+        this.servicosParaReavaliacaoFiltrados = this.servicosParaReavaliacaoFiltrados.filter(localServico => localServico.taskLocation.subGroup2 === this.filtroSubGroup2);
+        this.listaLocalServicoFiltrada = this.servicosParaReavaliacaoFiltrados.map(servico => servico.taskLocation);
+      }
+      if (this.avaliacaoTab == 2) {
+        this.servicosAvaliadosFiltrados = this.servicosAvaliadosFiltrados.filter(localServico => localServico.taskLocation.subGroup2 === this.filtroSubGroup2);
+        this.listaLocalServicoFiltrada = this.servicosAvaliadosFiltrados.map(servico => servico.taskLocation);
+      }
+      
       this.listaLocalServicoFiltrada = this.listaLocalServicoFiltrada.filter(localServico => localServico.subGroup2 === this.filtroSubGroup2);
 
       const uniqueLocationSubGroups3: { [key: string]: string } = {};
@@ -219,6 +331,20 @@ export class AvaliacaoComponent implements OnInit {
     this.listaCentrosDeCustoFiltrados = this.listaCentrosDeCusto.filter(centroCusto => centroCusto.builder.id === this.construtoraSelecionada.id);
   }
 
+  limparFiltros() {
+    this.filterTableConstrutora.nativeElement.value = 'Todos';
+    this.filtroConstrutoraSelecionado = null;
+    this.filtroCentroCustoSelecionado = null;
+    this.filtroLocationGroup = null;
+    this.filtroSubGroup1 = null;
+    this.filtroSubGroup2 = null;
+    this.servicosAguardandoAvaliacaoFiltrada = this.servicosAguardandoAvaliacao;
+    this.servicosParaReavaliacaoFiltrados = this.servicosParaReavaliacao;
+    this.servicosAvaliadosFiltrados = this.servicosAvaliados;
+    this.updateDisplayedColumnsBuilder();
+    this.filtrarDados();
+  }
+
   onFiltroConstrutoraChange(event: Event) {
     const novoFiltro = (event.target as HTMLSelectElement).value;
     if (novoFiltro === 'Todos') {
@@ -231,6 +357,8 @@ export class AvaliacaoComponent implements OnInit {
     this.filtroSubGroup1 = null;
     this.filtroSubGroup2 = null;
     this.servicosAguardandoAvaliacaoFiltrada = this.servicosAguardandoAvaliacao;
+    this.servicosParaReavaliacaoFiltrados = this.servicosParaReavaliacao;
+    this.servicosAvaliadosFiltrados = this.servicosAvaliados;
     this.updateDisplayedColumnsBuilder();
     this.filtrarDados();
   }
@@ -243,6 +371,8 @@ export class AvaliacaoComponent implements OnInit {
       this.filtroCentroCustoSelecionado = novoFiltro;
     }
     this.servicosAguardandoAvaliacaoFiltrada = this.servicosAguardandoAvaliacao;
+    this.servicosParaReavaliacaoFiltrados = this.servicosParaReavaliacao;
+    this.servicosAvaliadosFiltrados = this.servicosAvaliados;
     this.filtroLocationGroup = null;
     this.filtroSubGroup1 = null;
     this.filtroSubGroup2 = null;
@@ -258,6 +388,8 @@ export class AvaliacaoComponent implements OnInit {
       this.filtroLocationGroup = novoFiltro;
     }
     this.servicosAguardandoAvaliacaoFiltrada = this.servicosAguardandoAvaliacao;
+    this.servicosParaReavaliacaoFiltrados = this.servicosParaReavaliacao;
+    this.servicosAvaliadosFiltrados = this.servicosAvaliados;
     this.filtroSubGroup1 = null;
     this.filtroSubGroup2 = null;
     this.updateDisplayedColumnsLocationGroup()
@@ -272,6 +404,8 @@ export class AvaliacaoComponent implements OnInit {
       this.filtroSubGroup1 = novoFiltro;
     }
     this.servicosAguardandoAvaliacaoFiltrada = this.servicosAguardandoAvaliacao;
+    this.servicosParaReavaliacaoFiltrados = this.servicosParaReavaliacao;
+    this.servicosAvaliadosFiltrados = this.servicosAvaliados;
     this.filtroSubGroup2 = null;
     this.updateDisplayedColumnsSubGroup1()
     this.filtrarDados();
@@ -285,6 +419,8 @@ export class AvaliacaoComponent implements OnInit {
       this.filtroSubGroup2 = novoFiltro;
     }
     this.servicosAguardandoAvaliacaoFiltrada = this.servicosAguardandoAvaliacao;
+    this.servicosParaReavaliacaoFiltrados = this.servicosParaReavaliacao;
+    this.servicosAvaliadosFiltrados = this.servicosAvaliados;
     this.filtrarDados();
   }
 
@@ -297,6 +433,7 @@ export class AvaliacaoComponent implements OnInit {
     } else if (posicao === 2) {
       this.buscarServicosAvaliados();
     }
+    this.limparFiltros();
   }
 
   async buscarServicosAguardandoAvaliacao() {
@@ -651,11 +788,25 @@ export class AvaliacaoComponent implements OnInit {
 
 
   async buscarServicosAvaliados() {
-    this.servicosAvaliados = await firstValueFrom(this.avaliacaoService.buscarServicosAvaliados());
+    try {
+      const servicosAvaliados: any = await firstValueFrom(this.avaliacaoService.buscarServicosAvaliados());
+      this.servicosAvaliados = servicosAvaliados;
+      this.servicosAvaliadosFiltrados = servicosAvaliados;
+      this.filtrarDados();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async buscarServicosParaReavaliacao() {
-    this.servicosParaReavaliacao = await firstValueFrom(this.avaliacaoService.buscarServicosParaReavaliacao());
+    try {
+      const servicosParaReavaliacao: any = await firstValueFrom(this.avaliacaoService.buscarServicosParaReavaliacao());
+      this.servicosParaReavaliacao = servicosParaReavaliacao;
+      this.servicosParaReavaliacaoFiltrados = servicosParaReavaliacao;
+      this.filtrarDados();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   handleFileInput(target: EventTarget | null, index: number) {
@@ -729,12 +880,6 @@ export class AvaliacaoComponent implements OnInit {
       this.fotoServico0[4] = avaliacaoFotos.assessmentPhoto4 || defaultImage;
       this.fotoServico0[5] = avaliacaoFotos.assessmentPhoto5 || defaultImage;
     
-      // else {
-      //   this.perfilUsuarioService.downloadProfilePicture(blobNameWithoutExtension)
-      //   .subscribe(blob => {
-      //     this.fotoServico0 = URL.createObjectURL(blob);
-      //   });
-      // }
     } catch (error) {
       console.error(error);
     }
