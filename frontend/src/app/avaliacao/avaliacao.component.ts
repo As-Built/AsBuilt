@@ -28,6 +28,9 @@ export class AvaliacaoComponent implements OnInit {
   @ViewChild('modalAnexarFotos', { static: true })
   modalAnexarFotos!: ElementRef;
 
+  @ViewChild('modalVisualizarAvaliacaoConcluida', { static: true })
+  modalVisualizarAvaliacaoConcluida!: ElementRef;
+
   @ViewChild('filterTableConstrutora') 
   filterTableConstrutora!: ElementRef;
 
@@ -46,6 +49,7 @@ export class AvaliacaoComponent implements OnInit {
   construtoraSelecionada: ConstrutoraModel = new ConstrutoraModel();
   listaCentrosDeCustoFiltrados: CentroCustoModel[] = [];
   renderModalAvaliacaoServico = false;
+  rendermodalVisualizarAvaliacaoConcluida = false;
   renderModalAnexarFotos = false;
   isCadastroLocalServico = true;
   filtroConstrutoraSelecionado: string | null = null;
@@ -65,6 +69,8 @@ export class AvaliacaoComponent implements OnInit {
   avaliacaoModel = new AvaliacaoModel();
   expectedStartDateFormatada: string = "";
   expectedEndDateFormatada: string = "";
+  realStartDateFormatada: string = "";
+  realEndDateFormatada: string | null = null;
   listaFuncionarios: UsuarioModel[] = [];
   listaConferentes: UsuarioModel[] = [];
   additionalExecutors: number[] = [];
@@ -76,6 +82,7 @@ export class AvaliacaoComponent implements OnInit {
   fileToUpload: File[] = [];
   fileIsLoading = false;
   isFileValid = false;
+  dataAvalicaoFormatada: string | null = null;
 
   constructor(
     private avaliacaoService: AvaliacaoService,
@@ -489,11 +496,11 @@ export class AvaliacaoComponent implements OnInit {
       cancelButtonColor: 'red',
     }).then((result) => {
       if (result.isConfirmed) {
-        if (this.avaliacaoModel.parameter0Result === false || this.avaliacaoModel.parameter1Result === false ||
-          this.avaliacaoModel.parameter2Result === false || this.avaliacaoModel.parameter3Result === false ||
-          this.avaliacaoModel.parameter4Result === false || this.avaliacaoModel.parameter5Result === false ||
-          this.avaliacaoModel.parameter6Result === false || this.avaliacaoModel.parameter7Result === false ||
-          this.avaliacaoModel.parameter8Result === false || this.avaliacaoModel.parameter9Result === false) {
+        if (this.avaliacaoModel.assessmentParameter0Result === false || this.avaliacaoModel.assessmentParameter1Result === false ||
+          this.avaliacaoModel.assessmentParameter2Result === false || this.avaliacaoModel.assessmentParameter3Result === false ||
+          this.avaliacaoModel.assessmentParameter4Result === false || this.avaliacaoModel.assessmentParameter5Result === false ||
+          this.avaliacaoModel.assessmentParameter6Result === false || this.avaliacaoModel.assessmentParameter7Result === false ||
+          this.avaliacaoModel.assessmentParameter8Result === false || this.avaliacaoModel.assessmentParameter9Result === false) {
           this.avaliacaoModel.assessmentResult = false;
           } else {
             this.avaliacaoModel.assessmentResult = true;
@@ -558,6 +565,26 @@ export class AvaliacaoComponent implements OnInit {
     });
   }
 
+  async modalVisualizarAvaliacao(servico: ServicoModel) {
+    this.servicoSelecionadoAvaliacao = cloneDeep(servico);//Clonando objeto e não a sua referência
+    this.expectedStartDateFormatada = formatDate(this.servicoSelecionadoAvaliacao.expectedStartDate, "dd/MM/yyyy", "pt-BR");
+    this.expectedEndDateFormatada = formatDate(this.servicoSelecionadoAvaliacao.expectedEndDate, "dd/MM/yyyy", "pt-BR");
+    this.realStartDateFormatada = formatDate(this.servicoSelecionadoAvaliacao.startDate!, "dd/MM/yyyy", "pt-BR");
+    this.realEndDateFormatada = this.servicoSelecionadoAvaliacao.finalDate 
+      ? formatDate(this.servicoSelecionadoAvaliacao.finalDate, "dd/MM/yyyy", "pt-BR") 
+      : null;
+    this.avaliacaoModel = await firstValueFrom(this.avaliacaoService.buscarAvaliacaoPorServicoId(this.servicoSelecionadoAvaliacao.id!));
+    this.dataAvalicaoFormatada = formatDate(this.avaliacaoModel.assessmentDate, "dd/MM/yyyy", "pt-BR");
+    this.rendermodalVisualizarAvaliacaoConcluida = true;
+    Swal.fire({
+      title: 'Avaliação de Serviço',
+      width: '80%',
+      html: this.modalVisualizarAvaliacaoConcluida.nativeElement,
+      showCloseButton: true,
+      confirmButtonColor: 'blue',
+      confirmButtonText: 'Fechar',
+    });
+  }
 
   addExecutor() {
     if (this.additionalExecutors.length < 5) { // Limita a adição de executores a 6
@@ -710,26 +737,26 @@ export class AvaliacaoComponent implements OnInit {
       return false;
     }
 
-    if (avaliacao.parameter0Result === undefined || avaliacao.parameter0Result === null) {
+    if (avaliacao.assessmentParameter0Result === undefined || avaliacao.assessmentParameter0Result === null) {
       this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter0Name + "!";
       this.campoErroValidacao = "#parameter0ResultAvaliacao";
       return false;
     }
 
-    if (avaliacao.parameter1Result === undefined || avaliacao.parameter1Result === null) {
+    if (avaliacao.assessmentParameter1Result === undefined || avaliacao.assessmentParameter1Result === null) {
       this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter1Name + "!";
       this.campoErroValidacao = "#parameter1ResultAvaliacao";
       return false;
     }
 
-    if (avaliacao.parameter2Result === undefined || avaliacao.parameter2Result === null) {
+    if (avaliacao.assessmentParameter2Result === undefined || avaliacao.assessmentParameter2Result === null) {
       this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter2Name + "!";
       this.campoErroValidacao = "#parameter2ResultAvaliacao";
       return false;
     }
 
     if (avaliacao.task.taskType.parameter3Name != null) {
-      if (avaliacao.parameter3Result === undefined || avaliacao.parameter3Result === null) {
+      if (avaliacao.assessmentParameter3Result === undefined || avaliacao.assessmentParameter3Result === null) {
         this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter3Name + "!";
         this.campoErroValidacao = "#parameter3ResultAvaliacao";
         return false;
@@ -737,7 +764,7 @@ export class AvaliacaoComponent implements OnInit {
     }
 
     if (avaliacao.task.taskType.parameter4Name != null) {
-      if (avaliacao.parameter4Result === undefined || avaliacao.parameter4Result === null) {
+      if (avaliacao.assessmentParameter4Result === undefined || avaliacao.assessmentParameter4Result === null) {
         this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter4Name + "!";
         this.campoErroValidacao = "#parameter4ResultAvaliacao";
         return false;
@@ -745,7 +772,7 @@ export class AvaliacaoComponent implements OnInit {
     }
 
     if (avaliacao.task.taskType.parameter5Name != null) {
-      if (avaliacao.parameter5Result === undefined || avaliacao.parameter5Result === null) {
+      if (avaliacao.assessmentParameter5Result === undefined || avaliacao.assessmentParameter5Result === null) {
         this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter5Name + "!";
         this.campoErroValidacao = "#parameter5ResultAvaliacao";
         return false;
@@ -753,7 +780,7 @@ export class AvaliacaoComponent implements OnInit {
     }
 
     if (avaliacao.task.taskType.parameter6Name != null) {
-      if (avaliacao.parameter6Result === undefined || avaliacao.parameter6Result=== null) {
+      if (avaliacao.assessmentParameter6Result === undefined || avaliacao.assessmentParameter6Result=== null) {
         this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter6Name + "!";
         this.campoErroValidacao = "#parameter6ResultAvaliacao";
         return false;
@@ -761,7 +788,7 @@ export class AvaliacaoComponent implements OnInit {
     }
 
     if (avaliacao.task.taskType.parameter7Name != null) {
-      if (avaliacao.parameter7Result === undefined || avaliacao.parameter7Result === null) {
+      if (avaliacao.assessmentParameter7Result === undefined || avaliacao.assessmentParameter7Result === null) {
         this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter7Name + "!";
         this.campoErroValidacao = "#parameter7ResultAvaliacao";
         return false;
@@ -769,7 +796,7 @@ export class AvaliacaoComponent implements OnInit {
     }
 
     if (avaliacao.task.taskType.parameter8Name != null) {
-      if (avaliacao.parameter8Result === undefined || avaliacao.parameter8Result === null) {
+      if (avaliacao.assessmentParameter8Result === undefined || avaliacao.assessmentParameter8Result === null) {
         this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter8Name + "!";
         this.campoErroValidacao = "#parameter8ResultAvaliacao";
         return false;
@@ -777,7 +804,7 @@ export class AvaliacaoComponent implements OnInit {
     }
 
     if (avaliacao.task.taskType.parameter9Name != null) {
-      if (avaliacao.parameter9Result === undefined || avaliacao.parameter9Result === null) {
+      if (avaliacao.assessmentParameter9Result === undefined || avaliacao.assessmentParameter9Result === null) {
         this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter9Name + "!";
         this.campoErroValidacao = "#parameter9ResultAvaliacao";
         return false;
@@ -785,7 +812,6 @@ export class AvaliacaoComponent implements OnInit {
     }
     return true;
   }
-
 
   async buscarServicosAvaliados() {
     try {

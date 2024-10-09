@@ -102,6 +102,7 @@ class SecurityConfig(
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/assessment/reassessment")).hasAnyRole("ADMIN", "CONFERENTE")
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/assessment/findAssessmentById/**")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.DELETE, "/assessment/deleteAssessmentById/**")).hasAnyRole("ADMIN", "CONFERENTE")
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/assessment/findPositiveAssessmentByTaskId/**")).permitAll()
                     .anyRequest().authenticated()
             }
             .addFilterBefore(jwtTokenFilter, BasicAuthenticationFilter::class.java)

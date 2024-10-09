@@ -1,5 +1,6 @@
 package com.br.asbuilt.assessment
 
+import com.br.asbuilt.assessment.controller.responses.AssessmentResponse
 import com.br.asbuilt.tasks.Task
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
@@ -18,11 +19,8 @@ interface AssessmentRepository : JpaRepository <Assessment, Long> {
     fun findTasksWithoutAssessment(): List<Task>
 
     @Query("SELECT t FROM Task t " +
-            "INNER JOIN Assessment a ON a.task = t " +
-            "WHERE a.assessmentResult = TRUE " +
-                "AND a.isReassessment = FALSE " +
-                "AND t.finalDate IS NOT NULL ")
-    fun findTasksWithtAssessmentCompleted(): List<Task>
+            "INNER JOIN Assessment a ON a.task = t")
+    fun findTasksWithAssessmentCompleted(): List<Task>
 
     @Query("SELECT t FROM Task t " +
             "INNER JOIN Assessment a ON a.task = t " +
@@ -30,5 +28,9 @@ interface AssessmentRepository : JpaRepository <Assessment, Long> {
                 "AND a.isReassessment = TRUE " +
                 "AND t.finalDate IS NULL ")
     fun findTasksNeedReassessment(): List<Task>
+
+    @Query("SELECT a FROM Assessment a " +
+            "WHERE a.task.id = :taskId ")
+    fun findAssessmentByTaskId(taskId: Long): Assessment
 
 }

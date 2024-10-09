@@ -28,16 +28,16 @@ export class AvaliacaoService {
       taskExecutorsIds: avaliacaoModel.taskExecutors.map(exec => exec.id), // Enviar apenas os IDs dos executores
       taskEvaluatorsIds: avaliacaoModel.taskEvaluators.map(evaluator => evaluator.id), // Enviar apenas os IDs dos avaliadores
       assessmentDate: avaliacaoModel.assessmentDate,
-      parameter0Result: avaliacaoModel.parameter0Result,
-      parameter1Result: avaliacaoModel.parameter1Result,
-      parameter2Result: avaliacaoModel.parameter2Result,
-      parameter3Result: avaliacaoModel.parameter3Result,
-      parameter4Result: avaliacaoModel.parameter4Result,
-      parameter5Result: avaliacaoModel.parameter5Result,
-      parameter6Result: avaliacaoModel.parameter6Result,
-      parameter7Result: avaliacaoModel.parameter7Result,
-      parameter8Result: avaliacaoModel.parameter8Result,
-      parameter9Result: avaliacaoModel.parameter9Result,
+      parameter0Result: avaliacaoModel.assessmentParameter0Result,
+      parameter1Result: avaliacaoModel.assessmentParameter1Result,
+      parameter2Result: avaliacaoModel.assessmentParameter2Result,
+      parameter3Result: avaliacaoModel.assessmentParameter3Result,
+      parameter4Result: avaliacaoModel.assessmentParameter4Result,
+      parameter5Result: avaliacaoModel.assessmentParameter5Result,
+      parameter6Result: avaliacaoModel.assessmentParameter6Result,
+      parameter7Result: avaliacaoModel.assessmentParameter7Result,
+      parameter8Result: avaliacaoModel.assessmentParameter8Result,
+      parameter9Result: avaliacaoModel.assessmentParameter9Result,
       assessmentResult: avaliacaoModel.assessmentResult,
       obs: avaliacaoModel.obs,
       assessmentPhoto0: avaliacaoModel.assessmentPhoto0,
@@ -81,11 +81,15 @@ export class AvaliacaoService {
   }
 
   buscarServicosAvaliados(): Observable<ServicoModel[]> {
-    return this.httpClient.get<ServicoModel[]>('http://localhost:8080/asbuilt/assessment/findTasksWithtAssessmentCompleted', this.httpOptions);
+    return this.httpClient.get<ServicoModel[]>('http://localhost:8080/asbuilt/assessment/findTasksWithAssessmentCompleted', this.httpOptions);
   }
 
   buscarServicosParaReavaliacao(): Observable<ServicoModel[]> {
     return this.httpClient.get<ServicoModel[]>('http://localhost:8080/asbuilt/assessment/findTasksNeedReassessment', this.httpOptions);
+  }
+
+  buscarAvaliacaoPorServicoId(id: number): Observable<AvaliacaoModel> {
+    return this.httpClient.get<AvaliacaoModel>(`http://localhost:8080/asbuilt/assessment/findAssessmentByTaskId/${id}`, this.httpOptions);
   }
 
   reavaliar(avaliacaoModel: AvaliacaoModel) {
@@ -94,16 +98,16 @@ export class AvaliacaoService {
       taskExecutors: avaliacaoModel.taskExecutors,
       taskEvaluators: avaliacaoModel.taskEvaluators,
       assessmentDate: avaliacaoModel.assessmentDate,
-      parameter0Result: avaliacaoModel.parameter0Result,
-      parameter1Result: avaliacaoModel.parameter1Result,
-      parameter2Result: avaliacaoModel.parameter2Result,
-      parameter3Result: avaliacaoModel.parameter3Result,
-      parameter4Result: avaliacaoModel.parameter4Result,
-      parameter5Result: avaliacaoModel.parameter5Result,
-      parameter6Result: avaliacaoModel.parameter6Result,
-      parameter7Result: avaliacaoModel.parameter7Result,
-      parameter8Result: avaliacaoModel.parameter8Result,
-      parameter9Result: avaliacaoModel.parameter9Result,
+      parameter0Result: avaliacaoModel.assessmentParameter0Result,
+      parameter1Result: avaliacaoModel.assessmentParameter1Result,
+      parameter2Result: avaliacaoModel.assessmentParameter2Result,
+      parameter3Result: avaliacaoModel.assessmentParameter3Result,
+      parameter4Result: avaliacaoModel.assessmentParameter4Result,
+      parameter5Result: avaliacaoModel.assessmentParameter5Result,
+      parameter6Result: avaliacaoModel.assessmentParameter6Result,
+      parameter7Result: avaliacaoModel.assessmentParameter7Result,
+      parameter8Result: avaliacaoModel.assessmentParameter8Result,
+      parameter9Result: avaliacaoModel.assessmentParameter9Result,
       assessmentResult: avaliacaoModel.assessmentResult,
       obs: avaliacaoModel.obs,
       assessmentPhoto0: avaliacaoModel.assessmentPhoto0,

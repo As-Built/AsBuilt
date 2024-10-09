@@ -1,6 +1,7 @@
 package com.br.asbuilt.assessment
 
 import com.br.asbuilt.assessment.controller.requests.CreateAssessmentRequest
+import com.br.asbuilt.assessment.controller.responses.AssessmentResponse
 import com.br.asbuilt.exception.NotFoundException
 import com.br.asbuilt.tasks.Task
 import com.br.asbuilt.tasks.TaskRepository
@@ -60,8 +61,8 @@ class AssessmentService(
         return repository.findTasksWithoutAssessment()
     }
 
-    fun findTasksWithtAssessmentCompleted(): List<Task> {
-        return repository.findTasksWithtAssessmentCompleted()
+    fun findTasksWithAssessmentCompleted(): List<Task> {
+        return repository.findTasksWithAssessmentCompleted()
     }
 
     fun findTasksNeedReassessment(): List<Task> {
@@ -122,6 +123,12 @@ class AssessmentService(
             repository.delete(it)
             log.info("Assessment deleted: {}", it.id)
         } ?: throw NotFoundException("Assessment not found with id: $id")
+    }
+
+    fun findAssessmentByTaskId(id: Long): Assessment {
+        val assessment = repository.findAssessmentByTaskId(id)
+        log.info("Positive assessment found for task with id: {}", id)
+        return assessment
     }
 
     companion object {

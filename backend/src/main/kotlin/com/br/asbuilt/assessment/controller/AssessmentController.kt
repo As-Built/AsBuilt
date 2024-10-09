@@ -42,9 +42,9 @@ class AssessmentController(
 
     @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("hasRole('ADMIN') || hasRole('CONFERENTE')")
-    @GetMapping("/findTasksWithtAssessmentCompleted")
-    fun findTasksWithtAssessmentCompleted() =
-        service.findTasksWithtAssessmentCompleted()
+    @GetMapping("/findTasksWithAssessmentCompleted")
+    fun findTasksWittAssessmentCompleted() =
+        service.findTasksWithAssessmentCompleted()
             .map { TaskResponse(it) }.let { ResponseEntity.ok(it) }
 
     @SecurityRequirement(name="AsBuilt")
@@ -75,5 +75,12 @@ class AssessmentController(
     @DeleteMapping("/deleteAssessmentById/{id}")
     fun deleteAssessmentById(@PathVariable id: Long) =
         service.deleteAssessmentById(id)
+            .let { ResponseEntity.ok(AssessmentResponse(it)) }
+
+    @SecurityRequirement(name="AsBuilt")
+    @PreAuthorize("permitAll()")
+    @GetMapping("/findAssessmentByTaskId/{id}")
+    fun findPositiveAssessmentByTaskId(@PathVariable id: Long) =
+        service.findAssessmentByTaskId(id)
             .let { ResponseEntity.ok(AssessmentResponse(it)) }
 }
