@@ -95,8 +95,16 @@ select {
 .service-photo {
     cursor: pointer;
     transition: filter 0.5s ease;
-  }
+}
 
-  .service-photo:hover {
+.service-photo:hover {
     filter: brightness(0.8);
-  }
+}
+
+.aprovado {
+    color: green;
+}
+
+.reprovado {
+    color: red;
+}

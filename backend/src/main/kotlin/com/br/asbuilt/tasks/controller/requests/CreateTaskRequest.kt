@@ -44,6 +44,8 @@ data class CreateTaskRequest(
 
     val evaluators: Set<Long>?,
 
+    val assessments: Set<Long>?
+
     ){
     fun toTask() = Task (
         taskType = taskType,

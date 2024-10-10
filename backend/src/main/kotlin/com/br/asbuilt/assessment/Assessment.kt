@@ -38,7 +38,7 @@ class Assessment(
     var taskEvaluators: MutableSet<User> = mutableSetOf(),
 
     @Column(nullable = false)
-    var assessmentDate: Date,
+    var assessmentDate: Date = Date(),
 
     @Column(nullable = false)
     var parameter0Result: Boolean? = null,

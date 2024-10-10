@@ -2,11 +2,8 @@ package com.br.asbuilt.assessment.controller
 
 import com.br.asbuilt.assessment.AssessmentService
 import com.br.asbuilt.assessment.controller.requests.CreateAssessmentRequest
-import com.br.asbuilt.assessment.controller.requests.PatchAssessmentRequest
 import com.br.asbuilt.assessment.controller.responses.AssessmentResponse
-import com.br.asbuilt.costCenters.controller.responses.CostCenterResponse
 import com.br.asbuilt.tasks.controller.responses.TaskResponse
-import com.br.asbuilt.users.UserRepository
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
@@ -19,7 +16,6 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/assessment")
 class AssessmentController(
     val service: AssessmentService,
-    val userRepository: UserRepository
 ) {
 
     @SecurityRequirement(name="AsBuilt")
@@ -83,4 +79,14 @@ class AssessmentController(
     fun findPositiveAssessmentByTaskId(@PathVariable id: Long) =
         service.findAssessmentByTaskId(id)
             .let { ResponseEntity.ok(AssessmentResponse(it)) }
+
+    @SecurityRequirement(name="AsBuilt")
+    @PreAuthorize("permitAll()")
+    @GetMapping("/findAssessmentsByTaskId/{id}")
+    fun findAssessmentsByTaskId(@PathVariable id: Long
+    ): ResponseEntity<List<AssessmentResponse>> {
+        return service.findAssessmentsByTaskId(id)
+            .map { AssessmentResponse(it) }
+            .let { ResponseEntity.ok(it) }
+    }
 }

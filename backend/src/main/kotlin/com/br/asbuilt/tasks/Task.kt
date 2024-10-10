@@ -1,5 +1,6 @@
 package com.br.asbuilt.tasks
 
+import com.br.asbuilt.assessment.Assessment
 import com.br.asbuilt.costCenters.CostCenter
 import com.br.asbuilt.locations.Location
 import com.br.asbuilt.taskTypes.TaskType
@@ -80,7 +81,10 @@ class Task(
         joinColumns = [JoinColumn(name = "idTask")],
         inverseJoinColumns = [JoinColumn(name = "idUser")]
     )
-    var evaluators: MutableSet<User> = mutableSetOf()
+    var evaluators: MutableSet<User> = mutableSetOf(),
+
+    @OneToMany
+    val assessments: MutableSet<Assessment> = mutableSetOf()
 
 
 )

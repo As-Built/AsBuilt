@@ -22,12 +22,11 @@ export class AvaliacaoService {
   };
 
   avaliar(avaliacaoModel: AvaliacaoModel) {
-    // Mapeando apenas os IDs dos executores e avaliadores
     let body = JSON.stringify({
       task: avaliacaoModel.task,
       taskExecutorsIds: avaliacaoModel.taskExecutors.map(exec => exec.id), // Enviar apenas os IDs dos executores
       taskEvaluatorsIds: avaliacaoModel.taskEvaluators.map(evaluator => evaluator.id), // Enviar apenas os IDs dos avaliadores
-      assessmentDate: avaliacaoModel.assessmentDate,
+      assessmentDate: new Date(),
       parameter0Result: avaliacaoModel.assessmentParameter0Result,
       parameter1Result: avaliacaoModel.assessmentParameter1Result,
       parameter2Result: avaliacaoModel.assessmentParameter2Result,
@@ -92,12 +91,16 @@ export class AvaliacaoService {
     return this.httpClient.get<AvaliacaoModel>(`http://localhost:8080/asbuilt/assessment/findAssessmentByTaskId/${id}`, this.httpOptions);
   }
 
+  buscarAvaliacoesPorServico(id: number): Observable<AvaliacaoModel[]> {
+    return this.httpClient.get<AvaliacaoModel[]>(`http://localhost:8080/asbuilt/assessment/findAssessmentsByTaskId/${id}`, this.httpOptions);
+  }
+
   reavaliar(avaliacaoModel: AvaliacaoModel) {
     let body = JSON.stringify({
       task: avaliacaoModel.task,
       taskExecutors: avaliacaoModel.taskExecutors,
       taskEvaluators: avaliacaoModel.taskEvaluators,
-      assessmentDate: avaliacaoModel.assessmentDate,
+      assessmentDate: new Date(),
       parameter0Result: avaliacaoModel.assessmentParameter0Result,
       parameter1Result: avaliacaoModel.assessmentParameter1Result,
       parameter2Result: avaliacaoModel.assessmentParameter2Result,

@@ -37,6 +37,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { PerfilUsuarioComponent } from './perfil-usuario/perfil-usuario.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { AvaliacaoComponent } from './avaliacao/avaliacao.component';
+import { AssessmentResultPipe } from './shared/pipes/assessment-result.pipe';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import { AvaliacaoComponent } from './avaliacao/avaliacao.component';
     CnpjPipe,
     TelefonePipe,
     RealPipe,
+    AssessmentResultPipe,
     LocalServicoComponent,
     TipoServicoComponent,
     UnidadeMedidaComponent,

@@ -15,10 +15,10 @@ data class CreateAssessmentRequest(
     val taskExecutorsIds: Set<Long>,
 
     @field:NotNull
-    val taskEvaluatorsIds: Set<Long>, // Receba apenas os IDs dos avaliadores
+    val taskEvaluatorsIds: Set<Long>,
 
     @field:NotNull
-    val assessmentDate: Date,
+    val assessmentDate: Date = Date(),
 
     @field:NotNull
     val parameter0Result: Boolean,

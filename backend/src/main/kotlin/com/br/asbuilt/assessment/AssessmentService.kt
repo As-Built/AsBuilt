@@ -7,6 +7,7 @@ import com.br.asbuilt.tasks.Task
 import com.br.asbuilt.tasks.TaskRepository
 import com.br.asbuilt.users.UserRepository
 import org.slf4j.LoggerFactory
+import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
@@ -129,6 +130,10 @@ class AssessmentService(
         val assessment = repository.findAssessmentByTaskId(id)
         log.info("Positive assessment found for task with id: {}", id)
         return assessment
+    }
+
+    fun findAssessmentsByTaskId(id: Long): List<Assessment> {
+        return repository.findAssessmentsByTaskId(id)
     }
 
     companion object {

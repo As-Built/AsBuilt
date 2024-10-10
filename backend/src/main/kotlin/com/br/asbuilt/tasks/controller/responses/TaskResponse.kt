@@ -1,5 +1,6 @@
 package com.br.asbuilt.tasks.controller.responses
 
+import com.br.asbuilt.assessment.controller.responses.AssessmentResponse
 import com.br.asbuilt.costCenters.CostCenter
 import com.br.asbuilt.locations.Location
 import com.br.asbuilt.taskTypes.TaskType
@@ -23,7 +24,8 @@ data class TaskResponse(
     val amount: Double,
     val obs: String?,
     val executors: Set<UserResponse>?,
-    val evaluators: Set<UserResponse>?
+    val evaluators: Set<UserResponse>?,
+    val assessments: Set<AssessmentResponse>?
 ) {
     constructor(task: Task) : this(
         task.id!!,
@@ -40,6 +42,7 @@ data class TaskResponse(
         task.amount,
         task.obs,
         task.executors.map { UserResponse(it) }.toSet(),
-        task.evaluators.map { UserResponse(it) }.toSet()
+        task.evaluators.map { UserResponse(it) }.toSet(),
+        task.assessments.map { AssessmentResponse(it) }.toSet()
     )
 }

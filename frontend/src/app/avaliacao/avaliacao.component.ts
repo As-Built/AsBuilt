@@ -31,6 +31,9 @@ export class AvaliacaoComponent implements OnInit {
   @ViewChild('modalVisualizarAvaliacaoConcluida', { static: true })
   modalVisualizarAvaliacaoConcluida!: ElementRef;
 
+  @ViewChild('modalAvaliacoesRealizadasPorServico', { static: true })
+  modalAvaliacoesRealizadasPorServico!: ElementRef;
+
   @ViewChild('filterTableConstrutora') 
   filterTableConstrutora!: ElementRef;
 
@@ -83,6 +86,9 @@ export class AvaliacaoComponent implements OnInit {
   fileIsLoading = false;
   isFileValid = false;
   dataAvalicaoFormatada: string | null = null;
+  avaliacoesRealizadasPorServico: AvaliacaoModel[] = [];
+  colunasAvaliacaoPorServico: string[] = ["visualizar", "dataAvaliacao", "resultado"];
+  renderModalAvaliacoesRealizadasPorServico = false;
 
   constructor(
     private avaliacaoService: AvaliacaoService,
@@ -565,15 +571,16 @@ export class AvaliacaoComponent implements OnInit {
     });
   }
 
-  async modalVisualizarAvaliacao(servico: ServicoModel) {
-    this.servicoSelecionadoAvaliacao = cloneDeep(servico);//Clonando objeto e não a sua referência
+  async modalVisualizarAvaliacao(avaliacao: AvaliacaoModel) {
+    this.servicoSelecionadoAvaliacao = cloneDeep(avaliacao.task);//Clonando objeto e não a sua referência
     this.expectedStartDateFormatada = formatDate(this.servicoSelecionadoAvaliacao.expectedStartDate, "dd/MM/yyyy", "pt-BR");
     this.expectedEndDateFormatada = formatDate(this.servicoSelecionadoAvaliacao.expectedEndDate, "dd/MM/yyyy", "pt-BR");
     this.realStartDateFormatada = formatDate(this.servicoSelecionadoAvaliacao.startDate!, "dd/MM/yyyy", "pt-BR");
     this.realEndDateFormatada = this.servicoSelecionadoAvaliacao.finalDate 
       ? formatDate(this.servicoSelecionadoAvaliacao.finalDate, "dd/MM/yyyy", "pt-BR") 
       : null;
-    this.avaliacaoModel = await firstValueFrom(this.avaliacaoService.buscarAvaliacaoPorServicoId(this.servicoSelecionadoAvaliacao.id!));
+    // this.avaliacaoModel = await firstValueFrom(this.avaliacaoService.buscarAvaliacaoPorServicoId(this.servicoSelecionadoAvaliacao.id!));
+    this.avaliacaoModel = avaliacao;
     this.dataAvalicaoFormatada = formatDate(this.avaliacaoModel.assessmentDate, "dd/MM/yyyy", "pt-BR");
     this.rendermodalVisualizarAvaliacaoConcluida = true;
     Swal.fire({
@@ -916,4 +923,22 @@ export class AvaliacaoComponent implements OnInit {
     this.avaliacaoModel = new AvaliacaoModel();
   }
 
+  async buscarAvaliacoesPorServico(servicoId: number) {
+    try {
+      const avaliacoes: any = await firstValueFrom(this.avaliacaoService.buscarAvaliacoesPorServico(servicoId));
+      this.avaliacoesRealizadasPorServico = avaliacoes;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  modalListarAvaliacoes(servico: ServicoModel) {
+    this.buscarAvaliacoesPorServico(servico.id!);
+    this.renderModalAvaliacoesRealizadasPorServico = true;
+    Swal.fire({
+      html: this.modalAvaliacoesRealizadasPorServico.nativeElement,
+      showCloseButton: true,
+      showConfirmButton: false,
+    });
+  }
 }

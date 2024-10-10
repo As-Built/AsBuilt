@@ -15,7 +15,7 @@ export class ServicoModel {
     expectedStartDate: Date = new Date();
     startDate?: Date;
     expectedEndDate: Date = new Date();
-    finalDate?: Date;
+    finalDate?: Date | null;
     amount: number = 0;
     obs: string = "";
     executors?: UsuarioModel[];
