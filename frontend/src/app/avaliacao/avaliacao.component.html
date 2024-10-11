@@ -510,7 +510,7 @@
                 <label for="executorAvaliacao1">Funcionário executor<span style="color: red;">*</span></label>
                 <select #executorAvaliacao1 name="executorAvaliacao1" id="executorAvaliacao1"
                     [(ngModel)]="servicoSelecionadoAvaliacao.executors[0]">
-                    <option disabled [value]="null">Selecione um funcionário</option>
+                    <option disabled [value]="undefined">Selecione um funcionário</option>
                     <option *ngFor="let executor of listaFuncionarios" [ngValue]="executor">
                         {{ executor.name }}
                     </option>
@@ -520,7 +520,7 @@
                 <label [for]="'executor' + executor + 'Name'">{{ executor + 1 }}º Funcionário executor</label>
                 <select type="text" [name]="'executor' + executor + 'Name'"
                     [(ngModel)]="servicoSelecionadoAvaliacao.executors[i + 1]">
-                    <option disabled [value]="null">Selecione um funcionário</option>
+                    <option disabled [value]="undefined">Selecione um funcionário</option>
                     <option *ngFor="let executor of listaFuncionarios" [ngValue]="executor">
                         {{ executor.name }}
                     </option>
@@ -547,7 +547,7 @@
                 <label for="evaluatorAvaliacao1">Avaliador<span style="color: red;">*</span></label>
                 <select #evaluatorAvaliacao1 name="evaluatorAvaliacao1" id="evaluatorAvaliacao1"
                     [(ngModel)]="servicoSelecionadoAvaliacao.evaluators[0]">
-                    <option disabled [value]="null">Selecione um avaliador</option>
+                    <option disabled [value]="undefined">Selecione um avaliador</option>
                     <option *ngFor="let evaluator of listaConferentes" [ngValue]="evaluator">
                         {{ evaluator.name }}
                     </option>
@@ -557,7 +557,7 @@
                 <label [for]="'evaluator' + evaluator + 'Name'">{{ evaluator + 1 }}º Avaliador</label>
                 <select type="text" [name]="'evaluator' + evaluator + 'Name'"
                     [(ngModel)]="servicoSelecionadoAvaliacao.evaluators[i + 1]">
-                    <option disabled [value]="null">Selecione um avaliador</option>
+                    <option disabled [value]="undefined">Selecione um avaliador</option>
                     <option *ngFor="let evaluator of listaConferentes" [ngValue]="evaluator">
                         {{ evaluator.name }}
                     </option>

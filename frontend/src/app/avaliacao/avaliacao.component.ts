@@ -615,8 +615,11 @@ export class AvaliacaoComponent implements OnInit {
 
   removeExecutor() {
     if (this.additionalExecutors.length > 0) {
-      const lastExecutor = this.additionalExecutors.pop();
-      delete this.additionalExecutors['executor' + lastExecutor + 'Name' as keyof typeof this.additionalExecutors];
+      const lastExecutorIndex = this.additionalExecutors.length - 1;
+      this.additionalExecutors.pop();
+      if (this.servicoSelecionadoAvaliacao.executors && this.servicoSelecionadoAvaliacao.executors.length > lastExecutorIndex + 1) {
+        this.servicoSelecionadoAvaliacao.executors.splice(lastExecutorIndex + 1, 1);
+      }
     }
   }
 
@@ -628,8 +631,11 @@ export class AvaliacaoComponent implements OnInit {
 
   removeEvaluator() {
     if (this.additionalEvaluators.length > 0) {
-      const lastEvaluator = this.additionalEvaluators.pop();
-      delete this.additionalEvaluators['evaluator' + lastEvaluator + 'Name' as keyof typeof this.additionalEvaluators];
+      const lastEvaluatorIndex = this.additionalEvaluators.length - 1;
+      this.additionalEvaluators.pop();
+      if (this.servicoSelecionadoAvaliacao.evaluators && this.servicoSelecionadoAvaliacao.evaluators.length > lastEvaluatorIndex + 1) {
+        this.servicoSelecionadoAvaliacao.evaluators.splice(lastEvaluatorIndex + 1, 1);
+      }
     }
   }
 
@@ -976,6 +982,8 @@ export class AvaliacaoComponent implements OnInit {
   limparDados() {
     this.servicoSelecionadoAvaliacao = new ServicoModel();
     this.avaliacaoModel = new AvaliacaoModel();
+    this.additionalExecutors.length = 0;
+    this.additionalEvaluators.length = 0;
   }
 
   async buscarAvaliacoesPorServico(servicoId: number) {
