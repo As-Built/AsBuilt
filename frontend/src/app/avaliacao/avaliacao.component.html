@@ -27,7 +27,7 @@
                             <label for="filterTableConstrutora">Filtrar por Construtora:</label>
                             <select #filterTableConstrutora name="filterTableConstrutora" id="filterTableConstrutora"
                                 (change)="onFiltroConstrutoraChange($event)">
-                                <option>Todos</option>
+                                <option value="Todos">Todos</option>
                                 <option *ngFor="let construtora of listaConstrutorasConsulta"
                                     [value]="construtora.builderName">
                                     {{construtora.builderName}}
@@ -38,7 +38,7 @@
                             <label for="filterTableCostCenter">Filtrar por Centro de Custo:</label>
                             <select name="filterTableCostCenter" id="filterTableCostCenter"
                                 (change)="onFiltroCostCenterChange($event)">
-                                <option>Todos</option>
+                                <option value="Todos">Todos</option>
                                 <option *ngFor="let centroDeCusto of listaCentrosDeCustoFiltradaConsulta"
                                     [value]="centroDeCusto.costCenterName">
                                     {{centroDeCusto.costCenterName}}
@@ -50,7 +50,7 @@
                             <label for="filterTable1">Filtrar pelo 1º Nível:</label>
                             <select name="filterTable1" id="filterTable1"
                                 (change)="onFiltroLocationGroupChange($event)">
-                                <option value="">Todos</option>
+                                <option value="Todos">Todos</option>
                                 <option *ngFor="let locationGroup of listaLocationGroupFiltradaConsulta"
                                     [value]="locationGroup.locationGroup">
                                     {{locationGroup.locationGroup}}
@@ -62,7 +62,7 @@
                         <div class="col-4" *ngIf="filtroLocationGroup && listaSubGroup1FiltradaConsulta.length > 0">
                             <label for="filterTable2">Filtrar pelo 2º Nível:</label>
                             <select name="filterTable2" id="filterTable2" (change)="onFiltroSubGroup1Change($event)">
-                                <option value="">Todos</option>
+                                <option value="Todos">Todos</option>
                                 <option *ngFor="let subGroup1 of listaSubGroup1FiltradaConsulta" [value]="subGroup1">
                                     {{subGroup1}}
                                 </option>
@@ -72,7 +72,7 @@
                         <div class="col-4" *ngIf="filtroSubGroup1 && listaSubGroup2FiltradaConsulta.length > 0">
                             <label for="filterTable3">Filtrar pelo 3º Nível:</label>
                             <select name="filterTable3" id="filterTable3" (change)="onFiltroSubGroup2Change($event)">
-                                <option value="">Todos</option>
+                                <option value="Todos">Todos</option>
                                 <option *ngFor="let subGroup2 of listaSubGroup2FiltradaConsulta" [value]="subGroup2">
                                     {{subGroup2}}
                                 </option>
@@ -161,7 +161,7 @@
                             <label for="filterTableConstrutora">Filtrar por Construtora:</label>
                             <select #filterTableConstrutora name="filterTableConstrutora" id="filterTableConstrutora"
                                 (change)="onFiltroConstrutoraChange($event)">
-                                <option>Todos</option>
+                                <option value="Todos">Todos</option>
                                 <option *ngFor="let construtora of listaConstrutorasConsulta"
                                     [value]="construtora.builderName">
                                     {{construtora.builderName}}
@@ -172,7 +172,7 @@
                             <label for="filterTableCostCenter">Filtrar por Centro de Custo:</label>
                             <select name="filterTableCostCenter" id="filterTableCostCenter"
                                 (change)="onFiltroCostCenterChange($event)">
-                                <option>Todos</option>
+                                <option value="Todos">Todos</option>
                                 <option *ngFor="let centroDeCusto of listaCentrosDeCustoFiltradaConsulta"
                                     [value]="centroDeCusto.costCenterName">
                                     {{centroDeCusto.costCenterName}}
@@ -184,7 +184,7 @@
                             <label for="filterTable1">Filtrar pelo 1º Nível:</label>
                             <select name="filterTable1" id="filterTable1"
                                 (change)="onFiltroLocationGroupChange($event)">
-                                <option value="">Todos</option>
+                                <option value="Todos">Todos</option>
                                 <option *ngFor="let locationGroup of listaLocationGroupFiltradaConsulta"
                                     [value]="locationGroup.locationGroup">
                                     {{locationGroup.locationGroup}}
@@ -196,7 +196,7 @@
                         <div class="col-4" *ngIf="filtroLocationGroup && listaSubGroup1FiltradaConsulta.length > 0">
                             <label for="filterTable2">Filtrar pelo 2º Nível:</label>
                             <select name="filterTable2" id="filterTable2" (change)="onFiltroSubGroup1Change($event)">
-                                <option value="">Todos</option>
+                                <option value="Todos">Todos</option>
                                 <option *ngFor="let subGroup1 of listaSubGroup1FiltradaConsulta" [value]="subGroup1">
                                     {{subGroup1}}
                                 </option>
@@ -206,7 +206,7 @@
                         <div class="col-4" *ngIf="filtroSubGroup1 && listaSubGroup2FiltradaConsulta.length > 0">
                             <label for="filterTable3">Filtrar pelo 3º Nível:</label>
                             <select name="filterTable3" id="filterTable3" (change)="onFiltroSubGroup2Change($event)">
-                                <option value="">Todos</option>
+                                <option value="Todos">Todos</option>
                                 <option *ngFor="let subGroup2 of listaSubGroup2FiltradaConsulta" [value]="subGroup2">
                                     {{subGroup2}}
                                 </option>
@@ -294,7 +294,7 @@
                             <label for="filterTableConstrutora">Filtrar por Construtora:</label>
                             <select #filterTableConstrutora name="filterTableConstrutora" id="filterTableConstrutora"
                                 (change)="onFiltroConstrutoraChange($event)">
-                                <option>Todos</option>
+                                <option value="Todos">Todos</option>
                                 <option *ngFor="let construtora of listaConstrutorasConsulta"
                                     [value]="construtora.builderName">
                                     {{construtora.builderName}}
@@ -305,7 +305,7 @@
                             <label for="filterTableCostCenter">Filtrar por Centro de Custo:</label>
                             <select name="filterTableCostCenter" id="filterTableCostCenter"
                                 (change)="onFiltroCostCenterChange($event)">
-                                <option>Todos</option>
+                                <option value="Todos">Todos</option>
                                 <option *ngFor="let centroDeCusto of listaCentrosDeCustoFiltradaConsulta"
                                     [value]="centroDeCusto.costCenterName">
                                     {{centroDeCusto.costCenterName}}
@@ -317,7 +317,7 @@
                             <label for="filterTable1">Filtrar pelo 1º Nível:</label>
                             <select name="filterTable1" id="filterTable1"
                                 (change)="onFiltroLocationGroupChange($event)">
-                                <option value="">Todos</option>
+                                <option value="Todos">Todos</option>
                                 <option *ngFor="let locationGroup of listaLocationGroupFiltradaConsulta"
                                     [value]="locationGroup.locationGroup">
                                     {{locationGroup.locationGroup}}
@@ -329,7 +329,7 @@
                         <div class="col-4" *ngIf="filtroLocationGroup && listaSubGroup1FiltradaConsulta.length > 0">
                             <label for="filterTable2">Filtrar pelo 2º Nível:</label>
                             <select name="filterTable2" id="filterTable2" (change)="onFiltroSubGroup1Change($event)">
-                                <option value="">Todos</option>
+                                <option value="Todos">Todos</option>
                                 <option *ngFor="let subGroup1 of listaSubGroup1FiltradaConsulta" [value]="subGroup1">
                                     {{subGroup1}}
                                 </option>
@@ -339,7 +339,7 @@
                         <div class="col-4" *ngIf="filtroSubGroup1 && listaSubGroup2FiltradaConsulta.length > 0">
                             <label for="filterTable3">Filtrar pelo 3º Nível:</label>
                             <select name="filterTable3" id="filterTable3" (change)="onFiltroSubGroup2Change($event)">
-                                <option value="">Todos</option>
+                                <option value="Todos">Todos</option>
                                 <option *ngFor="let subGroup2 of listaSubGroup2FiltradaConsulta" [value]="subGroup2">
                                     {{subGroup2}}
                                 </option>
@@ -603,7 +603,7 @@
                 <label for="parameter0ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter0Name
                     }}<span style="color: red;">*</span></label>
                 <select #parameter0ResultAvaliacao name="parameter0ResultAvaliacao" id="parameter0ResultAvaliacao"
-                    [(ngModel)]="avaliacaoModel.assessmentParameter0Result">
+                    [(ngModel)]="avaliacaoModel.parameter0Result">
                     <option disabled [value]="undefined">Selecione uma opção</option>
                     <option [ngValue]="true">Aprovado</option>
                     <option [ngValue]="false">Reprovado</option>
@@ -613,7 +613,7 @@
                 <label for="parameter1ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter1Name
                     }}<span style="color: red;">*</span></label>
                 <select #parameter1ResultAvaliacao name="parameter1ResultAvaliacao" id="parameter1ResultAvaliacao"
-                    [(ngModel)]="avaliacaoModel.assessmentParameter1Result">
+                    [(ngModel)]="avaliacaoModel.parameter1Result">
                     <option disabled [value]="undefined">Selecione uma opção</option>
                     <option [ngValue]="true">Aprovado</option>
                     <option [ngValue]="false">Reprovado</option>
@@ -623,7 +623,7 @@
                 <label for="parameter2ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter2Name
                     }}<span style="color: red;">*</span></label>
                 <select #parameter2ResultAvaliacao name="parameter2ResultAvaliacao" id="parameter2ResultAvaliacao"
-                    [(ngModel)]="avaliacaoModel.assessmentParameter2Result">
+                    [(ngModel)]="avaliacaoModel.parameter2Result">
                     <option disabled [value]="undefined">Selecione uma opção</option>
                     <option [ngValue]="true">Aprovado</option>
                     <option [ngValue]="false">Reprovado</option>
@@ -633,7 +633,7 @@
                 <label for="parameter3ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter3Name
                     }}<span style="color: red;">*</span></label>
                 <select #parameter3ResultAvaliacao name="parameter3ResultAvaliacao" id="parameter3ResultAvaliacao"
-                    [(ngModel)]="avaliacaoModel.assessmentParameter3Result">
+                    [(ngModel)]="avaliacaoModel.parameter3Result">
                     <option disabled [value]="undefined">Selecione uma opção</option>
                     <option [ngValue]="true">Aprovado</option>
                     <option [ngValue]="false">Reprovado</option>
@@ -650,7 +650,7 @@
                 <label for="parameter4ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter4Name
                     }}<span style="color: red;">*</span></label>
                 <select #parameter4ResultAvaliacao name="parameter4ResultAvaliacao" id="parameter4ResultAvaliacao"
-                    [(ngModel)]="avaliacaoModel.assessmentParameter4Result">
+                    [(ngModel)]="avaliacaoModel.parameter4Result">
                     <option disabled [value]="undefined">Selecione uma opção</option>
                     <option [ngValue]="true">Aprovado</option>
                     <option [ngValue]="false">Reprovado</option>
@@ -660,7 +660,7 @@
                 <label for="parameter5ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter5Name
                     }}<span style="color: red;">*</span></label>
                 <select #parameter5ResultAvaliacao name="parameter5ResultAvaliacao" id="parameter5ResultAvaliacao"
-                    [(ngModel)]="avaliacaoModel.assessmentParameter5Result">
+                    [(ngModel)]="avaliacaoModel.parameter5Result">
                     <option disabled [value]="undefined">Selecione uma opção</option>
                     <option [ngValue]="true">Aprovado</option>
                     <option [ngValue]="false">Reprovado</option>
@@ -670,7 +670,7 @@
                 <label for="parameter6ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter6Name
                     }}<span style="color: red;">*</span></label>
                 <select #parameter6ResultAvaliacao name="parameter6ResultAvaliacao" id="parameter6ResultAvaliacao"
-                    [(ngModel)]="avaliacaoModel.assessmentParameter6Result">
+                    [(ngModel)]="avaliacaoModel.parameter6Result">
                     <option disabled [value]="undefined">Selecione uma opção</option>
                     <option [ngValue]="true">Aprovado</option>
                     <option [ngValue]="false">Reprovado</option>
@@ -680,7 +680,7 @@
                 <label for="parameter7ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter7Name
                     }}<span style="color: red;">*</span></label>
                 <select #parameter7ResultAvaliacao name="parameter7ResultAvaliacao" id="parameter7ResultAvaliacao"
-                    [(ngModel)]="avaliacaoModel.assessmentParameter7Result">
+                    [(ngModel)]="avaliacaoModel.parameter7Result">
                     <option disabled [value]="undefined">Selecione uma opção</option>
                     <option [ngValue]="true">Aprovado</option>
                     <option [ngValue]="false">Reprovado</option>
@@ -690,7 +690,7 @@
                 <label for="parameter8ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter8Name
                     }}<span style="color: red;">*</span></label>
                 <select #parameter8ResultAvaliacao name="parameter8ResultAvaliacao" id="parameter8ResultAvaliacao"
-                    [(ngModel)]="avaliacaoModel.assessmentParameter8Result">
+                    [(ngModel)]="avaliacaoModel.parameter8Result">
                     <option disabled [value]="undefined">Selecione uma opção</option>
                     <option [ngValue]="true">Aprovado</option>
                     <option [ngValue]="false">Reprovado</option>
@@ -700,7 +700,7 @@
                 <label for="parameter9ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter9Name
                     }}<span style="color: red;">*</span></label>
                 <select #parameter9ResultAvaliacao name="parameter9ResultAvaliacao" id="parameter9ResultAvaliacao"
-                    [(ngModel)]="avaliacaoModel.assessmentParameter9Result">
+                    [(ngModel)]="avaliacaoModel.parameter9Result">
                     <option disabled [value]="undefined">Selecione uma opção</option>
                     <option [ngValue]="true">Aprovado</option>
                     <option [ngValue]="false">Reprovado</option>
@@ -731,7 +731,7 @@
                 <input style="display: none;" type="file" [id]="'avaliacaoFoto' + i" [name]="'avaliacaoFoto' + i"
                     accept="image/*" (change)="handleFileInput($event.target, i)" #avaliacaoFoto>
                 <div class="image-container centralizar-conteudo">
-                    <img class="service-photo" [src]="fotoServico0[i]" width="150px" (click)="triggerFileInput(i)"
+                    <img class="service-photo" [src]="fotosServico[i]" width="150px" height="150px" (click)="triggerFileInput(i)"
                         matTooltip="Clique para inserir uma foto do serviço executado">
                 </div>
             </div>
@@ -849,43 +849,58 @@
         <div class="row">
             <div class="col-3">
                 <label for="startDateAvaliacao">Data de início real</label>
-                <input #startDateAvaliacao name="startDateAvaliacao" id="startDateAvaliacao"
-                    required matTooltip="Data real do início do serviço" matTooltipShowDelay="1500"
+                <input #startDateAvaliacao name="startDateAvaliacao" id="startDateAvaliacao" required
+                    matTooltip="Data real do início do serviço" matTooltipShowDelay="1500"
                     [value]="realStartDateFormatada" type="text" disabled="disabled" />
             </div>
             <div class="col-3" *ngIf="realEndDateFormatada !==null || realEndDateFormatada !== undefined">
                 <label for="finalDateAvaliacao">Data de término real</label>
-                <input #finalDateAvaliacao name="finalDateAvaliacao" id="finalDateAvaliacao"
-                    required matTooltip="Data real do início do serviço" matTooltipShowDelay="1500"
+                <input #finalDateAvaliacao name="finalDateAvaliacao" id="finalDateAvaliacao" required
+                    matTooltip="Data real do início do serviço" matTooltipShowDelay="1500"
                     [value]="realEndDateFormatada" type="text" disabled="disabled" />
             </div>
             <div class="col-3" *ngIf="dataAvalicaoFormatada !==null || dataAvalicaoFormatada !== undefined">
                 <label for="dataAvalicaoa">Data da avaliação</label>
-                <input #dataAvalicaoa name="dataAvalicaoa" id="dataAvalicaoa"
-                    required matTooltip="Data da avaliação" matTooltipShowDelay="1500"
-                    [value]="dataAvalicaoFormatada" type="text" disabled="disabled" />
+                <input #dataAvalicaoa name="dataAvalicaoa" id="dataAvalicaoa" required matTooltip="Data da avaliação"
+                    matTooltipShowDelay="1500" [value]="dataAvalicaoFormatada" type="text" disabled="disabled" />
             </div>
         </div>
         <div class="row">
             <div class="col-3">
                 <label for="parameter0ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter0Name }}</label>
-                <input #parameter0ResultAvaliacao *ngIf="avaliacaoModel.assessmentParameter0Result == true" placeholder="Aprovado" type="text" name="parameter0ResultAvaliacao" id="parameter0ResultAvaliacao" disabled="disabled" />
-                <input #parameter0ResultAvaliacao *ngIf="avaliacaoModel.assessmentParameter0Result == false" placeholder="Reprovado" type="text" name="parameter0ResultAvaliacao" id="parameter0ResultAvaliacao" disabled="disabled" />
+                <input #parameter0ResultAvaliacao *ngIf="avaliacaoModel.parameter0Result == true"
+                    placeholder="Aprovado" type="text" name="parameter0ResultAvaliacao" id="parameter0ResultAvaliacao"
+                    disabled="disabled" />
+                <input #parameter0ResultAvaliacao *ngIf="avaliacaoModel.parameter0Result == false"
+                    placeholder="Reprovado" type="text" name="parameter0ResultAvaliacao" id="parameter0ResultAvaliacao"
+                    disabled="disabled" />
             </div>
             <div class="col-3">
                 <label for="parameter1ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter1Name }}</label>
-                <input #parameter1ResultAvaliacao *ngIf="avaliacaoModel.assessmentParameter1Result == true" placeholder="Aprovado" type="text" name="parameter1ResultAvaliacao" id="parameter1ResultAvaliacao" disabled="disabled" />
-                <input #parameter1ResultAvaliacao *ngIf="avaliacaoModel.assessmentParameter1Result == false" placeholder="Reprovado" type="text" name="parameter1ResultAvaliacao" id="parameter1ResultAvaliacao" disabled="disabled" />
+                <input #parameter1ResultAvaliacao *ngIf="avaliacaoModel.parameter1Result == true"
+                    placeholder="Aprovado" type="text" name="parameter1ResultAvaliacao" id="parameter1ResultAvaliacao"
+                    disabled="disabled" />
+                <input #parameter1ResultAvaliacao *ngIf="avaliacaoModel.parameter1Result == false"
+                    placeholder="Reprovado" type="text" name="parameter1ResultAvaliacao" id="parameter1ResultAvaliacao"
+                    disabled="disabled" />
             </div>
             <div class="col-3">
                 <label for="parameter2ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter2Name }}</label>
-                <input #parameter2ResultAvaliacao *ngIf="avaliacaoModel.assessmentParameter2Result == true" placeholder="Aprovado" type="text" name="parameter2ResultAvaliacao" id="parameter2ResultAvaliacao" disabled="disabled" />
-                <input #parameter2ResultAvaliacao *ngIf="avaliacaoModel.assessmentParameter2Result == false" placeholder="Reprovado" type="text" name="parameter2ResultAvaliacao" id="parameter2ResultAvaliacao" disabled="disabled" />
+                <input #parameter2ResultAvaliacao *ngIf="avaliacaoModel.parameter2Result == true"
+                    placeholder="Aprovado" type="text" name="parameter2ResultAvaliacao" id="parameter2ResultAvaliacao"
+                    disabled="disabled" />
+                <input #parameter2ResultAvaliacao *ngIf="avaliacaoModel.parameter2Result == false"
+                    placeholder="Reprovado" type="text" name="parameter2ResultAvaliacao" id="parameter2ResultAvaliacao"
+                    disabled="disabled" />
             </div>
             <div class="col-3" *ngIf="avaliacaoModel.task.taskType.parameter3Name">
                 <label for="parameter3ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter3Name }}</label>
-                <input #parameter3ResultAvaliacao *ngIf="avaliacaoModel.assessmentParameter3Result == true" placeholder="Aprovado" type="text" name="parameter3ResultAvaliacao" id="parameter3ResultAvaliacao" disabled="disabled" />
-                <input #parameter3ResultAvaliacao *ngIf="avaliacaoModel.assessmentParameter3Result == false" placeholder="Reprovado" type="text" name="parameter3ResultAvaliacao" id="parameter3ResultAvaliacao" disabled="disabled" />
+                <input #parameter3ResultAvaliacao *ngIf="avaliacaoModel.parameter3Result == true"
+                    placeholder="Aprovado" type="text" name="parameter3ResultAvaliacao" id="parameter3ResultAvaliacao"
+                    disabled="disabled" />
+                <input #parameter3ResultAvaliacao *ngIf="avaliacaoModel.parameter3Result == false"
+                    placeholder="Reprovado" type="text" name="parameter3ResultAvaliacao" id="parameter3ResultAvaliacao"
+                    disabled="disabled" />
             </div>
         </div>
         <div class="row" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter4Name || 
@@ -896,33 +911,57 @@
                                 servicoSelecionadoAvaliacao.taskType.parameter9Name">
             <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter4Name">
                 <label for="parameter4ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter4Name }}</label>
-                <input #parameter4ResultAvaliacao *ngIf="avaliacaoModel.assessmentParameter4Result == true" placeholder="Aprovado" type="text" name="parameter4ResultAvaliacao" id="parameter4ResultAvaliacao" disabled="disabled" />
-                <input #parameter4ResultAvaliacao *ngIf="avaliacaoModel.assessmentParameter4Result == false" placeholder="Reprovado" type="text" name="parameter4ResultAvaliacao" id="parameter4ResultAvaliacao" disabled="disabled" />
+                <input #parameter4ResultAvaliacao *ngIf="avaliacaoModel.parameter4Result == true"
+                    placeholder="Aprovado" type="text" name="parameter4ResultAvaliacao" id="parameter4ResultAvaliacao"
+                    disabled="disabled" />
+                <input #parameter4ResultAvaliacao *ngIf="avaliacaoModel.parameter4Result == false"
+                    placeholder="Reprovado" type="text" name="parameter4ResultAvaliacao" id="parameter4ResultAvaliacao"
+                    disabled="disabled" />
             </div>
             <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter5Name">
                 <label for="parameter5ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter5Name }}</label>
-                <input #parameter5ResultAvaliacao *ngIf="avaliacaoModel.assessmentParameter5Result == true" placeholder="Aprovado" type="text" name="parameter5ResultAvaliacao" id="parameter5ResultAvaliacao" disabled="disabled" />
-                <input #parameter5ResultAvaliacao *ngIf="avaliacaoModel.assessmentParameter5Result == false" placeholder="Reprovado" type="text" name="parameter5ResultAvaliacao" id="parameter5ResultAvaliacao" disabled="disabled" />
+                <input #parameter5ResultAvaliacao *ngIf="avaliacaoModel.parameter5Result == true"
+                    placeholder="Aprovado" type="text" name="parameter5ResultAvaliacao" id="parameter5ResultAvaliacao"
+                    disabled="disabled" />
+                <input #parameter5ResultAvaliacao *ngIf="avaliacaoModel.parameter5Result == false"
+                    placeholder="Reprovado" type="text" name="parameter5ResultAvaliacao" id="parameter5ResultAvaliacao"
+                    disabled="disabled" />
             </div>
             <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter6Name">
                 <label for="parameter6ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter6Name }}</label>
-                <input #parameter6ResultAvaliacao *ngIf="avaliacaoModel.assessmentParameter6Result == true" placeholder="Aprovado" type="text" name="parameter6ResultAvaliacao" id="parameter6ResultAvaliacao" disabled="disabled" />
-                <input #parameter6ResultAvaliacao *ngIf="avaliacaoModel.assessmentParameter6Result == false" placeholder="Reprovado" type="text" name="parameter6ResultAvaliacao" id="parameter6ResultAvaliacao" disabled="disabled" />
+                <input #parameter6ResultAvaliacao *ngIf="avaliacaoModel.parameter6Result == true"
+                    placeholder="Aprovado" type="text" name="parameter6ResultAvaliacao" id="parameter6ResultAvaliacao"
+                    disabled="disabled" />
+                <input #parameter6ResultAvaliacao *ngIf="avaliacaoModel.parameter6Result == false"
+                    placeholder="Reprovado" type="text" name="parameter6ResultAvaliacao" id="parameter6ResultAvaliacao"
+                    disabled="disabled" />
             </div>
             <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter7Name">
                 <label for="parameter7ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter7Name }}</label>
-                <input #parameter7ResultAvaliacao *ngIf="avaliacaoModel.assessmentParameter7Result == true" placeholder="Aprovado" type="text" name="parameter7ResultAvaliacao" id="parameter7ResultAvaliacao" disabled="disabled" />
-                <input #parameter7ResultAvaliacao *ngIf="avaliacaoModel.assessmentParameter7Result == false" placeholder="Reprovado" type="text" name="parameter7ResultAvaliacao" id="parameter7ResultAvaliacao" disabled="disabled" />
+                <input #parameter7ResultAvaliacao *ngIf="avaliacaoModel.parameter7Result == true"
+                    placeholder="Aprovado" type="text" name="parameter7ResultAvaliacao" id="parameter7ResultAvaliacao"
+                    disabled="disabled" />
+                <input #parameter7ResultAvaliacao *ngIf="avaliacaoModel.parameter7Result == false"
+                    placeholder="Reprovado" type="text" name="parameter7ResultAvaliacao" id="parameter7ResultAvaliacao"
+                    disabled="disabled" />
             </div>
             <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter8Name">
                 <label for="parameter8ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter8Name }}</label>
-                <input #parameter8ResultAvaliacao *ngIf="avaliacaoModel.assessmentParameter8Result == true" placeholder="Aprovado" type="text" name="parameter8ResultAvaliacao" id="parameter8ResultAvaliacao" disabled="disabled" />
-                <input #parameter8ResultAvaliacao *ngIf="avaliacaoModel.assessmentParameter8Result == false" placeholder="Reprovado" type="text" name="parameter8ResultAvaliacao" id="parameter8ResultAvaliacao" disabled="disabled" />
+                <input #parameter8ResultAvaliacao *ngIf="avaliacaoModel.parameter8Result == true"
+                    placeholder="Aprovado" type="text" name="parameter8ResultAvaliacao" id="parameter8ResultAvaliacao"
+                    disabled="disabled" />
+                <input #parameter8ResultAvaliacao *ngIf="avaliacaoModel.parameter8Result == false"
+                    placeholder="Reprovado" type="text" name="parameter8ResultAvaliacao" id="parameter8ResultAvaliacao"
+                    disabled="disabled" />
             </div>
             <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter9Name">
                 <label for="parameter9ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter9Name }}</label>
-                <input #parameter9ResultAvaliacao *ngIf="avaliacaoModel.assessmentParameter9Result == true" placeholder="Aprovado" type="text" name="parameter9ResultAvaliacao" id="parameter9ResultAvaliacao" disabled="disabled" />
-                <input #parameter9ResultAvaliacao *ngIf="avaliacaoModel.assessmentParameter9Result == false" placeholder="Reprovado" type="text" name="parameter9ResultAvaliacao" id="parameter9ResultAvaliacao" disabled="disabled" />
+                <input #parameter9ResultAvaliacao *ngIf="avaliacaoModel.parameter9Result == true"
+                    placeholder="Aprovado" type="text" name="parameter9ResultAvaliacao" id="parameter9ResultAvaliacao"
+                    disabled="disabled" />
+                <input #parameter9ResultAvaliacao *ngIf="avaliacaoModel.parameter9Result == false"
+                    placeholder="Reprovado" type="text" name="parameter9ResultAvaliacao" id="parameter9ResultAvaliacao"
+                    disabled="disabled" />
             </div>
         </div>
         <div class="row" *ngIf="avaliacaoModel.obs !== null">
@@ -936,8 +975,23 @@
         <div class="row centralizar-conteudo">
             <div class="col-12">
                 <hr style="margin-left: 25px;">
-                <h2 *ngIf="avaliacaoModel.assessmentResult == true" style="padding-left: 15px; color: rgb(90, 192, 90);">AVALIAÇÃO APROVADA</h2>
-                <h2 *ngIf="avaliacaoModel.assessmentResult == false" style="padding-left: 15px; color: rgb(218, 0, 0);">AVALIAÇÃO REPROVADA</h2>
+                <h2> Fotos da avaliação </h2>
+            </div>
+        </div>
+        <div class="row centralizar-conteudo">
+            <input style="display: none;" type="file">
+            <div class="col-2 image-container centralizar-conteudo" *ngFor="let foto of fotosServico; let i = index">
+                <img class="assessment-photos" [src]="foto" matTooltip="Clique para visualizar a foto"
+                    (click)="openImage(foto)">
+            </div>
+        </div>
+        <div class="row centralizar-conteudo">
+            <div class="col-12">
+                <hr style="margin-left: 25px;">
+                <h2 *ngIf="avaliacaoModel.assessmentResult == true"
+                    style="padding-left: 15px; color: rgb(90, 192, 90);">AVALIAÇÃO APROVADA</h2>
+                <h2 *ngIf="avaliacaoModel.assessmentResult == false" style="padding-left: 15px; color: rgb(218, 0, 0);">
+                    AVALIAÇÃO REPROVADA</h2>
             </div>
         </div>
     </div>
@@ -957,22 +1011,21 @@
                     <ng-container matColumnDef="visualizar">
                         <th mat-header-cell *matHeaderCellDef>Visualizar</th>
                         <td mat-cell *matCellDef="let element">
-                            <mat-icon class="icones-acoes" matTooltip="Visualizar Avaliação"
-                                matTooltipShowDelay="1500" (click)="modalVisualizarAvaliacao(element)"
-                                style="cursor: pointer;">
+                            <mat-icon class="icones-acoes" matTooltip="Visualizar Avaliação" matTooltipShowDelay="1500"
+                                (click)="modalVisualizarAvaliacao(element)" style="cursor: pointer;">
                                 visibility
                             </mat-icon>
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="dataAvaliacao">
                         <th mat-header-cell *matHeaderCellDef>Data de avaliação</th>
-                        <td mat-cell *matCellDef="let element"> {{element.assessmentDate | date:'dd/MM/yyyy' }}
+                        <td mat-cell *matCellDef="let element"> {{element.assessmentDate | date:'dd/MM/yyyy HH:mm' }}
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="resultado">
                         <th mat-header-cell *matHeaderCellDef>Resultado</th>
-                        <td mat-cell *matCellDef="let element" 
-                            [ngClass]="{'aprovado': element.assessmentResult, 'reprovado': !element.assessmentResult}"> 
+                        <td mat-cell *matCellDef="let element"
+                            [ngClass]="{'aprovado': element.assessmentResult, 'reprovado': !element.assessmentResult}">
                             {{element.assessmentResult | assessmentResult}} </td>
                     </ng-container>
                     <tr mat-header-row *matHeaderRowDef="colunasAvaliacaoPorServico"></tr>

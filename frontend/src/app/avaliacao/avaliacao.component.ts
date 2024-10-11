@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AvaliacaoService } from './service/avaliacao.service';
-import { catchError, firstValueFrom, of, tap } from 'rxjs';
+import { catchError, firstValueFrom, forkJoin, of, tap } from 'rxjs';
 import { ServicoModel } from '../servico/model/servico.model';
 import { LocalServicoModel } from '../local-servico/model/local-servico.model';
 import { CentroCustoModel } from '../centro-custo/model/centro-custo.model';
@@ -80,8 +80,8 @@ export class AvaliacaoComponent implements OnInit {
   additionalEvaluators: number[] = [];
   msgErroValidacao: string = "";
   campoErroValidacao: string = "";
-  fotoServico0: string[] = [];
-  fotoServico0Blob: Uint8Array[] = [];
+  fotosServico: string[] = [];
+  fotosServicoBlob: Uint8Array[] = [];
   fileToUpload: File[] = [];
   fileIsLoading = false;
   isFileValid = false;
@@ -99,7 +99,7 @@ export class AvaliacaoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.fotoServico0 = [];
+    this.fotosServico = [];
     this.buscarServicosAguardandoAvaliacao();
     this.buscarLocais();
     this.buscarConstrutoras();
@@ -502,11 +502,11 @@ export class AvaliacaoComponent implements OnInit {
       cancelButtonColor: 'red',
     }).then((result) => {
       if (result.isConfirmed) {
-        if (this.avaliacaoModel.assessmentParameter0Result === false || this.avaliacaoModel.assessmentParameter1Result === false ||
-          this.avaliacaoModel.assessmentParameter2Result === false || this.avaliacaoModel.assessmentParameter3Result === false ||
-          this.avaliacaoModel.assessmentParameter4Result === false || this.avaliacaoModel.assessmentParameter5Result === false ||
-          this.avaliacaoModel.assessmentParameter6Result === false || this.avaliacaoModel.assessmentParameter7Result === false ||
-          this.avaliacaoModel.assessmentParameter8Result === false || this.avaliacaoModel.assessmentParameter9Result === false) {
+        if (this.avaliacaoModel.parameter0Result === false || this.avaliacaoModel.parameter1Result === false ||
+          this.avaliacaoModel.parameter2Result === false || this.avaliacaoModel.parameter3Result === false ||
+          this.avaliacaoModel.parameter4Result === false || this.avaliacaoModel.parameter5Result === false ||
+          this.avaliacaoModel.parameter6Result === false || this.avaliacaoModel.parameter7Result === false ||
+          this.avaliacaoModel.parameter8Result === false || this.avaliacaoModel.parameter9Result === false) {
           this.avaliacaoModel.assessmentResult = false;
           } else {
             this.avaliacaoModel.assessmentResult = true;
@@ -528,7 +528,7 @@ export class AvaliacaoComponent implements OnInit {
                   text: error.error,
                   icon: "error",
                   showConfirmButton: false,
-                  timer: 2000
+                  timer: 2500
                 });
               return of();
             })
@@ -538,7 +538,7 @@ export class AvaliacaoComponent implements OnInit {
             text: this.msgErroValidacao,
             icon: "error",
             showConfirmButton: false,
-            timer: 1500,
+            timer: 2500,
           }).then((resultWarn) => {
             if (resultWarn.isDismissed) {
               this.modalAvaliarServico(this.servicoSelecionadoAvaliacao);
@@ -561,8 +561,9 @@ export class AvaliacaoComponent implements OnInit {
               text: "Alterações descartadas.",
               icon: "success",
               showConfirmButton: false,
-              timer: 1500,
+              timer: 2500,
             })
+            this.limparDados();
           } else {
             this.modalAvaliarServico(this.servicoSelecionadoAvaliacao);
           }
@@ -579,9 +580,18 @@ export class AvaliacaoComponent implements OnInit {
     this.realEndDateFormatada = this.servicoSelecionadoAvaliacao.finalDate 
       ? formatDate(this.servicoSelecionadoAvaliacao.finalDate, "dd/MM/yyyy", "pt-BR") 
       : null;
-    // this.avaliacaoModel = await firstValueFrom(this.avaliacaoService.buscarAvaliacaoPorServicoId(this.servicoSelecionadoAvaliacao.id!));
     this.avaliacaoModel = avaliacao;
     this.dataAvalicaoFormatada = formatDate(this.avaliacaoModel.assessmentDate, "dd/MM/yyyy", "pt-BR");
+    
+    let fotosArray: any[] = [];
+    fotosArray.push(this.avaliacaoModel.assessmentPhoto0);
+    fotosArray.push(this.avaliacaoModel.assessmentPhoto1);
+    fotosArray.push(this.avaliacaoModel.assessmentPhoto2);
+    fotosArray.push(this.avaliacaoModel.assessmentPhoto3);
+    fotosArray.push(this.avaliacaoModel.assessmentPhoto4);
+    fotosArray.push(this.avaliacaoModel.assessmentPhoto5);
+    this.fetchImageDownload(fotosArray);
+
     this.rendermodalVisualizarAvaliacaoConcluida = true;
     Swal.fire({
       title: 'Avaliação de Serviço',
@@ -590,6 +600,10 @@ export class AvaliacaoComponent implements OnInit {
       showCloseButton: true,
       confirmButtonColor: 'blue',
       confirmButtonText: 'Fechar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.modalListarAvaliacoes(this.servicoSelecionadoAvaliacao);
+      }
     });
   }
 
@@ -634,33 +648,48 @@ export class AvaliacaoComponent implements OnInit {
       cancelButtonColor: 'red',
     }).then((result) => {
       if (result.isConfirmed) {
-        let photos = this.fotoServico0Blob.map(file => {
-          return {
-            buffer: file,
-            name: '.jpg'
-          };
-        });
-        this.avaliacaoService.updateAssessmentPhotos(avaliacao.id!, photos).pipe(
-          tap(retorno => {
-            Swal.fire({
-              text: "Avaliação salva com sucesso!",
-              icon: "success",
-              showConfirmButton: false,
-              timer: 1500,
-            });
-            this.buscarServicosAguardandoAvaliacao();
-          }),
-          catchError(error => {
-            this.avaliacaoService.deletarAvaliacao(avaliacao.id!).pipe().subscribe();
-            Swal.fire({
-              text: error.error,
-              icon: "error",
-              showConfirmButton: false,
-              timer: 2000
-            });
-            return of();
-          })
-        ).subscribe();
+        if (this.validarQtdFotos()) {
+          let photos = this.fotosServicoBlob.map(file => {
+            return {
+              buffer: file,
+              name: '.jpg'
+            };
+          });
+          this.avaliacaoService.updateAssessmentPhotos(avaliacao.id!, photos).pipe(
+            tap(retorno => {
+              Swal.fire({
+                text: "Avaliação salva com sucesso!",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 2500,
+              });
+              this.buscarServicosAguardandoAvaliacao();
+              this.limparDados();
+            }),
+            catchError(error => {
+              this.avaliacaoService.deletarAvaliacao(avaliacao.id!).pipe().subscribe();
+              Swal.fire({
+                text: error.error,
+                icon: "error",
+                showConfirmButton: false,
+                timer: 2500
+              });
+              return of();
+            })
+          ).subscribe();
+          this.limparDados();
+        } else {
+          Swal.fire({
+            text: this.msgErroValidacao,
+            icon: "error",
+            showConfirmButton: false,
+            timer: 2500,
+          }).then((resultWarn) => {
+            if (resultWarn.isDismissed) {
+              this.modalFotos(avaliacao);
+            };
+          });
+        }
       } else {
         Swal.fire({
           text: "As alterações não salvas serão perdidas, confirmar?",
@@ -677,8 +706,9 @@ export class AvaliacaoComponent implements OnInit {
               text: "Alterações descartadas.",
               icon: "success",
               showConfirmButton: false,
-              timer: 1500,
+              timer: 2500,
             })
+            this.limparDados();
           } else {
             this.modalFotos(avaliacao);
           }
@@ -697,7 +727,7 @@ export class AvaliacaoComponent implements OnInit {
           text: "Avaliação realizada com sucesso!",
           icon: "success",
           showConfirmButton: false,
-          timer: 3000
+          timer: 2500
         });
       }),
       catchError(error => {
@@ -712,7 +742,7 @@ export class AvaliacaoComponent implements OnInit {
           text: msgErro,
           icon: "error",
           showConfirmButton: false,
-          timer: 3000
+          timer: 2500
         });
         return of();
       })
@@ -732,6 +762,22 @@ export class AvaliacaoComponent implements OnInit {
       return false;
     }
 
+    if (avaliacao.task.finalDate < avaliacao.task.startDate) {
+      this.msgErroValidacao = "A data de conclusão do serviço não pode ser anterior a data de início!";
+      this.campoErroValidacao = "#finalDateAvaliacao";
+      return false;
+    }
+
+    let finalDate = new Date(avaliacao.task.finalDate);
+    let today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    if (finalDate > today) {
+      this.msgErroValidacao = "A data de conclusão do serviço não pode ser posterior a data de hoje!";
+      this.campoErroValidacao = "#finalDateAvaliacao";
+      return false;
+    }
+
     if (avaliacao.taskExecutors === null || avaliacao.taskExecutors === undefined) {
       this.msgErroValidacao = "É necessário informar pelo menos um Funcionário Executor!";
       this.campoErroValidacao = "#executorAvaliacao1";
@@ -744,26 +790,26 @@ export class AvaliacaoComponent implements OnInit {
       return false;
     }
 
-    if (avaliacao.assessmentParameter0Result === undefined || avaliacao.assessmentParameter0Result === null) {
+    if (avaliacao.parameter0Result === undefined || avaliacao.parameter0Result === null) {
       this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter0Name + "!";
       this.campoErroValidacao = "#parameter0ResultAvaliacao";
       return false;
     }
 
-    if (avaliacao.assessmentParameter1Result === undefined || avaliacao.assessmentParameter1Result === null) {
+    if (avaliacao.parameter1Result === undefined || avaliacao.parameter1Result === null) {
       this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter1Name + "!";
       this.campoErroValidacao = "#parameter1ResultAvaliacao";
       return false;
     }
 
-    if (avaliacao.assessmentParameter2Result === undefined || avaliacao.assessmentParameter2Result === null) {
+    if (avaliacao.parameter2Result === undefined || avaliacao.parameter2Result === null) {
       this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter2Name + "!";
       this.campoErroValidacao = "#parameter2ResultAvaliacao";
       return false;
     }
 
     if (avaliacao.task.taskType.parameter3Name != null) {
-      if (avaliacao.assessmentParameter3Result === undefined || avaliacao.assessmentParameter3Result === null) {
+      if (avaliacao.parameter3Result === undefined || avaliacao.parameter3Result === null) {
         this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter3Name + "!";
         this.campoErroValidacao = "#parameter3ResultAvaliacao";
         return false;
@@ -771,7 +817,7 @@ export class AvaliacaoComponent implements OnInit {
     }
 
     if (avaliacao.task.taskType.parameter4Name != null) {
-      if (avaliacao.assessmentParameter4Result === undefined || avaliacao.assessmentParameter4Result === null) {
+      if (avaliacao.parameter4Result === undefined || avaliacao.parameter4Result === null) {
         this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter4Name + "!";
         this.campoErroValidacao = "#parameter4ResultAvaliacao";
         return false;
@@ -779,7 +825,7 @@ export class AvaliacaoComponent implements OnInit {
     }
 
     if (avaliacao.task.taskType.parameter5Name != null) {
-      if (avaliacao.assessmentParameter5Result === undefined || avaliacao.assessmentParameter5Result === null) {
+      if (avaliacao.parameter5Result === undefined || avaliacao.parameter5Result === null) {
         this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter5Name + "!";
         this.campoErroValidacao = "#parameter5ResultAvaliacao";
         return false;
@@ -787,7 +833,7 @@ export class AvaliacaoComponent implements OnInit {
     }
 
     if (avaliacao.task.taskType.parameter6Name != null) {
-      if (avaliacao.assessmentParameter6Result === undefined || avaliacao.assessmentParameter6Result=== null) {
+      if (avaliacao.parameter6Result === undefined || avaliacao.parameter6Result=== null) {
         this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter6Name + "!";
         this.campoErroValidacao = "#parameter6ResultAvaliacao";
         return false;
@@ -795,7 +841,7 @@ export class AvaliacaoComponent implements OnInit {
     }
 
     if (avaliacao.task.taskType.parameter7Name != null) {
-      if (avaliacao.assessmentParameter7Result === undefined || avaliacao.assessmentParameter7Result === null) {
+      if (avaliacao.parameter7Result === undefined || avaliacao.parameter7Result === null) {
         this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter7Name + "!";
         this.campoErroValidacao = "#parameter7ResultAvaliacao";
         return false;
@@ -803,7 +849,7 @@ export class AvaliacaoComponent implements OnInit {
     }
 
     if (avaliacao.task.taskType.parameter8Name != null) {
-      if (avaliacao.assessmentParameter8Result === undefined || avaliacao.assessmentParameter8Result === null) {
+      if (avaliacao.parameter8Result === undefined || avaliacao.parameter8Result === null) {
         this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter8Name + "!";
         this.campoErroValidacao = "#parameter8ResultAvaliacao";
         return false;
@@ -811,13 +857,22 @@ export class AvaliacaoComponent implements OnInit {
     }
 
     if (avaliacao.task.taskType.parameter9Name != null) {
-      if (avaliacao.assessmentParameter9Result === undefined || avaliacao.assessmentParameter9Result === null) {
+      if (avaliacao.parameter9Result === undefined || avaliacao.parameter9Result === null) {
         this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter9Name + "!";
         this.campoErroValidacao = "#parameter9ResultAvaliacao";
         return false;
       }
     }
     return true;
+  }
+
+  validarQtdFotos() {
+    if (this.fotosServicoBlob.length < 3) {
+      this.msgErroValidacao = "É necessário informar da data de início real do serviço!";
+      return false;
+    } else {
+      return true;
+    }
   }
 
   async buscarServicosAvaliados() {
@@ -862,7 +917,7 @@ export class AvaliacaoComponent implements OnInit {
         text: "Por favor, selecione uma imagem em formato .png ou .jpg",
         icon: "error",
         showConfirmButton: false,
-        timer: 2000
+        timer: 2500
       });
       this.isFileValid = false;
       return;
@@ -885,12 +940,12 @@ export class AvaliacaoComponent implements OnInit {
           const chunk = byteArray.slice(i, i + chunkSize);
           base64String += btoa(String.fromCharCode(...chunk));
         }
-        this.fotoServico0Blob[index] = new Uint8Array(byteArray.buffer);
+        this.fotosServicoBlob[index] = new Uint8Array(byteArray.buffer);
         this.fileIsLoading = false;
       }
       reader.readAsArrayBuffer(file);
       const blob = new Blob([file]);
-      this.fotoServico0[index] = URL.createObjectURL(blob);
+      this.fotosServico[index] = URL.createObjectURL(blob);
     }
   }
   
@@ -906,12 +961,12 @@ export class AvaliacaoComponent implements OnInit {
       avaliacaoFotos = avaliacao;
       const defaultImage = "assets/EmptyImg.jpg"; // Imagem padrão
   
-      this.fotoServico0[0] = avaliacaoFotos.assessmentPhoto0 || defaultImage;
-      this.fotoServico0[1] = avaliacaoFotos.assessmentPhoto1 || defaultImage;
-      this.fotoServico0[2] = avaliacaoFotos.assessmentPhoto2 || defaultImage;
-      this.fotoServico0[3] = avaliacaoFotos.assessmentPhoto3 || defaultImage;
-      this.fotoServico0[4] = avaliacaoFotos.assessmentPhoto4 || defaultImage;
-      this.fotoServico0[5] = avaliacaoFotos.assessmentPhoto5 || defaultImage;
+      this.fotosServico[0] = avaliacaoFotos.assessmentPhoto0 || defaultImage;
+      this.fotosServico[1] = avaliacaoFotos.assessmentPhoto1 || defaultImage;
+      this.fotosServico[2] = avaliacaoFotos.assessmentPhoto2 || defaultImage;
+      this.fotosServico[3] = avaliacaoFotos.assessmentPhoto3 || defaultImage;
+      this.fotosServico[4] = avaliacaoFotos.assessmentPhoto4 || defaultImage;
+      this.fotosServico[5] = avaliacaoFotos.assessmentPhoto5 || defaultImage;
     
     } catch (error) {
       console.error(error);
@@ -939,6 +994,44 @@ export class AvaliacaoComponent implements OnInit {
       html: this.modalAvaliacoesRealizadasPorServico.nativeElement,
       showCloseButton: true,
       showConfirmButton: false,
+    });
+  }
+
+  fetchImageDownload(blobNameWithoutExtension: string[]): void {
+    this.fotosServico = []; // Inicializa como array vazio
+    const nomesValidos = blobNameWithoutExtension.filter(name => name !== null && name !== "" && name !== undefined);
+    this.avaliacaoService.downloadAssessmentPhotos(nomesValidos)
+    .subscribe(blobs => {
+      blobs.forEach(blob => {
+        const imageUrl = URL.createObjectURL(blob);
+        this.fotosServico.push(imageUrl); // Adiciona URL da imagem ao array
+      });
+    });
+  }
+
+  openImage(url: string) {
+    Swal.fire({
+      imageUrl: url,
+      width: '80%',
+      showCloseButton: true,
+      showConfirmButton: true,
+      confirmButtonText: 'Download',
+      confirmButtonColor: 'green',
+      showCancelButton: true,
+      cancelButtonText: 'Fechar',
+      cancelButtonColor: 'blue',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const link = document.createElement('a');
+        link.href = url;
+        const fileName = url.split('/').pop(); // Extrai o nome do arquivo da URL
+        link.download = fileName + ".jpg";
+        link.click();
+        this.modalVisualizarAvaliacao(this.avaliacaoModel);
+      }
+      if (result.dismiss) {
+        this.modalVisualizarAvaliacao(this.avaliacaoModel);
+      }
     });
   }
 }

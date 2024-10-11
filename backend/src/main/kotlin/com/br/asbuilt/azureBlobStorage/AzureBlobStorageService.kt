@@ -3,6 +3,7 @@ package com.br.asbuilt.azureBlobStorage
 import com.br.asbuilt.assessment.AssessmentRepository
 import com.br.asbuilt.azureBlobStorage.controller.responses.AzureBlobStorageResponse
 import com.br.asbuilt.users.UserRepository
+import jakarta.servlet.http.HttpServletResponse
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.io.FileSystemResource
@@ -119,6 +120,31 @@ class AzureBlobStorageService @Autowired constructor(
         return ResponseEntity.status(HttpStatus.OK).body(responses)
     }
 
+    fun downloadAssessmentPhotos(fileNamesWithoutExtension: List<String>, response: HttpServletResponse) {
+        fileNamesWithoutExtension.forEach { fileNameWithoutExtension ->
+            try {
+                // Download da foto do blob storage
+                val (fileName, inputStream) = azureBlobStorageResourceProvider.downloadBlob(fileNameWithoutExtension)
+                val tempFile = File.createTempFile(fileName, null)
+                // Criação de um arquivo temporário para armazenar a foto
+                FileOutputStream(tempFile).use { outputStream ->
+                    inputStream.copyTo(outputStream)
+                }
+                // Criação do recurso a partir do arquivo temporário
+                val resource: Resource = FileSystemResource(tempFile)
+                log.info("Assessment picture downloaded successfully: {}", fileName)
+
+                // Configuração do cabeçalho e tipo de conteúdo
+                response.addHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"$fileName\"")
+                response.contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE
+                // Escrita no HttpServletResponse
+                resource.inputStream.copyTo(response.outputStream)
+            } catch (e: Exception) {
+                log.error("Error when downloading assessment picture: ${e.message}", e)
+                response.status = HttpStatus.INTERNAL_SERVER_ERROR.value()
+            }
+        }
+    }
 
     companion object {
         private val log = LoggerFactory.getLogger(AzureBlobStorageService::class.java)

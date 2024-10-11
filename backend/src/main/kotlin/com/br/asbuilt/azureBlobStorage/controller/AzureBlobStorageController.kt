@@ -5,7 +5,9 @@ import com.br.asbuilt.azureBlobStorage.AzureBlobStorageService
 import com.br.asbuilt.azureBlobStorage.controller.requests.AzureBlobStorageRequest
 import com.br.asbuilt.azureBlobStorage.controller.responses.AzureBlobStorageResponse
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
+import jakarta.servlet.http.HttpServletResponse
 import jakarta.validation.Valid
+import org.springframework.core.io.Resource
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
@@ -54,5 +56,12 @@ class AzureBlobStorageController (
     ): ResponseEntity<List<AzureBlobStorageResponse>> {
         val files = listOfNotNull(file0, file1, file2, file3, file4, file5)
         return service.uploadAssessmentPhotos(assessmentId, files)
+    }
+
+    @SecurityRequirement(name="AsBuilt")
+    @PreAuthorize("permitAll()")
+    @GetMapping("/downloadAssessmentPhotos")
+    fun downloadAssessmentPhotos(@RequestParam fileNamesWithoutExtension: List<String>, response: HttpServletResponse) {
+        service.downloadAssessmentPhotos(fileNamesWithoutExtension, response)
     }
 }
