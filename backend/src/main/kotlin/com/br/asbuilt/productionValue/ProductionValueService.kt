@@ -34,6 +34,10 @@ class ProductionValueService(
             .also { log.info("Production Value inserted: {}", it.id) }
     }
 
+    fun getProductionValueByAssessmentId(assessmentId: Long): List<ProductionValue> {
+        return repository.findByAssessmentId(assessmentId)
+    }
+
     companion object {
         private val log = LoggerFactory.getLogger(ProductionValueService::class.java)
     }

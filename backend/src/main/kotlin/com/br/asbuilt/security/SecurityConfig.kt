@@ -103,6 +103,8 @@ class SecurityConfig(
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/assessment/findAssessmentById/**")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.DELETE, "/assessment/deleteAssessmentById/**")).hasAnyRole("ADMIN", "CONFERENTE")
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/assessment/findPositiveAssessmentByTaskId/**")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/productionValue/**")).hasAnyRole("ADMIN", "CONFERENTE")
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/productionValue/**")).hasAnyRole("ADMIN", "CONFERENTE")
                     .anyRequest().authenticated()
             }
             .addFilterBefore(jwtTokenFilter, BasicAuthenticationFilter::class.java)

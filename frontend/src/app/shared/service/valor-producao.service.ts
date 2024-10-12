@@ -31,4 +31,8 @@ export class ValorProducaoService {
     return this.httpClient.post<ValorProducaoModel>('http://localhost:8080/asbuilt/productionValue/insertProductionValue', body, this.httpOptions);
   }
 
+  buscarValorProducaoPorAvaliacao(avaliacaoId: number) {
+    return this.httpClient.get<ValorProducaoModel[]>(`http://localhost:8080/asbuilt/productionValue/getProductionValueByAssessmentId/${avaliacaoId}`, this.httpOptions);
+  }
+
 }

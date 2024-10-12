@@ -93,6 +93,7 @@ export class AvaliacaoComponent implements OnInit {
   renderModalAvaliacoesRealizadasPorServico = false;
   executorPercentages: number[] = [];
   valorProducaoModel = new ValorProducaoModel();
+  valoresProducao: ValorProducaoModel[] = [];
 
   constructor(
     private avaliacaoService: AvaliacaoService,
@@ -442,14 +443,14 @@ export class AvaliacaoComponent implements OnInit {
     this.filtrarDados();
   }
 
-  mudarAba(posicao: number) {
+  async mudarAba(posicao: number) {
     this.avaliacaoTab = posicao;
     if (posicao === 0) {
-      this.buscarServicosAguardandoAvaliacao();
+      await this.buscarServicosAguardandoAvaliacao();
     } else if (posicao === 1) {
-      this.buscarServicosParaReavaliacao();
+      await this.buscarServicosParaReavaliacao();
     } else if (posicao === 2) {
-      this.buscarServicosAvaliados();
+      await this.buscarServicosAvaliados();
     }
     this.limparFiltros();
   }
@@ -594,7 +595,8 @@ export class AvaliacaoComponent implements OnInit {
     this.realEndDateFormatada = this.servicoSelecionadoAvaliacao.finalDate 
       ? formatDate(this.servicoSelecionadoAvaliacao.finalDate, "dd/MM/yyyy", "pt-BR") 
       : null;
-    this.avaliacaoModel = avaliacao;
+    this.avaliacaoModel = cloneDeep(avaliacao);
+    await this.buscarValorProducaoPorAvaliacao(this.avaliacaoModel.id!);
     this.dataAvalicaoFormatada = formatDate(this.avaliacaoModel.assessmentDate, "dd/MM/yyyy", "pt-BR");
     
     let fotosArray: any[] = [];
@@ -604,7 +606,7 @@ export class AvaliacaoComponent implements OnInit {
     fotosArray.push(this.avaliacaoModel.assessmentPhoto3);
     fotosArray.push(this.avaliacaoModel.assessmentPhoto4);
     fotosArray.push(this.avaliacaoModel.assessmentPhoto5);
-    this.fetchImageDownload(fotosArray);
+    await this.fetchImageDownload(fotosArray);
 
     this.rendermodalVisualizarAvaliacaoConcluida = true;
     Swal.fire({
@@ -655,7 +657,7 @@ export class AvaliacaoComponent implements OnInit {
     }
   }
 
-  modalFotos(avaliacao: AvaliacaoModel) {
+  async modalFotos(avaliacao: AvaliacaoModel) {
     this.renderModalAnexarFotos = true;
     this.fetchImage(avaliacao.id!);
     Swal.fire({
@@ -751,6 +753,20 @@ export class AvaliacaoComponent implements OnInit {
       }
     });
   }
+
+  async buscarValorProducaoPorAvaliacao(avaliacaoId: number) {
+    try {
+      const producoes: any = await firstValueFrom(this.valorProducaoService.buscarValorProducaoPorAvaliacao(avaliacaoId));
+      this.valoresProducao = producoes;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  getAssessmentPercentageForExecutor(executor: UsuarioModel): number {
+    const valorProducao = this.valoresProducao.find(vp => vp.user.id === executor.id);
+    return valorProducao ? valorProducao.assessmentPercentage : 0;
+}
 
   validarCampos(avaliacao: AvaliacaoModel) {
     if (avaliacao.task.startDate === null || avaliacao.task.startDate === undefined) {

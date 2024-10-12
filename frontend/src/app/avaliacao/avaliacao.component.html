@@ -847,13 +847,26 @@
                 <h2 style="padding-left: 15px;">Executores e Avaliadores</h2>
             </div>
         </div>
+
+        <!-- Executores -->
         <div class="row" *ngIf="avaliacaoModel.taskExecutors != undefined">
-            <div class="col-6" *ngFor="let executor of avaliacaoModel.taskExecutors; index as i">
-                <label [for]="'executor' + (i + 1) + 'Name'">{{ i + 1 }}º Funcionário executor</label>
-                <input type="text" [name]="'executor' + (i + 1) + 'Name'" [ngModel]="executor.name"
-                    disabled="disabled" />
+            <div class="col-6 executores-padding" *ngFor="let executor of avaliacaoModel.taskExecutors; index as i">
+                <div class="row">
+                    <div class="col-9 executores-padding">
+                        <label [for]="'executor' + (i + 1) + 'Name'">{{ i + 1 }}º Funcionário executor</label>
+                        <input type="text" [name]="'executor' + (i + 1) + 'Name'" [ngModel]="executor.name"
+                            disabled="disabled" />
+                    </div>
+                    <div class="col-3 executores-padding">
+                        <label for="rateioExecutor0">Rateio (%)</label>
+                        <input #rateioExecutor0 type="number" max="100" min="0" id="rateioExecutor0" name="rateioExecutor0" 
+                            [ngModel]="getAssessmentPercentageForExecutor(executor)" disabled="disabled">
+                    </div>
+                </div>
             </div>
         </div>
+
+        <!-- Avaliadores -->
         <div class="row" *ngIf="avaliacaoModel.taskEvaluators != undefined">
             <div class="col-6" *ngFor="let evaluator of avaliacaoModel.taskEvaluators; index as i">
                 <label [for]="'evaluator' + (i + 1) + 'Name'">{{ i + 1 }}º Avaliador</label>
