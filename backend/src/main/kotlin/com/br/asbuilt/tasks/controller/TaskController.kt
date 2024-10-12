@@ -26,24 +26,8 @@ class TaskController(
     fun insert(
         @Valid
         @RequestBody task: CreateTaskRequest) =
-
-//        val centroDeCusto = task.costCenter.let {
-//            costCenterService.findByIdOrNull(task.costCenter.id!!)
-//        } ?: throw NotFoundException("Cost Center not found!")
-//
-//        val taskEntity = task.toTask()
-//
-//        taskEntity.costCenter = centroDeCusto
-//
-//        val location = task.taskLocation.let {
-//            service.locationRepository.findById(task.taskLocation.id!!)
-//        }.orElseThrow { NotFoundException("Location not found!") }
-//
-//        taskEntity.taskLocation = location
-
         TaskResponse(service.insert(task.toTask()))
             .let { ResponseEntity.status(HttpStatus.CREATED).body(it) }
-//    }
 
 
     @SecurityRequirement(name="AsBuilt")
