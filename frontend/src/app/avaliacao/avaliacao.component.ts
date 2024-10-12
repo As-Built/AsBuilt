@@ -14,6 +14,8 @@ import { formatDate } from '@angular/common';
 import { UsuarioService } from '../usuario/service/usuario.service';
 import { UsuarioModel } from '../usuario/model/usuario.model';
 import { cloneDeep } from 'lodash';
+import { ValorProducaoService } from '../shared/service/valor-producao.service';
+import { ValorProducaoModel } from '../shared/model/valor-producao.model';
 
 @Component({
   selector: 'app-avaliacao',
@@ -89,13 +91,16 @@ export class AvaliacaoComponent implements OnInit {
   avaliacoesRealizadasPorServico: AvaliacaoModel[] = [];
   colunasAvaliacaoPorServico: string[] = ["visualizar", "dataAvaliacao", "resultado"];
   renderModalAvaliacoesRealizadasPorServico = false;
+  executorPercentages: number[] = [];
+  valorProducaoModel = new ValorProducaoModel();
 
   constructor(
     private avaliacaoService: AvaliacaoService,
     private localServicoService: LocalServicoService,
     private centroCustoService: CentroCustoService,
     private construtoraService: ConstrutoraService,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private valorProducaoService: ValorProducaoService
   ) { }
 
   ngOnInit(): void {
@@ -108,6 +113,7 @@ export class AvaliacaoComponent implements OnInit {
     this.filtrarDados();
     this.listarFuncionarios();
     this.listarConferentes();
+    this.executorPercentages[0] = 100;
   }
 
   updateDisplayedColumnsBuilder() {
@@ -345,7 +351,6 @@ export class AvaliacaoComponent implements OnInit {
   }
 
   limparFiltros() {
-    this.filterTableConstrutora.nativeElement.value = 'Todos';
     this.filtroConstrutoraSelecionado = null;
     this.filtroCentroCustoSelecionado = null;
     this.filtroLocationGroup = null;
@@ -572,6 +577,15 @@ export class AvaliacaoComponent implements OnInit {
     });
   }
 
+  async inserirValorProducao(valorProucao: ValorProducaoModel) {
+    try {
+      await firstValueFrom(this.valorProducaoService.inserirValorProducao(valorProucao));
+    } catch (error) {
+      console.error(error);
+    }
+
+  }
+
   async modalVisualizarAvaliacao(avaliacao: AvaliacaoModel) {
     this.servicoSelecionadoAvaliacao = cloneDeep(avaliacao.task);//Clonando objeto e não a sua referência
     this.expectedStartDateFormatada = formatDate(this.servicoSelecionadoAvaliacao.expectedStartDate, "dd/MM/yyyy", "pt-BR");
@@ -610,9 +624,10 @@ export class AvaliacaoComponent implements OnInit {
   addExecutor() {
     if (this.additionalExecutors.length < 5) { // Limita a adição de executores a 6
       this.additionalExecutors.push(this.additionalExecutors.length + 1); // Começa a contar a partir do 2º executor pois o primeiro é obrigatório
+      this.executorPercentages.push(0); // Adiciona uma nova porcentagem para o novo executor
     }
   }
-
+  
   removeExecutor() {
     if (this.additionalExecutors.length > 0) {
       const lastExecutorIndex = this.additionalExecutors.length - 1;
@@ -620,6 +635,7 @@ export class AvaliacaoComponent implements OnInit {
       if (this.servicoSelecionadoAvaliacao.executors && this.servicoSelecionadoAvaliacao.executors.length > lastExecutorIndex + 1) {
         this.servicoSelecionadoAvaliacao.executors.splice(lastExecutorIndex + 1, 1);
       }
+      this.executorPercentages.splice(lastExecutorIndex, 1); // Remove a porcentagem do executor removido
     }
   }
 
@@ -683,6 +699,19 @@ export class AvaliacaoComponent implements OnInit {
               return of();
             })
           ).subscribe();
+          if (avaliacao.assessmentResult) {
+            avaliacao.taskExecutors.forEach((executor, index) => {
+              this.valorProducaoModel.value = avaliacao.task.amount * 
+                this.executorPercentages[index] / 100;
+              this.valorProducaoModel.user = executor;
+              this.valorProducaoModel.task = avaliacao.task;
+              this.valorProducaoModel.date = new Date();
+              this.valorProducaoModel.assessment = avaliacao;
+              this.valorProducaoModel.assessmentPercentage = this.executorPercentages[index];
+              
+              this.inserirValorProducao(this.valorProducaoModel);
+            });
+          }
           this.limparDados();
         } else {
           Swal.fire({
@@ -721,38 +750,6 @@ export class AvaliacaoComponent implements OnInit {
         })
       }
     });
-  }
-
-  avaliarServico(avaliacao: AvaliacaoModel) {
-    if (!this.validarCampos(avaliacao)) {
-      return;
-    }
-    this.avaliacaoService.avaliar(avaliacao).pipe(
-      tap(retorno => {
-        Swal.fire({
-          text: "Avaliação realizada com sucesso!",
-          icon: "success",
-          showConfirmButton: false,
-          timer: 2500
-        });
-      }),
-      catchError(error => {
-        let msgErro = error.error;
-        if (error.error === "No changes detected! Location not updated!") {
-          msgErro = "Nenhuma alteração detectada! Local não atualizado!";
-        }
-        if (error.error === "Task not found!") {
-          msgErro = "Serviço não encontrado!";
-        }
-        Swal.fire({
-          text: msgErro,
-          icon: "error",
-          showConfirmButton: false,
-          timer: 2500
-        });
-        return of();
-      })
-    ).subscribe();
   }
 
   validarCampos(avaliacao: AvaliacaoModel) {
@@ -869,6 +866,14 @@ export class AvaliacaoComponent implements OnInit {
         return false;
       }
     }
+
+    const rateioSoma = this.executorPercentages.reduce((a, b) => a + b, 0);
+    if (rateioSoma !== 100) {
+      this.msgErroValidacao = 'A soma total das porcentagens de Rateio dos Executores deve ser igual a 100!';
+      this.campoErroValidacao = "#rateioExecutor0";
+      return false;
+    }
+    
     return true;
   }
 
@@ -984,6 +989,7 @@ export class AvaliacaoComponent implements OnInit {
     this.avaliacaoModel = new AvaliacaoModel();
     this.additionalExecutors.length = 0;
     this.additionalEvaluators.length = 0;
+    this.executorPercentages = [];
   }
 
   async buscarAvaliacoesPorServico(servicoId: number) {

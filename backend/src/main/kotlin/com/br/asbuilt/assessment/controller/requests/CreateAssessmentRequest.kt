@@ -3,7 +3,6 @@ package com.br.asbuilt.assessment.controller.requests
 import com.br.asbuilt.assessment.Assessment
 import com.br.asbuilt.tasks.Task
 import com.br.asbuilt.users.User
-import com.br.asbuilt.users.controller.requests.PatchUserRequest
 import jakarta.validation.constraints.NotNull
 import java.util.*
 

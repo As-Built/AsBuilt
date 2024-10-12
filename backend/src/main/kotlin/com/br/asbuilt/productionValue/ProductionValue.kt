@@ -1,5 +1,6 @@
 package com.br.asbuilt.productionValue
 
+import com.br.asbuilt.assessment.Assessment
 import com.br.asbuilt.tasks.Task
 import com.br.asbuilt.users.User
 import jakarta.persistence.*
@@ -32,5 +33,16 @@ class ProductionValue (
         joinColumns = [JoinColumn(name = "idProductionValue")],
         inverseJoinColumns = [JoinColumn(name = "idTask")]
     )
-    var task: Task
+    var task: Task,
+
+    @ManyToOne
+    @JoinTable(
+        name = "AssessmentProductionValue",
+        joinColumns = [JoinColumn(name = "idProductionValue")],
+        inverseJoinColumns = [JoinColumn(name = "idAssessment")]
+    )
+    var assessment: Assessment,
+
+    @Column(nullable = false)
+    var assessmentPercentage: Double = 0.0
 )

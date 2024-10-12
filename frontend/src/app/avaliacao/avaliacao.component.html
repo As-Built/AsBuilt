@@ -506,25 +506,46 @@
         </div>
         <!-- Executores -->
         <div class="row" *ngIf="servicoSelecionadoAvaliacao.executors != undefined">
-            <div class="col-6">
-                <label for="executorAvaliacao1">Funcionário executor<span style="color: red;">*</span></label>
-                <select #executorAvaliacao1 name="executorAvaliacao1" id="executorAvaliacao1"
-                    [(ngModel)]="servicoSelecionadoAvaliacao.executors[0]">
-                    <option disabled [value]="undefined">Selecione um funcionário</option>
-                    <option *ngFor="let executor of listaFuncionarios" [ngValue]="executor">
-                        {{ executor.name }}
-                    </option>
-                </select>
+            <!-- Primeiro executor e rateio -->
+            <div class="col-6 executores-padding">
+                <div class="row">
+                    <div class="col-9 executores-padding">
+                        <label for="executorAvaliacao1">Funcionário executor<span style="color: red;">*</span></label>
+                        <select #executorAvaliacao1 name="executorAvaliacao1" id="executorAvaliacao1"
+                            [(ngModel)]="servicoSelecionadoAvaliacao.executors[0]">
+                            <option disabled [value]="undefined">Selecione um funcionário</option>
+                            <option *ngFor="let executor of listaFuncionarios" [ngValue]="executor">
+                                {{ executor.name }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-3 executores-padding">
+                        <label for="rateioExecutor0">Rateio (%)</label>
+                        <input #rateioExecutor0 type="number" max="100" min="0" id="rateioExecutor0" name="rateioExecutor0" 
+                            [(ngModel)]="executorPercentages[0]" >
+                    </div>
+                </div>
             </div>
-            <div class="col-6" *ngFor="let executor of additionalExecutors; index as i">
-                <label [for]="'executor' + executor + 'Name'">{{ executor + 1 }}º Funcionário executor</label>
-                <select type="text" [name]="'executor' + executor + 'Name'"
-                    [(ngModel)]="servicoSelecionadoAvaliacao.executors[i + 1]">
-                    <option disabled [value]="undefined">Selecione um funcionário</option>
-                    <option *ngFor="let executor of listaFuncionarios" [ngValue]="executor">
-                        {{ executor.name }}
-                    </option>
-                </select>
+
+            <!-- Executores adicionais e rateios -->
+            <div class="col-6 executores-padding" *ngFor="let executor of additionalExecutors; index as i">
+                <div class="row">
+                    <div class="col-9 executores-padding">
+                        <label [for]="'executor' + executor + 'Name'">{{ executor + 1 }}º Funcionário executor</label>
+                        <select type="text" [name]="'executor' + executor + 'Name'"
+                            [(ngModel)]="servicoSelecionadoAvaliacao.executors[i + 1]">
+                            <option disabled [value]="undefined">Selecione um funcionário</option>
+                            <option *ngFor="let executor of listaFuncionarios" [ngValue]="executor">
+                                {{ executor.name }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-3 executores-padding">
+                        <label [for]="'executor' + executor + 'Percentage'">Rateio (%)</label>
+                        <input type="number" max="100" min="0" [id]="'executor' + executor + 'Percentage'"
+                            [(ngModel)]="executorPercentages[i + 1]">
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -731,8 +752,8 @@
                 <input style="display: none;" type="file" [id]="'avaliacaoFoto' + i" [name]="'avaliacaoFoto' + i"
                     accept="image/*" (change)="handleFileInput($event.target, i)" #avaliacaoFoto>
                 <div class="image-container centralizar-conteudo">
-                    <img class="service-photo" [src]="fotosServico[i]" width="150px" height="150px" (click)="triggerFileInput(i)"
-                        matTooltip="Clique para inserir uma foto do serviço executado">
+                    <img class="service-photo" [src]="fotosServico[i]" width="150px" height="150px"
+                        (click)="triggerFileInput(i)" matTooltip="Clique para inserir uma foto do serviço executado">
                 </div>
             </div>
         </div>
@@ -868,36 +889,32 @@
         <div class="row">
             <div class="col-3">
                 <label for="parameter0ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter0Name }}</label>
-                <input #parameter0ResultAvaliacao *ngIf="avaliacaoModel.parameter0Result == true"
-                    placeholder="Aprovado" type="text" name="parameter0ResultAvaliacao" id="parameter0ResultAvaliacao"
-                    disabled="disabled" />
+                <input #parameter0ResultAvaliacao *ngIf="avaliacaoModel.parameter0Result == true" placeholder="Aprovado"
+                    type="text" name="parameter0ResultAvaliacao" id="parameter0ResultAvaliacao" disabled="disabled" />
                 <input #parameter0ResultAvaliacao *ngIf="avaliacaoModel.parameter0Result == false"
                     placeholder="Reprovado" type="text" name="parameter0ResultAvaliacao" id="parameter0ResultAvaliacao"
                     disabled="disabled" />
             </div>
             <div class="col-3">
                 <label for="parameter1ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter1Name }}</label>
-                <input #parameter1ResultAvaliacao *ngIf="avaliacaoModel.parameter1Result == true"
-                    placeholder="Aprovado" type="text" name="parameter1ResultAvaliacao" id="parameter1ResultAvaliacao"
-                    disabled="disabled" />
+                <input #parameter1ResultAvaliacao *ngIf="avaliacaoModel.parameter1Result == true" placeholder="Aprovado"
+                    type="text" name="parameter1ResultAvaliacao" id="parameter1ResultAvaliacao" disabled="disabled" />
                 <input #parameter1ResultAvaliacao *ngIf="avaliacaoModel.parameter1Result == false"
                     placeholder="Reprovado" type="text" name="parameter1ResultAvaliacao" id="parameter1ResultAvaliacao"
                     disabled="disabled" />
             </div>
             <div class="col-3">
                 <label for="parameter2ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter2Name }}</label>
-                <input #parameter2ResultAvaliacao *ngIf="avaliacaoModel.parameter2Result == true"
-                    placeholder="Aprovado" type="text" name="parameter2ResultAvaliacao" id="parameter2ResultAvaliacao"
-                    disabled="disabled" />
+                <input #parameter2ResultAvaliacao *ngIf="avaliacaoModel.parameter2Result == true" placeholder="Aprovado"
+                    type="text" name="parameter2ResultAvaliacao" id="parameter2ResultAvaliacao" disabled="disabled" />
                 <input #parameter2ResultAvaliacao *ngIf="avaliacaoModel.parameter2Result == false"
                     placeholder="Reprovado" type="text" name="parameter2ResultAvaliacao" id="parameter2ResultAvaliacao"
                     disabled="disabled" />
             </div>
             <div class="col-3" *ngIf="avaliacaoModel.task.taskType.parameter3Name">
                 <label for="parameter3ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter3Name }}</label>
-                <input #parameter3ResultAvaliacao *ngIf="avaliacaoModel.parameter3Result == true"
-                    placeholder="Aprovado" type="text" name="parameter3ResultAvaliacao" id="parameter3ResultAvaliacao"
-                    disabled="disabled" />
+                <input #parameter3ResultAvaliacao *ngIf="avaliacaoModel.parameter3Result == true" placeholder="Aprovado"
+                    type="text" name="parameter3ResultAvaliacao" id="parameter3ResultAvaliacao" disabled="disabled" />
                 <input #parameter3ResultAvaliacao *ngIf="avaliacaoModel.parameter3Result == false"
                     placeholder="Reprovado" type="text" name="parameter3ResultAvaliacao" id="parameter3ResultAvaliacao"
                     disabled="disabled" />
@@ -911,54 +928,48 @@
                                 servicoSelecionadoAvaliacao.taskType.parameter9Name">
             <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter4Name">
                 <label for="parameter4ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter4Name }}</label>
-                <input #parameter4ResultAvaliacao *ngIf="avaliacaoModel.parameter4Result == true"
-                    placeholder="Aprovado" type="text" name="parameter4ResultAvaliacao" id="parameter4ResultAvaliacao"
-                    disabled="disabled" />
+                <input #parameter4ResultAvaliacao *ngIf="avaliacaoModel.parameter4Result == true" placeholder="Aprovado"
+                    type="text" name="parameter4ResultAvaliacao" id="parameter4ResultAvaliacao" disabled="disabled" />
                 <input #parameter4ResultAvaliacao *ngIf="avaliacaoModel.parameter4Result == false"
                     placeholder="Reprovado" type="text" name="parameter4ResultAvaliacao" id="parameter4ResultAvaliacao"
                     disabled="disabled" />
             </div>
             <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter5Name">
                 <label for="parameter5ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter5Name }}</label>
-                <input #parameter5ResultAvaliacao *ngIf="avaliacaoModel.parameter5Result == true"
-                    placeholder="Aprovado" type="text" name="parameter5ResultAvaliacao" id="parameter5ResultAvaliacao"
-                    disabled="disabled" />
+                <input #parameter5ResultAvaliacao *ngIf="avaliacaoModel.parameter5Result == true" placeholder="Aprovado"
+                    type="text" name="parameter5ResultAvaliacao" id="parameter5ResultAvaliacao" disabled="disabled" />
                 <input #parameter5ResultAvaliacao *ngIf="avaliacaoModel.parameter5Result == false"
                     placeholder="Reprovado" type="text" name="parameter5ResultAvaliacao" id="parameter5ResultAvaliacao"
                     disabled="disabled" />
             </div>
             <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter6Name">
                 <label for="parameter6ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter6Name }}</label>
-                <input #parameter6ResultAvaliacao *ngIf="avaliacaoModel.parameter6Result == true"
-                    placeholder="Aprovado" type="text" name="parameter6ResultAvaliacao" id="parameter6ResultAvaliacao"
-                    disabled="disabled" />
+                <input #parameter6ResultAvaliacao *ngIf="avaliacaoModel.parameter6Result == true" placeholder="Aprovado"
+                    type="text" name="parameter6ResultAvaliacao" id="parameter6ResultAvaliacao" disabled="disabled" />
                 <input #parameter6ResultAvaliacao *ngIf="avaliacaoModel.parameter6Result == false"
                     placeholder="Reprovado" type="text" name="parameter6ResultAvaliacao" id="parameter6ResultAvaliacao"
                     disabled="disabled" />
             </div>
             <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter7Name">
                 <label for="parameter7ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter7Name }}</label>
-                <input #parameter7ResultAvaliacao *ngIf="avaliacaoModel.parameter7Result == true"
-                    placeholder="Aprovado" type="text" name="parameter7ResultAvaliacao" id="parameter7ResultAvaliacao"
-                    disabled="disabled" />
+                <input #parameter7ResultAvaliacao *ngIf="avaliacaoModel.parameter7Result == true" placeholder="Aprovado"
+                    type="text" name="parameter7ResultAvaliacao" id="parameter7ResultAvaliacao" disabled="disabled" />
                 <input #parameter7ResultAvaliacao *ngIf="avaliacaoModel.parameter7Result == false"
                     placeholder="Reprovado" type="text" name="parameter7ResultAvaliacao" id="parameter7ResultAvaliacao"
                     disabled="disabled" />
             </div>
             <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter8Name">
                 <label for="parameter8ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter8Name }}</label>
-                <input #parameter8ResultAvaliacao *ngIf="avaliacaoModel.parameter8Result == true"
-                    placeholder="Aprovado" type="text" name="parameter8ResultAvaliacao" id="parameter8ResultAvaliacao"
-                    disabled="disabled" />
+                <input #parameter8ResultAvaliacao *ngIf="avaliacaoModel.parameter8Result == true" placeholder="Aprovado"
+                    type="text" name="parameter8ResultAvaliacao" id="parameter8ResultAvaliacao" disabled="disabled" />
                 <input #parameter8ResultAvaliacao *ngIf="avaliacaoModel.parameter8Result == false"
                     placeholder="Reprovado" type="text" name="parameter8ResultAvaliacao" id="parameter8ResultAvaliacao"
                     disabled="disabled" />
             </div>
             <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter9Name">
                 <label for="parameter9ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter9Name }}</label>
-                <input #parameter9ResultAvaliacao *ngIf="avaliacaoModel.parameter9Result == true"
-                    placeholder="Aprovado" type="text" name="parameter9ResultAvaliacao" id="parameter9ResultAvaliacao"
-                    disabled="disabled" />
+                <input #parameter9ResultAvaliacao *ngIf="avaliacaoModel.parameter9Result == true" placeholder="Aprovado"
+                    type="text" name="parameter9ResultAvaliacao" id="parameter9ResultAvaliacao" disabled="disabled" />
                 <input #parameter9ResultAvaliacao *ngIf="avaliacaoModel.parameter9Result == false"
                     placeholder="Reprovado" type="text" name="parameter9ResultAvaliacao" id="parameter9ResultAvaliacao"
                     disabled="disabled" />
