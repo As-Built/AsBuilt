@@ -696,7 +696,12 @@ export class AvaliacaoComponent implements OnInit {
                   timer: 2500,
                 });
               }
-              this.buscarServicosAguardandoAvaliacao();
+              if (this.avaliacaoTab == 0) {
+                this.buscarServicosAguardandoAvaliacao();
+              }
+              if (this.avaliacaoTab == 1) {
+                this.buscarServicosParaReavaliacao();
+              }
               this.limparDados();
             }),
             catchError(error => {

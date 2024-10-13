@@ -70,36 +70,6 @@ class AssessmentService(
         return repository.findTasksNeedReassessment()
     }
 
-    fun reassessment(assessmentRequest: CreateAssessmentRequest): Assessment {
-        // Busca a Task pelo ID
-        val task = assessmentRequest.task.id?.let {
-            taskRepository.findById(it)
-                .orElseThrow { NotFoundException("Task not found with ID: ${assessmentRequest.task.id}") }
-        }
-
-        // Busca os Users (Executores) pelos IDs fornecidos
-        val taskExecutors = userRepository.findAllById(assessmentRequest.taskExecutorsIds).toSet()
-        if (taskExecutors.size != assessmentRequest.taskExecutorsIds.size) {
-            throw NotFoundException("One or more Executors not found with provided IDs")
-        }
-
-        // Busca os Users (Avaliadores) pelos IDs fornecidos
-        val taskEvaluators = userRepository.findAllById(assessmentRequest.taskEvaluatorsIds).toSet()
-        if (taskEvaluators.size != assessmentRequest.taskEvaluatorsIds.size) {
-            throw NotFoundException("One or more Evaluators not found with provided IDs")
-        }
-
-        // Cria o Assessment usando os objetos buscados
-        val newAssessment = assessmentRequest.toAssessment(
-            task = task!!,
-            taskExecutors = taskExecutors,
-            taskEvaluators = taskEvaluators
-        )
-
-        return repository.save(newAssessment)
-            .also { log.info("Reassessment inserted: {}", it.id) }
-    }
-
     fun findAssessmentById(id: Long): Assessment {
         return repository.findByIdOrNull(id) ?: throw NotFoundException("Assessment not found with id: $id")
     }

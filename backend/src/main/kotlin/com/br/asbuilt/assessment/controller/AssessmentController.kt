@@ -51,15 +51,6 @@ class AssessmentController(
             .map { TaskResponse(it) }.let { ResponseEntity.ok(it) }
 
     @SecurityRequirement(name="AsBuilt")
-    @PreAuthorize("hasRole('ADMIN') || hasRole('CONFERENTE')")
-    @PostMapping("/reassessment")
-    fun reassessment(@Valid @RequestBody assessmentRequest: CreateAssessmentRequest): ResponseEntity<AssessmentResponse> {
-        return service.reassessment(assessmentRequest).let { it ->
-            AssessmentResponse(it).let { ResponseEntity.status(HttpStatus.CREATED).body(it) }
-        }
-    }
-
-    @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("permitAll()")
     @GetMapping("/findAssessmentById/{id}")
     fun findAssessmentById(@PathVariable id: Long) =
