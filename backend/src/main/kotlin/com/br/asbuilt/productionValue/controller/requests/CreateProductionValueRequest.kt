@@ -8,7 +8,6 @@ import jakarta.validation.constraints.NotNull
 import java.util.Date
 
 data class CreateProductionValueRequest(
-    @field:NotNull
     val value: Double,
 
     @field:NotNull

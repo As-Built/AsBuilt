@@ -3,7 +3,7 @@
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 <a class="nav-link" [ngClass]="{'active': avaliacaoTab == 0}" id="cadastro-tab" data-toggle="tab"
-                    (click)="mudarAba(0)">Serviços aguardando avaliação</a>
+                    (click)="mudarAba(0)">Serviços sem avaliação positiva</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" [ngClass]="{'active': avaliacaoTab == 1}" id="consulta-tab" data-toggle="tab"
@@ -139,7 +139,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="row centralizar-conteudo" style="color: rgb(90, 192, 90);"
+                    <div class="row centralizar-conteudo"
                         *ngIf="servicosAguardandoAvaliacaoFiltrada.length === 0">
                         <h3>
                             Nenhum serviço aguardando avaliação encontrado
@@ -405,7 +405,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="row centralizar-conteudo" style="color: rgb(90, 192, 90);"
+                    <div class="row centralizar-conteudo"
                         *ngIf="servicosAguardandoAvaliacaoFiltrada.length === 0">
                         <h3>
                             Nenhum serviço avaliado encontrado

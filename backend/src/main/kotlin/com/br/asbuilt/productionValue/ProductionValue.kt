@@ -13,7 +13,7 @@ class ProductionValue (
     @Id @GeneratedValue
     var id: Long? = null,
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     var value: Double = 0.0,
 
     @Column(nullable = false)

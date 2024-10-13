@@ -681,12 +681,21 @@ export class AvaliacaoComponent implements OnInit {
           });
           this.avaliacaoService.updateAssessmentPhotos(avaliacao.id!, photos).pipe(
             tap(retorno => {
-              Swal.fire({
-                text: "Avaliação salva com sucesso!",
-                icon: "success",
-                showConfirmButton: false,
-                timer: 2500,
-              });
+              if (avaliacao.assessmentResult) {
+                Swal.fire({
+                  html: "Avaliação salva com sucesso! <br> Resultado: <b>SERVIÇO APROVADO! </b>",
+                  icon: "success",
+                  showConfirmButton: false,
+                  timer: 2500,
+                });
+              } else {
+                Swal.fire({
+                  html: "Avaliação salva com sucesso! <br> Resultado: <b>SERVIÇO REPROVADO! </b>",
+                  icon: "warning",
+                  showConfirmButton: false,
+                  timer: 2500,
+                });
+              }
               this.buscarServicosAguardandoAvaliacao();
               this.limparDados();
             }),
@@ -701,19 +710,21 @@ export class AvaliacaoComponent implements OnInit {
               return of();
             })
           ).subscribe();
-          if (avaliacao.assessmentResult) {
-            avaliacao.taskExecutors.forEach((executor, index) => {
+          avaliacao.taskExecutors.forEach((executor, index) => {
+            if (avaliacao.assessmentResult) {
               this.valorProducaoModel.value = avaliacao.task.amount * 
-                this.executorPercentages[index] / 100;
-              this.valorProducaoModel.user = executor;
-              this.valorProducaoModel.task = avaliacao.task;
-              this.valorProducaoModel.date = new Date();
-              this.valorProducaoModel.assessment = avaliacao;
-              this.valorProducaoModel.assessmentPercentage = this.executorPercentages[index];
-              
-              this.inserirValorProducao(this.valorProducaoModel);
-            });
-          }
+              this.executorPercentages[index] / 100;
+            } else {
+              this.valorProducaoModel.value = 0;
+            }
+            this.valorProducaoModel.user = executor;
+            this.valorProducaoModel.task = avaliacao.task;
+            this.valorProducaoModel.date = new Date();
+            this.valorProducaoModel.assessment = avaliacao;
+            this.valorProducaoModel.assessmentPercentage = this.executorPercentages[index];
+            
+            this.inserirValorProducao(this.valorProducaoModel);
+          });
           this.limparDados();
         } else {
           Swal.fire({
@@ -889,6 +900,18 @@ export class AvaliacaoComponent implements OnInit {
       this.campoErroValidacao = "#rateioExecutor0";
       return false;
     }
+
+    if (this.executorPercentages.some(percentage => percentage === 0)) {
+      this.msgErroValidacao = 'Não é possível inserir um rateio 0% a um funcionário executor!';
+      this.campoErroValidacao = "#rateioExecutor0";
+      return false;
+    }
+
+    if (new Set(avaliacao.taskExecutors.map(executor => executor.id)).size !== avaliacao.taskExecutors.length) {
+      this.msgErroValidacao = 'Não é possível inserir funcionários executores duplicados!';
+      this.campoErroValidacao = "#executorAvaliacao1";
+      return false;
+  }
     
     return true;
   }
@@ -1005,7 +1028,11 @@ export class AvaliacaoComponent implements OnInit {
     this.avaliacaoModel = new AvaliacaoModel();
     this.additionalExecutors.length = 0;
     this.additionalEvaluators.length = 0;
-    this.executorPercentages = [];
+    this.executorPercentages.forEach(percentage => percentage = 0);
+    this.executorPercentages.length = 0;
+    this.executorPercentages.push(100);
+    this.fotosServicoBlob = [];
+    this.fotosServico = [];
   }
 
   async buscarAvaliacoesPorServico(servicoId: number) {
