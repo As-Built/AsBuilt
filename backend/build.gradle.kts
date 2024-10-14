@@ -62,6 +62,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("com.azure.spring:spring-cloud-azure-starter-storage-blob")
 	implementation("com.azure:azure-storage-blob:12.14.2")
+	implementation("org.apache.poi:poi-ooxml:5.2.3")
 }
 
 tasks.withType<KotlinCompile> {

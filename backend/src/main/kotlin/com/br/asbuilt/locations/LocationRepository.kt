@@ -1,5 +1,6 @@
 package com.br.asbuilt.locations
 
+import com.br.asbuilt.costCenters.CostCenter
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
@@ -46,4 +47,13 @@ interface LocationRepository : JpaRepository<Location, Long> {
 
     @Query("SELECT l FROM Location l WHERE l.costCenter.id = :costCenterId")
     fun findLocationByCostCenterId(costCenterId: Long): List<Location>
+
+    @Query("SELECT l FROM Location l " +
+            "WHERE l.locationGroup = :locationGroup " +
+            "AND (:subGroup1 IS NULL OR l.subGroup1 = :subGroup1) " +
+            "AND (:subGroup2 IS NULL OR l.subGroup2 = :subGroup2) " +
+            "AND (:subGroup3 IS NULL OR l.subGroup3 = :subGroup3) " +
+            "AND l.costCenter.costCenterName = :costCenterName")
+    fun findLocationByCostCenterNameAndLocation(locationGroup: String, subGroup1: String?, subGroup2: String?,
+                                              subGroup3: String?, costCenterName: String): Location?
 }

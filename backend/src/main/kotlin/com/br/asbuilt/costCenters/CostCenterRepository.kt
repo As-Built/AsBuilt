@@ -1,5 +1,6 @@
 package com.br.asbuilt.costCenters
 
+import com.br.asbuilt.builders.Builder
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
@@ -19,5 +20,11 @@ interface CostCenterRepository : JpaRepository<CostCenter, Long> {
     @Modifying
     @Query("update CostCenter c set c.valueUndertaken = c.valueUndertaken - :amount where c.id = :costCenterId")
     fun decreaseValueUndertaken(costCenterId: Long, amount: Double): Int
+
+    @Query("select c from CostCenter c where c.builder.builderName = :builderName")
+    fun findCostCentersByBuilderName(builderName: String): List<CostCenter>
+
+    @Query("select c from CostCenter c where c.costCenterName = :costCenterName and c.builder.builderName = :builderName")
+    fun findByCostCenterNameAndBuilder(costCenterName: String, builderName: String): CostCenter?
 
 }

@@ -71,4 +71,24 @@ export class ServicoService {
   excluirServico(id: number) {
     return this.httpClient.delete(`http://localhost:8080/asbuilt/tasks/deleteTask/${id}`, this.httpOptions);
   }
+
+  enviarArquivo(file: File): Promise<number> {
+    const formData: FormData = new FormData();
+    formData.append('file', file, file.name);
+  
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.token
+    });
+  
+    return this.httpClient.post<number>('http://localhost:8080/asbuilt/tasks/insertBatchTasks', formData, { headers }).toPromise().then(response => {
+      if (typeof response === 'number') {
+        return response;
+      } else {
+        throw new Error('A resposta do servidor não é um número');
+      }
+    }).catch(error => {
+      console.error('Erro ao enviar arquivo', error);
+      throw error;
+    });
+  }
 }

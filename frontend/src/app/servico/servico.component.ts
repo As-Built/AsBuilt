@@ -39,10 +39,11 @@ export class ServicoComponent implements OnInit {
   displayedColumns: string[] = ["acoes", "costCenter", "locationGroup", 'subGroup1', 'subGroup2', 'taskType', 'dimension', 'unitMeasurement'];
   renderModalVisualizar = false;
   indDesabilitaCampos = true;
-  isCadastroServico = true;
   filtroSelecionado: string | null = null;
   listaServicosFiltrada: ServicoModel[] = [];
   listaCentrosDeCustoFiltrada: CentroCustoModel[] = [];
+  servicoTab: number = 0;
+  arquivoSelecionado: File | undefined;
 
   constructor(
     private servicoService: ServicoService,
@@ -65,6 +66,18 @@ export class ServicoComponent implements OnInit {
     };
   }
 
+  async mudarAba(posicao: number) {
+    this.servicoTab = posicao;
+    if (posicao === 0) {
+      this.cadastroServico = new ServicoModel();
+    } else if (posicao === 1) {
+      await this.buscarServicos();
+    } else if (posicao === 2) {
+      await this.buscarServicos();;
+    }
+    this.limparCampos()
+  }
+
   compareFnConstrutora(c1: ConstrutoraModel, c2: ConstrutoraModel): boolean {
     return c1 && c2 ? c1.id === c2.id : c1 === c2;
   }
@@ -79,7 +92,6 @@ export class ServicoComponent implements OnInit {
       this.buscarLocaisPorCentroDeCusto(value.id);
     }
   }
-
 
   async buscarServicos() {
     try {
@@ -213,12 +225,6 @@ export class ServicoComponent implements OnInit {
       .map(location => location.subGroup3);
 
     return locations.filter((location, index) => locations.indexOf(location) === index);
-  }
-
-  mudarAba() {
-    this.buscarServicos();
-    this.isCadastroServico = !this.isCadastroServico;
-    this.cadastroServico = new ServicoModel();
   }
 
   parseValue(inputValue: string): number {
@@ -483,5 +489,37 @@ export class ServicoComponent implements OnInit {
       subGroup3: '',
       costCenter: {} as CentroCustoModel
     };
+  }
+
+  onFileChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    if (target.files && target.files.length > 0) {
+      this.arquivoSelecionado = target.files[0];
+    }
+  }
+
+  async cadastrarEmLote() {
+    if (this.arquivoSelecionado) {
+      try {
+        const taskCount = await this.servicoService.enviarArquivo(this.arquivoSelecionado);
+        Swal.fire({
+          html: `Arquivo enviado com sucesso!<br> <b>${taskCount} novos serviços foram incluídos!</b>`,
+          icon: "success",
+          showConfirmButton: false,
+          timer: 3000
+        });
+      } catch (error) {
+        const message = (error as Error).message;
+        Swal.fire({
+            text: message,
+            icon: "error",
+            showConfirmButton: false,
+            timer: 3000
+          });
+      }
+    } else {
+      console.error('Nenhum arquivo selecionado');
+      Swal.fire('Erro', 'Nenhum arquivo selecionado', 'error');
+    }
   }
 }

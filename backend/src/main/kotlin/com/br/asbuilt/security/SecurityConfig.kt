@@ -62,7 +62,7 @@ class SecurityConfig(
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/users/recuperarSenha/**")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/tasks")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.GET, "/tasks/**")).permitAll()
-                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/tasks")).hasAnyRole("ADMIN", "CONFERENTE")
+                    .requestMatchers(mvc.pattern(HttpMethod.POST, "/tasks/**")).hasAnyRole("ADMIN", "CONFERENTE")
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/tasks/insertTask")).hasAnyRole("ADMIN", "CONFERENTE")
                     .requestMatchers(mvc.pattern(HttpMethod.PATCH, "/tasks/updateTask")).hasAnyRole("ADMIN", "CONFERENTE")
                     .requestMatchers(mvc.pattern(HttpMethod.DELETE, "/tasks/deleteTask/**")).hasAnyRole("ADMIN", "CONFERENTE")

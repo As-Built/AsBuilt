@@ -38,6 +38,7 @@ import { PerfilUsuarioComponent } from './perfil-usuario/perfil-usuario.componen
 import { MatMenuModule } from '@angular/material/menu';
 import { AvaliacaoComponent } from './avaliacao/avaliacao.component';
 import { AssessmentResultPipe } from './shared/pipes/assessment-result.pipe';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
@@ -87,7 +88,8 @@ import { AssessmentResultPipe } from './shared/pipes/assessment-result.pipe';
     MatTableModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatMenuModule
+    MatMenuModule,
+    NgxSpinnerModule
   ],
   providers: [
     CurrencyPipe,
