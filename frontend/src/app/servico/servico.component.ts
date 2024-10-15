@@ -70,14 +70,13 @@ export class ServicoComponent implements OnInit {
   }
 
   async mudarAba(posicao: number) {
-    this.servicoTab = posicao;
     if (posicao === 0) {
       this.servicoTab = posicao;
       this.cadastroServico = new ServicoModel();
     } else if (posicao === 1) {
       this.servicoTab = posicao;
-      this.cadastroServico = new ServicoModel();
     } else if (posicao === 2) {
+      this.servicoTab = posicao;
       await this.buscarServicos();;
     }
     this.limparCampos()
@@ -467,6 +466,9 @@ export class ServicoComponent implements OnInit {
           }),
           catchError(error => {
             let msgErro = error.error;
+            if (msgErro === "Task with assessment cannot be deleted!") {
+              msgErro = "Este serviço já possui uma avaliação e não pode ser excluído!";
+            }
             Swal.fire({
               text: msgErro,
               icon: "error",

@@ -96,14 +96,14 @@ class AssessmentService(
         } ?: throw NotFoundException("Assessment not found with id: $id")
     }
 
-    fun findAssessmentByTaskId(id: Long): Assessment {
+    fun findAssessmentByTaskId(id: Long): Assessment? {
         val assessment = repository.findAssessmentByTaskId(id)
         log.info("Positive assessment found for task with id: {}", id)
-        return assessment
+        return assessment ?: throw NotFoundException("Positive assessment not found for task with id: $id")
     }
 
-    fun findAssessmentsByTaskId(id: Long): List<Assessment> {
-        return repository.findAssessmentsByTaskId(id)
+    fun findAssessmentsByTaskId(id: Long): List<Assessment>? {
+        return repository.findAssessmentsByTaskId(id)  ?: throw NotFoundException("Positive assessments not found for task with id: $id")
     }
 
     companion object {

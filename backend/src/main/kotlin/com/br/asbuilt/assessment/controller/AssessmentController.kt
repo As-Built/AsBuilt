@@ -69,7 +69,7 @@ class AssessmentController(
     @GetMapping("/findAssessmentByTaskId/{id}")
     fun findPositiveAssessmentByTaskId(@PathVariable id: Long) =
         service.findAssessmentByTaskId(id)
-            .let { ResponseEntity.ok(AssessmentResponse(it)) }
+            .let { ResponseEntity.ok(it?.let { it1 -> AssessmentResponse(it1) }) }
 
     @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("permitAll()")
@@ -77,7 +77,7 @@ class AssessmentController(
     fun findAssessmentsByTaskId(@PathVariable id: Long
     ): ResponseEntity<List<AssessmentResponse>> {
         return service.findAssessmentsByTaskId(id)
-            .map { AssessmentResponse(it) }
+            ?.map { AssessmentResponse(it) }
             .let { ResponseEntity.ok(it) }
     }
 }

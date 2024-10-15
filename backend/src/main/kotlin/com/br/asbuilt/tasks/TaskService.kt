@@ -1,6 +1,7 @@
 package com.br.asbuilt.tasks
 
 import com.br.asbuilt.SortDir
+import com.br.asbuilt.assessment.AssessmentRepository
 import com.br.asbuilt.costCenters.CostCenterRepository
 import com.br.asbuilt.exception.BadRequestException
 import com.br.asbuilt.exception.NotFoundException
@@ -22,7 +23,8 @@ class TaskService (
     val costCenterRepository: CostCenterRepository,
     val locationRepository: LocationRepository,
     val taskTypeRepository: TaskTypeRepository,
-    val unitMeasurementRepository: UnitMeasurementRepository
+    val unitMeasurementRepository: UnitMeasurementRepository,
+    val assessmentRepository: AssessmentRepository
 ) {
 
     fun insert(task: Task): Task {
@@ -110,10 +112,20 @@ class TaskService (
 
     fun delete(idTask: Long): Boolean {
         val task = repository.findByIdOrNull(idTask) ?: return false
-        // TODO: Implementar condição que verifica se existem avaliações relacionadas ao serviço
-        repository.delete(task)
-        log.info("Task deleted: {}", task.id)
-        return true
+        val taskWithAssessment = assessmentRepository.findAssessmentsByTaskId(idTask)
+        if (taskWithAssessment != null) {
+            if (taskWithAssessment.isNotEmpty()) {
+                throw BadRequestException("Task with assessment cannot be deleted!")
+            } else {
+                repository.delete(task)
+                    .also { log.info("Task deleted: {}", idTask) }
+                return true
+            }
+        } else {
+            repository.delete(task)
+                .also { log.info("Task deleted: {}", idTask) }
+            return true
+        }
     }
 
     fun findByUserName(userName: String, sortDir: String?): List<Task> {

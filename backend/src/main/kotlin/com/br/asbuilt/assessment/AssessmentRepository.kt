@@ -34,11 +34,11 @@ interface AssessmentRepository : JpaRepository <Assessment, Long> {
 
     @Query("SELECT a FROM Assessment a " +
             "WHERE a.task.id = :taskId ")
-    fun findAssessmentByTaskId(taskId: Long): Assessment
+    fun findAssessmentByTaskId(taskId: Long): Assessment?
 
     @Query("SELECT a FROM Assessment a " +
             "WHERE a.task.id = :taskId " +
             "ORDER BY a.id ASC")
-    fun findAssessmentsByTaskId(taskId: Long): List<Assessment>
+    fun findAssessmentsByTaskId(taskId: Long): List<Assessment>?
 
 }
