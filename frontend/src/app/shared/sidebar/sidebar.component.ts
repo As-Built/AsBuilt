@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, HostListener } from '@angular/core';
 import { jwtDecode } from "jwt-decode";
 
 @Component({
@@ -6,7 +6,7 @@ import { jwtDecode } from "jwt-decode";
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
 
   @Input ()
   isSidebarOpen = true;
@@ -15,6 +15,12 @@ export class SidebarComponent {
 
   constructor() {
     this.userRole = this.getUserRole();
+  }
+
+  ngOnInit() {
+    if (window.innerWidth < 576) {
+      this.isSidebarOpen = false;
+    }
   }
 
   toggleSidebar() {
@@ -30,5 +36,10 @@ export class SidebarComponent {
     const decodedToken = jwtDecode(token) as any;
     const userRole = decodedToken.user.roles[0];
     return userRole;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.isSidebarOpen = (event.target as Window).innerWidth >= 576;
   }
 }
