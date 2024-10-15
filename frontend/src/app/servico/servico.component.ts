@@ -58,7 +58,6 @@ export class ServicoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.buscarServicos();
     this.buscarConstrutoras();
     this.buscarTiposServico();
     this.cadastroServico.taskLocation = {
@@ -73,9 +72,11 @@ export class ServicoComponent implements OnInit {
   async mudarAba(posicao: number) {
     this.servicoTab = posicao;
     if (posicao === 0) {
+      this.servicoTab = posicao;
       this.cadastroServico = new ServicoModel();
     } else if (posicao === 1) {
-      await this.buscarServicos();
+      this.servicoTab = posicao;
+      this.cadastroServico = new ServicoModel();
     } else if (posicao === 2) {
       await this.buscarServicos();;
     }
@@ -99,8 +100,10 @@ export class ServicoComponent implements OnInit {
 
   async buscarServicos() {
     try {
+      this.spinner.show();
       const servicos: any = await firstValueFrom(this.servicoService.listarServicos());
       this.listaServicos = servicos;
+      this.spinner.hide();
     } catch (error) {
       console.error(error);
     }
@@ -482,7 +485,6 @@ export class ServicoComponent implements OnInit {
     this.centroCusto = null;
     this.construtora = null;
     this.listaTiposServico = [];
-    this.buscarServicos();
     this.buscarConstrutoras();
     this.buscarCentrosDeCustoPorConstrutora(0);
     this.buscarTiposServico();
@@ -514,6 +516,7 @@ export class ServicoComponent implements OnInit {
           showConfirmButton: false,
           timer: 3000
         });
+        this.arquivoSelecionado = undefined;
       } catch (error) {
         const message = (error as Error).message;
         Swal.fire({
@@ -531,5 +534,31 @@ export class ServicoComponent implements OnInit {
   triggerFileInput() {
     this.arquivoXLSX.nativeElement.click();
   }
+
+  onDragOver(event: DragEvent) {
+    // Prevent the browser's default behavior of opening the file
+    event.preventDefault();
+  }
   
+  onFileDrop(event: DragEvent) {
+    // Prevent the browser's default behavior of opening the file
+    event.preventDefault();
+  
+    if (event.dataTransfer && event.dataTransfer.files.length > 0) {
+      this.handleFile(event.dataTransfer.files[0]);
+    }
+  }
+  
+handleFile(file: File) {
+  if (file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+    this.arquivoSelecionado = file;
+  } else {
+    Swal.fire({
+      text: 'Somente arquivos em formato .xlsx são aceitos!',
+      icon: 'error',
+      showConfirmButton: false,
+      timer: 3000
+    });
+  }
+}
 }

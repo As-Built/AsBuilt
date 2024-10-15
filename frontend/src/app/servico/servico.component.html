@@ -206,11 +206,13 @@
         <div class="row centralizar-conteudo">
           <div class="col-12">
             <input style="display: none;" type="file" id="arquivoXLSX" name="arquivoXLSX" accept=".xlsx" 
-              (change)="onFileChange($event)" #arquivoXLSX>
-            <div class="image-container centralizar-conteudo">
-              <img class="profile-picture" src="..\assets\EmptyXLSX.png" width="150px" 
-                (click)="triggerFileInput()" matTooltip="Clique para carregar arquivo .xlsx">
-            </div>
+            (change)="onFileChange($event)" #arquivoXLSX>
+            <div class="image-container centralizar-conteudo" 
+            (dragover)="onDragOver($event)" 
+            (drop)="onFileDrop($event)">
+            <img class="xlsx-file" src="..\assets\EmptyXLSX.png" width="150px" 
+              (click)="triggerFileInput()" matTooltip="Clique ou arraste para carregar arquivo .xlsx">
+          </div>
           </div>
         </div>
         <div class="row centralizar-conteudo" *ngIf="arquivoSelecionado">
