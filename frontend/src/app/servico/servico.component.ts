@@ -11,6 +11,7 @@ import { TiposServicoService } from '../tipo-servico/service/tipos-servico.servi
 import { TipoServicoModel } from '../tipo-servico/model/tipo-servico.model';
 import { ConstrutoraService } from '../construtora/service/construtora.service';
 import { ConstrutoraModel } from '../construtora/model/construtora.model';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 
@@ -23,6 +24,8 @@ export class ServicoComponent implements OnInit {
 
   @ViewChild('modalVisualizarDetalhes', { static: true })
   modalVisualizarDetalhes!: ElementRef;
+
+  @ViewChild('arquivoXLSX', { static: false }) arquivoXLSX!: ElementRef;
 
   servicoModel = new ServicoModel();
   cadastroServico = new ServicoModel();
@@ -50,7 +53,8 @@ export class ServicoComponent implements OnInit {
     private construtoraService: ConstrutoraService,
     private centroCustoService: CentroCustoService,
     private localService: LocalServicoService,
-    private tiposServicoService: TiposServicoService
+    private tiposServicoService: TiposServicoService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -500,8 +504,10 @@ export class ServicoComponent implements OnInit {
 
   async cadastrarEmLote() {
     if (this.arquivoSelecionado) {
+      this.spinner.show();
       try {
         const taskCount = await this.servicoService.enviarArquivo(this.arquivoSelecionado);
+        this.spinner.hide();
         Swal.fire({
           html: `Arquivo enviado com sucesso!<br> <b>${taskCount} novos serviços foram incluídos!</b>`,
           icon: "success",
@@ -518,8 +524,12 @@ export class ServicoComponent implements OnInit {
           });
       }
     } else {
-      console.error('Nenhum arquivo selecionado');
       Swal.fire('Erro', 'Nenhum arquivo selecionado', 'error');
     }
   }
+
+  triggerFileInput() {
+    this.arquivoXLSX.nativeElement.click();
+  }
+  
 }

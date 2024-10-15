@@ -129,19 +129,59 @@ class TaskService (
         var taskCount = 0
 
         for (row in sheet.drop(1)) { // Pula a linha de cabeçalho
-            val builderName = row.getCell(0).stringCellValue
-            val costCenterName = row.getCell(1).stringCellValue
-            val locationGroup = row.getCell(2).stringCellValue
+            val builderNameCell = row.getCell(0)
+            if (builderNameCell == null || builderNameCell.stringCellValue.isBlank()) {
+                break // Encerra o loop se a célula referente a coluna de construtora estiver vazia
+            }
+            val costCenterCell = row.getCell(1)
+            if  (costCenterCell == null || costCenterCell.stringCellValue.isBlank()) {
+                break // Encerra o loop se a célula referente a coluna de centro de custo estiver vazia
+            }
+
+            val locationGroupCell = row.getCell(2)
+            if (locationGroupCell == null || locationGroupCell.stringCellValue.isBlank()) {
+                break // Encerra o loop se a célula referente a coluna de grupo de localização estiver vazia
+            }
+
+            val taskTypeNameCell = row.getCell(6)
+            if (taskTypeNameCell == null || taskTypeNameCell.stringCellValue.isBlank()) {
+                break // Encerra o loop se a célula referente a coluna de tipo de tarefa estiver vazia
+            }
+
+            val dimensionCell = row.getCell(7)
+            if (dimensionCell == null || dimensionCell.numericCellValue == 0.0) {
+                break // Encerra o loop se a célula referente a coluna de dimensão estiver vazia
+            }
+
+            val unitMeasurementNameCell = row.getCell(8)
+            if (unitMeasurementNameCell == null || unitMeasurementNameCell.stringCellValue.isBlank()) {
+                break // Encerra o loop se a célula referente a coluna de unidade de medida estiver vazia
+            }
+
+            val unitaryValueCell = row.getCell(9)
+            if (unitaryValueCell == null || unitaryValueCell.numericCellValue == 0.0) {
+                break // Encerra o loop se a célula referente a coluna de valor unitário estiver vazia
+            }
+
+            val expectedStartDateCell = row.getCell(11)
+                ?: break // Encerra o loop se a célula referente a coluna de data de início prevista estiver vazia
+
+            val expectedEndDateCell = row.getCell(12)
+                ?: break // Encerra o loop se a célula referente a coluna de data de término prevista estiver vazia
+
+            val builderName = builderNameCell.stringCellValue
+            val costCenterName = costCenterCell.stringCellValue
+            val locationGroup = locationGroupCell.stringCellValue
             val subGroup1 = row.getCell(3)?.stringCellValue
             val subGroup2 = row.getCell(4)?.stringCellValue
             val subGroup3 = row.getCell(5)?.stringCellValue
-            val taskTypeName = row.getCell(6).stringCellValue
-            val dimension = row.getCell(7).numericCellValue
-            val unitMeasurementName = row.getCell(8).stringCellValue
-            val unitaryValue = row.getCell(9).numericCellValue
-            val amount = row.getCell(10).numericCellValue
-            val expectedStartDate = row.getCell(11).dateCellValue
-            val expectedEndDate = row.getCell(12).dateCellValue
+            val taskTypeName = taskTypeNameCell.stringCellValue
+            val dimension = dimensionCell.numericCellValue
+            val unitMeasurementName = unitMeasurementNameCell.stringCellValue
+            val unitaryValue = unitaryValueCell.numericCellValue
+            val amount = dimensionCell.numericCellValue * unitaryValueCell.numericCellValue
+            val expectedStartDate = expectedStartDateCell.dateCellValue
+            val expectedEndDate = expectedEndDateCell.dateCellValue
 
             val costCenter = costCenterRepository.findByCostCenterNameAndBuilder(costCenterName, builderName)
                 ?: throw NotFoundException("Cost center not found for name: $costCenterName and builder: $builderName")
@@ -157,6 +197,7 @@ class TaskService (
                     subGroup3 = subGroup3
                 )
                 location = locationRepository.save(location)
+                    .also { log.info("Location inserted by file: {}", it.id) }
             }
 
             val taskType = taskTypeRepository.findTaskTypeByName(taskTypeName)
@@ -181,7 +222,7 @@ class TaskService (
             )
 
             repository.save(task)
-                .also { log.info("Task inserted: {}", it.id) }
+                .also { log.info("Task inserted by file: {}", it.id) }
             taskCount++
         }
         return taskCount
