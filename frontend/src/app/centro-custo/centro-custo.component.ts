@@ -8,6 +8,7 @@ import { ConstrutoraService } from '../construtora/service/construtora.service';
 import { ConstrutoraModel } from '../construtora/model/construtora.model';
 import { catchError, firstValueFrom, tap } from 'rxjs';
 import { of } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-centro-custo',
@@ -32,11 +33,12 @@ export class CentroCustoComponent implements OnInit {
   constructor(
     private centroCustoService: CentroCustoService,
     private construtoraService: ConstrutoraService,
-    private http: HttpClient) { }
+    private http: HttpClient,
+    private spinner: NgxSpinnerService
+  ) { }
 
   ngOnInit(): void {
     this.buscarConstrutoras();
-    this.buscarCentroDeCusto();
   }
 
   get selectedConstrutoraIndex(): number {
@@ -67,24 +69,30 @@ export class CentroCustoComponent implements OnInit {
 
   async buscarCentroDeCusto() {
     try {
+      this.spinner.show();
       const centrosDeCusto: any = await firstValueFrom(this.centroCustoService.listarCentrosDeCusto());
       this.listaCentrosDeCusto = centrosDeCusto;
+      this.spinner.hide();
     } catch (error) {
       console.error(error);
     }
   }
 
   mudarAba() {
-    this.buscarCentroDeCusto();
     this.isCadastroCentroCusto = !this.isCadastroCentroCusto;
+    if (!this.isCadastroCentroCusto) {
+      this.buscarCentroDeCusto();
+    }
   }
 
   cadastrarCentroDeCusto() {
     if (!this.validarCampos(this.cadastroCentroCusto)) {
       return;
     };
+    this.spinner.show();
     this.centroCustoService.cadastrarCentroDeCusto(this.cadastroCentroCusto).pipe(
       tap(retorno => {
+        this.spinner.hide();
         Swal.fire({
           text: "Cadastro realizado com sucesso!",
           icon: "success",
@@ -94,6 +102,7 @@ export class CentroCustoComponent implements OnInit {
         this.cadastroCentroCusto = new CentroCustoModel();
       }),
       catchError(error => {
+        this.spinner.hide();
         if (error.error == "Cost Center already exists") {
           Swal.fire({
             text: "Já existe um centro de custo com esse nome!",
@@ -117,9 +126,12 @@ export class CentroCustoComponent implements OnInit {
 
   atualizarDadosCentroDeCusto(centro: CentroCustoModel) {
     if (!this.validarCampos(centro)) {
-      return;    };
+      return;    
+    };
+    this.spinner.show();
     this.centroCustoService.atualizarDadosCentroDeCusto(centro).pipe(
       tap(retorno => {
+        this.spinner.hide();
         Swal.fire({
           text: "Atualização realizada com sucesso!",
           icon: "success",
@@ -129,6 +141,7 @@ export class CentroCustoComponent implements OnInit {
         this.buscarConstrutoras();
       }),
       catchError(error => {
+        this.spinner.hide();
         Swal.fire({
           text: error.error,
           icon: "error",
@@ -325,8 +338,10 @@ export class CentroCustoComponent implements OnInit {
       cancelButtonColor: 'green',
     }).then((result) => {
       if (result.isConfirmed) {
+        this.spinner.show();
         this.centroCustoService.excluirCentroDeCusto(id).pipe(
           tap(retorno => {
+            this.spinner.hide();
             Swal.fire({
               text: "Centro de custo excluído com sucesso!",
               icon: "success",
@@ -336,6 +351,7 @@ export class CentroCustoComponent implements OnInit {
             this.buscarCentroDeCusto();
           }),
           catchError(error => {
+            this.spinner.hide();
             let msgErro = error.error;
             if (error.error === "This Builder has open tasks related to it, please delete the open tasks first!") {
               msgErro = "Esse Centro de Custo possui serviços em aberto relacionados a ele, por favor, exclua os serviços primeiro!";

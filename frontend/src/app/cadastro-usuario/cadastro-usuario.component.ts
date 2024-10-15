@@ -4,6 +4,7 @@ import { CadastroUsuarioService } from './service/cadastro-usuario.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-cadastro-usuario',
@@ -18,7 +19,8 @@ export class CadastroUsuarioComponent {
 
   constructor(
     private cadastoUsuarioService: CadastroUsuarioService,
-    private router: Router
+    private router: Router,
+    private spinner: NgxSpinnerService
   ) { }
 
   cadastroUsuarioForm = new FormGroup({
@@ -233,7 +235,9 @@ export class CadastroUsuarioComponent {
     }
   
     if (this.cadastroUsuarioForm.valid) {
+      this.spinner.show();
       this.cadastoUsuarioService.signUp(cadastroUsuarioModel).subscribe(retorno => {
+        this.spinner.hide();
         Swal.fire({
           text: "Usuário cadastrado com sucesso!",
           icon: "success",
@@ -244,6 +248,7 @@ export class CadastroUsuarioComponent {
         });
       },
         (error) => {
+          this.spinner.hide();
           if (error.error === "A user with same CPF already exists") {
             Swal.fire({
               text: "Já existe um usuário cadastrado com este CPF!",

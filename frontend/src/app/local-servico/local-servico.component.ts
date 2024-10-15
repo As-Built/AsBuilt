@@ -8,6 +8,7 @@ import { CentroCustoModel } from '../centro-custo/model/centro-custo.model';
 import { CentroCustoService } from '../centro-custo/service/centro-custo.service';
 import { ConstrutoraModel } from '../construtora/model/construtora.model';
 import { ConstrutoraService } from '../construtora/service/construtora.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-local-servico',
@@ -47,10 +48,10 @@ export class LocalServicoComponent implements OnInit {
     private localServicoService: LocalServicoService,
     private centroCustoService: CentroCustoService,
     private construtoraService: ConstrutoraService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
-    this.buscarLocais();
     this.buscarConstrutoras();
     this.buscarCentrosDeCusto();
     this.filtrarDados();
@@ -184,9 +185,11 @@ export class LocalServicoComponent implements OnInit {
 
   async buscarLocais() {
     try {
+      this.spinner.show();
       const locaisServico: any = await firstValueFrom(this.localServicoService.listarLocais());
       this.listaLocalServico = locaisServico;
       this.filtrarDados();
+      this.spinner.hide();
     } catch (error) {
       console.error(error);
     }
@@ -211,8 +214,10 @@ export class LocalServicoComponent implements OnInit {
   }
 
   mudarAba() {
-    this.buscarLocais();
     this.isCadastroLocalServico = !this.isCadastroLocalServico;
+    if (!this.isCadastroLocalServico) {
+      this.buscarLocais();
+    }
     this.cadastroLocalServico = new LocalServicoModel();
   }
 
@@ -220,8 +225,10 @@ export class LocalServicoComponent implements OnInit {
     if (!this.validarCampos(this.cadastroLocalServico)){
       return;
     };
+    this.spinner.show();
     this.localServicoService.cadastrarLocal(this.cadastroLocalServico).pipe(
       tap(retorno => {
+        this.spinner.hide();
         Swal.fire({
           text: "Cadastro realizado com sucesso!",
           icon: "success",
@@ -231,6 +238,7 @@ export class LocalServicoComponent implements OnInit {
         this.cadastroLocalServico = new LocalServicoModel();
       }),
       catchError(error => {
+        this.spinner.hide();
         if (error.error == "Location already exists") {
           Swal.fire({
             text: "Este local de serviço já está cadastrado!",
@@ -256,8 +264,10 @@ export class LocalServicoComponent implements OnInit {
     if (!this.validarCampos(local)) {
       return;
     }
+    this.spinner.show();
     this.localServicoService.atualizarLocal(local).pipe(
       tap(retorno => {
+        this.spinner.hide();
         Swal.fire({
           text: "Atualização realizada com sucesso!",
           icon: "success",
@@ -267,6 +277,7 @@ export class LocalServicoComponent implements OnInit {
         this.buscarLocais();
       }),
       catchError(error => {
+        this.spinner.hide();
         let msgErro = error.error;
         if (error.error === "No changes detected! Location not updated!") {
           msgErro = "Nenhuma alteração detectada! Local não atualizado!";
@@ -333,8 +344,10 @@ export class LocalServicoComponent implements OnInit {
       cancelButtonColor: 'green',
     }).then((result) => {
       if (result.isConfirmed) {
+        this.spinner.show();
         this.localServicoService.excluirLocal(id).pipe(
           tap(retorno => {
+            this.spinner.hide();
             Swal.fire({
               text: "Local de Serviço excluído com sucesso!",
               icon: "success",
@@ -344,6 +357,7 @@ export class LocalServicoComponent implements OnInit {
             this.buscarLocais();
           }),
           catchError(error => {
+            this.spinner.hide();
             let msgErro = error.error;
             if (error.error === "This Location has tasks related to it, please delete the tasks first!") {
               msgErro = "Esse local possui serviços em aberto relacionados a ele, por favor, exclua os serviços primeiro!";

@@ -5,6 +5,7 @@ import { UsuarioModel } from '../usuario/model/usuario.model';
 import { Autenticacao } from './model/login.model';
 import { LoginService } from './service/login.service';
 import Swal from 'sweetalert2'
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private loginService: LoginService,
-    private router: Router
+    private router: Router,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -67,8 +69,10 @@ export class LoginComponent implements OnInit {
     }
 
     if (this.loginForm.valid) {
+      this.spinner.show();
       this.loginService.signIn(autenticacao).subscribe(retorno => {
         localStorage.setItem('token', retorno.token);
+        this.spinner.hide();
         Swal.fire({
           text: "Usuário autenticado com sucesso!\nRedirecionando...",
           icon: "success",
@@ -78,7 +82,8 @@ export class LoginComponent implements OnInit {
   
         const payload = JSON.parse(atob(retorno.token.split('.')[1]));
         const authority = payload.user.roles[0];
-  
+        
+        this.spinner.show();
         if (authority === "ADMIN" || authority === "CONFERENTE") {
           this.router.navigate(['servico']);
         } else if (authority === "FUNCIONARIO") {
@@ -87,6 +92,7 @@ export class LoginComponent implements OnInit {
           // Redirecionamento padrão para algum lugar caso a autoridade não seja "ADMIN", "CONFERENTE" ou "FUNCIONARIO"
           this.router.navigate(['home']);
         }
+        this.spinner.hide();
       });
     },
     (err) => {

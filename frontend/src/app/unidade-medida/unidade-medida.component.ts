@@ -3,13 +3,14 @@ import { UnidadeMedidaModel } from '../shared/model/unidade-medida.model';
 import { UnidadeMedidaService } from './service/unidade-medida.service';
 import { catchError, firstValueFrom, of, tap } from 'rxjs';
 import Swal from 'sweetalert2';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-unidade-medida',
   templateUrl: './unidade-medida.component.html',
   styleUrls: ['./unidade-medida.component.scss']
 })
-export class UnidadeMedidaComponent implements OnInit {
+export class UnidadeMedidaComponent {
 
   @ViewChild('modalEditarUnidade', { static: true })
   modalEditarUnidade!: ElementRef;
@@ -23,26 +24,26 @@ export class UnidadeMedidaComponent implements OnInit {
   isCadastroUnidade = true;
 
   constructor(
-    private unidadeDeMedidaService: UnidadeMedidaService
+    private unidadeDeMedidaService: UnidadeMedidaService,
+    private spinner: NgxSpinnerService
   ) { }
-
-  ngOnInit(): void {
-    this.buscarUnidadesDeMedida();
-  }
-
 
   async buscarUnidadesDeMedida() {
     try {
+      this.spinner.show();
       const centrosDeCusto: any = await firstValueFrom(this.unidadeDeMedidaService.listarUnidadesDeMedida());
       this.listaUnidadeDeMedida = centrosDeCusto;
+      this.spinner.hide();
     } catch (error) {
       console.error(error);
     }
   }
 
   mudarAba() {
-    this.buscarUnidadesDeMedida();
     this.isCadastroUnidade = !this.isCadastroUnidade;
+    if (!this.isCadastroUnidade) {
+      this.buscarUnidadesDeMedida();
+    }
     this.cadastroUnidadeDeMedida = new UnidadeMedidaModel();
   }
 
@@ -50,8 +51,10 @@ export class UnidadeMedidaComponent implements OnInit {
     if (!this.validarCampos(this.cadastroUnidadeDeMedida)) {
       return;
     };
+    this.spinner.show();
     this.unidadeDeMedidaService.cadastrarUnidadesDeMedida(this.cadastroUnidadeDeMedida).pipe(
       tap(retorno => {
+        this.spinner.hide();
         Swal.fire({
           text: "Cadastro realizado com sucesso!",
           icon: "success",
@@ -61,6 +64,7 @@ export class UnidadeMedidaComponent implements OnInit {
         this.cadastroUnidadeDeMedida = new UnidadeMedidaModel();
       }),
       catchError(error => {
+        this.spinner.hide();
         if (error.error == "Unit Measurement already exists") {
           Swal.fire({
             text: "Já existe uma unidade de medida com essa sigla!",

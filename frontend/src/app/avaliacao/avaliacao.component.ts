@@ -16,6 +16,7 @@ import { UsuarioModel } from '../usuario/model/usuario.model';
 import { cloneDeep } from 'lodash';
 import { ValorProducaoService } from '../shared/service/valor-producao.service';
 import { ValorProducaoModel } from '../shared/model/valor-producao.model';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-avaliacao',
@@ -101,7 +102,8 @@ export class AvaliacaoComponent implements OnInit {
     private centroCustoService: CentroCustoService,
     private construtoraService: ConstrutoraService,
     private usuarioService: UsuarioService,
-    private valorProducaoService: ValorProducaoService
+    private valorProducaoService: ValorProducaoService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -457,10 +459,12 @@ export class AvaliacaoComponent implements OnInit {
 
   async buscarServicosAguardandoAvaliacao() {
     try {
+      this.spinner.show();
       const servicos: any = await firstValueFrom(this.avaliacaoService.buscarServicosAguardandoAvaliacao());
       this.servicosAguardandoAvaliacao = servicos;
       this.servicosAguardandoAvaliacaoFiltrada = servicos;
       this.filtrarDados();
+      this.spinner.hide();
     } catch (error) {
       console.error(error);
     }
@@ -679,8 +683,10 @@ export class AvaliacaoComponent implements OnInit {
               name: '.jpg'
             };
           });
+          this.spinner.show();
           this.avaliacaoService.updateAssessmentPhotos(avaliacao.id!, photos).pipe(
             tap(retorno => {
+              this.spinner.hide();
               if (avaliacao.assessmentResult) {
                 Swal.fire({
                   html: "Avaliação salva com sucesso! <br> Resultado: <b>SERVIÇO APROVADO! </b>",
@@ -705,7 +711,9 @@ export class AvaliacaoComponent implements OnInit {
               this.limparDados();
             }),
             catchError(error => {
+              this.spinner.hide();
               this.avaliacaoService.deletarAvaliacao(avaliacao.id!).pipe().subscribe();
+              this.spinner.hide();
               Swal.fire({
                 text: error.error,
                 icon: "error",
@@ -932,10 +940,12 @@ export class AvaliacaoComponent implements OnInit {
 
   async buscarServicosAvaliados() {
     try {
+      this.spinner.show();
       const servicosAvaliados: any = await firstValueFrom(this.avaliacaoService.buscarServicosAvaliados());
       this.servicosAvaliados = servicosAvaliados;
       this.servicosAvaliadosFiltrados = servicosAvaliados;
       this.filtrarDados();
+      this.spinner.hide();
     } catch (error) {
       console.error(error);
     }
@@ -943,10 +953,12 @@ export class AvaliacaoComponent implements OnInit {
 
   async buscarServicosParaReavaliacao() {
     try {
+      this.spinner.show();
       const servicosParaReavaliacao: any = await firstValueFrom(this.avaliacaoService.buscarServicosParaReavaliacao());
       this.servicosParaReavaliacao = servicosParaReavaliacao;
       this.servicosParaReavaliacaoFiltrados = servicosParaReavaliacao;
       this.filtrarDados();
+      this.spinner.hide();
     } catch (error) {
       console.error(error);
     }
@@ -1042,8 +1054,10 @@ export class AvaliacaoComponent implements OnInit {
 
   async buscarAvaliacoesPorServico(servicoId: number) {
     try {
+      this.spinner.show();
       const avaliacoes: any = await firstValueFrom(this.avaliacaoService.buscarAvaliacoesPorServico(servicoId));
       this.avaliacoesRealizadasPorServico = avaliacoes;
+      this.spinner.hide();
     } catch (error) {
       console.error(error);
     }

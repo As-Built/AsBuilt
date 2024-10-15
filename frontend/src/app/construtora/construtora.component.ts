@@ -1,16 +1,17 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ConstrutoraModel } from './model/construtora.model';
 import { ConstrutoraService } from './service/construtora.service';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { catchError, firstValueFrom, of, tap } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-construtora',
   templateUrl: './construtora.component.html',
   styleUrls: ['./construtora.component.scss']
 })
-export class ConstrutoraComponent implements OnInit {
+export class ConstrutoraComponent {
 
   @ViewChild('modalVisualizarDetalhes', { static: true })
   modalVisualizarDetalhes!: ElementRef;
@@ -26,24 +27,26 @@ export class ConstrutoraComponent implements OnInit {
 
   constructor(
     private construtoraService: ConstrutoraService,
-    private http: HttpClient) { }
-
-  ngOnInit(): void {
-    this.buscarConstrutoras();
-  }
+    private http: HttpClient,
+    private spinner: NgxSpinnerService
+  ) { }
 
   async buscarConstrutoras() {
     try {
+      this.spinner.show();
       const construtoras: any = await firstValueFrom(this.construtoraService.listarConstrutoras());
       this.listaConstrutoras = construtoras;
+      this.spinner.hide();
     } catch (error) {
       console.error(error);
     }
   }
 
   mudarAba() {
-    this.buscarConstrutoras();
     this.isCadastroConstrutora = !this.isCadastroConstrutora;
+    if (!this.isCadastroConstrutora) {
+      this.buscarConstrutoras();
+    }
   }
 
   getAddress(cep: string, modal: boolean) {
@@ -122,8 +125,10 @@ export class ConstrutoraComponent implements OnInit {
     if (!this.validarCampos(this.cadastroConstrutora)) {
       return;
     }
+    this.spinner.show();
     this.construtoraService.cadastrarConstrutora(this.cadastroConstrutora).pipe(
       tap(retorno => {
+        this.spinner.hide();
         Swal.fire({
           text: "Cadastro realizado com sucesso!",
           icon: "success",
@@ -133,6 +138,7 @@ export class ConstrutoraComponent implements OnInit {
         this.cadastroConstrutora = new ConstrutoraModel();
       }),
       catchError(error => {
+        this.spinner.hide();
         let msgErro = error.error;
 
         if (error.error === "A Builder with the same CNPJ already exists") {
@@ -158,8 +164,10 @@ export class ConstrutoraComponent implements OnInit {
     if (!this.validarCampos(construtora)) {
       return;
     };
+    this.spinner.show();
     this.construtoraService.atualizarDadosConstrutora(construtora).pipe(
       tap(retorno => {
+        this.spinner.hide();
         Swal.fire({
           text: "Atualização realizada com sucesso!",
           icon: "success",
@@ -169,6 +177,7 @@ export class ConstrutoraComponent implements OnInit {
         this.buscarConstrutoras();
       }),
       catchError(error => {
+        this.spinner.hide();
         Swal.fire({
           text: error.error,
           icon: "error",
@@ -384,8 +393,10 @@ export class ConstrutoraComponent implements OnInit {
       cancelButtonColor: 'green',
     }).then((result) => {
       if (result.isConfirmed) {
+        this.spinner.show();
         this.construtoraService.excluirConstrutora(id).pipe(
           tap(retorno => {
+            this.spinner.hide();
             Swal.fire({
               text: "Construtora excluída com sucesso!",
               icon: "success",
@@ -395,6 +406,7 @@ export class ConstrutoraComponent implements OnInit {
             this.buscarConstrutoras();
           }),
           catchError(error => {
+            this.spinner.hide();
             let msgErro = error.error;
             if (error.error === "This Builder has a Cost Center related to it, please delete the Cost Center first!") {
               msgErro = "Essa construtora possui um centro de custo relacionado a ela, por favor, exclua o centro de custo primeiro!";

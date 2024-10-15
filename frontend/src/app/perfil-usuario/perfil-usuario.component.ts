@@ -5,6 +5,7 @@ import { PerfilUsuarioService } from './service/perfil-usuario.service';
 import { PerfilUsuarioModel } from './model/perfil-usuario.model';
 import { catchError, firstValueFrom, lastValueFrom, of, tap } from 'rxjs';
 import Swal from 'sweetalert2';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -25,7 +26,8 @@ export class PerfilUsuarioComponent implements OnInit {
   profilePictureBlob: Uint8Array = new Uint8Array();
 
   constructor(private perfilUsuarioService: PerfilUsuarioService,
-    private http: HttpClient
+    private http: HttpClient,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -45,10 +47,12 @@ export class PerfilUsuarioComponent implements OnInit {
 
   async buscarPerfilUsuario() {
     try {
+      this.spinner.show();
       const usuarioId = this.getUserId();
       let teste = await lastValueFrom(this.perfilUsuarioService.buscarPerfilUsuario(Number(usuarioId)));
       this.perfilUsuario = teste;
       this.fetchImage(this.perfilUsuario.photo);
+      this.spinner.hide();
     } catch (error) {
       console.error(error)
     }
@@ -108,8 +112,10 @@ export class PerfilUsuarioComponent implements OnInit {
   }
 
   updatePerfilUsuarioFoto() {
+    this.spinner.show();
     this.perfilUsuarioService.updateProfilePicture(this.profilePictureBlob).pipe(
       tap(retorno => {
+        this.spinner.hide();
         Swal.fire({
           text: "Foto de perfil atualizada com sucesso!",
           icon: "success",
@@ -120,6 +126,7 @@ export class PerfilUsuarioComponent implements OnInit {
         this.buscarPerfilUsuario();
       }),
       catchError(error => {
+        this.spinner.hide();
         Swal.fire({
           text: error.error,
           icon: "error",
@@ -132,8 +139,10 @@ export class PerfilUsuarioComponent implements OnInit {
   }
 
   updatePerfilUsuario() {
+    this.spinner.show();
     this.perfilUsuarioService.updatePerfilUsuario(this.perfilUsuario).pipe(
       tap(retorno => {
+        this.spinner.hide();
         Swal.fire({
           text: "Atualização realizada com sucesso!",
           icon: "success",
@@ -143,6 +152,7 @@ export class PerfilUsuarioComponent implements OnInit {
         this.buscarPerfilUsuario();
       }),
       catchError(error => {
+        this.spinner.hide();
         Swal.fire({
           text: error.error,
           icon: "error",

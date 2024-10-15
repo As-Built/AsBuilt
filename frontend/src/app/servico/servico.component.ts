@@ -248,8 +248,10 @@ export class ServicoComponent implements OnInit {
     };
     this.cadastroServico.taskLocation.costCenter = this.cadastroServico.costCenter;
     this.cadastroServico.unitMeasurement = this.cadastroServico.taskType.unitMeasurement;
+    this.spinner.show();
     this.servicoService.cadastrarServico(this.cadastroServico).pipe(
       tap(retorno => {
+        this.spinner.hide();
         Swal.fire({
           text: "Cadastro realizado com sucesso!",
           icon: "success",
@@ -259,6 +261,7 @@ export class ServicoComponent implements OnInit {
         this.limparCampos()
       }),
       catchError(error => {
+        this.spinner.hide();
         if (error.error == "Task already exists") {
           Swal.fire({
             text: "Já existe um serviço cadastrado neste mesmo local e com o mesmo tipo de serviço!",
@@ -285,8 +288,10 @@ export class ServicoComponent implements OnInit {
       return;
     };
     this.validarCampos(servico);
+    this.spinner.show();
     this.servicoService.atualizarServico(servico).pipe(
       tap(retorno => {
+        this.spinner.hide();
         Swal.fire({
           text: "Atualização realizada com sucesso!",
           icon: "success",
@@ -296,6 +301,7 @@ export class ServicoComponent implements OnInit {
         this.buscarServicos();
       }),
       catchError(error => {
+        this.spinner.hide();
         let msgErro = error.error;
         if (error.error === "No changes detected! Task not updated!") {
           msgErro = "Nenhuma alteração detectada! Serviço não atualizado!";
@@ -454,8 +460,10 @@ export class ServicoComponent implements OnInit {
       cancelButtonColor: 'green',
     }).then((result) => {
       if (result.isConfirmed) {
+        this.spinner.show();
         this.servicoService.excluirServico(id).pipe(
           tap(retorno => {
+            this.spinner.hide();
             Swal.fire({
               text: "Serviço excluído com sucesso!",
               icon: "success",
@@ -465,6 +473,7 @@ export class ServicoComponent implements OnInit {
             this.buscarServicos();
           }),
           catchError(error => {
+            this.spinner.hide();
             let msgErro = error.error;
             if (msgErro === "Task with assessment cannot be deleted!") {
               msgErro = "Este serviço já possui uma avaliação e não pode ser excluído!";
@@ -520,6 +529,7 @@ export class ServicoComponent implements OnInit {
         });
         this.arquivoSelecionado = undefined;
       } catch (error) {
+        this.spinner.hide();
         const message = (error as Error).message;
         Swal.fire({
             text: message,

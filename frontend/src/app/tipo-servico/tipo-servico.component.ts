@@ -5,6 +5,7 @@ import { UnidadeMedidaService } from '../unidade-medida/service/unidade-medida.s
 import { catchError, firstValueFrom, of, tap } from 'rxjs';
 import { UnidadeMedidaModel } from '../shared/model/unidade-medida.model';
 import Swal from 'sweetalert2';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-tipo-servico',
@@ -29,18 +30,20 @@ export class TipoServicoComponent implements OnInit {
 
   constructor(
     private tipoDeServicoService: TiposServicoService,
-    private unidadeDeMedidaService: UnidadeMedidaService
+    private unidadeDeMedidaService: UnidadeMedidaService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
-    this.buscarTiposDeServico();
     this.buscarUnidadesDeMedida();
   }
 
   async buscarTiposDeServico() {
     try {
+      this.spinner.show();
       const tiposDeServico: any = await firstValueFrom(this.tipoDeServicoService.listarTiposDeServico());
       this.listaTipoDeServico = tiposDeServico;
+      this.spinner.hide();
     } catch (error) {
       console.error(error);
     }
@@ -48,16 +51,20 @@ export class TipoServicoComponent implements OnInit {
 
   async buscarUnidadesDeMedida() {
     try {
+      this.spinner.show();
       const unidadesDeMedida: any = await firstValueFrom(this.unidadeDeMedidaService.listarUnidadesDeMedida());
       this.listaUnidadesDeMedida = unidadesDeMedida;
+      this.spinner.hide();
     } catch (error) {
       console.error(error);
     }
   }
 
   mudarAba() {
-    this.buscarTiposDeServico();
     this.iscadastroTipoDeServico = !this.iscadastroTipoDeServico;
+    if (!this.iscadastroTipoDeServico) {
+      this.buscarTiposDeServico();
+    }
     this.cadastroTipoDeServico = new TipoServicoModel();
     this.additionalParameters = [];
   }
@@ -79,8 +86,10 @@ export class TipoServicoComponent implements OnInit {
     if (!this.validarCampos(this.cadastroTipoDeServico)) {
       return;
     };
+    this.spinner.show();
     this.tipoDeServicoService.cadastrarTipoDeServico(this.cadastroTipoDeServico).pipe(
       tap(retorno => {
+        this.spinner.hide();
         Swal.fire({
           text: "Cadastro realizado com sucesso!",
           icon: "success",
@@ -91,6 +100,7 @@ export class TipoServicoComponent implements OnInit {
         this.additionalParameters = [];
       }),
       catchError(error => {
+        this.spinner.hide();
         if (error.error == "TaskType already exists") {
           Swal.fire({
             text: "Este Tipo de Serviço já está cadastrado!",
