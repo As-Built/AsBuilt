@@ -18,8 +18,7 @@ import org.springframework.web.multipart.MultipartFile
 @RestController
 @RequestMapping("/tasks")
 class TaskController(
-    val service: TaskService,
-    val costCenterService: CostCenterService) {
+    val service: TaskService) {
 
     @SecurityRequirement(name="AsBuilt")
     @PreAuthorize("hasRole('ADMIN') || hasRole('CONFERENTE')")

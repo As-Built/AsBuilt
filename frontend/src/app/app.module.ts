@@ -39,6 +39,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { AvaliacaoComponent } from './avaliacao/avaliacao.component';
 import { AssessmentResultPipe } from './shared/pipes/assessment-result.pipe';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { CronogramaComponent } from './cronograma/cronograma.component';
 
 
 @NgModule({
@@ -63,7 +64,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     TipoServicoComponent,
     UnidadeMedidaComponent,
     PerfilUsuarioComponent,
-    AvaliacaoComponent
+    AvaliacaoComponent,
+    CronogramaComponent
   ],
   imports: [
     BrowserModule,

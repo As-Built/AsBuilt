@@ -38,7 +38,12 @@
       <mat-icon class="icons">engineering</mat-icon>
       <span>Construtoras</span>
     </button>
+    <button *ngIf="userRole == 'ADMIN' || userRole == 'CONFERENTE'" class="menu-item" routerLink="/cronograma">
+      <mat-icon class="icons">timeline</mat-icon>
+      <span>Cronograma</span>
+    </button>
   </div>
+  <!-- CLOSED SIDEBAR -->
   <div *ngIf="!isSidebarOpen" class="sidebar-content-closed">
     <button  *ngIf="userRole == 'ADMIN' || userRole == 'CONFERENTE'" class="menu-item-sidebar-closed" routerLink="/avaliacao" matTooltip="Avaliações"
     matTooltipShowDelay="1500">
@@ -66,7 +71,11 @@
     </button>
     <button *ngIf="userRole == 'ADMIN'" class="menu-item-sidebar-closed" routerLink="/construtora" matTooltip="Construtoras e Proprietários"
       matTooltipShowDelay="1500">
-      <mat-icon class="icons">device_hub</mat-icon>
+      <mat-icon class="icons">engineering</mat-icon>
     </button>
+    <button *ngIf="userRole == 'ADMIN' || userRole == 'CONFERENTE'" class="menu-item-sidebar-closed" routerLink="/cronograma" matTooltip="Cronograma de obras"
+    matTooltipShowDelay="1500">
+    <mat-icon class="icons">timeline</mat-icon>
+  </button>
   </div>
 </div>

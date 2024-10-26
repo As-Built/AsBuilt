@@ -15,7 +15,6 @@ import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
-import java.text.SimpleDateFormat
 
 @Service
 class TaskService (
