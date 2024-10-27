@@ -10,6 +10,12 @@ import { ServicoModel } from '../servico/model/servico.model';
 import { ChartOptions, ChartType, ChartDataset } from 'chart.js';
 import { formatDate } from '@angular/common';
 import 'chartjs-adapter-date-fns';
+import { getISOWeek } from 'date-fns';
+
+function getWeekLabel(date: Date): string {
+  const weekNumber = getISOWeek(date);
+  return `Semana ${weekNumber}`;
+}
 
 @Component({
   selector: 'app-cronograma',
@@ -30,7 +36,7 @@ export class CronogramaComponent implements OnInit {
   construtoraSelecionada: ConstrutoraModel = new ConstrutoraModel();
 
   public lineChartData: ChartDataset[] = [
-    { data: [], label: 'Start Dates' }
+    { data: [], label: 'Todos os Serviços' }
   ];
   public lineChartLabels: string[] = [];
   public lineChartOptions: ChartOptions = {
@@ -39,38 +45,58 @@ export class CronogramaComponent implements OnInit {
       x: {
         type: 'time',
         time: {
-          unit: 'day',
+          unit: 'week',
           tooltipFormat: 'dd/MM/yyyy',
           displayFormats: {
-            day: 'dd/MM/yyyy'
+            week: 'dd/MM/yyyy'
           }
         },
         title: {
           display: true,
-          text: 'Data de Término Esperada'
+          text: 'Data de Início Prevista'
+        },
+        ticks: {
+          callback: function (value, index, values) {
+            const date = new Date(value as number);
+            return getWeekLabel(date);
+          }
         }
       },
       y: {
         type: 'time',
         time: {
-          unit: 'day',
+          unit: 'week',
           tooltipFormat: 'dd/MM/yyyy',
           displayFormats: {
-            day: 'dd/MM/yyyy'
+            week: 'dd/MM/yyyy'
           }
         },
         title: {
           display: true,
-          text: 'Data de Início Esperada'
+          text: 'Data de Término Prevista'
         },
         ticks: {
           callback: function (value) {
-            return new Date(value).toLocaleDateString('pt-BR');
+            const date = new Date(value as number);
+            return getWeekLabel(date); 
+          }
+        }
+      }
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            const raw = context.raw as { x: number, y: number };
+            const startDate = new Date(raw.x);
+            const endDate = new Date(raw.y);
+            return `Início: ${startDate.toLocaleDateString('pt-BR')}, Término: ${endDate.toLocaleDateString('pt-BR')}`;
           }
         }
       }
     }
   };
+
   public lineChartColors: any[] = [
     {
       borderColor: 'black',
@@ -96,7 +122,7 @@ export class CronogramaComponent implements OnInit {
 
   async buscarConstrutoras() {
     try {
-      const construtoras: any = await firstValueFrom(this.construtoraService.listarConstrutoras());
+      const construtoras: ConstrutoraModel[] = await firstValueFrom(this.construtoraService.listarConstrutoras());
       this.listaConstrutoras = construtoras;
     } catch (error) {
       console.error(error);
@@ -105,7 +131,7 @@ export class CronogramaComponent implements OnInit {
 
   async buscarCentrosDeCusto() {
     try {
-      const centros: any = await firstValueFrom(this.centroCustoService.listarCentrosDeCusto());
+      const centros: CentroCustoModel[] = await firstValueFrom(this.centroCustoService.listarCentrosDeCusto());
       this.listaCentrosDeCusto = centros;
     } catch (error) {
       console.error(error);
@@ -115,7 +141,7 @@ export class CronogramaComponent implements OnInit {
   async buscarServicos() {
     this.spinner.show();
     try {
-      const servicos: any = await firstValueFrom(this.servicoService.listarServicos());
+      const servicos: ServicoModel[] = await firstValueFrom(this.servicoService.listarServicos());
       this.listaServicos = servicos;
       this.listaServicosFiltrada = this.listaServicos;
       this.filtrarDados();
@@ -127,7 +153,7 @@ export class CronogramaComponent implements OnInit {
 
   filtrarDados() {
     const construtoras = this.listaServicos.map(item => item.costCenter.builder);
-    const uniqueConstrutoras: { [key: string]: any } = {};
+    const uniqueConstrutoras: { [key: string]: ConstrutoraModel } = {};
     construtoras.forEach(c => {
       uniqueConstrutoras[c.builderName] = c;
     });
@@ -170,33 +196,32 @@ export class CronogramaComponent implements OnInit {
       this.lineChartData[0].data = [];
     }
     this.lineChartType = 'line';
-  
+
     const startDates = this.listaServicosFiltrada.map(servico => new Date(servico.expectedStartDate).getTime());
     const endDates = this.listaServicosFiltrada.map(servico => new Date(servico.expectedEndDate).getTime());
-  
+
     const minStartDate = Math.min(...startDates);
     const maxEndDate = Math.max(...endDates);
-  
-    // Ajustar as datas mínima e máxima
+
     const adjustedMinStartDate = new Date(minStartDate);
     adjustedMinStartDate.setDate(adjustedMinStartDate.getDate() - 1);
-  
+
     const adjustedMaxEndDate = new Date(maxEndDate);
     adjustedMaxEndDate.setDate(adjustedMaxEndDate.getDate() + 1);
-  
+
     if (this.lineChartOptions.scales?.['x'] && this.lineChartOptions.scales?.['y']) {
       this.lineChartOptions.scales['x'].min = adjustedMinStartDate.getTime();
       this.lineChartOptions.scales['x'].max = adjustedMaxEndDate.getTime();
       this.lineChartOptions.scales['y'].min = adjustedMinStartDate.getTime();
       this.lineChartOptions.scales['y'].max = adjustedMaxEndDate.getTime();
     }
-  
+
     this.listaServicosFiltrada.forEach(servico => {
-      this.lineChartLabels.push(formatDate(servico.expectedEndDate, "dd/MM/yyyy", "pt-BR").toString());
+      this.lineChartLabels.push(formatDate(servico.expectedStartDate, "dd/MM/yyyy", "pt-BR").toString());
       if (this.lineChartData[0]) {
         this.lineChartData[0].data.push({
-          x: new Date(servico.expectedEndDate).getTime(),
-          y: new Date(servico.expectedStartDate).getTime()
+          x: new Date(servico.expectedStartDate).getTime(),
+          y: new Date(servico.expectedEndDate).getTime()
         });
       }
     });
