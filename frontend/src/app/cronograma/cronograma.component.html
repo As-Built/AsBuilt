@@ -31,5 +31,16 @@
                 </select>
             </div>
         </div>
+        <div *ngIf="filtroCentroCustoSelecionado !== null">
+            <div style="display: block;">
+                <canvas baseChart
+                        [datasets]="lineChartData"
+                        [labels]="lineChartLabels"
+                        [options]="lineChartOptions"
+                        [legend]="lineChartLegend"
+                        [type]="lineChartType">
+                </canvas>
+              </div>
+        </div>
     </div>
 </div>

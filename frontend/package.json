@@ -10,7 +10,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^16.0.0",
+    "@angular/animations": "^16.2.12",
     "@angular/cdk": "~16.2.14",
     "@angular/common": "^16.0.0",
     "@angular/compiler": "^16.0.0",
@@ -24,6 +24,9 @@
     "@material/form-field": "^15.0.0-canary.bc9ae6c9c.0",
     "@material/tooltip": "^15.0.0-canary.bc9ae6c9c.0",
     "bootstrap": "^5.3.3",
+    "chart.js": "^4.4.5",
+    "chartjs-adapter-date-fns": "^3.0.0",
+    "date-fns": "^4.1.0",
     "font-awesome-icons": "^1.6.0",
     "httpclient": "^0.1.0",
     "jwt-decode": "^4.0.0",

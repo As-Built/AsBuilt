@@ -7,6 +7,9 @@ import { CentroCustoModel } from '../centro-custo/model/centro-custo.model';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ServicoService } from '../servico/service/servico.service';
 import { ServicoModel } from '../servico/model/servico.model';
+import { ChartOptions, ChartType, ChartDataset } from 'chart.js';
+import { formatDate } from '@angular/common';
+import 'chartjs-adapter-date-fns';
 
 @Component({
   selector: 'app-cronograma',
@@ -25,6 +28,57 @@ export class CronogramaComponent implements OnInit {
   listaCentrosDeCustoFiltrados: CentroCustoModel[] = [];
   listaCentrosDeCustoFiltradaConsulta: CentroCustoModel[] = [];
   construtoraSelecionada: ConstrutoraModel = new ConstrutoraModel();
+
+  public lineChartData: ChartDataset[] = [
+    { data: [], label: 'Start Dates' }
+  ];
+  public lineChartLabels: string[] = [];
+  public lineChartOptions: ChartOptions = {
+    responsive: true,
+    scales: {
+      x: {
+        type: 'time',
+        time: {
+          unit: 'day',
+          tooltipFormat: 'dd/MM/yyyy',
+          displayFormats: {
+            day: 'dd/MM/yyyy'
+          }
+        },
+        title: {
+          display: true,
+          text: 'Data de Término Esperada'
+        }
+      },
+      y: {
+        type: 'time',
+        time: {
+          unit: 'day',
+          tooltipFormat: 'dd/MM/yyyy',
+          displayFormats: {
+            day: 'dd/MM/yyyy'
+          }
+        },
+        title: {
+          display: true,
+          text: 'Data de Início Esperada'
+        },
+        ticks: {
+          callback: function (value) {
+            return new Date(value).toLocaleDateString('pt-BR');
+          }
+        }
+      }
+    }
+  };
+  public lineChartColors: any[] = [
+    {
+      borderColor: 'black',
+      backgroundColor: 'rgba(255,0,0,0.3)',
+    },
+  ];
+  public lineChartLegend = true;
+  public lineChartType: ChartType = 'line';
 
   constructor(
     private centroCustoService: CentroCustoService,
@@ -73,14 +127,13 @@ export class CronogramaComponent implements OnInit {
 
   filtrarDados() {
     const construtoras = this.listaServicos.map(item => item.costCenter.builder);
-    const uniqueConstrutoras: { [key: string]: any } = {}; //Adiciona um index a consulta para não trazer valores repetidos
+    const uniqueConstrutoras: { [key: string]: any } = {};
     construtoras.forEach(c => {
       uniqueConstrutoras[c.builderName] = c;
     });
     this.listaConstrutorasConsulta = Object.values(uniqueConstrutoras);
     this.listaConstrutorasConsulta = this.listaConstrutorasConsulta.filter(construtora =>
-      this.listaServicos.some(servico => servico.costCenter.builder.builderName === construtora.builderName
-      )
+      this.listaServicos.some(servico => servico.costCenter.builder.builderName === construtora.builderName)
     );
 
     if (this.filtroConstrutoraSelecionado) {
@@ -91,6 +144,7 @@ export class CronogramaComponent implements OnInit {
     if (this.filtroCentroCustoSelecionado) {
       this.listaServicosFiltrada = this.listaServicos.filter(servico => servico.costCenter.costCenterName === this.filtroCentroCustoSelecionado);
     }
+    this.populateChartData();
   }
 
   onConstrutoraChange() {
@@ -99,23 +153,52 @@ export class CronogramaComponent implements OnInit {
 
   onFiltroConstrutoraChange(event: Event) {
     const novoFiltro = (event.target as HTMLSelectElement).value;
-    if (novoFiltro === 'Todos') {
-      this.filtroConstrutoraSelecionado = null;
-    } else {
-      this.filtroConstrutoraSelecionado = novoFiltro;
-    }
+    this.filtroConstrutoraSelecionado = novoFiltro === 'Todos' ? null : novoFiltro;
     this.filtroCentroCustoSelecionado = null;
     this.filtrarDados();
   }
 
   onFiltroCostCenterChange(event: Event) {
     const novoFiltro = (event.target as HTMLSelectElement).value;
-    if (novoFiltro === 'Todos') {
-      this.filtroCentroCustoSelecionado = null;
-    } else {
-      this.filtroCentroCustoSelecionado = novoFiltro;
-    }
+    this.filtroCentroCustoSelecionado = novoFiltro === 'Todos' ? null : novoFiltro;
     this.filtrarDados();
   }
 
+  populateChartData() {
+    this.lineChartLabels = [];
+    if (this.lineChartData[0]) {
+      this.lineChartData[0].data = [];
+    }
+    this.lineChartType = 'line';
+  
+    const startDates = this.listaServicosFiltrada.map(servico => new Date(servico.expectedStartDate).getTime());
+    const endDates = this.listaServicosFiltrada.map(servico => new Date(servico.expectedEndDate).getTime());
+  
+    const minStartDate = Math.min(...startDates);
+    const maxEndDate = Math.max(...endDates);
+  
+    // Ajustar as datas mínima e máxima
+    const adjustedMinStartDate = new Date(minStartDate);
+    adjustedMinStartDate.setDate(adjustedMinStartDate.getDate() - 1);
+  
+    const adjustedMaxEndDate = new Date(maxEndDate);
+    adjustedMaxEndDate.setDate(adjustedMaxEndDate.getDate() + 1);
+  
+    if (this.lineChartOptions.scales?.['x'] && this.lineChartOptions.scales?.['y']) {
+      this.lineChartOptions.scales['x'].min = adjustedMinStartDate.getTime();
+      this.lineChartOptions.scales['x'].max = adjustedMaxEndDate.getTime();
+      this.lineChartOptions.scales['y'].min = adjustedMinStartDate.getTime();
+      this.lineChartOptions.scales['y'].max = adjustedMaxEndDate.getTime();
+    }
+  
+    this.listaServicosFiltrada.forEach(servico => {
+      this.lineChartLabels.push(formatDate(servico.expectedEndDate, "dd/MM/yyyy", "pt-BR").toString());
+      if (this.lineChartData[0]) {
+        this.lineChartData[0].data.push({
+          x: new Date(servico.expectedEndDate).getTime(),
+          y: new Date(servico.expectedStartDate).getTime()
+        });
+      }
+    });
+  }
 }

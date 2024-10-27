@@ -27,19 +27,20 @@ import {MatTable, MatTableModule} from '@angular/material/table';
 import { CnpjPipe } from './shared/pipes/cnpj.pipe';
 import { TelefonePipe } from './shared/pipes/telefone.pipe';
 import { RealPipe } from './shared/pipes/currency-reais.pipe';
-import { CurrencyPipe } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { LocalServicoComponent } from './local-servico/local-servico.component';
 import { TipoServicoComponent } from './tipo-servico/tipo-servico.component';
 import { UnidadeMedidaComponent } from './unidade-medida/unidade-medida.component';
 import { ServicoComponent } from './servico/servico.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { PerfilUsuarioComponent } from './perfil-usuario/perfil-usuario.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { AvaliacaoComponent } from './avaliacao/avaliacao.component';
 import { AssessmentResultPipe } from './shared/pipes/assessment-result.pipe';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { CronogramaComponent } from './cronograma/cronograma.component';
+import { NgChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -91,10 +92,13 @@ import { CronogramaComponent } from './cronograma/cronograma.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatMenuModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NgChartsModule,
+    CommonModule,
   ],
   providers: [
     CurrencyPipe,
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }
   ],
   bootstrap: [AppComponent]
 })
