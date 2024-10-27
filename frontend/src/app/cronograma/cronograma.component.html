@@ -4,7 +4,32 @@
             <div class="col-12 titulo">
               <h1>Cronograma de obras</h1>
               <hr style="margin-left: 25px;">
+              <h2>Selecione a Construtora e o Centro de Custo para que seja exibido o cronograma</h2>
             </div>
-          </div>
+        </div>
+        <div class="row" *ngIf="listaServicosFiltrada.length > 0">
+            <div class="col-4">
+                <label for="filterTableConstrutora">Construtora:</label>
+                <select #filterTableConstrutora name="filterTableConstrutora" id="filterTableConstrutora"
+                    (change)="onFiltroConstrutoraChange($event)">
+                    <option value="Todos">Todos</option>
+                    <option *ngFor="let construtora of listaConstrutorasConsulta"
+                        [value]="construtora.builderName">
+                        {{construtora.builderName}}
+                    </option>
+                </select>
+            </div>
+            <div class="col-4" *ngIf="filtroConstrutoraSelecionado">
+                <label for="filterTableCostCenter">Centro de Custo:</label>
+                <select name="filterTableCostCenter" id="filterTableCostCenter"
+                    (change)="onFiltroCostCenterChange($event)">
+                    <option value="Todos">Todos</option>
+                    <option *ngFor="let centroDeCusto of listaCentrosDeCustoFiltradaConsulta"
+                        [value]="centroDeCusto.costCenterName">
+                        {{centroDeCusto.costCenterName}}
+                    </option>
+                </select>
+            </div>
+        </div>
     </div>
-  </div>
+</div>
