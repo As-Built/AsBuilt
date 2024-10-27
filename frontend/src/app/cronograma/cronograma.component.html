@@ -31,6 +31,12 @@
                 </select>
             </div>
         </div>
+        <div class="row centralizar-conteudo" *ngIf="filtroCentroCustoSelecionado !== null">
+            <div class="col-12">
+                <hr style="margin-left: 25px;">
+                <h2 style="padding-left: 15px;">Cronograma Inicial</h2>
+            </div>
+        </div>
         <div *ngIf="filtroCentroCustoSelecionado !== null">
             <div style="display: block;">
                 <canvas baseChart
@@ -41,6 +47,46 @@
                         [type]="lineChartType">
                 </canvas>
               </div>
+        </div>
+        <div class="row centralizar-conteudo" *ngIf="filtroCentroCustoSelecionado !== null">
+            <div class="col-12">
+                <hr style="margin-left: 25px;">
+                <h2 style="padding-left: 15px;">Cronograma Real</h2>
+            </div>
+        </div>
+        <div *ngIf="filtroCentroCustoSelecionado !== null">
+            <div style="display: block;">
+                <canvas baseChart
+                        [datasets]="secondLineChartData"
+                        [labels]="secondLineChartLabels"
+                        [options]="secondLineChartOptions"
+                        [legend]="secondLineChartLegend"
+                        [type]="secondLineChartType">
+                </canvas>
+              </div>
+        </div>
+        <div class="row centralizar-conteudo" *ngIf="filtroCentroCustoSelecionado !== null">
+            <div class="col-12">
+                <hr style="margin-left: 25px;">
+                <h2 style="padding-left: 15px;">Cronograma Comparativo</h2>
+            </div>
+        </div>
+        <div *ngIf="filtroCentroCustoSelecionado !== null">
+            <div style="display: block;">
+                <canvas baseChart
+                        [datasets]="thirdLineChartData"
+                        [labels]="thirdLineChartLabels"
+                        [options]="thirdLineChartOptions"
+                        [legend]="thirdLineChartLegend"
+                        [type]="thirdLineChartType">
+                </canvas>
+              </div>
+        </div>
+        <div *ngIf="filtroCentroCustoSelecionado !== null">
+            <h3>Legenda:</h3>
+            <p>C.I. - Cronograma inicial</p>
+            <p>C.R. - Cronograma real</p>
+            <p>P.C. - Previsão do cronograma</p>
         </div>
     </div>
 </div>

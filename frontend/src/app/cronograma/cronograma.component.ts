@@ -13,7 +13,9 @@ import 'chartjs-adapter-date-fns';
 import { getISOWeek } from 'date-fns';
 
 function getWeekLabel(date: Date): string {
-  const weekNumber = getISOWeek(date);
+  const startOfYear = new Date(date.getFullYear(), 0, 1);
+  const diffInDays = Math.floor((date.getTime() - startOfYear.getTime()) / (1000 * 60 * 60 * 24));
+  const weekNumber = Math.floor(diffInDays / 7) + 1;
   return `Semana ${weekNumber}`;
 }
 
@@ -36,7 +38,7 @@ export class CronogramaComponent implements OnInit {
   construtoraSelecionada: ConstrutoraModel = new ConstrutoraModel();
 
   public lineChartData: ChartDataset[] = [
-    { data: [], label: 'Todos os Serviços' }
+    { data: [], label: 'Cronograma Inicial' }
   ];
   public lineChartLabels: string[] = [];
   public lineChartOptions: ChartOptions = {
@@ -58,7 +60,7 @@ export class CronogramaComponent implements OnInit {
         ticks: {
           callback: function (value, index, values) {
             const date = new Date(value as number);
-            return getWeekLabel(date);
+            return getWeekLabel(date); // Use a função para formatar a label
           }
         }
       },
@@ -78,7 +80,7 @@ export class CronogramaComponent implements OnInit {
         ticks: {
           callback: function (value) {
             const date = new Date(value as number);
-            return getWeekLabel(date); 
+            return getWeekLabel(date); // Use a função para formatar a label
           }
         }
       }
@@ -87,15 +89,161 @@ export class CronogramaComponent implements OnInit {
       tooltip: {
         callbacks: {
           label: function (context) {
-            const raw = context.raw as { x: number, y: number };
+            const raw = context.raw as { x: number, y: number }; // Asserção de tipo
             const startDate = new Date(raw.x);
             const endDate = new Date(raw.y);
             return `Início: ${startDate.toLocaleDateString('pt-BR')}, Término: ${endDate.toLocaleDateString('pt-BR')}`;
           }
         }
       }
+    },
+    elements: {
+      point: {
+        radius: 5,
+        hoverRadius: 7
+      }
     }
   };
+
+  public secondLineChartData: ChartDataset[] = [
+    { data: [], label: 'Cronograma Real', }
+  ];
+  public secondLineChartLabels: string[] = [];
+  public secondLineChartOptions: ChartOptions = {
+    responsive: true,
+    scales: {
+      x: {
+        type: 'time',
+        time: {
+          unit: 'week',
+          tooltipFormat: 'dd/MM/yyyy',
+          displayFormats: {
+            week: 'dd/MM/yyyy'
+          }
+        },
+        title: {
+          display: true,
+          text: 'Data de Início Real'
+        },
+        ticks: {
+          callback: function (value, index, values) {
+            const date = new Date(value as number);
+            return getWeekLabel(date); // Use a função para formatar a label
+          }
+        }
+      },
+      y: {
+        type: 'time',
+        time: {
+          unit: 'week',
+          tooltipFormat: 'dd/MM/yyyy',
+          displayFormats: {
+            week: 'dd/MM/yyyy'
+          }
+        },
+        title: {
+          display: true,
+          text: 'Data de Término Real'
+        },
+        ticks: {
+          callback: function (value) {
+            const date = new Date(value as number);
+            return getWeekLabel(date); // Use a função para formatar a label
+          }
+        }
+      }
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            const raw = context.raw as { x: number, y: number }; // Asserção de tipo
+            const startDate = new Date(raw.x);
+            const endDate = new Date(raw.y);
+            return `Início: ${startDate.toLocaleDateString('pt-BR')}, Término: ${endDate.toLocaleDateString('pt-BR')}`;
+          }
+        }
+      }
+    },
+    elements: {
+      point: {
+        radius: 5,
+        hoverRadius: 7
+      }
+    }
+  };
+
+  public thirdLineChartData: ChartDataset[] = [
+    { data: [], label: 'Previsão Inicial', borderColor: 'blue', fill: false },
+    { data: [], label: 'Real', borderColor: 'green', fill: false },
+    { data: [], label: 'Previsão Ajustada', borderColor: 'red', fill: false }
+  ];
+
+  public thirdLineChartLabels: string[] = [];
+  public thirdLineChartOptions: ChartOptions = {
+    responsive: true,
+    scales: {
+      x: {
+        type: 'time',
+        time: {
+          unit: 'week',
+          tooltipFormat: 'dd/MM/yyyy',
+          displayFormats: {
+            week: 'dd/MM/yyyy'
+          }
+        },
+        title: {
+          display: true,
+          text: 'Data de Início'
+        },
+        ticks: {
+          callback: function (value, index, values) {
+            const date = new Date(value as number);
+            return getWeekLabel(date); // Use a função para formatar a label
+          }
+        }
+      },
+      y: {
+        type: 'time',
+        time: {
+          unit: 'week',
+          tooltipFormat: 'dd/MM/yyyy',
+          displayFormats: {
+            week: 'dd/MM/yyyy'
+          }
+        },
+        title: {
+          display: true,
+          text: 'Data de Término'
+        },
+        ticks: {
+          callback: function (value) {
+            const date = new Date(value as number);
+            return getWeekLabel(date); // Use a função para formatar a label
+          }
+        }
+      }
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            const raw = context.raw as { x: number, y: number }; // Asserção de tipo
+            const startDate = new Date(raw.x);
+            const endDate = new Date(raw.y);
+            return `Início: ${startDate.toLocaleDateString('pt-BR')}, Término: ${endDate.toLocaleDateString('pt-BR')}`;
+          }
+        }
+      }
+    },
+    elements: {
+      point: {
+        radius: 5,
+        hoverRadius: 7
+      }
+    }
+  };
+
 
   public lineChartColors: any[] = [
     {
@@ -105,6 +253,10 @@ export class CronogramaComponent implements OnInit {
   ];
   public lineChartLegend = true;
   public lineChartType: ChartType = 'line';
+  public secondLineChartLegend = true;
+  public secondLineChartType: ChartType = 'line';
+  public thirdLineChartLegend = true;
+  public thirdLineChartType: ChartType = 'line';
 
   constructor(
     private centroCustoService: CentroCustoService,
@@ -171,6 +323,8 @@ export class CronogramaComponent implements OnInit {
       this.listaServicosFiltrada = this.listaServicos.filter(servico => servico.costCenter.costCenterName === this.filtroCentroCustoSelecionado);
     }
     this.populateChartData();
+    this.populateSecondChartData();
+    this.populateThirdChartData();
   }
 
   onConstrutoraChange() {
@@ -190,12 +344,22 @@ export class CronogramaComponent implements OnInit {
     this.filtrarDados();
   }
 
+  agruparServicosPorTipo(): { [key: string]: ServicoModel[] } {
+    return this.listaServicosFiltrada.reduce((acc, servico) => {
+      const tipo = servico.taskType.taskTypeName;
+      if (!acc[tipo]) {
+        acc[tipo] = [];
+      }
+      acc[tipo].push(servico);
+      return acc;
+    }, {} as { [key: string]: ServicoModel[] });
+  }
+
   populateChartData() {
     this.lineChartLabels = [];
-    if (this.lineChartData[0]) {
-      this.lineChartData[0].data = [];
-    }
-    this.lineChartType = 'line';
+    this.lineChartData = [
+      { data: [], label: 'Previsão inicial da obra' }
+    ];
 
     const startDates = this.listaServicosFiltrada.map(servico => new Date(servico.expectedStartDate).getTime());
     const endDates = this.listaServicosFiltrada.map(servico => new Date(servico.expectedEndDate).getTime());
@@ -203,17 +367,59 @@ export class CronogramaComponent implements OnInit {
     const minStartDate = Math.min(...startDates);
     const maxEndDate = Math.max(...endDates);
 
+    // Ajustar as datas mínima e máxima
     const adjustedMinStartDate = new Date(minStartDate);
-    adjustedMinStartDate.setDate(adjustedMinStartDate.getDate() - 1);
+    adjustedMinStartDate.setDate(adjustedMinStartDate.getDate() - 8);  // Subtrai uma semana (7 dias) + 1 dia extra a exibição do gráfico
 
     const adjustedMaxEndDate = new Date(maxEndDate);
-    adjustedMaxEndDate.setDate(adjustedMaxEndDate.getDate() + 1);
+    adjustedMaxEndDate.setDate(adjustedMaxEndDate.getDate() + 8);  // Adiciona uma semana (7 dias) + 1 dia extra a exibição do gráfico
 
     if (this.lineChartOptions.scales?.['x'] && this.lineChartOptions.scales?.['y']) {
       this.lineChartOptions.scales['x'].min = adjustedMinStartDate.getTime();
       this.lineChartOptions.scales['x'].max = adjustedMaxEndDate.getTime();
       this.lineChartOptions.scales['y'].min = adjustedMinStartDate.getTime();
       this.lineChartOptions.scales['y'].max = adjustedMaxEndDate.getTime();
+    }
+
+    const servicosPorTipo = this.agruparServicosPorTipo();
+
+    const cores = [
+      'rgba(255, 99, 132, 0.2)', // Vermelho
+      'rgba(54, 162, 235, 0.2)', // Azul
+      'rgba(255, 206, 86, 0.2)', // Amarelo
+      'rgba(75, 192, 192, 0.2)', // Verde
+      'rgba(153, 102, 255, 0.2)', // Roxo
+      'rgba(255, 159, 64, 0.2)'  // Laranja
+    ];
+
+    const borderColors = [
+      'rgba(255, 99, 132, 1)', // Vermelho
+      'rgba(54, 162, 235, 1)', // Azul
+      'rgba(255, 206, 86, 1)', // Amarelo
+      'rgba(75, 192, 192, 1)', // Verde
+      'rgba(153, 102, 255, 1)', // Roxo
+      'rgba(255, 159, 64, 1)'  // Laranja
+    ];
+
+    let colorIndex = 0;
+
+    for (const tipo in servicosPorTipo) {
+      const data = servicosPorTipo[tipo].map(servico => ({
+        x: new Date(servico.expectedStartDate).getTime(),
+        y: new Date(servico.expectedEndDate).getTime()
+      }));
+
+      this.lineChartData.push({
+        data,
+        label: `C.I. ${tipo}`, // Adiciona "C.I." antes do nome do serviço
+        backgroundColor: cores[colorIndex % cores.length],
+        borderColor: borderColors[colorIndex % borderColors.length],
+        borderWidth: 1,
+        pointBackgroundColor: borderColors[colorIndex % borderColors.length], // Cor do ponto
+        pointBorderColor: borderColors[colorIndex % borderColors.length] // Cor da borda do ponto
+      });
+
+      colorIndex++;
     }
 
     this.listaServicosFiltrada.forEach(servico => {
@@ -225,5 +431,189 @@ export class CronogramaComponent implements OnInit {
         });
       }
     });
+  }
+
+  agruparServicosComDataPorTipo(): { [key: string]: ServicoModel[] } {
+    const filteredServicos = this.listaServicosFiltrada.filter(servico => servico.startDate && servico.finalDate); //Filtra serviços que possuem data de início e término
+    return filteredServicos.reduce((acc, servico) => {
+      const tipo = servico.taskType.taskTypeName;
+      if (!acc[tipo]) {
+        acc[tipo] = [];
+      }
+      acc[tipo].push(servico);
+      return acc;
+    }, {} as { [key: string]: ServicoModel[] });
+  }
+
+  populateSecondChartData() {
+    this.secondLineChartLabels = [];
+    this.secondLineChartData = [
+      { data: [], label: 'Cronograma real da obra' }
+    ];
+
+    const filteredServicos = this.listaServicosFiltrada.filter(servico => servico.startDate && servico.finalDate); //Filtra serviços que possuem data de início e término
+
+    const startDates = filteredServicos.map(servico => new Date(servico.startDate!).getTime());
+    const endDates = filteredServicos.map(servico => new Date(servico.finalDate!).getTime());
+
+    const minStartDate = Math.min(...startDates);
+    const maxEndDate = Math.max(...endDates);
+
+    // Ajustar as datas mínima e máxima
+    const adjustedMinStartDate = new Date(minStartDate);
+    adjustedMinStartDate.setDate(adjustedMinStartDate.getDate() - 8); // Subtrai uma semana (7 dias) + 1 dia extra a exibição do gráfico
+
+    const adjustedMaxEndDate = new Date(maxEndDate);
+    adjustedMaxEndDate.setDate(adjustedMaxEndDate.getDate() + 8); // Adiciona uma semana (7 dias) + 1 dia extra a exibição do gráfico
+
+    if (this.secondLineChartOptions.scales?.['x'] && this.secondLineChartOptions.scales?.['y']) {
+      this.secondLineChartOptions.scales['x'].min = adjustedMinStartDate.getTime();
+      this.secondLineChartOptions.scales['x'].max = adjustedMaxEndDate.getTime();
+      this.secondLineChartOptions.scales['y'].min = adjustedMinStartDate.getTime();
+      this.secondLineChartOptions.scales['y'].max = adjustedMaxEndDate.getTime();
+    }
+
+    const servicosPorTipo = this.agruparServicosComDataPorTipo();
+
+    const cores = [
+      'rgba(255, 99, 132, 0.2)', // Vermelho
+      'rgba(54, 162, 235, 0.2)', // Azul
+      'rgba(255, 206, 86, 0.2)', // Amarelo
+      'rgba(75, 192, 192, 0.2)', // Verde
+      'rgba(153, 102, 255, 0.2)', // Roxo
+      'rgba(255, 159, 64, 0.2)'  // Laranja
+    ];
+
+    const borderColors = [
+      'rgba(255, 99, 132, 1)', // Vermelho
+      'rgba(54, 162, 235, 1)', // Azul
+      'rgba(255, 206, 86, 1)', // Amarelo
+      'rgba(75, 192, 192, 1)', // Verde
+      'rgba(153, 102, 255, 1)', // Roxo
+      'rgba(255, 159, 64, 1)'  // Laranja
+    ];
+
+    let colorIndex = 0;
+
+    for (const tipo in servicosPorTipo) {
+      const data = servicosPorTipo[tipo].map(servico => ({
+        x: new Date(servico.startDate!).getTime(),
+        y: new Date(servico.finalDate!).getTime()
+      }));
+
+      this.secondLineChartData.push({
+        data,
+        label: `C.R. ${tipo}`, // Adiciona "C.R." antes do nome do serviço
+        backgroundColor: cores[colorIndex % cores.length],
+        borderColor: borderColors[colorIndex % borderColors.length],
+        borderWidth: 1,
+        pointBackgroundColor: borderColors[colorIndex % borderColors.length], // Cor do ponto
+        pointBorderColor: borderColors[colorIndex % borderColors.length] // Cor da borda do ponto
+      });
+
+      colorIndex++;
+    }
+
+    filteredServicos.forEach(servico => {
+      this.secondLineChartLabels.push(formatDate(servico.startDate!, "dd/MM/yyyy", "pt-BR").toString());
+      if (this.secondLineChartData[0]) {
+        this.secondLineChartData[0].data.push({
+          x: new Date(servico.startDate!).getTime(),
+          y: new Date(servico.finalDate!).getTime()
+        });
+      }
+    });
+  }
+
+  populateThirdChartData() {
+    const allServicos = this.listaServicosFiltrada;
+  
+    let totalEndDateDifference = 0;
+    let totalStartDateDifference = 0;
+    let count = 0;
+  
+    const startDates: number[] = [];
+    const endDates: number[] = [];
+  
+    // Limpa os dados existentes
+    this.thirdLineChartData[0].data = [];
+    this.thirdLineChartData[1].data = [];
+    this.thirdLineChartData[2].data = [];
+    this.thirdLineChartLabels = [];
+  
+    allServicos.forEach(servico => {
+      const expectedStartDate = new Date(servico.expectedStartDate).getTime();
+      const expectedEndDate = new Date(servico.expectedEndDate).getTime();
+      const realStartDate = servico.startDate ? new Date(servico.startDate).getTime() : null;
+      const realEndDate = servico.finalDate ? new Date(servico.finalDate).getTime() : null;
+  
+      // Adiciona dados de previsão inicial
+      this.thirdLineChartData[0].data.push({
+        x: expectedStartDate,
+        y: expectedEndDate
+      });
+  
+      // Adiciona labels
+      this.thirdLineChartLabels.push(getWeekLabel(new Date(servico.expectedStartDate)));
+  
+      // Coleta datas para ajustar as escalas
+      startDates.push(expectedStartDate);
+      endDates.push(expectedEndDate);
+  
+      if (realStartDate && realEndDate) {
+        // Calcula a diferença entre datas previstas e reais
+        const endDateDifference = realEndDate - expectedEndDate;
+        const startDateDifference = realStartDate - expectedStartDate;
+        totalEndDateDifference += endDateDifference;
+        totalStartDateDifference += startDateDifference;
+        count++;
+  
+        // Adiciona dados reais
+        this.thirdLineChartData[1].data.push({
+          x: realStartDate,
+          y: realEndDate
+        });
+  
+        // Coleta datas reais para ajustar as escalas
+        startDates.push(realStartDate);
+        endDates.push(realEndDate);
+      }
+    });
+  
+    const averageEndDateDifference = totalEndDateDifference / count;
+    const averageStartDateDifference = totalStartDateDifference / count;
+  
+    // Adiciona dados de previsão ajustada
+    allServicos.forEach(servico => {
+      const expectedStartDate = new Date(servico.expectedStartDate).getTime();
+      const expectedEndDate = new Date(servico.expectedEndDate).getTime();
+      const realStartDate = servico.startDate ? new Date(servico.startDate).getTime() : null;
+      const realEndDate = servico.finalDate ? new Date(servico.finalDate).getTime() : null;
+  
+      const adjustedStartDate = realStartDate ? realStartDate : expectedStartDate + averageStartDateDifference;
+      const adjustedEndDate = realEndDate ? realEndDate : expectedEndDate + averageEndDateDifference;
+  
+      this.thirdLineChartData[2].data.push({
+        x: adjustedStartDate,
+        y: adjustedEndDate
+      });
+    });
+  
+    // Ajusta as escalas dos eixos X e Y
+    const minStartDate = Math.min(...startDates);
+    const maxEndDate = Math.max(...endDates);
+  
+    const adjustedMinStartDate = new Date(minStartDate);
+    adjustedMinStartDate.setDate(adjustedMinStartDate.getDate() - 8);// Subtrai uma semana (7 dias) + 1 dia extra
+  
+    const adjustedMaxEndDate = new Date(maxEndDate);
+    adjustedMaxEndDate.setDate(adjustedMaxEndDate.getDate() + 8); // Adiciona uma semana (7 dias) + 1 dia extra
+  
+    if (this.thirdLineChartOptions.scales?.['x'] && this.thirdLineChartOptions.scales?.['y']) {
+      this.thirdLineChartOptions.scales['x'].min = adjustedMinStartDate.getTime();
+      this.thirdLineChartOptions.scales['x'].max = adjustedMaxEndDate.getTime();
+      this.thirdLineChartOptions.scales['y'].min = adjustedMinStartDate.getTime();
+      this.thirdLineChartOptions.scales['y'].max = adjustedMaxEndDate.getTime();
+    }
   }
 }
