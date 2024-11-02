@@ -10,6 +10,10 @@
     </span>
   </div>
   <div *ngIf="isSidebarOpen" class="sidebar-content">
+    <button class="menu-item" routerLink="/dashboard">
+      <mat-icon class="icons">bar_chart_4_bars</mat-icon>
+      <span>Dashboard</span>
+    </button>
     <button *ngIf="userRole == 'ADMIN' || userRole == 'CONFERENTE'" class="menu-item" routerLink="/avaliacao">
       <mat-icon class="icons">done_outline</mat-icon>
       <span>Avaliações</span>
@@ -45,6 +49,10 @@
   </div>
   <!-- CLOSED SIDEBAR -->
   <div *ngIf="!isSidebarOpen" class="sidebar-content-closed">
+    <button  class="menu-item-sidebar-closed" routerLink="/dashboard" matTooltip="Dashboard"
+    matTooltipShowDelay="1500">
+    <mat-icon class="icons">bar_chart_4_bars</mat-icon>
+  </button>
     <button  *ngIf="userRole == 'ADMIN' || userRole == 'CONFERENTE'" class="menu-item-sidebar-closed" routerLink="/avaliacao" matTooltip="Avaliações"
     matTooltipShowDelay="1500">
     <mat-icon class="icons">done_outline</mat-icon>

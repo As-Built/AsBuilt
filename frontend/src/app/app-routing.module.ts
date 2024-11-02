@@ -12,6 +12,8 @@ import { UnidadeMedidaComponent } from './unidade-medida/unidade-medida.componen
 import { PerfilUsuarioComponent } from './perfil-usuario/perfil-usuario.component';
 import { AvaliacaoComponent } from './avaliacao/avaliacao.component';
 import { CronogramaComponent } from './cronograma/cronograma.component';
+import { ConfiguracaoComponent } from './configuracao/configuracao.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -25,6 +27,8 @@ const routes: Routes = [
   { path: 'unidadeDeMedida', component: UnidadeMedidaComponent, canActivate: [AuthGuard], data: { authorities: ['ADMIN', 'CONFERENTE'] } },
   { path: 'cronograma', component: CronogramaComponent, canActivate: [AuthGuard], data: { authorities: ['ADMIN', 'CONFERENTE'] } },
   { path: 'perfilUsuario', component: PerfilUsuarioComponent },
+  { path: 'configuracao', component: ConfiguracaoComponent },
+  { path: 'dashboard', component: DashboardComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', redirectTo: 'home' }
 ];

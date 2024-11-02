@@ -29,4 +29,12 @@ class ProductionValueController(
         service.getProductionValueByAssessmentId(assessmentId)
             .map { ProductionValueResponse(it) }
             .let { ResponseEntity.ok(it) }
+
+    @SecurityRequirement(name="AsBuilt")
+    @PreAuthorize("permitAll()")
+    @GetMapping("/getProductionValueByMonthAndUserId/{month}/{userId}")
+    fun getProductionValueByMonth(@PathVariable month: Int, @PathVariable userId: Long) =
+        service.getProductionValueByMonthAndUserId(month, userId)
+            .map { ProductionValueResponse(it) }
+            .let { ResponseEntity.ok(it) }
 }

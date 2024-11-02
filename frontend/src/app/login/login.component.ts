@@ -84,14 +84,7 @@ export class LoginComponent implements OnInit {
         const authority = payload.user.roles[0];
         
         this.spinner.show();
-        if (authority === "ADMIN" || authority === "CONFERENTE") {
-          this.router.navigate(['servico']);
-        } else if (authority === "FUNCIONARIO") {
-          this.router.navigate(['perfilUsuario']);
-        } else {
-          // Redirecionamento padrão para algum lugar caso a autoridade não seja "ADMIN", "CONFERENTE" ou "FUNCIONARIO"
-          this.router.navigate(['home']);
-        }
+        this.router.navigate(['dashboard']);
         this.spinner.hide();
       });
     },

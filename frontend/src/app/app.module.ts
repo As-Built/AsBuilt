@@ -41,6 +41,8 @@ import { AssessmentResultPipe } from './shared/pipes/assessment-result.pipe';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { CronogramaComponent } from './cronograma/cronograma.component';
 import { NgChartsModule } from 'ng2-charts';
+import { ConfiguracaoComponent } from './configuracao/configuracao.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 @NgModule({
@@ -66,7 +68,9 @@ import { NgChartsModule } from 'ng2-charts';
     UnidadeMedidaComponent,
     PerfilUsuarioComponent,
     AvaliacaoComponent,
-    CronogramaComponent
+    CronogramaComponent,
+    ConfiguracaoComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

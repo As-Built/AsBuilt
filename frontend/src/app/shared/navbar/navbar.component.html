@@ -18,5 +18,11 @@
         <a mat-menu-item (click)="logout()">Logout</a>
       </mat-menu>
     </li>
+    <li class="nav-item" *ngIf="isNotHomeOrLogin()" matTooltip="Configurações" matTooltipShowDelay="1500">
+      <a routerLink="configuracao" class="nav-link">
+        <span style="font-size: 35px;" class="material-symbols-outlined">
+        settings
+        </span>
+      </a>
   </ul>
 </nav>

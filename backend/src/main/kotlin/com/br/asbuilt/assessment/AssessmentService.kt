@@ -51,8 +51,13 @@ class AssessmentService(
             task.finalDate = assessmentRequest.task.finalDate
         }
 
+        // Atualiza a task com os avaliadores e executores conforme o Assessment independente do resultado
+        task.executors = taskExecutors.toMutableSet()
+        task.evaluators = taskEvaluators.toMutableSet()
+
         // Atualiza a task com as datas de início e fim reais conforme o Assessment
         taskRepository.save(task)
+
 
         return repository.save(newAssessment)
             .also { log.info("Assessment inserted: {}", it.id) }

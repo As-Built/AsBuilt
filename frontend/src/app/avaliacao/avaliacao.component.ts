@@ -693,6 +693,13 @@ export class AvaliacaoComponent implements OnInit {
                   icon: "success",
                   showConfirmButton: false,
                   timer: 2500,
+                }).then((result) => {
+                  if (this.avaliacaoTab == 0) {
+                    this.buscarServicosAguardandoAvaliacao();
+                  }
+                  if (this.avaliacaoTab == 1) {
+                    this.buscarServicosParaReavaliacao();
+                  }
                 });
               } else {
                 Swal.fire({
@@ -700,15 +707,15 @@ export class AvaliacaoComponent implements OnInit {
                   icon: "warning",
                   showConfirmButton: false,
                   timer: 2500,
+                }).then((result) => {
+                  if (this.avaliacaoTab == 0) {
+                    this.buscarServicosAguardandoAvaliacao();
+                  }
+                  if (this.avaliacaoTab == 1) {
+                    this.buscarServicosParaReavaliacao();
+                  }
                 });
               }
-              if (this.avaliacaoTab == 0) {
-                this.buscarServicosAguardandoAvaliacao();
-              }
-              if (this.avaliacaoTab == 1) {
-                this.buscarServicosParaReavaliacao();
-              }
-              this.limparDados();
             }),
             catchError(error => {
               this.spinner.hide();
