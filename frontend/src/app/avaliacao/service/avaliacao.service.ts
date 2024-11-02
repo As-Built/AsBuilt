@@ -2,8 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AvaliacaoModel } from '../model/avaliacao.model';
 import { Observable, forkJoin } from 'rxjs';
-import { ServicoModel } from 'src/app/servico/model/servico.model';
-import { JwtHelperService } from '@auth0/angular-jwt';
+import { ServicoModel } from '../../servico/model/servico.model';
 import { map } from 'rxjs/operators';
 
 @Injectable({
