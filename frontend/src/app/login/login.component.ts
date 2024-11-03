@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UsuarioModel } from '../usuario/model/usuario.model';
 import { Autenticacao } from './model/login.model';
 import { LoginService } from './service/login.service';
 import Swal from 'sweetalert2'

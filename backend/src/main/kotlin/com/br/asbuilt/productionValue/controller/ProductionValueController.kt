@@ -23,7 +23,7 @@ class ProductionValueController(
             .let { ResponseEntity.status(HttpStatus.CREATED).body(it) }
 
     @SecurityRequirement(name="AsBuilt")
-    @PreAuthorize("hasRole('ADMIN') || hasRole('CONFERENTE')")
+    @PreAuthorize("permitAll()")
     @GetMapping("/getProductionValueByAssessmentId/{assessmentId}")
     fun getProductionValueByAssessmentId(@PathVariable assessmentId: Long) =
         service.getProductionValueByAssessmentId(assessmentId)

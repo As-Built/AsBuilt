@@ -105,6 +105,7 @@ class UserService(
     fun findByRole(role: String): List<User> = repository.findByRole(role)
 
     fun findByIdOrNull(id: Long) = repository.findById(id).getOrNull()
+
     private fun findByIdOrThrow(id: Long) =
         findByIdOrNull(id) ?: throw NotFoundException(id)
 

@@ -46,7 +46,7 @@ data class PatchTaskRequest(
 
     val evaluators: Set<Long>?,
 
-    val assessments: Set<Long>?
+    val assessments: Set<Long>?,
 
     ){
     fun toTask() = Task (

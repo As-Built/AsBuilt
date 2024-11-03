@@ -19,7 +19,7 @@
                         <span>Serviços que trabalhei:</span>
                     </div>
                     <div class="col-3" style="text-align: end;">
-                        <span>0000</span>
+                        <span>{{ servicosNoMes }}</span>
                     </div>
                 </div>
                 <div class="row centralizar-conteudo">
@@ -27,7 +27,7 @@
                         <span>Serviços com avaliação positiva:</span>
                     </div>
                     <div class="col-3" style="text-align: end;">
-                        <span>0000</span>
+                        <span>{{ aprovacoesNoMes }}</span>
                     </div>
                 </div>
                 <div class="row centralizar-conteudo">
@@ -35,7 +35,7 @@
                         <span>Serviços com avaliação negativa:</span>
                     </div>
                     <div class="col-3" style="text-align: end;">
-                        <span>0000</span>
+                        <span>{{ reprovacoesNoMes }}</span>
                     </div>
                 </div>
                 <div class="row centralizar-conteudo">
@@ -43,7 +43,7 @@
                         <span>Média geral de aprovação:</span>
                     </div>
                     <div class="col-3" style="text-align: end;">
-                        <span>00%</span>
+                        <span>{{ mediaAprovacaoNoMes | number:'1.1-1' }}%</span>
                     </div>
                 </div>
             </div>
@@ -60,7 +60,7 @@
                         <span>Remuneração atual:</span>
                     </div>
                     <div class="col-3" style="text-align: end;">
-                        <span>R$ 0000,00</span>
+                        <span>{{ remuneracaoAtual | currency:'BRL':'symbol':'1.2-2' }}</span>
                     </div>
                 </div>
                 <div class="row centralizar-conteudo">
@@ -68,7 +68,7 @@
                         <span>Valor produzido:</span>
                     </div>
                     <div class="col-3" style="text-align: end;">
-                        <span>R$ 0000,00</span>
+                        <span>{{ valorProduzidoNoMes | currency:'BRL':'symbol':'1.2-2' }}</span>
                     </div>
                 </div>
                 <div class="row centralizar-conteudo">
@@ -77,7 +77,7 @@
                     </div>
                     <div class="col-3" style="text-align: end;">
                         <br>
-                        <span>R$ 0000,00</span>
+                        <span>{{ producaoEfetivaNoMes | currency:'BRL':'symbol':'1.2-2' }}</span>
                     </div>
                 </div>
             </div>

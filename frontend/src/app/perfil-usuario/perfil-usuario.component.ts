@@ -187,4 +187,13 @@ export class PerfilUsuarioComponent implements OnInit {
     this.userImage.nativeElement.click();
   }
 
+  getAddress(cep: string) {
+    this.http.get(`https://viacep.com.br/ws/${cep}/json/`).subscribe((endereco: any) => {
+      this.perfilUsuario.userAddress.postalCode = endereco.cep;
+      this.perfilUsuario.userAddress.street = endereco.logradouro;
+      this.perfilUsuario.userAddress.city = endereco.localidade;
+      this.perfilUsuario.userAddress.state = endereco.uf;
+    })
+  }
+
 }

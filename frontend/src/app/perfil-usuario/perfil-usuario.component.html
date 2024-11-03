@@ -67,7 +67,8 @@
                     <label for="cep">CEP<span style="color: red;">*</span></label>
                     <input type="text" name="cep" id="cep" mask="00.000-000" required matTooltip="CEP"
                         matTooltipShowDelay="1500" placeholder="00.000-000"
-                        [(ngModel)]="perfilUsuario.userAddress.postalCode">
+                        [(ngModel)]="perfilUsuario.userAddress.postalCode"
+                        (change)="getAddress(perfilUsuario.userAddress.postalCode)">
                 </div>
                 <div class="col-7">
                     <label for="logradouro">Logradouro<span style="color: red;">*</span></label>

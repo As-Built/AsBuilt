@@ -1,6 +1,7 @@
 package com.br.asbuilt.users.controller.requests
 
 import com.br.asbuilt.address.Address
+import com.br.asbuilt.salary.Salary
 import com.br.asbuilt.users.User
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
@@ -24,17 +25,21 @@ data class PatchUserRequest(
     @field:NotBlank
     val phone: String,
 
-    val photo: String?
+    val photo: String?,
+
+    val salaries: Set<Long>?
 
 ) {
 
-    fun toUser() = User(
+    fun toUser() = salaries?.let {
+        User(
         id = id,
         name = name,
         email = email,
         cpf = cpf,
         userAddress = userAddress,
         phone = phone,
-        photo = photo
+        photo = photo,
     )
+    }
 }

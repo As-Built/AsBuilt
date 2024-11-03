@@ -1,6 +1,7 @@
 package com.br.asbuilt.users.controller.responses
 
 import com.br.asbuilt.address.Address
+import com.br.asbuilt.salary.controller.responses.SalaryResponse
 import com.br.asbuilt.users.User
 
 data class UserResponse(
@@ -11,6 +12,7 @@ data class UserResponse(
     val userAddress: Address,
     val phone: String,
     val photo: String?,
+    val salaries: Set<SalaryResponse>?,
 ) {
     constructor(user: User) : this(
         user.id!!,
@@ -19,7 +21,8 @@ data class UserResponse(
         user.cpf,
         user.userAddress ?: Address(),
         user.phone,
-        user.photo
+        user.photo,
+        user.salaries?.map { SalaryResponse(it) }?.toSet()
     )
 
     override fun equals(other: Any?): Boolean {

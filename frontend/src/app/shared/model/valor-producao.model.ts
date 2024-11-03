@@ -1,6 +1,6 @@
-import { AvaliacaoModel } from "src/app/avaliacao/model/avaliacao.model";
-import { ServicoModel } from "src/app/servico/model/servico.model";
-import { UsuarioModel } from "src/app/usuario/model/usuario.model";
+import { AvaliacaoModel } from "../../avaliacao/model/avaliacao.model";
+import { ServicoModel } from "../../servico/model/servico.model";
+import { UsuarioModel } from "../../usuario/model/usuario.model";
 
 export class ValorProducaoModel {
     id?: number;

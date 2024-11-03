@@ -2,6 +2,7 @@ package com.br.asbuilt.users
 
 import com.br.asbuilt.address.Address
 import com.br.asbuilt.roles.Role
+import com.br.asbuilt.salary.Salary
 import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import org.springframework.context.ApplicationContext
@@ -39,6 +40,9 @@ class User(
 
     @Lob
     var photo: String? = null,
+
+    @OneToMany
+    var salaries: MutableSet<Salary>? = mutableSetOf(),
 
     @JsonIgnore
     @ManyToMany
