@@ -84,9 +84,11 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
+    this.spinner.show();
     this.getUserFromToken();
     await this.buscarValorProducaoPorMesPorUsuario();
     await this.buscarValorProducaoTotalPorUsuario();
+    this.spinner.hide();
   }
 
   getUserFromToken() {
@@ -98,7 +100,6 @@ export class DashboardComponent implements OnInit {
   }
 
   async buscarValorProducaoPorMesPorUsuario() {
-    this.spinner.show();
     try {
       let mesAtual = new Date().getMonth() + 1; // Os meses são indexados de 0 a 11 com o getMonth
       if (this.userRole !== 'ADMIN') {
@@ -112,11 +113,9 @@ export class DashboardComponent implements OnInit {
     if (this.userRole !== 'ADMIN') {
       this.contabilizarProducaoDoMesUsuario();
     }
-    this.spinner.hide();
   }
 
   async buscarValorProducaoTotalPorUsuario() {
-    this.spinner.show();
     try {
       if (this.userRole !== 'ADMIN') {
         const producaoTotal = await firstValueFrom(this.valorProducaoService.buscarValorProducaoTotalPorUsuario(this.userId));
@@ -129,7 +128,6 @@ export class DashboardComponent implements OnInit {
     if (this.userRole !== 'ADMIN') {
       this.contabilizarProducaoTotalUsuario();
     }
-    this.spinner.hide();
   }
 
   async contabilizarProducaoDoMesUsuario() {
