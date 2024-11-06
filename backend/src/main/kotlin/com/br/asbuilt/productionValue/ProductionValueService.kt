@@ -42,6 +42,10 @@ class ProductionValueService(
         return repository.findByMonthAndUser(month, userId)
     }
 
+    fun getProductionValueByUserId(userId: Long): List<ProductionValue> {
+        return repository.findByUserId(userId)
+    }
+
     companion object {
         private val log = LoggerFactory.getLogger(ProductionValueService::class.java)
     }

@@ -14,4 +14,8 @@ interface ProductionValueRepository : JpaRepository<ProductionValue, Long> {
             "WHERE MONTH(pv.date) = :month " +
             "AND pv.user.id = :userId")
     fun findByMonthAndUser(month: Int, userId: Long): List<ProductionValue>
+
+    @Query("SELECT pv FROM ProductionValue pv " +
+            "WHERE pv.user.id = :userId")
+    fun findByUserId(userId: Long): List<ProductionValue>
 }

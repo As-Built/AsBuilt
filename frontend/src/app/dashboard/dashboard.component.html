@@ -1,7 +1,7 @@
 <div class="corpo">
     <div class="container conteudo">
         <div class="row centralizar-conteudo">
-            <div class="col-12 titulo">
+            <div class="col-12">
                 <h1>Dashboard de {{ userName }}</h1>
             </div>
         </div>
@@ -10,7 +10,7 @@
             <div class="col-6 card">
                 <div class="row centralizar-conteudo">
                     <div class="col-12">
-                        <h2>Serviços este mês</h2>
+                        <h2>Serviços Este Mês</h2>
                         <hr>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
             <div class="col-6 card">
                 <div class="row centralizar-conteudo">
                     <div class="col-12">
-                        <h2>Produção geral do mês</h2>
+                        <h2>Produção Geral Do Mês</h2>
                         <hr>
                     </div>
                 </div>
@@ -80,6 +80,72 @@
                         <span>{{ producaoEfetivaNoMes | currency:'BRL':'symbol':'1.2-2' }}</span>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row centralizar-conteudo">
+            <!-- CARD 3 -->
+            <div class="col-12 card">
+                <div class="row centralizar-conteudo">
+                    <div class="col-12">
+                        <h2>Meu Desempenho Este Mês</h2>
+                        <hr>
+                    </div>
+                </div>
+                <div *ngIf="producaoDoMesPorUsuario.length > 0">
+                    <canvas *ngIf="producaoDoMesPorUsuario.length > 0" id="graficoPizzaDesempenhoDoMes"></canvas>
+                </div>
+                <div *ngIf="producaoDoMesPorUsuario.length === 0">
+                    <span class="material-symbols-outlined" style="font-size: 100px;">
+                        clock_loader_60
+                    </span>
+                    <br>
+                    <span>Sem dados para exibir o gráfico.</span>
+                </div>
+            </div>
+            <!-- CARD 4 -->
+            <div class="col-6 card">
+                <div class="row centralizar-conteudo">
+                    <div class="col-12">
+                        <h2>Meu Desempenho Geral</h2>
+                        <hr>
+                    </div>
+                    <div *ngIf="producaoTotalPorUsuario.length > 0">
+                        <canvas *ngIf="producaoTotalPorUsuario.length > 0" id="graficoPizzaDesempenhoTotal"></canvas>
+                    </div>
+                    <div *ngIf="producaoTotalPorUsuario.length === 0">
+                        <span class="material-symbols-outlined" style="font-size: 100px;">
+                            clock_loader_60
+                        </span>
+                        <br>
+                        <span>Sem dados para exibir o gráfico.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row centralizar-conteudo">
+            <!-- CARD 5 -->
+            <div class="col-12 card-grande">
+                <div class="row centralizar-conteudo">
+                    <div class="col-12">
+                        <h2>Minha progressão em {{ anoAtual }}</h2>
+                        <hr>
+                    </div>
+                </div>
+                <div *ngIf="producaoTotalPorUsuario.length > 0">
+                    <canvas *ngIf="producaoTotalPorUsuario.length > 0" baseChart 
+                            [datasets]="lineChartData" 
+                            [labels]="lineChartLabels" 
+                            [options]="lineChartOptions"
+                            [legend]="lineChartLegend" 
+                            [type]="lineChartType">
+                    </canvas>
+                </div>
+                <div *ngIf="producaoTotalPorUsuario.length === 0">
+                    <span class="material-symbols-outlined" style="font-size: 100px;">
+                        show_chart
+                    </span>
+                    <br>
+                    <span>Sem dados para exibir o gráfico.</span>
             </div>
         </div>
     </div>

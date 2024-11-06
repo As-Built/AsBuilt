@@ -3,7 +3,7 @@ import { ServicoModel } from "../../servico/model/servico.model";
 import { UsuarioModel } from "../../usuario/model/usuario.model";
 
 export class ValorProducaoModel {
-    id?: number;
+    id?: number = 0;
     value: number = 0.0;
     date: Date = new Date();
     user: UsuarioModel = new UsuarioModel();

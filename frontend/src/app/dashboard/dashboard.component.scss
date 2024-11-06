@@ -4,13 +4,7 @@
     align-items: center
 }
 
-.titulo {
-    margin-top: 20px;
-    padding-bottom: 15px;
-}
-
 .conteudo {
-    padding: 20px; 
     width: $conteudo_width; 
     max-width: 90%; 
     display: flex; 
@@ -26,7 +20,18 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
     margin-bottom: 40px;
     width: 45%;
-    margin: 0 2.5%;
+    margin: 2.5% 2.5%;
+}
+
+.card-grande {
+    background-color: white; 
+    display:inline-block;
+    padding: 20px;
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    margin-bottom: 40px;
+    width: 95%;
+    margin: 2.5% 2.5%;
 }
 
 .centralizar-conteudo {

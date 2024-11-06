@@ -10,7 +10,6 @@ import { ServicoModel } from '../servico/model/servico.model';
 import { ChartOptions, ChartType, ChartDataset } from 'chart.js';
 import { formatDate } from '@angular/common';
 import 'chartjs-adapter-date-fns';
-import { getISOWeek } from 'date-fns';
 
 function getWeekLabel(date: Date): string {
   const startOfYear = new Date(date.getFullYear(), 0, 1);
