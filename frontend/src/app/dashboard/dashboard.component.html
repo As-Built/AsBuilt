@@ -1,6 +1,6 @@
 <div class="corpo">
     <!-- DASHBOARD DE ADMINISTRADOR -->
-    <div *ngIf="userRole === 'ADMIN'" class="container conteudo">
+    <div *ngIf="userRole === 'ADMIN' || userRole === 'CONFERENTE'" class="container conteudo">
         <div class="row centralizar-conteudo">
             <div class="col-12">
                 <h1>Painel de Controle</h1>

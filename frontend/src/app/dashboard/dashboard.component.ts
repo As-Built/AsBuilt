@@ -101,7 +101,7 @@ export class DashboardComponent implements OnInit {
     if (this.userRole === 'FUNCIONARIO') {
       await this.buscarValorProducaoPorMesPorUsuario();
     }
-    if (this.userRole === 'ADMIN') {
+    if (this.userRole === 'ADMIN' || this.userRole === 'CONFERENTE') {
       await this.buscarValorProducaoTotalPorMes();
     }
     await this.buscarValorProducaoTotal();
@@ -142,7 +142,7 @@ export class DashboardComponent implements OnInit {
 
   async buscarValorProducaoTotal() {
     try {
-      if (this.userRole === 'ADMIN') {
+      if (this.userRole === 'ADMIN' || this.userRole === 'CONFERENTE') {
         const producaoTotal = await firstValueFrom(this.valorProducaoService.buscarValorProducaoTotal());
         this.producaoTotal = producaoTotal;
         this.cdr.detectChanges(); // Renderiza o gráfico após a busca dos dados
@@ -156,7 +156,7 @@ export class DashboardComponent implements OnInit {
     } catch (error) {
       console.error(error);
     }
-    if (this.userRole === 'ADMIN') {
+    if (this.userRole === 'ADMIN' || this.userRole === 'CONFERENTE') {
       this.contabilizarProducaoTotal();
     }
     if (this.userRole === 'FUNCIONARIO') {
