@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
+import java.util.*
 
 @RestController
 @RequestMapping("/productionValue")
@@ -59,6 +60,22 @@ class ProductionValueController(
     @GetMapping("/getProductionValueByMonth/{month}")
     fun getProductionValue(@PathVariable month: Int) =
         service.getProductionValueByMonth(month)
+            .map { ProductionValueResponse(it) }
+            .let { ResponseEntity.ok(it) }
+
+    @SecurityRequirement(name="AsBuilt")
+    @PreAuthorize("permitAll()")
+    @GetMapping("/getProductionValueByPeriod/{startDate}/{endDate}")
+    fun getProductionValueByPeriod(@PathVariable startDate: Date, @PathVariable endDate: Date) =
+        service.getProductionValueByPeriod(startDate, endDate)
+            .map { ProductionValueResponse(it) }
+            .let { ResponseEntity.ok(it) }
+
+    @SecurityRequirement(name="AsBuilt")
+    @PreAuthorize("permitAll()")
+    @GetMapping("/getProductionValueByPeriodAndUserId/{startDate}/{endDate}/{userId}")
+    fun getProductionValueByPeriodAndUserId(@PathVariable startDate: Date, @PathVariable endDate: Date, @PathVariable userId: Long) =
+        service.getProductionValueByPeriodAndUserId(startDate, endDate, userId)
             .map { ProductionValueResponse(it) }
             .let { ResponseEntity.ok(it) }
 }

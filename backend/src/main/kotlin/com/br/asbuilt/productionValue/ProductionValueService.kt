@@ -7,6 +7,7 @@ import com.br.asbuilt.tasks.TaskService
 import com.br.asbuilt.users.UserRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class ProductionValueService(
@@ -52,6 +53,14 @@ class ProductionValueService(
 
     fun getProductionValueByMonth(month: Int): List<ProductionValue> {
         return repository.findByMonth(month)
+    }
+
+    fun getProductionValueByPeriod(startDate: Date, endDate: Date): List<ProductionValue> {
+        return repository.findByPeriod(startDate, endDate)
+    }
+
+    fun getProductionValueByPeriodAndUserId(startDate: Date, endDate: Date, userId: Long): List<ProductionValue> {
+        return repository.findByPeriodAndUserId(startDate, endDate, userId)
     }
 
     companion object {

@@ -43,6 +43,7 @@ import { CronogramaComponent } from './cronograma/cronograma.component';
 import { NgChartsModule } from 'ng2-charts';
 import { ConfiguracaoComponent } from './configuracao/configuracao.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { RelatorioProducaoComponent } from './relatorio-producao/relatorio-producao.component';
 
 
 @NgModule({
@@ -70,7 +71,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     AvaliacaoComponent,
     CronogramaComponent,
     ConfiguracaoComponent,
-    DashboardComponent
+    DashboardComponent,
+    RelatorioProducaoComponent
   ],
   imports: [
     BrowserModule,

@@ -14,6 +14,7 @@ import { AvaliacaoComponent } from './avaliacao/avaliacao.component';
 import { CronogramaComponent } from './cronograma/cronograma.component';
 import { ConfiguracaoComponent } from './configuracao/configuracao.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { RelatorioProducaoComponent } from './relatorio-producao/relatorio-producao.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: 'perfilUsuario', component: PerfilUsuarioComponent },
   { path: 'configuracao', component: ConfiguracaoComponent },
   { path: 'dashboard', component: DashboardComponent },
+  { path: 'relatorio-producao', component: RelatorioProducaoComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', redirectTo: 'home' }
 ];

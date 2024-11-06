@@ -22,5 +22,9 @@ export class UsuarioService {
   listarUsuariosPorRole(role: string): Observable<UsuarioModel[]> {
     return this.httpClient.get<UsuarioModel[]>(`http://localhost:8080/asbuilt/users?role=${role}`, this.httpOptions);
   }
+
+  listarUsuarios(): Observable<UsuarioModel[]> {
+    return this.httpClient.get<UsuarioModel[]>('http://localhost:8080/asbuilt/users', this.httpOptions);
+  }
   
 }

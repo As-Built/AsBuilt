@@ -46,6 +46,10 @@
       <mat-icon class="icons">timeline</mat-icon>
       <span>Cronograma</span>
     </button>
+    <button class="menu-item" routerLink="/relatorio-producao">
+      <mat-icon class="icons">description</mat-icon>
+      <span>Relatório de Prod.</span>
+    </button>
   </div>
   <!-- CLOSED SIDEBAR -->
   <div *ngIf="!isSidebarOpen" class="sidebar-content-closed">
@@ -85,5 +89,9 @@
     matTooltipShowDelay="1500">
     <mat-icon class="icons">timeline</mat-icon>
   </button>
+  <button class="menu-item-sidebar-closed" routerLink="/relatorio-producao" matTooltip="Relatório de Produção"
+  matTooltipShowDelay="1500">
+  <mat-icon class="icons">description</mat-icon>
+</button>
   </div>
 </div>

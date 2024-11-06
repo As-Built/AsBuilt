@@ -51,4 +51,12 @@ export class ValorProducaoService {
     return this.httpClient.get<ValorProducaoModel[]>(`http://localhost:8080/asbuilt/productionValue/getProductionValueByMonth/${mes}`, this.httpOptions);
   }
 
+  buscarValorProducaoPorPeriodo(dataInicio: Date, dataFim: Date) {
+    return this.httpClient.get<ValorProducaoModel[]>(`http://localhost:8080/asbuilt/productionValue/getProductionValueByPeriod/${dataInicio}/${dataFim}`, this.httpOptions);
+  }
+
+  buscarValorProducaoPorPeriodoEUsuarioId(dataInicio: Date, dataFim: Date, usuarioId: number) {
+    return this.httpClient.get<ValorProducaoModel[]>(`http://localhost:8080/asbuilt/productionValue/getProductionValueByPeriodAndUserId/${dataInicio}/${dataFim}/${usuarioId}`, this.httpOptions);
+  }
+
 }
