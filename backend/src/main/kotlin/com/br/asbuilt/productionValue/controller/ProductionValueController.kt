@@ -45,4 +45,20 @@ class ProductionValueController(
         service.getProductionValueByUserId(userId)
             .map { ProductionValueResponse(it) }
             .let { ResponseEntity.ok(it) }
+
+    @SecurityRequirement(name="AsBuilt")
+    @PreAuthorize("permitAll()")
+    @GetMapping("/getProductionValue")
+    fun getProductionValue() =
+        service.getProductionValue()
+            .map { ProductionValueResponse(it) }
+            .let { ResponseEntity.ok(it) }
+
+    @SecurityRequirement(name="AsBuilt")
+    @PreAuthorize("permitAll()")
+    @GetMapping("/getProductionValueByMonth/{month}")
+    fun getProductionValue(@PathVariable month: Int) =
+        service.getProductionValueByMonth(month)
+            .map { ProductionValueResponse(it) }
+            .let { ResponseEntity.ok(it) }
 }

@@ -1,8 +1,162 @@
 <div class="corpo">
-    <div class="container conteudo">
+    <!-- DASHBOARD DE ADMINISTRADOR -->
+    <div *ngIf="userRole === 'ADMIN'" class="container conteudo">
         <div class="row centralizar-conteudo">
             <div class="col-12">
-                <h1>Dashboard de {{ userName }}</h1>
+                <h1>Painel de Controle</h1>
+            </div>
+        </div>
+        <div class="row centralizar-conteudo">
+            <!-- CARD 1 -->
+            <div class="col-6 card">
+                <div class="row centralizar-conteudo">
+                    <div class="col-12">
+                        <h2>Serviços Este Mês</h2>
+                        <hr>
+                    </div>
+                </div>
+                <div class="row centralizar-conteudo">
+                    <div class="col-9" style="text-align: start;">
+                        <span>Total de serviços executados:</span>
+                    </div>
+                    <div class="col-3" style="text-align: end;">
+                        <span>{{ totalServicosNoMes }}</span>
+                    </div>
+                </div>
+                <div class="row centralizar-conteudo">
+                    <div class="col-9" style="text-align: start;">
+                        <span>Serviços com avaliação positiva:</span>
+                    </div>
+                    <div class="col-3" style="text-align: end;">
+                        <span>{{ totalAprovacoesNoMes }}</span>
+                    </div>
+                </div>
+                <div class="row centralizar-conteudo">
+                    <div class="col-9" style="text-align: start;">
+                        <span>Serviços com avaliação negativa:</span>
+                    </div>
+                    <div class="col-3" style="text-align: end;">
+                        <span>{{ totalReprovacoesNoMes }}</span>
+                    </div>
+                </div>
+                <div class="row centralizar-conteudo">
+                    <div class="col-9" style="text-align: start;">
+                        <span>Média geral de aprovação:</span>
+                    </div>
+                    <div class="col-3" style="text-align: end;">
+                        <span>{{ mediaAprovacaoTotalNoMes | number:'1.1-1' }}%</span>
+                    </div>
+                </div>
+            </div>
+            <!-- CARD 2 -->
+            <div class="col-6 card">
+                <div class="row centralizar-conteudo">
+                    <div class="col-12">
+                        <h2>Produção Geral Do Mês</h2>
+                        <hr>
+                    </div>
+                </div>
+                <div class="row centralizar-conteudo">
+                    <div class="col-8" style="text-align: start;">
+                        <span>Gastos Totais com Remuneração:</span>
+                    </div>
+                    <div class="col-4" style="text-align: end;">
+                        <span>{{ remuneracaoTotalNoMes | currency:'BRL':'symbol':'1.2-2' }}</span>
+                    </div>
+                </div>
+                <div class="row centralizar-conteudo">
+                    <div class="col-8" style="text-align: start;">
+                        <span>Valor Total Produzido:</span>
+                    </div>
+                    <div class="col-4" style="text-align: end;">
+                        <span>{{ valorTotalProduzidoNoMes | currency:'BRL':'symbol':'1.2-2' }}</span>
+                    </div>
+                </div>
+                <div class="row centralizar-conteudo">
+                    <div class="col-8" style="text-align: start;">
+                        <span>Produção Total Efetiva (Valor produzido - Remuneração):</span>
+                    </div>
+                    <div [ngClass]="{'negative-value': producaoTotalEfetivaNoMes < 0}" 
+                        class="col-4" style="text-align: end;">
+                        <br>
+                        <span>{{ producaoTotalEfetivaNoMes | currency:'BRL':'symbol':'1.2-2' }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row centralizar-conteudo">
+            <!-- CARD 3 -->
+            <div class="col-12 card">
+                <div class="row centralizar-conteudo">
+                    <div class="col-12">
+                        <h2>Desempenho Total Este Mês</h2>
+                        <hr>
+                    </div>
+                </div>
+                <div *ngIf="producaoTotalDoMes.length > 0">
+                    <canvas *ngIf="producaoTotalDoMes.length > 0" id="graficoPizzaDesempenhoDoMes"></canvas>
+                </div>
+                <div *ngIf="producaoTotalDoMes.length === 0">
+                    <span class="material-symbols-outlined" style="font-size: 100px;">
+                        clock_loader_60
+                    </span>
+                    <br>
+                    <span>Sem dados para exibir o gráfico.</span>
+                </div>
+            </div>
+            <!-- CARD 4 -->
+            <div class="col-6 card">
+                <div class="row centralizar-conteudo">
+                    <div class="col-12">
+                        <h2>Desempenho Geral</h2>
+                        <hr>
+                    </div>
+                    <div *ngIf="producaoTotal.length > 0">
+                        <canvas *ngIf="producaoTotal.length > 0" id="graficoPizzaDesempenhoTotal"></canvas>
+                    </div>
+                    <div *ngIf="producaoTotal.length === 0">
+                        <span class="material-symbols-outlined" style="font-size: 100px;">
+                            clock_loader_60
+                        </span>
+                        <br>
+                        <span>Sem dados para exibir o gráfico.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row centralizar-conteudo">
+            <!-- CARD 5 -->
+            <div class="col-12 card-grande">
+                <div class="row centralizar-conteudo">
+                    <div class="col-12">
+                        <h2>Progressão Geral em {{ anoAtual }}</h2>
+                        <hr>
+                    </div>
+                </div>
+                <div *ngIf="producaoTotal.length > 0">
+                    <canvas *ngIf="producaoTotal.length > 0" baseChart 
+                            [datasets]="lineChartData" 
+                            [labels]="lineChartLabels" 
+                            [options]="lineChartOptions"
+                            [legend]="lineChartLegend" 
+                            [type]="lineChartType">
+                    </canvas>
+                </div>
+                <div *ngIf="producaoTotal.length === 0">
+                    <span class="material-symbols-outlined" style="font-size: 100px;">
+                        show_chart
+                    </span>
+                    <br>
+                    <span>Sem dados para exibir o gráfico.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- DASHBOARD DE FUNCIONÁRIO -->
+    <div *ngIf="userRole === 'FUNCIONARIO'" class="container conteudo">
+        <div class="row centralizar-conteudo">
+            <div class="col-12">
+                <h1>Painel de Controle de {{ userName }}</h1>
             </div>
         </div>
         <div class="row centralizar-conteudo">
@@ -19,7 +173,7 @@
                         <span>Serviços que trabalhei:</span>
                     </div>
                     <div class="col-3" style="text-align: end;">
-                        <span>{{ servicosNoMes }}</span>
+                        <span>{{ servicosNoMesPorUsuario }}</span>
                     </div>
                 </div>
                 <div class="row centralizar-conteudo">
@@ -27,7 +181,7 @@
                         <span>Serviços com avaliação positiva:</span>
                     </div>
                     <div class="col-3" style="text-align: end;">
-                        <span>{{ aprovacoesNoMes }}</span>
+                        <span>{{ aprovacoesNoMesPorUsuario }}</span>
                     </div>
                 </div>
                 <div class="row centralizar-conteudo">
@@ -35,7 +189,7 @@
                         <span>Serviços com avaliação negativa:</span>
                     </div>
                     <div class="col-3" style="text-align: end;">
-                        <span>{{ reprovacoesNoMes }}</span>
+                        <span>{{ reprovacoesNoMesPorUsuario }}</span>
                     </div>
                 </div>
                 <div class="row centralizar-conteudo">
@@ -43,7 +197,7 @@
                         <span>Média geral de aprovação:</span>
                     </div>
                     <div class="col-3" style="text-align: end;">
-                        <span>{{ mediaAprovacaoNoMes | number:'1.1-1' }}%</span>
+                        <span>{{ mediaAprovacaoNoMesPorUsuario | number:'1.1-1' }}%</span>
                     </div>
                 </div>
             </div>
@@ -56,26 +210,27 @@
                     </div>
                 </div>
                 <div class="row centralizar-conteudo">
-                    <div class="col-9" style="text-align: start;">
+                    <div class="col-8" style="text-align: start;">
                         <span>Remuneração atual:</span>
                     </div>
-                    <div class="col-3" style="text-align: end;">
+                    <div class="col-4" style="text-align: end;">
                         <span>{{ remuneracaoAtual | currency:'BRL':'symbol':'1.2-2' }}</span>
                     </div>
                 </div>
                 <div class="row centralizar-conteudo">
-                    <div class="col-9" style="text-align: start;">
+                    <div class="col-8" style="text-align: start;">
                         <span>Valor produzido:</span>
                     </div>
-                    <div class="col-3" style="text-align: end;">
+                    <div class="col-4" style="text-align: end;">
                         <span>{{ valorProduzidoNoMes | currency:'BRL':'symbol':'1.2-2' }}</span>
                     </div>
                 </div>
                 <div class="row centralizar-conteudo">
-                    <div class="col-9" style="text-align: start;">
+                    <div class="col-8" style="text-align: start;">
                         <span>Produção efetiva (Valor produzido - Remuneração):</span>
                     </div>
-                    <div class="col-3" style="text-align: end;">
+                    <div [ngClass]="{'negative-value': producaoEfetivaNoMes < 0}" 
+                        class="col-4" style="text-align: end;">
                         <br>
                         <span>{{ producaoEfetivaNoMes | currency:'BRL':'symbol':'1.2-2' }}</span>
                     </div>
@@ -92,7 +247,7 @@
                     </div>
                 </div>
                 <div *ngIf="producaoDoMesPorUsuario.length > 0">
-                    <canvas *ngIf="producaoDoMesPorUsuario.length > 0" id="graficoPizzaDesempenhoDoMes"></canvas>
+                    <canvas *ngIf="producaoDoMesPorUsuario.length > 0" id="graficoPizzaDesempenhoDoMesUsuario"></canvas>
                 </div>
                 <div *ngIf="producaoDoMesPorUsuario.length === 0">
                     <span class="material-symbols-outlined" style="font-size: 100px;">
@@ -110,7 +265,7 @@
                         <hr>
                     </div>
                     <div *ngIf="producaoTotalPorUsuario.length > 0">
-                        <canvas *ngIf="producaoTotalPorUsuario.length > 0" id="graficoPizzaDesempenhoTotal"></canvas>
+                        <canvas *ngIf="producaoTotalPorUsuario.length > 0" id="graficoPizzaDesempenhoTotalFuncionario"></canvas>
                     </div>
                     <div *ngIf="producaoTotalPorUsuario.length === 0">
                         <span class="material-symbols-outlined" style="font-size: 100px;">
