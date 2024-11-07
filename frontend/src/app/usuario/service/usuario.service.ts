@@ -26,5 +26,9 @@ export class UsuarioService {
   listarUsuarios(): Observable<UsuarioModel[]> {
     return this.httpClient.get<UsuarioModel[]>('http://localhost:8080/asbuilt/users', this.httpOptions);
   }
+
+  buscarUsuarioPorId(id: number): Observable<UsuarioModel> {
+    return this.httpClient.get<UsuarioModel>(`http://localhost:8080/asbuilt/users/${id}`, this.httpOptions);
+  }
   
 }
