@@ -10,6 +10,9 @@
     </span>
   </div>
   <div *ngIf="isSidebarOpen" class="sidebar-content">
+    <div class="menu-logo">
+      <img src="..\assets\LogoAsBuiltSemFundoBranca.png" alt="Logo" height="44px" width="130px">
+    </div>
     <button class="menu-item" routerLink="/dashboard">
       <mat-icon class="icons">bar_chart_4_bars</mat-icon>
       <span>Dashboard</span>
@@ -53,6 +56,9 @@
   </div>
   <!-- CLOSED SIDEBAR -->
   <div *ngIf="!isSidebarOpen" class="sidebar-content-closed">
+    <div class="menu-logo-sidebar-closed">
+      <img class="logo" src="..\assets\LogoAsBuiltSemFundoBrancaQuad.png" alt="Logo" height="44px" width="49px">
+    </div>
     <button  class="menu-item-sidebar-closed" routerLink="/dashboard" matTooltip="Dashboard"
     matTooltipShowDelay="1500">
     <mat-icon class="icons">bar_chart_4_bars</mat-icon>
