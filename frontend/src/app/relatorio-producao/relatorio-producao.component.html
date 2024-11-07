@@ -1,187 +1,301 @@
 <div class="corpo">
     <div class="container conteudo">
-        <div class="tab-content">
-            <div class="row centralizar-conteudo">
-                <div class="col-12 titulo">
-                    <h1>Relatório de Produção</h1>
-                    <hr>
+        <div class="row centralizar-conteudo">
+            <div class="col-12 titulo">
+                <h1>Relatório de Produção</h1>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6" *ngIf="userRole !== 'FUNCIONARIO'">
+                <label for="funcionario">Funcionário executor: <span style="color: red;">*</span></label>
+                <select name="funcionario" id="funcionario" [(ngModel)]="usuarioSelecionado">
+                    <option disabled [value]="null">Selecione um funcionário</option>
+                    <option *ngFor="let usuario of usuarios" [ngValue]="usuario">
+                        {{ usuario.name }}
+                    </option>
+                </select>
+            </div>
+            <div class="col-3">
+                <label for="inicioPeriodo">De: <span style="color: red;">*</span></label>
+                <input #inicioPeriodo style="text-align: center;" name="inicioPeriodo" id="inicioPeriodo" required
+                    matTooltip="Data de início do período de consulta" matTooltipShowDelay="1500"
+                    [(ngModel)]="dataInicioPeriodoConsulta" type="date" />
+            </div>
+            <div class="col-3">
+                <label for="finalPeriodo">A: <span style="color: red;">*</span></label>
+                <input #finalPeriodo style="text-align: center;" name="finalPeriodo" id="finalPeriodo" required
+                    matTooltip="Data final do período de consulta" matTooltipShowDelay="1500"
+                    [(ngModel)]="dataFimPeriodoConsulta" type="date" />
+            </div>
+        </div>
+        <div class="row centralizar-conteudo">
+            <div *ngIf="dataInicioPeriodoConsulta || dataFimPeriodoConsulta" class="col-6">
+                <button class="btn-warning" type="button" (click)="limparDados()">Limpar dados</button>
+            </div>
+            <div *ngIf="usuarioSelecionado && dataInicioPeriodoConsulta && dataFimPeriodoConsulta" class="col-6">
+                <button *ngIf="userRole !== 'FUNCIONARIO'" class="btn-confirm" type="button"
+                    (click)="buscarValorProducaoPorPeriodoEUsuarioId(dataInicioPeriodoConsulta, dataFimPeriodoConsulta, usuarioSelecionado.id)">
+                    Buscar
+                </button>
+                <button *ngIf="userRole === 'FUNCIONARIO'" class="btn-confirm" type="button"
+                    (click)="buscarValorProducaoPorPeriodoEUsuarioId(dataInicioPeriodoConsulta, dataFimPeriodoConsulta, userId)">
+                    Buscar
+                </button>
+            </div>
+        </div>
+        <div class="row" *ngIf="producao.length > 0 && buscaRealizada">
+            <div class="col-4">
+                <label for="filterTableConstrutora">Filtrar por Construtora:</label>
+                <select #filterTableConstrutora name="filterTableConstrutora" id="filterTableConstrutora"
+                    (change)="onFiltroConstrutoraChange($event)">
+                    <option value="Todos">Todos</option>
+                    <option *ngFor="let construtora of listaConstrutorasConsulta" [value]="construtora.builderName">
+                        {{construtora.builderName}}
+                    </option>
+                </select>
+            </div>
+            <div class="col-4" *ngIf="filtroConstrutoraSelecionado">
+                <label for="filterTableCostCenter">Filtrar por Centro de Custo:</label>
+                <select name="filterTableCostCenter" id="filterTableCostCenter"
+                    (change)="onFiltroCostCenterChange($event)">
+                    <option value="Todos">Todos</option>
+                    <option *ngFor="let centroDeCusto of listaCentrosDeCustoFiltradaConsulta"
+                        [value]="centroDeCusto.costCenterName">
+                        {{centroDeCusto.costCenterName}}
+                    </option>
+                </select>
+            </div>
+            <div class="col-4" *ngIf="filtroCentroCustoSelecionado && listaLocationGroupFiltradaConsulta.length > 0">
+                <label for="filterTable1">Filtrar pelo 1º Nível:</label>
+                <select name="filterTable1" id="filterTable1" (change)="onFiltroLocationGroupChange($event)">
+                    <option value="Todos">Todos</option>
+                    <option *ngFor="let locationGroup of listaLocationGroupFiltradaConsulta"
+                        [value]="locationGroup.locationGroup">
+                        {{locationGroup.locationGroup}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4" *ngIf="filtroLocationGroup && listaSubGroup1FiltradaConsulta.length > 0">
+                <label for="filterTable2">Filtrar pelo 2º Nível:</label>
+                <select name="filterTable2" id="filterTable2" (change)="onFiltroSubGroup1Change($event)">
+                    <option value="Todos">Todos</option>
+                    <option *ngFor="let subGroup1 of listaSubGroup1FiltradaConsulta" [value]="subGroup1">
+                        {{subGroup1}}
+                    </option>
+                </select>
+            </div>
+
+            <div class="col-4" *ngIf="filtroSubGroup1 && listaSubGroup2FiltradaConsulta.length > 0">
+                <label for="filterTable3">Filtrar pelo 3º Nível:</label>
+                <select name="filterTable3" id="filterTable3" (change)="onFiltroSubGroup2Change($event)">
+                    <option value="Todos">Todos</option>
+                    <option *ngFor="let subGroup2 of listaSubGroup2FiltradaConsulta" [value]="subGroup2">
+                        {{subGroup2}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div *ngIf="filtroConstrutoraSelecionado != null" class="row">
+            <div class="col-6">
+                <button class="btn-warning" style="margin-left: 10px; margin-top: 0px" type="button"
+                    (click)="limparFiltros()">Limpar filtros</button>
+            </div>
+        </div>
+        <div class="row centralizar-conteudo">
+            <div class="row" *ngIf="producaoFiltrada.length > 0">
+                <div class="col-12 table-responsive">
+                    <table mat-table [dataSource]="producaoFiltrada" class="mat-elevation-z8">
+
+                        <ng-container matColumnDef="construtora">
+                            <th mat-header-cell *matHeaderCellDef>Construtora</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.task?.costCenter?.builder?.builderName}} </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="centroCusto">
+                            <th mat-header-cell *matHeaderCellDef>Centro de Custo</th>
+                            <td mat-cell *matCellDef="let element"> {{element.task?.costCenter?.costCenterName}}
+                            </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="servico">
+                            <th mat-header-cell *matHeaderCellDef>Serviço</th>
+                            <td mat-cell *matCellDef="let element"> {{element.task?.taskType?.taskTypeName}} </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="locationGroup">
+                            <th mat-header-cell *matHeaderCellDef>Pavimento</th>
+                            <td mat-cell *matCellDef="let element"> {{element.task?.taskLocation?.locationGroup}}
+                            </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="subGroup1">
+                            <th mat-header-cell *matHeaderCellDef>Local</th>
+                            <td mat-cell *matCellDef="let element"> {{element.task?.taskLocation?.subGroup1}} </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="subGroup2">
+                            <th mat-header-cell *matHeaderCellDef>Cômodo</th>
+                            <td mat-cell *matCellDef="let element"> {{element.task?.taskLocation?.subGroup2}} </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="data">
+                            <th mat-header-cell *matHeaderCellDef>Data</th>
+                            <td mat-cell *matCellDef="let element"> {{element.assessment?.assessmentDate |
+                                date:'dd/MM/yyyy'}} </td>
+                            <td class="total-value" mat-footer-cell *matFooterCellDef>
+                                Total:
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="valor">
+                            <th mat-header-cell *matHeaderCellDef>Valor</th>
+                            <td mat-cell *matCellDef="let element"> {{element.value | real}} </td>
+                            <td class="total-value" mat-footer-cell *matFooterCellDef>{{ totalValue | real }}</td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                        <tr mat-footer-row *matFooterRowDef="displayedColumns">
+                            <td mat-footer-cell *matFooterCellDef>{{ totalValue | real }}</td>
+                        </tr>
+
+                    </table>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-6" *ngIf="userRole !== 'FUNCIONARIO'">
-                    <label for="funcionario">Funcionário executor: <span style="color: red;">*</span></label>
-                    <select name="funcionario" id="funcionario" [(ngModel)]="usuarioSelecionado">
-                        <option disabled [value]="null">Selecione um funcionário</option>
-                        <option *ngFor="let usuario of usuarios" [ngValue]="usuario">
-                            {{ usuario.name }}
-                        </option>
-                    </select>
-                </div>
-                <div class="col-3">
-                    <label for="inicioPeriodo">De: <span style="color: red;">*</span></label>
-                    <input #inicioPeriodo style="text-align: center;" name="inicioPeriodo" id="inicioPeriodo" required
-                        matTooltip="Data de início do período de consulta" matTooltipShowDelay="1500"
-                        [(ngModel)]="dataInicioPeriodoConsulta" type="date" />
-                </div>
-                <div class="col-3">
-                    <label for="finalPeriodo">A: <span style="color: red;">*</span></label>
-                    <input #finalPeriodo style="text-align: center;" name="finalPeriodo" id="finalPeriodo" required
-                        matTooltip="Data final do período de consulta" matTooltipShowDelay="1500"
-                        [(ngModel)]="dataFimPeriodoConsulta" type="date" />
+            <div class="row centralizar-conteudo" *ngIf="producao.length === 0 && buscaRealizada">
+                <h3>
+                    Nenhum dado encontrado
+                </h3>
+            </div>
+        </div>
+        <div class="row centralizar-conteudo">
+            <div class="col-6">
+                <button *ngIf="buscaRealizada" class="btn-confirm" type="button" (click)="gerarRelatorioPDF()">
+                    Baixar PDF
+                </button>
+            </div>
+            <div class="col-6">
+                <button *ngIf="buscaRealizada" class="btn-confirm" type="button" (click)="gerarRelatorioCSV()">
+                    Baixar CSV
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- relatorio-producao.component.html -->
+<div #relatorio>
+    <div id="relatorio-content" class="offscreen">
+        <div style="margin-top: 20px; margin-left: 20px;">
+            <img src="..\assets\LogoAsBuiltSemFundo.png" alt="logoAsBuilt" height="50px;">
+        </div>
+        <div class="row centralizar-conteudo">
+            <div class="col-12 titulo">
+                <h1>Relatório de Produção</h1>
+                <hr>
+            </div>
+        </div>
+        <div class="row detalhes-relatorio">
+            <span >Funcionário: {{ userName }}</span>
+        </div>
+        <div class="row detalhes-relatorio">
+            <span>Data de início da busca: {{ dataInicioPeriodoConsulta | date: 'dd/MM/yyyy' }}</span>
+        </div>
+        <div class="row detalhes-relatorio">
+            <span>Data de fim da busca: {{ dataFimPeriodoConsulta | date: 'dd/MM/yyyy' }}</span>
+        </div>
+        <div class="row detalhes-relatorio">
+            <span>Data de geração do relatório: {{ dataAtual | date: 'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+        <div class="row centralizar-conteudo">
+            <div class="col-12 titulo">
+                <hr>
+            </div>
+        </div>
+        <div class="row centralizar-conteudo">
+            <div class="row" *ngIf="producaoFiltrada.length > 0">
+                <div class="col-12 table-responsive">
+                    <table mat-table [dataSource]="producaoFiltrada" class="mat-elevation-z8">
+
+                        <ng-container matColumnDef="construtora">
+                            <th mat-header-cell *matHeaderCellDef>Construtora</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.task?.costCenter?.builder?.builderName}} </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="centroCusto">
+                            <th mat-header-cell *matHeaderCellDef>Centro de Custo</th>
+                            <td mat-cell *matCellDef="let element"> {{element.task?.costCenter?.costCenterName}}
+                            </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="servico">
+                            <th mat-header-cell *matHeaderCellDef>Serviço</th>
+                            <td mat-cell *matCellDef="let element"> {{element.task?.taskType?.taskTypeName}} </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="locationGroup">
+                            <th mat-header-cell *matHeaderCellDef>Pavimento</th>
+                            <td mat-cell *matCellDef="let element"> {{element.task?.taskLocation?.locationGroup}}
+                            </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="subGroup1">
+                            <th mat-header-cell *matHeaderCellDef>Local</th>
+                            <td mat-cell *matCellDef="let element"> {{element.task?.taskLocation?.subGroup1}} </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="subGroup2">
+                            <th mat-header-cell *matHeaderCellDef>Cômodo</th>
+                            <td mat-cell *matCellDef="let element"> {{element.task?.taskLocation?.subGroup2}} </td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="data">
+                            <th mat-header-cell *matHeaderCellDef>Data</th>
+                            <td mat-cell *matCellDef="let element"> {{element.assessment?.assessmentDate |
+                                date:'dd/MM/yyyy'}} </td>
+                            <td class="total-value" mat-footer-cell *matFooterCellDef>
+                                Total:
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="valor">
+                            <th mat-header-cell *matHeaderCellDef>Valor</th>
+                            <td mat-cell *matCellDef="let element"> {{element.value | real}} </td>
+                            <td class="total-value" mat-footer-cell *matFooterCellDef>{{ totalValue | real }}</td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                        <tr mat-footer-row *matFooterRowDef="displayedColumns">
+                            <td mat-footer-cell *matFooterCellDef>{{ totalValue | real }}</td>
+                        </tr>
+
+                    </table>
                 </div>
             </div>
-            <div class="row centralizar-conteudo">
-                <div *ngIf="dataInicioPeriodoConsulta || dataFimPeriodoConsulta" class="col-6">
-                    <button class="btn-warning" type="button" (click)="limparDados()">Limpar dados</button>
-                </div>
-                <div *ngIf="usuarioSelecionado && dataInicioPeriodoConsulta && dataFimPeriodoConsulta" class="col-6">
-                    <button *ngIf="userRole !== 'FUNCIONARIO'" class="btn-confirm" type="button"
-                        (click)="buscarValorProducaoPorPeriodoEUsuarioId(dataInicioPeriodoConsulta, dataFimPeriodoConsulta, usuarioSelecionado.id)">
-                        Buscar
-                    </button>
-                    <button *ngIf="userRole === 'FUNCIONARIO'" class="btn-confirm" type="button"
-                        (click)="buscarValorProducaoPorPeriodoEUsuarioId(dataInicioPeriodoConsulta, dataFimPeriodoConsulta, userId)">
-                        Buscar
-                    </button>
-                </div>
-            </div>
-            <div class="row" *ngIf="producao.length > 0 && buscaRealizada">
-                <div class="col-4">
-                    <label for="filterTableConstrutora">Filtrar por Construtora:</label>
-                    <select #filterTableConstrutora name="filterTableConstrutora" id="filterTableConstrutora"
-                        (change)="onFiltroConstrutoraChange($event)">
-                        <option value="Todos">Todos</option>
-                        <option *ngFor="let construtora of listaConstrutorasConsulta"
-                            [value]="construtora.builderName">
-                            {{construtora.builderName}}
-                        </option>
-                    </select>
-                </div>
-                <div class="col-4" *ngIf="filtroConstrutoraSelecionado">
-                    <label for="filterTableCostCenter">Filtrar por Centro de Custo:</label>
-                    <select name="filterTableCostCenter" id="filterTableCostCenter"
-                        (change)="onFiltroCostCenterChange($event)">
-                        <option value="Todos">Todos</option>
-                        <option *ngFor="let centroDeCusto of listaCentrosDeCustoFiltradaConsulta"
-                            [value]="centroDeCusto.costCenterName">
-                            {{centroDeCusto.costCenterName}}
-                        </option>
-                    </select>
-                </div>
-                <div class="col-4"
-                    *ngIf="filtroCentroCustoSelecionado && listaLocationGroupFiltradaConsulta.length > 0">
-                    <label for="filterTable1">Filtrar pelo 1º Nível:</label>
-                    <select name="filterTable1" id="filterTable1"
-                        (change)="onFiltroLocationGroupChange($event)">
-                        <option value="Todos">Todos</option>
-                        <option *ngFor="let locationGroup of listaLocationGroupFiltradaConsulta"
-                            [value]="locationGroup.locationGroup">
-                            {{locationGroup.locationGroup}}
-                        </option>
-                    </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-4" *ngIf="filtroLocationGroup && listaSubGroup1FiltradaConsulta.length > 0">
-                    <label for="filterTable2">Filtrar pelo 2º Nível:</label>
-                    <select name="filterTable2" id="filterTable2" (change)="onFiltroSubGroup1Change($event)">
-                        <option value="Todos">Todos</option>
-                        <option *ngFor="let subGroup1 of listaSubGroup1FiltradaConsulta" [value]="subGroup1">
-                            {{subGroup1}}
-                        </option>
-                    </select>
-                </div>
-
-                <div class="col-4" *ngIf="filtroSubGroup1 && listaSubGroup2FiltradaConsulta.length > 0">
-                    <label for="filterTable3">Filtrar pelo 3º Nível:</label>
-                    <select name="filterTable3" id="filterTable3" (change)="onFiltroSubGroup2Change($event)">
-                        <option value="Todos">Todos</option>
-                        <option *ngFor="let subGroup2 of listaSubGroup2FiltradaConsulta" [value]="subGroup2">
-                            {{subGroup2}}
-                        </option>
-                    </select>
-                </div>
-            </div>
-            <div *ngIf="filtroConstrutoraSelecionado != null" class="row">
-                <div class="col-6">
-                    <button class="btn-warning" style="margin-left: 10px; margin-top: 0px" type="button"
-                        (click)="limparFiltros()">Limpar filtros</button>
-                </div>
-            </div>
-            <div class="row centralizar-conteudo">
-                <div class="row" *ngIf="producaoFiltrada.length > 0">
-                    <div class="col-12 table-responsive">
-                        <table mat-table [dataSource]="producaoFiltrada" class="mat-elevation-z8">
-
-                            <ng-container matColumnDef="construtora">
-                                <th mat-header-cell *matHeaderCellDef>Construtora</th>
-                                <td mat-cell *matCellDef="let element">
-                                    {{element.task?.costCenter?.builder?.builderName}} </td>
-                                <td mat-footer-cell *matFooterCellDef></td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="centroCusto">
-                                <th mat-header-cell *matHeaderCellDef>Centro de Custo</th>
-                                <td mat-cell *matCellDef="let element"> {{element.task?.costCenter?.costCenterName}}
-                                </td>
-                                <td mat-footer-cell *matFooterCellDef></td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="servico">
-                                <th mat-header-cell *matHeaderCellDef>Serviço</th>
-                                <td mat-cell *matCellDef="let element"> {{element.task?.taskType?.taskTypeName}} </td>
-                                <td mat-footer-cell *matFooterCellDef></td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="locationGroup">
-                                <th mat-header-cell *matHeaderCellDef>Pavimento</th>
-                                <td mat-cell *matCellDef="let element"> {{element.task?.taskLocation?.locationGroup}}
-                                </td>
-                                <td mat-footer-cell *matFooterCellDef></td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="subGroup1">
-                                <th mat-header-cell *matHeaderCellDef>Local</th>
-                                <td mat-cell *matCellDef="let element"> {{element.task?.taskLocation?.subGroup1}} </td>
-                                <td mat-footer-cell *matFooterCellDef></td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="subGroup2">
-                                <th mat-header-cell *matHeaderCellDef>Cômodo</th>
-                                <td mat-cell *matCellDef="let element"> {{element.task?.taskLocation?.subGroup2}} </td>
-                                <td mat-footer-cell *matFooterCellDef></td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="data">
-                                <th mat-header-cell *matHeaderCellDef>Data</th>
-                                <td mat-cell *matCellDef="let element"> {{element.assessment?.assessmentDate |
-                                    date:'dd/MM/yyyy'}} </td>
-                                <td class="total-value" mat-footer-cell *matFooterCellDef>
-                                    Total:
-                                </td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="valor">
-                                <th mat-header-cell *matHeaderCellDef>Valor</th>
-                                <td mat-cell *matCellDef="let element"> {{element.value | real}} </td>
-                                <td class="total-value" mat-footer-cell *matFooterCellDef>{{ totalValue | real }}</td>
-                            </ng-container>
-
-                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-                            <tr mat-footer-row *matFooterRowDef="displayedColumns">
-                                <td mat-footer-cell *matFooterCellDef>{{ totalValue | real }}</td>
-                            </tr>
-
-                        </table>
-                    </div>
-                </div>
-                <div class="row centralizar-conteudo" *ngIf="producao.length === 0 && buscaRealizada">
-                    <h3>
-                        Nenhum dado encontrado
-                    </h3>
-                </div>
+            <div class="row centralizar-conteudo" *ngIf="producao.length === 0 && buscaRealizada">
+                <h3>
+                    Nenhum dado encontrado
+                </h3>
             </div>
         </div>
     </div>

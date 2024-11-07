@@ -123,3 +123,14 @@ select {
       font-size: 12px;
     }
   }
+
+.detalhes-relatorio {
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+.offscreen {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+}

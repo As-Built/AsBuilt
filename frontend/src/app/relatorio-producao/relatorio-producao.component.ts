@@ -12,6 +12,9 @@ import { UsuarioModel } from '../usuario/model/usuario.model';
 import { CentroCustoService } from '../centro-custo/service/centro-custo.service';
 import { ConstrutoraService } from '../construtora/service/construtora.service';
 import { LocalServicoService } from '../local-servico/service/local-servico.service';
+import { jsPDF } from 'jspdf';
+import * as Papa from 'papaparse';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-relatorio-producao',
@@ -49,6 +52,8 @@ export class RelatorioProducaoComponent implements OnInit {
   listaCentrosDeCusto: CentroCustoModel[] = [];
   listaCentrosDeCustoFiltrados: CentroCustoModel[] = [];
   construtoraSelecionada: ConstrutoraModel = new ConstrutoraModel();
+  renderRelatorio: boolean = false;
+  dataAtual: Date = new Date();
 
   constructor(
     private usuarioService: UsuarioService,
@@ -341,4 +346,32 @@ export class RelatorioProducaoComponent implements OnInit {
     this.producaoFiltrada = this.producao;
     this.filtrarDados();
   }
+
+  gerarRelatorioPDF() {
+    const data = document.getElementById('relatorio-content');
+    if (data) {
+      html2canvas(data).then(canvas => {
+        const imgWidth = 208;
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+        const contentDataURL = canvas.toDataURL('image/png');
+        const pdf = new jsPDF();
+        pdf.addImage(contentDataURL, 'PNG', 0, 0, imgWidth, imgHeight);
+        pdf.save('Relatorio_Producao.pdf');
+      });
+    }
+  }
+
+  gerarRelatorioCSV() {
+    const csvData = Papa.unparse(this.producaoFiltrada);
+    const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'relatorio.csv');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
 }
