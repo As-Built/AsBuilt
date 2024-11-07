@@ -45,10 +45,73 @@
                     </button>
                 </div>
             </div>
+            <div class="row" *ngIf="producao.length > 0 && buscaRealizada">
+                <div class="col-4">
+                    <label for="filterTableConstrutora">Filtrar por Construtora:</label>
+                    <select #filterTableConstrutora name="filterTableConstrutora" id="filterTableConstrutora"
+                        (change)="onFiltroConstrutoraChange($event)">
+                        <option value="Todos">Todos</option>
+                        <option *ngFor="let construtora of listaConstrutorasConsulta"
+                            [value]="construtora.builderName">
+                            {{construtora.builderName}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-4" *ngIf="filtroConstrutoraSelecionado">
+                    <label for="filterTableCostCenter">Filtrar por Centro de Custo:</label>
+                    <select name="filterTableCostCenter" id="filterTableCostCenter"
+                        (change)="onFiltroCostCenterChange($event)">
+                        <option value="Todos">Todos</option>
+                        <option *ngFor="let centroDeCusto of listaCentrosDeCustoFiltradaConsulta"
+                            [value]="centroDeCusto.costCenterName">
+                            {{centroDeCusto.costCenterName}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-4"
+                    *ngIf="filtroCentroCustoSelecionado && listaLocationGroupFiltradaConsulta.length > 0">
+                    <label for="filterTable1">Filtrar pelo 1º Nível:</label>
+                    <select name="filterTable1" id="filterTable1"
+                        (change)="onFiltroLocationGroupChange($event)">
+                        <option value="Todos">Todos</option>
+                        <option *ngFor="let locationGroup of listaLocationGroupFiltradaConsulta"
+                            [value]="locationGroup.locationGroup">
+                            {{locationGroup.locationGroup}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4" *ngIf="filtroLocationGroup && listaSubGroup1FiltradaConsulta.length > 0">
+                    <label for="filterTable2">Filtrar pelo 2º Nível:</label>
+                    <select name="filterTable2" id="filterTable2" (change)="onFiltroSubGroup1Change($event)">
+                        <option value="Todos">Todos</option>
+                        <option *ngFor="let subGroup1 of listaSubGroup1FiltradaConsulta" [value]="subGroup1">
+                            {{subGroup1}}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-4" *ngIf="filtroSubGroup1 && listaSubGroup2FiltradaConsulta.length > 0">
+                    <label for="filterTable3">Filtrar pelo 3º Nível:</label>
+                    <select name="filterTable3" id="filterTable3" (change)="onFiltroSubGroup2Change($event)">
+                        <option value="Todos">Todos</option>
+                        <option *ngFor="let subGroup2 of listaSubGroup2FiltradaConsulta" [value]="subGroup2">
+                            {{subGroup2}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div *ngIf="filtroConstrutoraSelecionado != null" class="row">
+                <div class="col-6">
+                    <button class="btn-warning" style="margin-left: 10px; margin-top: 0px" type="button"
+                        (click)="limparFiltros()">Limpar filtros</button>
+                </div>
+            </div>
             <div class="row centralizar-conteudo">
-                <div class="row" *ngIf="producao.length > 0">
+                <div class="row" *ngIf="producaoFiltrada.length > 0">
                     <div class="col-12 table-responsive">
-                        <table mat-table [dataSource]="producao" class="mat-elevation-z8">
+                        <table mat-table [dataSource]="producaoFiltrada" class="mat-elevation-z8">
 
                             <ng-container matColumnDef="construtora">
                                 <th mat-header-cell *matHeaderCellDef>Construtora</th>
