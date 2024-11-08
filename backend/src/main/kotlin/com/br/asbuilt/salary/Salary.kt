@@ -1,6 +1,7 @@
 package com.br.asbuilt.salary
 
 import com.br.asbuilt.users.User
+import com.fasterxml.jackson.annotation.JsonBackReference
 import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import java.util.Date
@@ -9,7 +10,7 @@ import java.util.Date
 @Table(name = "TblSalary")
 class Salary (
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Long? = null,
 
     @Column(nullable = false)
@@ -20,6 +21,6 @@ class Salary (
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnore
+    @JsonBackReference
     var user: User?,
 ){}

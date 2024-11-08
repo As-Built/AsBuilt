@@ -1,6 +1,6 @@
 <div class="corpo">
     <!-- DASHBOARD DE ADMINISTRADOR -->
-    <div *ngIf="userRole === 'ADMIN' || userRole === 'CONFERENTE'" class="container conteudo">
+    <div *ngIf="isAdmin || isConferente" class="container conteudo">
         <div class="row centralizar-conteudo">
             <div class="col-12">
                 <h1>Painel de Controle</h1>
@@ -153,7 +153,7 @@
         </div>
     </div>
     <!-- DASHBOARD DE FUNCIONÁRIO -->
-    <div *ngIf="userRole === 'FUNCIONARIO'" class="container conteudo">
+    <div *ngIf="isFuncionario" class="container conteudo">
         <div class="row centralizar-conteudo">
             <div class="col-12">
                 <h1>Painel de Controle de {{ userName }}</h1>

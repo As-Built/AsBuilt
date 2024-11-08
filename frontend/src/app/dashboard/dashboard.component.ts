@@ -7,6 +7,7 @@ import { ValorProducaoModel } from '../shared/model/valor-producao.model';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { firstValueFrom } from 'rxjs';
 import { ChartOptions, ChartType, ChartDataset, Chart } from 'chart.js';
+import { SalarioService } from '../shared/service/salario.service';
 
 
 @Component({
@@ -20,7 +21,9 @@ export class DashboardComponent implements OnInit {
 
   userName: string = "";
   userId: number = 0;
-  userRole: string = "";
+  isAdmin: boolean = false;
+  isConferente: boolean = false;
+  isFuncionario: boolean = false;
   producaoDoMesPorUsuario: ValorProducaoModel[] = [];
   producaoTotalPorUsuario: ValorProducaoModel[] = [];
   totalServicosNoMes: number = 0;
@@ -92,28 +95,34 @@ export class DashboardComponent implements OnInit {
     private http: HttpClient,
     private spinner: NgxSpinnerService,
     private valorProducaoService: ValorProducaoService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private salarioService: SalarioService,
   ) { }
 
   async ngOnInit() {
     this.spinner.show();
     this.getUserFromToken();
-    if (this.userRole === 'FUNCIONARIO') {
-      await this.buscarValorProducaoPorMesPorUsuario();
-    }
-    if (this.userRole === 'ADMIN' || this.userRole === 'CONFERENTE') {
+    if (this.isAdmin || this.isConferente) {
       await this.buscarValorProducaoTotalPorMes();
     }
+    if (this.isFuncionario) {
+      await this.buscarValorProducaoPorMesPorUsuario();
+    }
+
     await this.buscarValorProducaoTotal();
     this.spinner.hide();
   }
 
-  getUserFromToken() {
+  private getUserFromToken() {
     const token = localStorage.getItem('token');
     const decodedToken = jwtDecode(token!) as any;
-    this.userRole = decodedToken.user.roles[0];
+    const userRole = decodedToken.user.roles;
     this.userName = decodedToken.user.name;
     this.userId = decodedToken.user.id;
+    this.isAdmin = userRole.includes('ADMIN');
+    this.isConferente = userRole.includes('CONFERENTE');
+    this.isFuncionario = userRole.includes('FUNCIONARIO');
+
   }
 
   async buscarValorProducaoPorMesPorUsuario() {
@@ -142,13 +151,13 @@ export class DashboardComponent implements OnInit {
 
   async buscarValorProducaoTotal() {
     try {
-      if (this.userRole === 'ADMIN' || this.userRole === 'CONFERENTE') {
+      if (this.isAdmin || this.isConferente) {
         const producaoTotal = await firstValueFrom(this.valorProducaoService.buscarValorProducaoTotal());
         this.producaoTotal = producaoTotal;
         this.cdr.detectChanges(); // Renderiza o gráfico após a busca dos dados
       }
       else
-        if (this.userRole === 'FUNCIONARIO') {
+        if (this.isFuncionario) {
           const producaoTotal = await firstValueFrom(this.valorProducaoService.buscarValorProducaoTotalPorUsuario(this.userId));
           this.producaoTotalPorUsuario = producaoTotal;
           this.cdr.detectChanges(); // Renderiza o gráfico após a busca dos dados
@@ -156,11 +165,20 @@ export class DashboardComponent implements OnInit {
     } catch (error) {
       console.error(error);
     }
-    if (this.userRole === 'ADMIN' || this.userRole === 'CONFERENTE') {
+    if (this.isAdmin || this.isConferente) {
       this.contabilizarProducaoTotal();
     }
-    if (this.userRole === 'FUNCIONARIO') {
+    if (this.isFuncionario) {
       this.contabilizarProducaoTotalUsuario();
+    }
+  }
+
+  async buscarSomaUltimosSalarios() {
+    try {
+      const somaSalarios = await firstValueFrom(this.salarioService.buscarSomaUltimosSalarios());
+      this.remuneracaoTotalNoMes = somaSalarios;
+    } catch (error) {
+      console.error(error);
     }
   }
 
@@ -206,26 +224,13 @@ export class DashboardComponent implements OnInit {
     this.totalAprovacoesNoMes = this.producaoTotalDoMes.filter((producao) => producao.assessment.assessmentResult == true).length;
     this.totalReprovacoesNoMes = this.producaoTotalDoMes.filter((producao) => producao.assessment.assessmentResult == false).length;
     this.mediaAprovacaoTotalNoMes = (this.totalAprovacoesNoMes / this.totalServicosNoMes) * 100;
-    let ultimoSalario: any = { value: 0, updateDate: new Date(0) };
-
+    await this.buscarSomaUltimosSalarios();
+    this.valorTotalProduzidoNoMes = 0;
+    
     this.producaoTotalDoMes.forEach((producao) => { // Busca o último salário de cada usuário da produção para o mês corrente
-      if (producao.user && producao.user.salaries) {
-        producao.user.salaries.forEach((salario) => {
-          if (new Date(salario.updateDate)) {
-            if (new Date(salario.updateDate) > new Date(ultimoSalario.updateDate)) {
-              this.remuneracaoAtual = salario.value;
-              ultimoSalario = salario;
-            } else {
-              this.remuneracaoAtual = ultimoSalario.value;
-            }
-          }
-        });
-      } else {
-        this.remuneracaoAtual = 0; // Define a remuneração atual como 0 se não houver salários
-      }
-      this.remuneracaoTotalNoMes += this.remuneracaoAtual; // Adiciona a remuneração atual de cada usuário ao total
       this.valorTotalProduzidoNoMes += producao.value;
     });
+    
     this.producaoTotalEfetivaNoMes = this.valorTotalProduzidoNoMes - this.remuneracaoTotalNoMes;
     this.popularGraficoPizzaDesempenhoDoMes();
   }

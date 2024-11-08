@@ -4,6 +4,7 @@ import com.br.asbuilt.address.Address
 import com.br.asbuilt.roles.Role
 import com.br.asbuilt.salary.Salary
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import jakarta.persistence.*
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
@@ -42,6 +43,7 @@ class User(
     var photo: String? = null,
 
     @OneToMany
+    @JsonManagedReference
     var salaries: MutableSet<Salary>? = mutableSetOf(),
 
     @JsonIgnore
