@@ -1,7 +1,6 @@
 package com.br.asbuilt.users.controller.requests
 
 import com.br.asbuilt.address.Address
-import com.br.asbuilt.salary.Salary
 import com.br.asbuilt.users.User
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
@@ -31,7 +30,7 @@ data class PatchUserRequest(
 
 ) {
 
-    fun toUser() = salaries?.let {
+    fun toUser() {
         User(
         id = id,
         name = name,

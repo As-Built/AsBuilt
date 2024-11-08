@@ -15,7 +15,7 @@ data class CreateSalaryRequest(
     @field:NotNull
     val user: User
 ) {
-    fun toSalary() = Salary (
+    fun toSalary(user: User) = Salary (
         value = value,
         updateDate = updateDate,
         user = user

@@ -1,1 +1,49 @@
-<p>Configuração works!</p>
+<div class="corpo">
+    <div class="container conteudo">
+        <div class="row centralizar-conteudo">
+            <div class="col-12 titulo">
+                <h1>Configurações de Usuário</h1>
+                <hr>
+            </div>
+        </div>
+        <form (ngSubmit)="atualizarRemuneracaoUsuario()" #form="ngForm"
+            style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between;">
+            <div class="row" *ngIf="isAdmin">
+                <div class="col-6">
+                    <label for="usuario">Usuário:</label>
+                    <select name="usuario" id="usuario" [(ngModel)]="usuarioSelecionado"
+                        (change)="onUsuarioChange($event)">
+                        <option disabled [value]="null">Selecione um usuário</option>
+                        <option *ngFor="let usuario of usuarios" [ngValue]="usuario">
+                            {{ usuario.name }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="row centralizar-conteudo" *ngIf="usuarioSelecionado">
+                <div class="col-12 titulo">
+                    <h2>Remuneração</h2>
+                    <hr>
+                </div>
+            </div>
+            <div class="row" *ngIf="usuarioSelecionado">
+                <div class="col-4">
+                    <label for="remuneracao">Remuneração:</label>
+                    <input type="text" name="remuneracao" id="remuneracao" required matTooltip="Remuneração do usuário selecionado"
+                        (ngModelChange)="onRemuneracaoChange($event)" matTooltipShowDelay="1500" [(ngModel)]="remuneracaoNova.value"
+                        currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
+                        (keypress)="numberOnly($event)" [disabled]="!isAdmin">
+                </div>
+                <div class="col-4">
+                    <label for="ultimaAtualizacaoRemuneracao">Última atualização:</label>
+                    <input #expectedStartDateAvaliacao type="text" name="ultimaAtualizacaoRemuneracao"
+                        id="ultimaAtualizacaoRemuneracao" [value]="dataUltimaAtualizacaoFormatada" disabled="disabled">
+                </div>
+                <div class="col-4" *ngIf="remuneracaoAlterada">
+                    <button class="btn-confirm" type="button"
+                        (click)="atualizarRemuneracaoUsuario()">Salvar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

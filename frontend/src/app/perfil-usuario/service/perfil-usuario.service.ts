@@ -60,6 +60,7 @@ export class PerfilUsuarioService {
         state: perfilUsuario.userAddress.state,
         postalCode: perfilUsuario.userAddress.postalCode
       },
+      salaries: perfilUsuario.salaries
     });
     return this.httpClient.patch<PerfilUsuarioModel>("http://localhost:8080/asbuilt/users/updateUser", body, this.httpOptions);
   }
@@ -67,5 +68,17 @@ export class PerfilUsuarioService {
   downloadProfilePicture(fileNameWithoutExtension: string): Observable<Blob> {
     const params = new HttpParams().set('fileName', fileNameWithoutExtension);
     return this.httpClient.get('http://localhost:8080/asbuilt/blob/downloadProfilePicture', { params, responseType: 'blob' });
+  }
+
+  listarUsuariosPorRole(role: string): Observable<PerfilUsuarioModel[]> {
+    return this.httpClient.get<PerfilUsuarioModel[]>(`http://localhost:8080/asbuilt/users?role=${role}`, this.httpOptions);
+  }
+
+  listarUsuarios(): Observable<PerfilUsuarioModel[]> {
+    return this.httpClient.get<PerfilUsuarioModel[]>('http://localhost:8080/asbuilt/users', this.httpOptions);
+  }
+
+  buscarUsuarioPorId(id: number): Observable<PerfilUsuarioModel> {
+    return this.httpClient.get<PerfilUsuarioModel>(`http://localhost:8080/asbuilt/users/${id}`, this.httpOptions);
   }
 }
