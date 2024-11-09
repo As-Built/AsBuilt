@@ -45,5 +45,42 @@
                 </div>
             </div>
         </form>
+        <form (ngSubmit)="atualizarRoleUsuario()" #form="ngForm"
+            style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between;">
+            <div class="row centralizar-conteudo" *ngIf="usuarioSelecionado">
+                <div class="col-12 titulo">
+                    <h2>Perfil de Acesso</h2>
+                    <hr>
+                </div>
+            </div>
+            <div class="row" *ngIf="usuarioSelecionado">
+                <div class="col-12">
+                    <span class="perfis-atuais">Perfil de acesso atual: </span>
+                    <span>&nbsp;</span>
+                    <ng-container *ngFor="let role of usuarioSelecionado.roles; let i = index">
+                        <span>{{ role.description }}</span>
+                        <span *ngIf="i < usuarioSelecionado.roles.length - 1">,</span>
+                        <span *ngIf="i < usuarioSelecionado.roles.length - 1">&nbsp;</span>
+                    </ng-container>
+                    <br>
+                </div>
+                <div class="row" *ngIf="isAdmin">
+                    <div class="col-4">
+                        <label for="roleAdicional">Adicionar Perfil de Acesso:</label>
+                        <select name="roleAdicional" id="roleAdicional" [(ngModel)]="roleAdicionalSelecionada"
+                            (change)="onRoleAdicionalChange($event)">
+                            <option disabled [value]="null">Selecione um perfil de acesso</option>
+                            <option *ngFor="let role of rolesCadastradas" [ngValue]="role">
+                                {{ role.description }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-4" *ngIf="roleAdicionalAlterada">
+                        <button class="btn-confirm" type="button"
+                            (click)="atualizarRoleUsuario()">Adicionar perfil de acesso</button>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 </div>

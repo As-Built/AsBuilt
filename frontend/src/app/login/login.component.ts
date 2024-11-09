@@ -88,6 +88,7 @@ export class LoginComponent implements OnInit {
       });
     },
     (err) => {
+      this.spinner.hide();
         Swal.fire({
           text: "Usuário ou Senha incorreto!",
           icon: "error",

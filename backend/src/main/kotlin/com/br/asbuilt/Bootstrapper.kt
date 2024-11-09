@@ -22,17 +22,17 @@ class Bootstrapper(
     override fun onApplicationEvent(event: ContextRefreshedEvent) {
         val adminRole =
             roleRepository.findByName("ADMIN") ?:
-            roleRepository.save(Role(name = "ADMIN", description = "System administrator"))
+            roleRepository.save(Role(name = "ADMIN", description = "Administrador do Sistema"))
                 .also {
                     log.info("ADMIN role created")
                 }
             roleRepository.findByName("CONFERENTE") ?:
-            roleRepository.save(Role(name = "CONFERENTE", description = "Quality technician"))
+            roleRepository.save(Role(name = "CONFERENTE", description = "Técnico de Qualidade"))
                 .also {
                     log.info("CONFERENTE role created")
                 }
             roleRepository.findByName("FUNCIONARIO") ?:
-            roleRepository.save(Role(name = "FUNCIONARIO", description = "Employee"))
+            roleRepository.save(Role(name = "FUNCIONARIO", description = "Funcionário Executor"))
                 .also {
                     log.info("FUNCIONARIO role created")
                 }
