@@ -131,66 +131,63 @@ export class ConfiguracaoComponent implements OnInit {
     }
   }
 
-  atualizarRemuneracaoUsuario() {
+  async atualizarRemuneracaoUsuario() {
     if (this.usuarioSelecionado) {
-      let novoSalario = new SalarioModel();
-      novoSalario.id = undefined;
-      novoSalario.value = this.remuneracaoNova.value;
-      novoSalario.updateDate = new Date();
-      novoSalario.user = this.usuarioSelecionado;
-      if (this.validarRemuneracao(novoSalario.value)) {
-        this.spinner.show();
-        this.salarioService.inserirSalario(novoSalario).pipe(
-          tap(retorno => {
-            this.spinner.hide();
-            Swal.fire({
-              text: "Atualização realizada com sucesso!",
-              icon: "success",
-              showConfirmButton: false,
-              timer: 2000
-            });
-            this.remuneracaoAlterada = false;
-          }),
-          catchError(error => {
-            console.log(error);
-            this.spinner.hide();
-            Swal.fire({
-              text: error.error,
-              icon: "error",
-              showConfirmButton: false,
-              timer: 2000
-            });
-            this.remuneracaoAlterada = false;
-            return of();
-          })
-        ).subscribe();
-      }
+        let novoSalario = new SalarioModel();
+        novoSalario.id = undefined;
+        novoSalario.value = this.remuneracaoNova.value;
+        novoSalario.updateDate = new Date();
+        novoSalario.user = this.usuarioSelecionado;
+        if (this.validarRemuneracao(novoSalario.value)) {
+            this.spinner.show();
+            try {
+                const retorno = await firstValueFrom(this.salarioService.inserirSalario(novoSalario));
+                this.spinner.hide();
+                Swal.fire({
+                    text: "Atualização realizada com sucesso!",
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                this.remuneracaoAlterada = false;
+            } catch (error: any) {
+                console.log(error);
+                this.spinner.hide();
+                Swal.fire({
+                    text: error.error ? error.error : 'Erro desconhecido',
+                    icon: "error",
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                this.remuneracaoAlterada = false;
+            }
+        }
     } else {
-      this.remuneracaoAlterada = false;
-      this.spinner.hide();
-      Swal.fire({
-        text: "Nenhum usuário selecionado!",
-        icon: "error",
-        showConfirmButton: false,
-        timer: 2000
-      });
+        this.remuneracaoAlterada = false;
+        this.spinner.hide();
+        Swal.fire({
+            text: "Nenhum usuário selecionado!",
+            icon: "error",
+            showConfirmButton: false,
+            timer: 2000
+        });
     }
-  }
+}
 
   onRoleAdicionalChange(event: Event) {
     if (this.usuarioSelecionado) {
-        const rolesAtuais = this.usuarioSelecionado.roles;
-        if (this.roleAdicionalSelecionada) {
-          // Verifica se a role selecionada já existe no usuário
-            const roleExists = rolesAtuais.some(role => role.description === this.roleAdicionalSelecionada!!.description);
-            if (!roleExists) {
-                this.roleAdicionalAlterada = true;
-            } else {
-                this.roleAdicionalAlterada = false;
-            }
+      const rolesAtuais = this.usuarioSelecionado.roles;
+      if (this.roleAdicionalSelecionada) {
+        // Verifica se a role selecionada já existe no usuário
+        const roleExists = rolesAtuais.some(role => role.description === this.roleAdicionalSelecionada!!.description);
+        if (!roleExists) {
+          this.roleAdicionalAlterada = true;
+        } else {
+          this.roleAdicionalAlterada = false;
         }
+      }
     }
-}
+  }
 
   atualizarRoleUsuario() {
     if (this.usuarioSelecionado && this.roleAdicionalSelecionada) {

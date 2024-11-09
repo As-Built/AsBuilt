@@ -105,7 +105,7 @@ export class DashboardComponent implements OnInit {
     if (this.isAdmin || this.isConferente) {
       await this.buscarValorProducaoTotalPorMes();
     }
-    if (this.isFuncionario) {
+    else if (this.isFuncionario) {
       await this.buscarValorProducaoPorMesPorUsuario();
     }
 
@@ -168,7 +168,7 @@ export class DashboardComponent implements OnInit {
     if (this.isAdmin || this.isConferente) {
       this.contabilizarProducaoTotal();
     }
-    if (this.isFuncionario) {
+    else if (this.isFuncionario) {
       this.contabilizarProducaoTotalUsuario();
     }
   }
