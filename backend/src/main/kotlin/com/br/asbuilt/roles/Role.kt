@@ -1,6 +1,7 @@
 package com.br.asbuilt.roles
 
 import com.br.asbuilt.users.User
+import com.fasterxml.jackson.annotation.JsonBackReference
 import jakarta.persistence.*
 
 @Entity
@@ -15,5 +16,6 @@ class Role(
     val description: String = "",
 
     @ManyToMany(mappedBy = "roles")
+    @JsonBackReference
     val users: MutableSet<User> = mutableSetOf()
 )

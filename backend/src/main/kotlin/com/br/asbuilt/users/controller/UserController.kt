@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -64,7 +63,9 @@ class UserController(val service: UserService) {
         if (service.delete(id)) ResponseEntity.ok().build()
         else ResponseEntity.notFound().build()
 
-    @PutMapping("/{id}/roles/{role}")
+    @SecurityRequirement(name="AsBuilt")
+    @PreAuthorize("permitAll()")
+    @PostMapping("/grantRole/{id}/{role}")
     fun grant(@PathVariable id: Long, @PathVariable role: String): ResponseEntity<Void> =
         if (service.addRole(id, role.uppercase())) {
             ResponseEntity.ok().build()

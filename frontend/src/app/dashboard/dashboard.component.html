@@ -153,7 +153,7 @@
         </div>
     </div>
     <!-- DASHBOARD DE FUNCIONÁRIO -->
-    <div *ngIf="isFuncionario" class="container conteudo">
+    <div *ngIf="!isAdmin && !isConferente" class="container conteudo">
         <div class="row centralizar-conteudo">
             <div class="col-12">
                 <h1>Painel de Controle de {{ userName }}</h1>

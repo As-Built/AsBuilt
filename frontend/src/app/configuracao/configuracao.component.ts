@@ -8,6 +8,8 @@ import { SalarioModel } from '../shared/model/salario.model';
 import { SalarioService } from '../shared/service/salario.service';
 import { PerfilUsuarioModel } from '../perfil-usuario/model/perfil-usuario.model';
 import { PerfilUsuarioService } from '../perfil-usuario/service/perfil-usuario.service';
+import { RolesModel } from '../shared/model/roles.model';
+import { RolesService } from '../shared/service/roles.service';
 
 @Component({
   selector: 'app-configuracao',
@@ -27,17 +29,23 @@ export class ConfiguracaoComponent implements OnInit {
   remuneracaoAlterada: boolean = false;
   salarioModel: SalarioModel = new SalarioModel();
   isAdmin: boolean = false;
+  rolesCadastradas: RolesModel[] = [];
+  roleAdicionalSelecionada: RolesModel | null = null;
+  roleAdicionalAlterada: boolean = false;
 
   constructor(
     private salarioService: SalarioService,
     private spinner: NgxSpinnerService,
     private perfilUsuarioService: PerfilUsuarioService,
+    private rolesService: RolesService
   ) { }
 
   async ngOnInit() {
     this.getUserFromToken();
     if (this.isAdmin) {
       await this.buscarUsuarios();
+      await this.listarRoles();
+
     } else {
       await this.buscarUsarioPorId(this.userId);
       this.onUsuarioChange(new Event(''));
@@ -124,7 +132,7 @@ export class ConfiguracaoComponent implements OnInit {
   }
 
   atualizarRemuneracaoUsuario() {
-    if (this.usuarioSelecionado){
+    if (this.usuarioSelecionado) {
       let novoSalario = new SalarioModel();
       novoSalario.id = undefined;
       novoSalario.value = this.remuneracaoNova.value;
@@ -166,6 +174,59 @@ export class ConfiguracaoComponent implements OnInit {
         showConfirmButton: false,
         timer: 2000
       });
+    }
+  }
+
+  onRoleAdicionalChange(event: Event) {
+    if (this.usuarioSelecionado) {
+        const rolesAtuais = this.usuarioSelecionado.roles;
+        if (this.roleAdicionalSelecionada) {
+          // Verifica se a role selecionada já existe no usuário
+            const roleExists = rolesAtuais.some(role => role.description === this.roleAdicionalSelecionada!!.description);
+            if (!roleExists) {
+                this.roleAdicionalAlterada = true;
+            } else {
+                this.roleAdicionalAlterada = false;
+            }
+        }
+    }
+}
+
+  atualizarRoleUsuario() {
+    if (this.usuarioSelecionado && this.roleAdicionalSelecionada) {
+      this.rolesService.adicionarRole(this.usuarioSelecionado.id, this.roleAdicionalSelecionada.name).pipe(
+        tap(retorno => {
+          this.spinner.hide();
+          Swal.fire({
+            text: "Role adicionada com sucesso!",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this.remuneracaoAlterada = false;
+        }),
+        catchError(error => {
+          console.log(error);
+          this.spinner.hide();
+          Swal.fire({
+            text: error.error,
+            icon: "error",
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this.remuneracaoAlterada = false;
+          return of();
+        })
+      ).subscribe();
+    }
+  }
+
+  async listarRoles() {
+    try {
+      const roles = await firstValueFrom(this.rolesService.listarRoles());
+      this.rolesCadastradas = roles;
+    } catch (error) {
+      console.error(error);
     }
   }
 

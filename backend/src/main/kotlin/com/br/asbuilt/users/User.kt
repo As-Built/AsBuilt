@@ -46,13 +46,13 @@ class User(
     @JsonManagedReference
     var salaries: MutableSet<Salary>? = mutableSetOf(),
 
-    @JsonIgnore
     @ManyToMany
     @JoinTable(
         name="UserRole",
         joinColumns = [JoinColumn(name = "idUser")],
         inverseJoinColumns = [JoinColumn(name = "idRole")]
     )
+    @JsonManagedReference
     val roles: MutableSet<Role> = mutableSetOf()
 ) : ApplicationContextAware {
     @get:JsonIgnore
