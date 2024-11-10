@@ -5,6 +5,8 @@ import { jwtDecode } from "jwt-decode";
 import { PerfilUsuarioService } from '../../perfil-usuario/service/perfil-usuario.service';
 import { lastValueFrom } from 'rxjs';
 import { PerfilUsuarioModel } from '../../perfil-usuario/model/perfil-usuario.model';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageSelectorService } from '../language-selector/service/language-selector.service';
 
 @Component({
   selector: 'app-navbar',
@@ -18,7 +20,9 @@ export class NavbarComponent implements OnInit{
   
   constructor(private router: Router,
     private perfilUsuarioService: PerfilUsuarioService,
-    private http: HttpClient
+    private http: HttpClient,
+    private translate: TranslateService,
+    private localeService: LanguageSelectorService
   ) { }
 
   ngOnInit(): void {
@@ -78,4 +82,9 @@ export class NavbarComponent implements OnInit{
 
     this.router.navigate(['/home']);
   }
+
+  onLanguageChange(locale: string) {
+    this.translate.use(locale);
+}
+  
 }

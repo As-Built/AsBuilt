@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, Inject, LOCALE_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { jwtDecode } from "jwt-decode";
 import { ValorProducaoService } from '../shared/service/valor-producao.service';
@@ -8,6 +8,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { firstValueFrom } from 'rxjs';
 import { ChartOptions, ChartType, ChartDataset, Chart } from 'chart.js';
 import { SalarioService } from '../shared/service/salario.service';
+import { LanguageSelectorService } from '../shared/language-selector/service/language-selector.service';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -97,7 +99,57 @@ export class DashboardComponent implements OnInit {
     private valorProducaoService: ValorProducaoService,
     private cdr: ChangeDetectorRef,
     private salarioService: SalarioService,
-  ) { }
+    private localeService: LanguageSelectorService,
+    private translate: TranslateService
+  ) {
+    this.translate.get([
+      'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
+      'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER',
+      'MONTHS_OF_YEAR', 'QUANTITY'
+    ]).subscribe(translations => {
+      this.lineChartOptions = {
+        responsive: true,
+        scales: {
+          x: {
+            type: 'category',
+            labels: [
+              translations['JANUARY'], translations['FEBRUARY'], translations['MARCH'], translations['APRIL'],
+              translations['MAY'], translations['JUNE'], translations['JULY'], translations['AUGUST'],
+              translations['SEPTEMBER'], translations['OCTOBER'], translations['NOVEMBER'], translations['DECEMBER']
+            ],
+            title: {
+              display: true,
+              text: translations['MONTHS_OF_YEAR']
+            },
+          },
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: translations['QUANTITY']
+            },
+          }
+        },
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: function (context) {
+                const datasetLabel = context.dataset.label || '';
+                const value = context.raw;
+                return `${datasetLabel}: ${value}`;
+              }
+            }
+          }
+        },
+        elements: {
+          point: {
+            radius: 5,
+            hoverRadius: 7
+          }
+        }
+      };
+    });
+  }
 
   async ngOnInit() {
     this.spinner.show();
@@ -168,7 +220,7 @@ export class DashboardComponent implements OnInit {
     if (this.isAdmin || this.isConferente) {
       this.contabilizarProducaoTotal();
     }
-    else if (this.isFuncionario) {
+    if (this.isFuncionario) {
       this.contabilizarProducaoTotalUsuario();
     }
   }
@@ -226,11 +278,11 @@ export class DashboardComponent implements OnInit {
     this.mediaAprovacaoTotalNoMes = (this.totalAprovacoesNoMes / this.totalServicosNoMes) * 100;
     await this.buscarSomaUltimosSalarios();
     this.valorTotalProduzidoNoMes = 0;
-    
+
     this.producaoTotalDoMes.forEach((producao) => { // Busca o último salário de cada usuário da produção para o mês corrente
       this.valorTotalProduzidoNoMes += producao.value;
     });
-    
+
     this.producaoTotalEfetivaNoMes = this.valorTotalProduzidoNoMes - this.remuneracaoTotalNoMes;
     this.popularGraficoPizzaDesempenhoDoMes();
   }
@@ -251,74 +303,82 @@ export class DashboardComponent implements OnInit {
 
   popularGraficoPizzaDesempenhoDoMes(): void {
     const ctx = document.getElementById('graficoPizzaDesempenhoDoMes') as HTMLCanvasElement;
-    new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: ['Aprovações', 'Reprovações'],
-        datasets: [{
-          data: [this.totalAprovacoesNoMes, this.totalReprovacoesNoMes],
-          backgroundColor: ['#36A2EB', '#FF6384']
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false
-      }
+    this.translate.get(['APPROVALS', 'REJECTIONS']).subscribe(translations => {
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: [translations['APPROVALS'], translations['REJECTIONS']],
+          datasets: [{
+            data: [this.totalAprovacoesNoMes, this.totalReprovacoesNoMes],
+            backgroundColor: ['#36A2EB', '#FF6384']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      });
     });
   }
 
   popularGraficoPizzaDesempenhoDoMesUsuario(): void {
     const ctx = document.getElementById('graficoPizzaDesempenhoDoMesUsuario') as HTMLCanvasElement;
-    new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: ['Aprovações', 'Reprovações'],
-        datasets: [{
-          data: [this.aprovacoesNoMesPorUsuario, this.reprovacoesNoMesPorUsuario],
-          backgroundColor: ['#36A2EB', '#FF6384']
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false
-      }
+    this.translate.get(['APPROVALS', 'REJECTIONS']).subscribe(translations => {
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: [translations['APPROVALS'], translations['REJECTIONS']],
+          datasets: [{
+            data: [this.aprovacoesNoMesPorUsuario, this.reprovacoesNoMesPorUsuario],
+            backgroundColor: ['#36A2EB', '#FF6384']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      });
     });
   }
 
   popularGraficoPizzaDesempenhoTotalUsuario(): void {
     const ctx = document.getElementById('graficoPizzaDesempenhoTotalFuncionario') as HTMLCanvasElement;
-    new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: ['Aprovações', 'Reprovações'],
-        datasets: [{
-          data: [this.totalAprovacoesPorUsuario, this.totalReprovacoesPorUsuario],
-          backgroundColor: ['#36A2EB', '#FF6384']
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false
-      }
+    this.translate.get(['APPROVALS', 'REJECTIONS']).subscribe(translations => {
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: [translations['APPROVALS'], translations['REJECTIONS']],
+          datasets: [{
+            data: [this.totalAprovacoesPorUsuario, this.totalReprovacoesPorUsuario],
+            backgroundColor: ['#36A2EB', '#FF6384']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      });
     });
     this.popularGraficoLinhaDesempenhoGeralUsuario();
   }
 
   popularGraficoPizzaDesempenhoTotal(): void {
     const ctx = document.getElementById('graficoPizzaDesempenhoTotal') as HTMLCanvasElement;
-    new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: ['Aprovações', 'Reprovações'],
-        datasets: [{
-          data: [this.totalAprovacoes, this.totalReprovacoes],
-          backgroundColor: ['#36A2EB', '#FF6384']
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false
-      }
+    this.translate.get(['APPROVALS', 'REJECTIONS']).subscribe(translations => {
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: [translations['APPROVALS'], translations['REJECTIONS']],
+          datasets: [{
+            data: [this.totalAprovacoes, this.totalReprovacoes],
+            backgroundColor: ['#36A2EB', '#FF6384']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      });
     });
     this.popularGraficoLinhaDesempenhoGeral();
   }
@@ -371,51 +431,66 @@ export class DashboardComponent implements OnInit {
     ];
   }
 
-  popularGraficoLinhaDesempenhoGeral() {
-    this.lineChartLabels = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+  popularGraficoLinhaDesempenhoGeral(): void {
+    this.translate.get([
+      'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
+      'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER',
+      'TOTAL_SERVICES', 'TOTAL_APPROVALS', 'TOTAL_REJECTIONS'
+    ]).subscribe(translations => {
+      this.lineChartLabels = [
+        translations['JANUARY'], translations['FEBRUARY'], translations['MARCH'], translations['APRIL'],
+        translations['MAY'], translations['JUNE'], translations['JULY'], translations['AUGUST'],
+        translations['SEPTEMBER'], translations['OCTOBER'], translations['NOVEMBER'], translations['DECEMBER']
+      ];
 
-    const servicosPorMes = new Array(12).fill(0);
-    const aprovacoesPorMes = new Array(12).fill(0);
-    const reprovacoesPorMes = new Array(12).fill(0);
+      const servicosPorMes = new Array(12).fill(0);
+      const aprovacoesPorMes = new Array(12).fill(0);
+      const reprovacoesPorMes = new Array(12).fill(0);
 
-    this.producaoTotal.forEach(producao => {
-      const mes = new Date(producao.date).getMonth();
-      servicosPorMes[mes]++;
-      if (producao.assessment.assessmentResult) {
-        aprovacoesPorMes[mes]++;
-      } else {
-        reprovacoesPorMes[mes]++;
-      }
+      this.producaoTotal.forEach(producao => {
+        const mes = new Date(producao.date).getMonth();
+        servicosPorMes[mes]++;
+        if (producao.assessment.assessmentResult) {
+          aprovacoesPorMes[mes]++;
+        } else {
+          reprovacoesPorMes[mes]++;
+        }
+      });
+
+      this.lineChartData = [
+        {
+          data: servicosPorMes,
+          label: translations['TOTAL_SERVICES'],
+          backgroundColor: 'rgba(0, 0, 255)',
+          borderColor: 'rgba(0, 0, 255)',
+          pointBackgroundColor: 'rgba(0, 0, 255)',
+          pointBorderColor: 'rgba(0, 0, 255)',
+          borderWidth: 1
+        },
+        {
+          data: aprovacoesPorMes,
+          label: translations['TOTAL_APPROVALS'],
+          backgroundColor: 'rgba(41, 71, 0)',
+          borderColor: 'rgba(71, 71, 0)',
+          pointBackgroundColor: 'rgba(41, 71, 0)',
+          pointBorderColor: 'rgba(41, 71, 0)',
+          borderWidth: 1
+        },
+        {
+          data: reprovacoesPorMes,
+          label: translations['TOTAL_REJECTIONS'],
+          backgroundColor: 'rgba(255, 0, 0)',
+          borderColor: 'rgba(255, 0, 0)',
+          pointBackgroundColor: 'rgba(255, 0, 0)',
+          pointBorderColor: 'rgba(255, 0, 0)',
+          borderWidth: 1
+        }
+      ];
     });
+  }
 
-    this.lineChartData = [
-      {
-        data: servicosPorMes,
-        label: 'Total de Serviços Executados',
-        backgroundColor: 'rgba(0, 0, 255)',
-        borderColor: 'rgba(0, 0, 255)',
-        pointBackgroundColor: 'rgba(0, 0, 255)',
-        pointBorderColor: 'rgba(0, 0, 255)',
-        borderWidth: 1
-      },
-      {
-        data: aprovacoesPorMes,
-        label: 'Total de Aprovações',
-        backgroundColor: 'rgba(41, 71, 0)',
-        borderColor: 'rgba(71, 71, 0)',
-        pointBackgroundColor: 'rgba(41, 71, 0)',
-        pointBorderColor: 'rgba(71, 71, 0)',
-        borderWidth: 1
-      },
-      {
-        data: reprovacoesPorMes,
-        label: 'Total de Reprovações',
-        backgroundColor: 'rgba(255, 0, 0)',
-        borderColor: 'rgba(255, 0, 0)',
-        pointBackgroundColor: 'rgba(255, 0, 0)',
-        pointBorderColor: 'rgba(255, 0, 0)',
-        borderWidth: 1
-      }
-    ];
+  getCurrencyCode(): string {
+    const locale = this.localeService.getLocale();
+    return locale === 'pt-br' ? 'BRL' : 'USD';
   }
 }

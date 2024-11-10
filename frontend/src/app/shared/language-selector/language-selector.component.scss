@@ -1,0 +1,45 @@
+.language-selector {
+  position: relative;
+  display: inline-block;
+  width: 100px;
+  padding-top: 15px;
+
+  .selected-language {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    img {
+      width: 25px;
+      height: 20px;
+      margin-right: 8px;
+    }
+  }
+
+  .dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      padding: 8px 12px;
+      cursor: pointer;
+
+      &:hover {
+        background: #f0f0f0;
+      }
+
+      img {
+        width: 25px;
+        height: 20px;
+        margin-right: 8px;
+      }
+    }
+  }
+}
