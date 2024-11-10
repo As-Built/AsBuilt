@@ -38,5 +38,67 @@
     "TOTAL_APPROVALS": "Total Approvals",
     "TOTAL_REJECTIONS": "Total Rejections"  ,
     "MONTHS_OF_YEAR": "Months of the Year",
-    "QUANTITY": "Quantity"
+    "QUANTITY": "Quantity",
+    "SIDEBAR": {
+      "COLLAPSE_TOOLTIP": "Collapse sidebar",
+      "EXPAND_TOOLTIP": "Expand sidebar",
+      "DASHBOARD": "Dashboard",
+      "EVALUATIONS": "Evaluations",
+      "SERVICES": "Services",
+      "UNIT_OF_MEASURE": "Unit of Measure",
+      "SERVICE_LOCATIONS": "Service Locations",
+      "COST_CENTERS": "Cost Centers",
+      "CONSTRUCTORS": "Constructors",
+      "SCHEDULE": "Schedule",
+      "PRODUCTION_REPORT": "Production Report",
+      "SERVICE_TYPES": "Service Types"
+    },
+    "HOME": {
+      "TITLE": "Your construction management platform",
+      "CONTACT_US": "Contact us to check the available plans for your company!"
+    },
+    "NAVBAR": {
+      "REGISTER_LOGIN": "Register | Login"
+    },
+    "LOGIN": {
+      "FORGOT_PASSWORD": "Forgot my password",
+      "SIGN_IN": "Sign In",
+      "INVALID_EMAIL_FORMAT": "The entered email is not in a valid format!",
+      "EMAIL_REQUIRED": "The 'Email' field is required!",
+      "PASSWORD_REQUIRED": "The 'Password' field is required!",
+      "USER_AUTHENTICATED": "User authenticated successfully!\nRedirecting...",
+      "INVALID_USER_OR_PASSWORD": "Incorrect username or password!"
+    },
+    "PASSWORD_RECOVERY": {
+      "TITLE": "Recover Password",
+      "INSTRUCTION": "Enter your email to recover the password",
+      "CONFIRM_BUTTON": "Recover",
+      "CANCEL_BUTTON": "Cancel",
+      "SUCCESS_MESSAGE": "Email successfully sent to <br>",
+      "ERROR_MESSAGE": "Error sending email!<br>Please check the provided email and try again."
+    },
+    "SIGNUP": {
+      "REGISTER": "Register",
+      "NAME_PLACEHOLDER": "Name *",
+      "PASSWORD_PLACEHOLDER": "Password *",
+      "CONFIRM_PASSWORD_PLACEHOLDER": "Confirm Password *",
+      "HIDE_PASSWORD_TOOLTIP": "Hide password",
+      "SHOW_PASSWORD_TOOLTIP": "Show password",
+      "INVALID_CPF_CNPJ": "Invalid CPF or CNPJ!",
+      "CONFIRM_PASSWORD": "Please confirm your password",
+      "EMAIL_REQUIRED": "The 'Email' field is required!",
+      "CPF_REQUIRED": "The 'CPF' field is required!",
+      "NAME_MIN_LENGTH": "The 'Name' field requires at least 6 characters!",
+      "NAME_MAX_LENGTH": "The 'Name' field accepts a maximum of 254 characters!",
+      "NAME_REQUIRED": "The 'Name' field is required!",
+      "NAME_INVALID_FORMAT": "The entered name does not have a valid format! Example: 'First Last'",
+      "EMAIL_INVALID_FORMAT": "The entered email does not have a valid format!",
+      "PASSWORD_REQUIREMENTS": "The password must contain at least 8 characters and at most 12 characters, at least one lowercase letter, at least one uppercase letter, at least one number, and at least one of the following special characters: @, $, !, %, *, #, ?, &",
+      "PASSWORDS_DO_NOT_MATCH": "Passwords do not match!",
+      "PASSWORD_REQUIRED": "The 'Password' field is required!",
+      "USER_REGISTERED": "User registered successfully!",
+      "USER_CPF_EXISTS": "A user with same CPF already exists",
+      "USER_EMAIL_EXISTS": "A user with same EMAIL already exists",
+      "USER_REGISTRATION_ERROR": "Error registering the user!"
+    }
   }

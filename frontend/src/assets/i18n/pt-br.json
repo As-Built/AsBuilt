@@ -38,5 +38,67 @@
     "TOTAL_APPROVALS": "Total de Aprovações",
     "TOTAL_REJECTIONS": "Total de Reprovações",
     "MONTHS_OF_YEAR": "Meses do Ano",
-    "QUANTITY": "Quantidade"
+    "QUANTITY": "Quantidade",
+    "SIDEBAR": {
+        "COLLAPSE_TOOLTIP": "Recolher menu lateral",
+        "EXPAND_TOOLTIP": "Expandir menu lateral",
+        "DASHBOARD": "Painel de Controle",
+        "EVALUATIONS": "Avaliações",
+        "SERVICES": "Serviços",
+        "UNIT_OF_MEASURE": "Und. de Medida",
+        "SERVICE_LOCATIONS": "Locais de Serviço",
+        "COST_CENTERS": "Centros de Custo",
+        "CONSTRUCTORS": "Construtoras",
+        "SCHEDULE": "Cronograma",
+        "PRODUCTION_REPORT": "Rel. de Produção",
+        "SERVICE_TYPES": "Tipos de Serviço"
+      },
+    "HOME": {
+    "TITLE": "A sua plataforma de controle de obras",
+    "CONTACT_US": "Contate-nos para verificar os planos disponíveis para sua empresa!"
+    },
+    "NAVBAR": {
+        "REGISTER_LOGIN": "Cadastre-se | Login"
+    },
+    "LOGIN": {
+        "FORGOT_PASSWORD": "Esqueci minha senha",
+        "SIGN_IN": "Entrar",
+        "INVALID_EMAIL_FORMAT": "O email digitado não possui um formato válido!",
+        "EMAIL_REQUIRED": "O campo 'Email' é obrigatório!",
+        "PASSWORD_REQUIRED": "O campo 'Senha' é obrigatório!",
+        "USER_AUTHENTICATED": "Usuário autenticado com sucesso!\nRedirecionando...",
+        "INVALID_USER_OR_PASSWORD": "Usuário ou Senha incorreto!"
+    },
+    "PASSWORD_RECOVERY": {
+        "TITLE": "Recuperar Senha",
+        "INSTRUCTION": "Digite seu e-mail para recuperar a senha",
+        "CONFIRM_BUTTON": "Recuperar",
+        "CANCEL_BUTTON": "Cancelar",
+        "SUCCESS_MESSAGE": "Email enviado com sucesso para <br>",
+        "ERROR_MESSAGE": "Erro ao enviar email!<br>Verifique o e-mail informado e tente novamente."
+    },
+    "SIGNUP": {
+        "REGISTER": "Cadastrar",
+        "NAME_PLACEHOLDER": "Nome *",
+        "PASSWORD_PLACEHOLDER": "Senha *",
+        "CONFIRM_PASSWORD_PLACEHOLDER": "Repita a senha *",
+        "HIDE_PASSWORD_TOOLTIP": "Esconder senha",
+        "SHOW_PASSWORD_TOOLTIP": "Mostrar senha",
+        "INVALID_CPF_CNPJ": "CPF ou CNPJ inválido!",
+        "CONFIRM_PASSWORD": "Por favor confirme a sua senha",
+        "EMAIL_REQUIRED": "O campo 'Email' é obrigatório!",
+        "CPF_REQUIRED": "O campo 'CPF' é obrigatório!",
+        "NAME_MIN_LENGTH": "O campo 'Nome' requer ao menos 6 caracteres!",
+        "NAME_MAX_LENGTH": "O campo 'Nome' aceita no máximo 254 caracteres!",
+        "NAME_REQUIRED": "O campo 'Nome' é obrigatório!",
+        "NAME_INVALID_FORMAT": "O nome digitado não possui um formato válido! Exemplo: 'Nome Sobrenome'",
+        "EMAIL_INVALID_FORMAT": "O email digitado não possui um formato válido!",
+        "PASSWORD_REQUIREMENTS": "A senha deve conter no mínimo 8 caracteres e no máximo 12 caracteres, ao menos uma letra minúscula e ao menos uma letra maíuscula, ao menos um número e ao menos um dos seguintes caracteres especiais: @, $, !, %, *, #, ?, &",
+        "PASSWORDS_DO_NOT_MATCH": "As senhas não conferem!",
+        "PASSWORD_REQUIRED": "O campo 'Senha' é obrigatório!",
+        "USER_REGISTERED": "Usuário cadastrado com sucesso!",
+        "USER_CPF_EXISTS": "Já existe um usuário cadastrado com este CPF!",
+        "USER_EMAIL_EXISTS": "Já existe um usuário cadastrado com este email!",
+        "USER_REGISTRATION_ERROR": "Erro ao cadastrar o usuário!"
+    }
 }

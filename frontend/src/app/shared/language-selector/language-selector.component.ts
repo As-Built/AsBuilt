@@ -17,6 +17,8 @@ export class LanguageSelectorComponent implements OnInit {
 
   @Input() perfilUsuario: PerfilUsuarioModel = new PerfilUsuarioModel();
 
+  @Input() usuarioLogado: boolean = false;
+
   idiomaUsuarioModel: IdiomaUsuarioModel = new IdiomaUsuarioModel();
   selectedLanguage: string;
   dropdownOpen = false;
@@ -52,7 +54,9 @@ export class LanguageSelectorComponent implements OnInit {
     this.languageChange.emit(language);
     this.idiomaUsuarioModel.id = this.perfilUsuario.id;
     this.idiomaUsuarioModel.systemLanguage = language;
-    await firstValueFrom(this.perfilUsuarioService.updateIdiomaSistema(this.idiomaUsuarioModel));
+    if (this.usuarioLogado) {
+      await firstValueFrom(this.perfilUsuarioService.updateIdiomaSistema(this.idiomaUsuarioModel));    
+    }
     this.spinner.hide();
     this.toggleDropdown();
   }

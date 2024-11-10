@@ -17,6 +17,7 @@ export class NavbarComponent implements OnInit{
 
   perfilUsuario = new PerfilUsuarioModel();
   profilePicture: string | null = null;
+  usuarioLogado: boolean = false;
   
   constructor(private router: Router,
     private perfilUsuarioService: PerfilUsuarioService,
@@ -33,6 +34,11 @@ export class NavbarComponent implements OnInit{
     return this.router.url === '/home';
   }
   isNotHomeOrLogin() {
+    if (this.router.url === '/login' || this.router.url === '/home') {
+      this.usuarioLogado = false;
+    } else {
+      this.usuarioLogado = true;
+    }
     return this.router.url !== '/home' && this.router.url !== '/login';
   }
 
