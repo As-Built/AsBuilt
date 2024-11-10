@@ -14,7 +14,8 @@ data class UserResponse(
     val phone: String,
     val photo: String?,
     val salaries: Set<SalaryResponse>?,
-    val roles: Set<RoleResponse>
+    val roles: Set<RoleResponse>,
+    val systemLanguage: String
 ) {
     constructor(user: User) : this(
         user.id!!,
@@ -25,7 +26,8 @@ data class UserResponse(
         user.phone,
         user.photo,
         user.salaries?.map { SalaryResponse(it) }?.toSet(),
-        user.roles.map { RoleResponse(it) }.toSet()
+        user.roles.map { RoleResponse(it) }.toSet(),
+        user.systemLanguage
     )
 
     override fun equals(other: Any?): Boolean {

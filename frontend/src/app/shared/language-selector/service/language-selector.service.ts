@@ -6,9 +6,10 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class LanguageSelectorService {
   private languages = ['en', 'pt-br'];
-  private defaultLanguage = 'en';
+  private defaultLanguage = 'pt-br';
 
   constructor(private translate: TranslateService) {
+    this.defaultLanguage = 'pt-br';
     this.translate.addLangs(this.languages);
     this.translate.setDefaultLang(this.defaultLanguage);
     const browserLang = this.translate.getBrowserLang();
@@ -30,5 +31,10 @@ export class LanguageSelectorService {
   getLocale() {
     const currentLanguage = this.getCurrentLanguage();
     return currentLanguage === 'pt-br' ? 'pt-br' : 'en';
+  }
+
+  setLanguage(language: string) {
+    this.translate.use(language);
+    this.defaultLanguage = language;
   }
 }

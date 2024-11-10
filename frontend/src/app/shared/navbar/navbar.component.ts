@@ -52,6 +52,7 @@ export class NavbarComponent implements OnInit{
       const usuarioId = this.getUserId();
       let teste = await lastValueFrom(this.perfilUsuarioService.buscarPerfilUsuario(Number(usuarioId)));
       this.perfilUsuario = teste;
+      this.localeService.setLanguage(this.perfilUsuario.systemLanguage);
       this.fetchImage(this.perfilUsuario.photo);
     } catch (error) {
       console.error(error)

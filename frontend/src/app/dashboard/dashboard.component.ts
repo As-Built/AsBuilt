@@ -174,7 +174,6 @@ export class DashboardComponent implements OnInit {
     this.isAdmin = userRole.includes('ADMIN');
     this.isConferente = userRole.includes('CONFERENTE');
     this.isFuncionario = userRole.includes('FUNCIONARIO');
-
   }
 
   async buscarValorProducaoPorMesPorUsuario() {

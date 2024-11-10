@@ -11,5 +11,6 @@ export class PerfilUsuarioModel {
     public userAddress: EnderecoModel = new EnderecoModel();
     public photo: string = "";
     public salaries: SalarioModel[] = [];
+    public systemLanguage: string = "";
     public roles: RolesModel[] = [];
 }

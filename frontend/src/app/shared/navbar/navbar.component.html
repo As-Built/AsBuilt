@@ -25,7 +25,7 @@
         </span>
       </a>
     </li>
-    <li class="nav-item" *ngIf="isNotHomeOrLogin()" matTooltip="Idioma" matTooltipShowDelay="1500">
+    <li class="nav-item" matTooltip="Idioma" matTooltipShowDelay="1500">
       <app-language-selector (languageChange)="onLanguageChange($event)"></app-language-selector>
     </li>
   </ul>

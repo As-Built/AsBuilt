@@ -26,7 +26,9 @@ data class PatchUserRequest(
 
     val photo: String?,
 
-    val salaries: Set<Long>?
+    val salaries: Set<Long>?,
+
+    val systemLanguage: String,
 
 ) {
 
@@ -39,6 +41,7 @@ data class PatchUserRequest(
         userAddress = userAddress,
         phone = phone,
         photo = photo,
+        systemLanguage = systemLanguage
     )
     }
 }

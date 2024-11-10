@@ -61,7 +61,7 @@
                         <span>{{ 'TOTAL_EXPENSES_WITH_REMUNERATION' | translate }}</span>
                     </div>
                     <div class="col-4" style="text-align: end;">
-                        <span>{{ remuneracaoTotalNoMes | customCurrency:getCurrencyCode():'symbol':'1.2-2' }}</span>
+                        <span>{{ remuneracaoTotalNoMes | currency:getCurrencyCode():'symbol':'1.2-2' }}</span>
                     </div>
                 </div>
                 <div class="row centralizar-conteudo">
@@ -69,7 +69,7 @@
                         <span>{{ 'TOTAL_PRODUCED_VALUE' | translate }}</span>
                     </div>
                     <div class="col-4" style="text-align: end;">
-                        <span>{{ valorTotalProduzidoNoMes | customCurrency:getCurrencyCode():'symbol':'1.2-2' }}</span>
+                        <span>{{ valorTotalProduzidoNoMes | currency:getCurrencyCode():'symbol':'1.2-2' }}</span>
                     </div>
                 </div>
                 <div class="row centralizar-conteudo">
@@ -79,7 +79,7 @@
                     <div [ngClass]="{'negative-value': producaoTotalEfetivaNoMes < 0}" 
                         class="col-4" style="text-align: end;">
                         <br>
-                        <span>{{ producaoTotalEfetivaNoMes | customCurrency:getCurrencyCode():'symbol':'1.2-2' }}</span>
+                        <span>{{ producaoTotalEfetivaNoMes | currency:getCurrencyCode():'symbol':'1.2-2' }}</span>
                     </div>
                 </div>
             </div>
@@ -214,7 +214,7 @@
                         <span>{{ 'CURRENT_COMPENSATION' | translate }}</span>
                     </div>
                     <div class="col-4" style="text-align: end;">
-                        <span>{{ remuneracaoAtual | customCurrency:getCurrencyCode():'symbol':'1.2-2' }}</span>
+                        <span>{{ remuneracaoAtual | currency:getCurrencyCode():'symbol':'1.2-2' }}</span>
                     </div>
                 </div>
                 <div class="row centralizar-conteudo">
@@ -222,7 +222,7 @@
                         <span>{{ 'PRODUCED_VALUE' | translate }}</span>
                     </div>
                     <div class="col-4" style="text-align: end;">
-                        <span>{{ valorProduzidoNoMes | customCurrency:getCurrencyCode():'symbol':'1.2-2' }}</span>
+                        <span>{{ valorProduzidoNoMes | currency:getCurrencyCode():'symbol':'1.2-2' }}</span>
                     </div>
                 </div>
                 <div class="row centralizar-conteudo">
@@ -232,7 +232,7 @@
                     <div [ngClass]="{'negative-value': producaoEfetivaNoMes < 0}" 
                         class="col-4" style="text-align: end;">
                         <br>
-                        <span>{{ producaoEfetivaNoMes | customCurrency:getCurrencyCode():'symbol':'1.2-2' }}</span>
+                        <span>{{ producaoEfetivaNoMes | currency:getCurrencyCode():'symbol':'1.2-2' }}</span>
                     </div>
                 </div>
             </div>
