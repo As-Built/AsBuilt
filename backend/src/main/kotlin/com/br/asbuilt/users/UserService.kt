@@ -7,6 +7,7 @@ import com.br.asbuilt.exception.NotFoundException
 import com.br.asbuilt.mail.MailService
 import com.br.asbuilt.roles.RoleRepository
 import com.br.asbuilt.security.Jwt
+import com.br.asbuilt.users.controller.requests.PatchSystemLanguage
 import com.br.asbuilt.users.controller.requests.PatchUserRequest
 import com.br.asbuilt.users.controller.responses.LoginResponse
 import com.br.asbuilt.users.controller.responses.UserResponse
@@ -77,6 +78,11 @@ class UserService(
 
             if (userRequest.userAddress != existingUser.userAddress) {
                 existingUser.userAddress = userRequest.userAddress
+                isChanged = true
+            }
+
+            if (userRequest.systemLanguage != existingUser.systemLanguage) {
+                existingUser.systemLanguage = userRequest.systemLanguage
                 isChanged = true
             }
 
@@ -155,6 +161,29 @@ class UserService(
             "Sua senha é: ${user.password}"
         )
         return mailService
+    }
+
+    fun updateSystemLanguage(userRequest: PatchSystemLanguage): User? {
+        val existingUser = userRequest.id.let {
+            repository.findById(it)
+                .orElseThrow { NotFoundException("User not found with id: ${userRequest.id}") }
+        }
+        if (existingUser != null) {
+            var isChanged = false
+
+            if (userRequest.systemLanguage != existingUser.systemLanguage) {
+                existingUser.systemLanguage = userRequest.systemLanguage
+                isChanged = true
+            }
+
+            if (isChanged) {
+
+                val updateUser = repository.save(existingUser)
+                log.info("User updated: {}", updateUser.id)
+                return updateUser
+            }
+        }
+        return null
     }
 
     companion object {

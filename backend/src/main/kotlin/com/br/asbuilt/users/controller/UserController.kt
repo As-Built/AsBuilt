@@ -4,6 +4,7 @@ import com.br.asbuilt.SortDir
 import com.br.asbuilt.users.UserService
 import com.br.asbuilt.users.controller.requests.CreateUserRequest
 import com.br.asbuilt.users.controller.requests.LoginRequest
+import com.br.asbuilt.users.controller.requests.PatchSystemLanguage
 import com.br.asbuilt.users.controller.requests.PatchUserRequest
 import com.br.asbuilt.users.controller.responses.UserResponse
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
@@ -34,8 +35,7 @@ class UserController(val service: UserService) {
     @PreAuthorize("permitAll()")
     @PatchMapping("/updateUser")
     fun update(
-        @Valid @RequestBody request: PatchUserRequest,
-        auth: Authentication
+        @Valid @RequestBody request: PatchUserRequest
     ): ResponseEntity<UserResponse> {
         return service.update(request)
             ?.let { ResponseEntity.ok(UserResponse(it)) }
@@ -96,4 +96,15 @@ class UserController(val service: UserService) {
     fun recuperarSenha(@PathVariable email: String): ResponseEntity<Void> =
         service.recuperarSenha(email)
             .let { ResponseEntity.ok().build() }
+
+    @SecurityRequirement(name="AsBuilt")
+    @PreAuthorize("permitAll()")
+    @PatchMapping("/updateSystemLanguage")
+    fun updateSystemLanguage(
+        @Valid @RequestBody request: PatchSystemLanguage
+    ): ResponseEntity<UserResponse> {
+        return service.updateSystemLanguage(request)
+            ?.let { ResponseEntity.ok(UserResponse(it)) }
+            ?: ResponseEntity.noContent().build()
+    }
 }

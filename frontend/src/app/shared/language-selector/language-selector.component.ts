@@ -1,6 +1,11 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageSelectorService } from './service/language-selector.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { PerfilUsuarioService } from '../../perfil-usuario/service/perfil-usuario.service';
+import { firstValueFrom } from 'rxjs';
+import { PerfilUsuarioModel } from '../../perfil-usuario/model/perfil-usuario.model';
+import { IdiomaUsuarioModel } from '../../perfil-usuario/model/idioma-usuario.model';
 
 @Component({
   selector: 'app-language-selector',
@@ -9,6 +14,10 @@ import { LanguageSelectorService } from './service/language-selector.service';
 })
 export class LanguageSelectorComponent implements OnInit {
   @Output() languageChange = new EventEmitter<string>();
+
+  @Input() perfilUsuario: PerfilUsuarioModel = new PerfilUsuarioModel();
+
+  idiomaUsuarioModel: IdiomaUsuarioModel = new IdiomaUsuarioModel();
   selectedLanguage: string;
   dropdownOpen = false;
 
@@ -19,7 +28,9 @@ export class LanguageSelectorComponent implements OnInit {
 
   constructor(
     private translate: TranslateService,
-    private languageSelectorService: LanguageSelectorService
+    private languageSelectorService: LanguageSelectorService,
+    private spinner: NgxSpinnerService,
+    private perfilUsuarioService: PerfilUsuarioService
   ) {
     this.selectedLanguage = this.languageSelectorService.getDefaultLanguage();
   }
@@ -34,10 +45,15 @@ export class LanguageSelectorComponent implements OnInit {
     this.dropdownOpen = !this.dropdownOpen;
   }
 
-  changeLanguage(language: string): void {
+  async changeLanguage(language: string) {
+    this.spinner.show();
     this.selectedLanguage = language;
     this.translate.use(language);
     this.languageChange.emit(language);
+    this.idiomaUsuarioModel.id = this.perfilUsuario.id;
+    this.idiomaUsuarioModel.systemLanguage = language;
+    await firstValueFrom(this.perfilUsuarioService.updateIdiomaSistema(this.idiomaUsuarioModel));
+    this.spinner.hide();
     this.toggleDropdown();
   }
 
