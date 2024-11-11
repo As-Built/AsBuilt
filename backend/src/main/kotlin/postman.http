@@ -1,0 +1,45 @@
+### User login
+POST localhost:8080/asbuilt/users/login
+Content-Type: application/json
+
+{
+  "email": "rafael.kampa@pucpr.edu.br",
+  "password": "5TAJ2ft2@"
+}
+
+> {%client.global.set("auth_token", response.body.token); %}
+
+###
+PATCH localhost:8080/asbuilt/users/updateUser
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "id": 2402,
+  "name": "Rafael Gilberto Kampa",
+  "email": "rafael.kampa@pucpr.edu.br",
+  "cpf": "07611572989",
+  "phone": "41992893650",
+  "photo": "e9078727-c860-401f-b581-7c26b6137fef",
+  "userAddress": {
+    "id": 2552,
+    "street": "Rua Adilha Saad",
+    "number": 351,
+    "city": "Araucária",
+    "state": "PR",
+    "postalCode": "83703140"
+  },
+  "salaries": [
+    {
+      "id": 904,
+      "value": 5000,
+      "updateDate": "2024-11-08T19:42:13.618+00:00"
+    },
+    {
+      "id": 9,
+      "value": 4000,
+      "updateDate": "2024-11-03T01:42:00.000+00:00"
+    }
+  ],
+  "systemLanguage": "en"
+}

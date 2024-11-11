@@ -49,7 +49,7 @@ class UserService(
     }
 
     fun update(userRequest: PatchUserRequest): User? {
-        val existingUser = userRequest.id.let {
+        val existingUser = userRequest.id?.let {
             repository.findById(it)
                 .orElseThrow { NotFoundException("User not found with id: ${userRequest.id}") }
         }
@@ -60,24 +60,24 @@ class UserService(
             var addressChanged = false
 
             if (userRequest.name != existingUser.name) {
-                existingUser.name = userRequest.name
+                existingUser.name = userRequest.name.toString()
                 isChanged = true
             }
 
             if (userRequest.email != existingUser.email) {
-                existingUser.email = userRequest.email
+                existingUser.email = userRequest.email.toString()
                 isChanged = true
                 emailChanged = true
             }
 
             if (userRequest.cpf != existingUser.cpf) {
-                existingUser.cpf = userRequest.cpf
+                existingUser.cpf = userRequest.cpf.toString()
                 isChanged = true
                 cpfChanged = true
             }
 
             if (userRequest.phone != existingUser.phone) {
-                existingUser.phone = userRequest.phone
+                existingUser.phone = userRequest.phone.toString()
                 isChanged = true
             }
 
@@ -88,28 +88,28 @@ class UserService(
             }
 
             if (userRequest.systemLanguage != existingUser.systemLanguage) {
-                existingUser.systemLanguage = userRequest.systemLanguage
+                existingUser.systemLanguage = userRequest.systemLanguage.toString()
                 isChanged = true
             }
 
             if (isChanged) {
 
                 if (cpfChanged) {
-                    if (repository.findByCPF(userRequest.cpf) != null) {
+                    if (userRequest.cpf?.let { repository.findByCPF(it) } != null) {
                         log.info("A user with same CPF already exists")
                         throw BadRequestException("A user with same CPF already exists")
                     }
                 }
 
                 if (emailChanged) {
-                    if (repository.findByEmail(userRequest.email) != null) {
+                    if (userRequest.email?.let { repository.findByEmail(it) } != null) {
                         log.info("A user with same EMAIL already exists")
                         throw BadRequestException("A user with same EMAIL already exists")
                     }
                 }
 
                 val newAddress = userRequest.userAddress
-                newAddress.id = userRequest.userAddress.id
+                newAddress!!.id = userRequest.userAddress?.id
 
                 val savedAddress = newAddress.let {
                     addressRepository.save(it)
