@@ -12,6 +12,7 @@ import { TipoServicoModel } from '../tipo-servico/model/tipo-servico.model';
 import { ConstrutoraService } from '../construtora/service/construtora.service';
 import { ConstrutoraModel } from '../construtora/model/construtora.model';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 
 
 
@@ -47,6 +48,7 @@ export class ServicoComponent implements OnInit {
   listaCentrosDeCustoFiltrada: CentroCustoModel[] = [];
   servicoTab: number = 0;
   arquivoSelecionado: File | undefined;
+  currencyPrefix: string = "pt-br";
 
   constructor(
     private servicoService: ServicoService,
@@ -54,7 +56,8 @@ export class ServicoComponent implements OnInit {
     private centroCustoService: CentroCustoService,
     private localService: LocalServicoService,
     private tiposServicoService: TiposServicoService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit(): void {
@@ -67,6 +70,10 @@ export class ServicoComponent implements OnInit {
       subGroup3: '',
       costCenter: {} as CentroCustoModel
     };
+    this.setCurrencyPrefix();
+    this.translate.onLangChange.subscribe(() => {
+      this.setCurrencyPrefix();
+    });
   }
 
   async mudarAba(posicao: number) {
@@ -160,7 +167,7 @@ export class ServicoComponent implements OnInit {
     if (nivel1 !== undefined && nivel2 !== undefined) {
       // Filtrar dados do nível 3 baseado na seleção do nível 1 e 2
       this.listaSubGroup2 = this.listaLocais
-        .filter(local => local.locationGroup === nivel1 && local.subGroup1 === nivel2 && 
+        .filter(local => local.locationGroup === nivel1 && local.subGroup1 === nivel2 &&
           local.subGroup2 !== undefined && local.subGroup2 !== '' && local.subGroup2 !== null)
         .map(local => local.subGroup2)
         .filter((subGroup): subGroup is string => subGroup !== undefined)
@@ -237,13 +244,13 @@ export class ServicoComponent implements OnInit {
     let numberValue = inputValue.replace('R$ ', '').replace(/\./g, '').replace(',', '.');
     return parseFloat(numberValue);
   }
-  
+
   calcularValorTotal() {
     this.cadastroServico.amount = this.cadastroServico.dimension * this.cadastroServico.unitaryValue;
   }
 
   async cadastrarServico() {
-    if (!this.validarCampos(this.cadastroServico)){
+    if (!this.validarCampos(this.cadastroServico)) {
       return;
     };
     this.cadastroServico.taskLocation.costCenter = this.cadastroServico.costCenter;
@@ -253,7 +260,7 @@ export class ServicoComponent implements OnInit {
       tap(retorno => {
         this.spinner.hide();
         Swal.fire({
-          text: "Cadastro realizado com sucesso!",
+          text: this.translate.instant('SERVICE.CADASTRO_SUCESSO'),
           icon: "success",
           showConfirmButton: false,
           timer: 3000
@@ -264,7 +271,7 @@ export class ServicoComponent implements OnInit {
         this.spinner.hide();
         if (error.error == "Task already exists") {
           Swal.fire({
-            text: "Já existe um serviço cadastrado neste mesmo local e com o mesmo tipo de serviço!",
+            text: this.translate.instant('SERVICE.ERRO_SERVICO_EXISTENTE'),
             icon: "error",
             showConfirmButton: false,
             timer: 3000
@@ -284,7 +291,7 @@ export class ServicoComponent implements OnInit {
   }
 
   atualizarServico(servico: ServicoModel) {
-    if (!this.validarCampos(this.cadastroServico)){
+    if (!this.validarCampos(this.cadastroServico)) {
       return;
     };
     this.validarCampos(servico);
@@ -293,7 +300,7 @@ export class ServicoComponent implements OnInit {
       tap(retorno => {
         this.spinner.hide();
         Swal.fire({
-          text: "Atualização realizada com sucesso!",
+          text: this.translate.instant('SERVICE.ATUALIZACAO_SUCESSO'),
           icon: "success",
           showConfirmButton: false,
           timer: 3000
@@ -304,10 +311,10 @@ export class ServicoComponent implements OnInit {
         this.spinner.hide();
         let msgErro = error.error;
         if (error.error === "No changes detected! Task not updated!") {
-          msgErro = "Nenhuma alteração detectada! Serviço não atualizado!";
+          msgErro = this.translate.instant('SERVICE.ERRO_NENHUMA_ALTERACAO');
         }
         if (error.error === "Task not found!") {
-          msgErro = "Serviço não encontrado!";
+          msgErro = this.translate.instant('SERVICE.ERRO_SERVICO_NAO_ENCONTRADO');
         }
         Swal.fire({
           text: msgErro,
@@ -323,7 +330,7 @@ export class ServicoComponent implements OnInit {
   validarCampos(servico: ServicoModel) {
     if (servico.costCenter === null || servico.costCenter === undefined) {
       Swal.fire({
-        text: "É obrigatório informar o centro de custo!",
+        text: this.translate.instant('SERVICE.ERRO_CENTRO_CUSTO_OBRIGATORIO'),
         icon: "warning",
         showConfirmButton: false,
         timer: 3000
@@ -333,7 +340,7 @@ export class ServicoComponent implements OnInit {
 
     if (servico.taskType === null || servico.taskType === undefined) {
       Swal.fire({
-        text: "É obrigatório informar o tipo de serviço!",
+        text: this.translate.instant('SERVICE.ERRO_TIPO_SERVICO_OBRIGATORIO'),
         icon: "warning",
         showConfirmButton: false,
         timer: 3000
@@ -343,7 +350,7 @@ export class ServicoComponent implements OnInit {
 
     if (servico.taskLocation === null || servico.taskLocation === undefined) {
       Swal.fire({
-        text: "É obrigatório informar o local de execução do serviço!",
+        text: this.translate.instant('SERVICE.ERRO_LOCAL_EXECUCAO_OBRIGATORIO'),
         icon: "warning",
         showConfirmButton: false,
         timer: 3000
@@ -354,7 +361,7 @@ export class ServicoComponent implements OnInit {
     if (servico.dimension === null || servico.dimension == 0
       || servico.dimension === undefined) {
       Swal.fire({
-        text: "É obrigatório informar a dimensão do serviço!",
+        text: this.translate.instant('SERVICE.ERRO_LOCAL_EXECUCAO_OBRIGATORIO'),
         icon: "warning",
         showConfirmButton: false,
         timer: 3000
@@ -364,7 +371,7 @@ export class ServicoComponent implements OnInit {
 
     if (servico.expectedStartDate === null || servico.taskLocation === undefined) {
       Swal.fire({
-        text: "É obrigatório informar a data de início prevista para o serviço!",
+        text: this.translate.instant('SERVICE.ERRO_DATA_INICIO_OBRIGATORIO'),
         icon: "warning",
         showConfirmButton: false,
         timer: 3000
@@ -374,7 +381,7 @@ export class ServicoComponent implements OnInit {
 
     if (servico.expectedEndDate === null || servico.expectedEndDate === undefined) {
       Swal.fire({
-        text: "É obrigatório informar a data de final prevista para o serviço!",
+        text: this.translate.instant('SERVICE.ERRO_DATA_FINAL_OBRIGATORIO'),
         icon: "warning",
         showConfirmButton: false,
         timer: 3000
@@ -384,7 +391,7 @@ export class ServicoComponent implements OnInit {
 
     if (servico.expectedStartDate > servico.expectedEndDate) {
       Swal.fire({
-        text: "A data de início previsto não pode ser posterior a data de final prevista!",
+        text: this.translate.instant('SERVICE.ERRO_DATA_INICIO_POSTERIOR'),
         icon: "warning",
         showConfirmButton: false,
         timer: 3000
@@ -395,7 +402,7 @@ export class ServicoComponent implements OnInit {
     if (servico.unitaryValue === null || servico.unitaryValue === undefined
       || servico.unitaryValue === 0) {
       Swal.fire({
-        text: "É obrigatório informar o valor unitário do serviço!",
+        text: this.translate.instant('SERVICE.ERRO_VALOR_UNITARIO_OBRIGATORIO'),
         icon: "warning",
         showConfirmButton: false,
         timer: 3000
@@ -409,11 +416,11 @@ export class ServicoComponent implements OnInit {
     this.servicoModel = JSON.parse(JSON.stringify(servico)); //Clonando objeto e não a sua referência
     this.renderModalVisualizar = true;
     Swal.fire({
-      title: 'Detalhes do Serviço',
+      title: this.translate.instant('SERVICE.DETALHES_TITULO'),
       html: this.modalVisualizarDetalhes.nativeElement,
       showCloseButton: true,
       confirmButtonColor: 'green',
-      confirmButtonText: 'Editar',
+      confirmButtonText: this.translate.instant('SERVICE.BOTAO_EDITAR'),
     }).then((result) => {
       if (result.isConfirmed) {
         this.modalEditarServico(servico);
@@ -427,13 +434,13 @@ export class ServicoComponent implements OnInit {
     this.servicoModel.id = servico.id;
     this.renderModalVisualizar = true;
     Swal.fire({
-      title: 'Editar Local de Serviço',
+      title: this.translate.instant('SERVICE.EDITAR_LOCAL_TITULO'),
       html: this.modalVisualizarDetalhes.nativeElement,
       showCloseButton: true,
       confirmButtonColor: 'green',
-      confirmButtonText: 'Salvar',
+      confirmButtonText: this.translate.instant('SERVICE.BOTAO_SALVAR'),
       showCancelButton: true,
-      cancelButtonText: 'Cancelar',
+      cancelButtonText: this.translate.instant('SERVICE.BOTAO_CANCELAR'),
       cancelButtonColor: 'red',
     }).then((result) => {
       if (result.isConfirmed) {
@@ -450,13 +457,13 @@ export class ServicoComponent implements OnInit {
 
   excluirServico(id: number) {
     Swal.fire({
-      title: 'Excluir Serviço?',
-      html: `Deseja realmente excluir o Serviço? <br>Essa ação é irreverssível!`,
+      title: this.translate.instant('SERVICE.EXCLUIR_TITULO'),
+      html: this.translate.instant('SERVICE.EXCLUIR_HTML'),
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Sim, excluir!',
+      confirmButtonText: this.translate.instant('SERVICE.BOTAO_EXCLUIR'),
       confirmButtonColor: 'red',
-      cancelButtonText: 'Cancelar',
+      cancelButtonText: this.translate.instant('SERVICE.BOTAO_CANCELAR'),
       cancelButtonColor: 'green',
     }).then((result) => {
       if (result.isConfirmed) {
@@ -465,7 +472,7 @@ export class ServicoComponent implements OnInit {
           tap(retorno => {
             this.spinner.hide();
             Swal.fire({
-              text: "Serviço excluído com sucesso!",
+              text: this.translate.instant('SERVICE.EXCLUIDO_SUCESSO'),
               icon: "success",
               showConfirmButton: false,
               timer: 3000
@@ -476,7 +483,7 @@ export class ServicoComponent implements OnInit {
             this.spinner.hide();
             let msgErro = error.error;
             if (msgErro === "Task with assessment cannot be deleted!") {
-              msgErro = "Este serviço já possui uma avaliação e não pode ser excluído!";
+              msgErro = this.translate.instant('SERVICE.ERRO_AVALIACAO_EXISTENTE');
             }
             Swal.fire({
               text: msgErro,
@@ -522,7 +529,7 @@ export class ServicoComponent implements OnInit {
         const taskCount = await this.servicoService.enviarArquivo(this.arquivoSelecionado);
         this.spinner.hide();
         Swal.fire({
-          html: `Arquivo enviado com sucesso!<br> <b>${taskCount} novos serviços foram incluídos!</b>`,
+          html: `${this.translate.instant('SERVICE.ARQUIVO_SUCESSO')}<br> <b>${taskCount} ${this.translate.instant('SERVICE.NOVOS_SERVICOS_INCLUIDOS')}</b>`,
           icon: "success",
           showConfirmButton: false,
           timer: 3000
@@ -532,14 +539,18 @@ export class ServicoComponent implements OnInit {
         this.spinner.hide();
         const message = (error as Error).message;
         Swal.fire({
-            text: message,
-            icon: "error",
-            showConfirmButton: false,
-            timer: 3000
-          });
+          text: message,
+          icon: "error",
+          showConfirmButton: false,
+          timer: 3000
+        });
       }
     } else {
-      Swal.fire('Erro', 'Nenhum arquivo selecionado', 'error');
+      Swal.fire(
+        this.translate.instant('SERVICE.ERRO_TITULO'),
+        this.translate.instant('SERVICE.ERRO_NENHUM_ARQUIVO'),
+        'error'
+      );
     }
   }
 
@@ -551,26 +562,31 @@ export class ServicoComponent implements OnInit {
     // Prevent the browser's default behavior of opening the file
     event.preventDefault();
   }
-  
+
   onFileDrop(event: DragEvent) {
     // Prevent the browser's default behavior of opening the file
     event.preventDefault();
-  
+
     if (event.dataTransfer && event.dataTransfer.files.length > 0) {
       this.handleFile(event.dataTransfer.files[0]);
     }
   }
-  
-handleFile(file: File) {
-  if (file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
-    this.arquivoSelecionado = file;
-  } else {
-    Swal.fire({
-      text: 'Somente arquivos em formato .xlsx são aceitos!',
-      icon: 'error',
-      showConfirmButton: false,
-      timer: 3000
-    });
+
+  handleFile(file: File) {
+    if (file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+      this.arquivoSelecionado = file;
+    } else {
+      Swal.fire({
+        text: this.translate.instant('SERVICE.ERRO_FORMATO_ARQUIVO'),
+        icon: 'error',
+        showConfirmButton: false,
+        timer: 3000
+      });
+    }
   }
-}
+
+  setCurrencyPrefix(): void {
+    const currentLang = this.translate.currentLang;
+    this.currencyPrefix = currentLang === 'en' ? 'US$ ' : 'R$ ';
+  }
 }

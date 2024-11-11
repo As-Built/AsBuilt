@@ -3,15 +3,15 @@
     <ul class="nav nav-tabs">
       <li class="nav-item">
         <a class="nav-link" [ngClass]="{'active': servicoTab == 0}" id="cadastro-tab" data-toggle="tab"
-          (click)="mudarAba(0)">Cadastro Unitário</a>
+          (click)="mudarAba(0)">{{ 'SERVICE.CADASTRO_UNITARIO' | translate }}</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" [ngClass]="{'active': servicoTab == 1}" id="consulta-tab" data-toggle="tab"
-          (click)="mudarAba(1)">Cadastro em Lote</a>
+          (click)="mudarAba(1)">{{ 'SERVICE.CADASTRO_EM_LOTE' | translate }}</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" [ngClass]="{'active': servicoTab == 2}" id="consulta-tab" data-toggle="tab"
-          (click)="mudarAba(2)">Consulta</a>
+          (click)="mudarAba(2)">{{ 'SERVICE.CONSULTA' | translate }}</a>
       </li>
     </ul>
     <div class="tab-content">
@@ -19,7 +19,7 @@
       <div *ngIf="servicoTab == 0" class="tab-pane fade" [ngClass]="{'show active': servicoTab == 0}" id="cadastro">
         <div class="row centralizar-conteudo">
           <div class="col-12 titulo">
-            <h1>Cadastro de Serviço</h1>
+            <h1>{{ 'SERVICE.CADASTRO_DE_SERVICO' | translate }}</h1>
           </div>
         </div>
         <form (ngSubmit)="cadastrarServico()" #form="ngForm"
@@ -27,27 +27,28 @@
           <div class="row">
             <div class="col-12">
               <hr style="margin-left: 25px;">
-              <h2 style="padding-left: 15px;">Rastreabilidade</h2>
+              <h2 style="padding-left: 15px;">{{ 'SERVICE.RASTREABILIDADE' | translate }}</h2>
             </div>
           </div>
           <div class="row">
             <div class="col-6">
-              <label for="construtora">Consrutora<span style="color: red;">*</span></label>
-              <select style="height: 40px" name="construtora" id="construtora" required matTooltip="Construtora"
-                matTooltipShowDelay="1500" [(ngModel)]="construtora"
+              <label for="construtora">{{ 'SERVICE.CONSTRUTORA' | translate }}<span style="color: red;">*</span></label>
+              <select style="height: 40px" name="construtora" id="construtora" required
+                [matTooltip]="'SERVICE.CONSTRUTORA'| translate" matTooltipShowDelay="1500" [(ngModel)]="construtora"
                 (change)="construtora && construtora.id ? buscarCentrosDeCustoPorConstrutora(construtora.id) : null"
                 [compareWith]="compareFnConstrutora">
-                <option [value]="null" disabled>Selecione uma construtora</option>
+                <option [value]="null" disabled>{{ 'SERVICE.SELECIONE_CONSTRUTORA' | translate }}</option>
                 <option *ngFor="let construtora of listaConstrutoras" [ngValue]="construtora">
                   {{construtora.builderName}}</option>
               </select>
             </div>
             <div class="col-6">
-              <label for="centroDeCusto">Centro de Custo<span style="color: red;">*</span></label>
-              <select style="height: 40px" name="centroDeCusto" id="centroDeCusto" required matTooltip="Centro de custo"
-                matTooltipShowDelay="1500" [(ngModel)]="centroCusto" (change)="setCostCenter(centroCusto)"
-                [compareWith]="compareFnCentroCusto">
-                <option [value]="null" disabled>Selecione um centro de custo</option>
+              <label for="centroDeCusto">{{ 'SERVICE.CENTRO_DE_CUSTO' | translate }}<span
+                  style="color: red;">*</span></label>
+              <select style="height: 40px" name="centroDeCusto" id="centroDeCusto" required
+                [matTooltip]="'SERVICE.CENTRO_DE_CUSTO' | translate" matTooltipShowDelay="1500"
+                [(ngModel)]="centroCusto" (change)="setCostCenter(centroCusto)" [compareWith]="compareFnCentroCusto">
+                <option [value]="null" disabled>{{ 'SERVICE.SELECIONE_CENTRO_DE_CUSTO' | translate }}</option>
                 <option *ngFor="let centroCusto of listaCentrosDeCusto" [ngValue]="centroCusto">
                   {{centroCusto.costCenterName}}</option>
               </select>
@@ -55,36 +56,38 @@
           </div>
           <div class="row">
             <div class="col-6">
-              <label for="nivel1">1º Nível de localização<span style="color: red;">*</span></label>
+              <label for="nivel1">{{ 'LABEL.FIRST_LEVEL_LOCATION' | translate }}<span
+                  style="color: red;">*</span></label>
               <select name="nivel1" id="nivel1" required [(ngModel)]="cadastroServico.taskLocation.locationGroup"
                 (change)="filtrarNivel2(cadastroServico.taskLocation.locationGroup)">
-                <option value="" disabled>Selecione o 1º nível de localização</option>
+                <option value="" disabled>{{ 'SERVICE.SELECIONE_PRIMEIRO_NIVEL_LOCALIZACAO' | translate }}</option>
                 <option *ngFor="let locationGroup of getLocationGroups()" [ngValue]="locationGroup">{{locationGroup}}
                 </option>
               </select>
             </div>
             <div class="col-6">
-              <label for="nivel2">2º Nível de localização<span style="color: red;">*</span></label>
+              <label for="nivel2">{{ 'LABEL.SECOND_LEVEL_LOCATION' | translate }}<span
+                  style="color: red;">*</span></label>
               <select name="nivel2" id="nivel2" required [(ngModel)]="cadastroServico.taskLocation.subGroup1"
                 (change)="filtrarNivel3(cadastroServico.taskLocation.locationGroup, cadastroServico.taskLocation.subGroup1)">
-                <option value="" disabled>Selecione o 2º nível de localização</option>
+                <option value="" disabled>{{ 'SERVICE.SELECIONE_SEGUNDO_NIVEL_LOCALIZACAO' | translate }}</option>
                 <option *ngFor="let location of listaSubGroup1" [ngValue]="location">{{location}}</option>
               </select>
             </div>
           </div>
           <div class="row">
             <div class="col-6">
-              <label for="nivel3">3º Nível de localização</label>
+              <label for="nivel3">{{ 'LABEL.THIRD_LEVEL_LOCATION' | translate }}</label>
               <select name="nivel3" id="nivel3" required [(ngModel)]="cadastroServico.taskLocation.subGroup2"
                 (change)="filtrarNivel4(cadastroServico.taskLocation.locationGroup, cadastroServico.taskLocation.subGroup1, cadastroServico.taskLocation.subGroup2)">
-                <option value="" disabled>Selecione o 3º nível de localização</option>
+                <option value="" disabled>{{ 'SERVICE.SELECIONE_TERCEIRO_NIVEL_LOCALIZACAO' | translate }}</option>
                 <option *ngFor="let location of listaSubGroup2" [ngValue]="location">{{location}}</option>
               </select>
             </div>
             <div class="col-6">
-              <label for="nivel4">4º Nível de localização</label>
+              <label for="nivel4">{{ 'LABEL.FOURTH_LEVEL_LOCATION' | translate }}</label>
               <select name="nivel4" id="nivel4" required [(ngModel)]="cadastroServico.taskLocation.subGroup3">
-                <option value="" disabled>Selecione o 4º nível de localização (opcional)</option>
+                <option value="" disabled>{{ 'SERVICE.SELECIONE_QUARTO_NIVEL_LOCALIZACAO' | translate }}</option>
                 <option *ngFor="let location of listaSubGroup3" [ngValue]="location">{{location}}</option>
               </select>
             </div>
@@ -92,74 +95,83 @@
           <div class="row">
             <div class="col-12">
               <hr style="margin-left: 25px;">
-              <h2 style="padding-left: 15px;">Dados do Serviço</h2>
+              <h2 style="padding-left: 15px;">{{ 'SERVICE.SERVICE_DATA' | translate }}</h2>
             </div>
           </div>
           <div class="row">
             <div class="col-7">
-              <label for="tipoServico">Tipo de Serviço<span style="color: red;">*</span></label>
-              <select name="tipoServico" id="tipoServico" required matTooltip="Tipo de Serviço"
+              <label for="tipoServico">{{ 'SERVICE.SERVICE_TYPE' | translate }}<span
+                  style="color: red;">*</span></label>
+              <select name="tipoServico" id="tipoServico" required [matTooltip]="'SERVICE.SERVICE_TYPE' | translate"
                 matTooltipShowDelay="1500" [(ngModel)]="cadastroServico.taskType">
-                <option value="" disabled selected>Selecione um tipo de serviço</option>
+                <option value="" disabled selected>{{ 'SERVICE.SELECIONE_TIPO_SERVICO' | translate }}</option>
                 <option *ngFor="let tipos of listaTiposServico;" [ngValue]="tipos">
                   {{tipos.taskTypeName}}</option>
               </select>
             </div>
             <div class="col-2">
-              <label for="dimensao">Dimensão<span style="color: red;">*</span></label>
+              <label for="dimensao">{{ 'SERVICE.DIMENSAO' | translate }}<span style="color: red;">*</span></label>
               <input name="dimensao" id="dimensao" required type="number" min="0" step="0.01"
-                matTooltip="Tamanho do serviço a ser executado" matTooltipShowDelay="1500"
+                [matTooltip]="'SERVICE.TAMANHO_SERVICO' | translate" matTooltipShowDelay="1500"
                 [(ngModel)]="cadastroServico.dimension"
                 (ngModelChange)="cadastroServico.dimension = cadastroServico.dimension < 0 ? 0 : cadastroServico.dimension; calcularValorTotal()" />
             </div>
             <div class="col-3">
-              <label for="unidadeMedida">Unidade de medida<span style="color: red;">*</span></label>
-              <input name="unidadeMedida" id="unidadeMedida" required matTooltip="Unidade de medida"
-                matTooltipShowDelay="1500" [value]="cadastroServico.taskType.unitMeasurement.name" disabled />
+              <label for="unidadeMedida">{{ 'SERVICE.UNIDADE_MEDIDA' | translate }}<span
+                  style="color: red;">*</span></label>
+              <input name="unidadeMedida" id="unidadeMedida" required
+                [matTooltip]="'SERVICE.UNIDADE_MEDIDA' | translate" matTooltipShowDelay="1500"
+                [value]="cadastroServico.taskType.unitMeasurement.name" disabled />
               <input type="hidden" [(ngModel)]="cadastroServico.taskType.unitMeasurement" name="unitMeasurement" />
             </div>
           </div>
           <div class="row">
             <div class="col-3">
-              <label for="valorUnitario">Valor unitário<span style="color: red;">*</span></label>
+              <label for="valorUnitario">{{ 'SERVICE.VALOR_UNITARIO' | translate }}<span
+                  style="color: red;">*</span></label>
               <input #valorUnitario name="valorUnitario" id="valorUnitario" required
-                matTooltip="Valor unitário por unidade de medida" matTooltipShowDelay="1500"
-                [value]="cadastroServico.unitaryValue | real"
+                [matTooltip]="'SERVICE.VALOR_UNITARIO_TOOLTIP' | translate" matTooltipShowDelay="1500"
+                [(ngModel)]="cadastroServico.unitaryValue" currencyMask
+                [options]="{ prefix: currencyPrefix, thousands: '.', decimal: ',' }"
                 (blur)="cadastroServico.unitaryValue = parseValue(valorUnitario.value); calcularValorTotal()" />
             </div>
             <div class="col-3">
-              <label for="valorTotal">Valor Total<span style="color: red;">*</span></label>
-              <input name="valorTotal" id="valorTotal" required matTooltip="Valor total" matTooltipShowDelay="1500"
-                [(ngModel)]="cadastroServico.amount" currencyMask
-                [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" readonly />
+              <label for="valorTotal">{{ 'SERVICE.VALOR_TOTAL' | translate }}<span style="color: red;">*</span></label>
+              <input name="valorTotal" id="valorTotal" required [matTooltip]="'SERVICE.VALOR_TOTAL' | translate"
+                matTooltipShowDelay="1500" [(ngModel)]="cadastroServico.amount" currencyMask
+                [options]="{ prefix: currencyPrefix, thousands: '.', decimal: ',' }" readonly />
             </div>
             <div class="col-3">
-              <label for="dataPrevistaInicio">Previsão de início<span style="color: red;">*</span></label>
+              <label for="dataPrevistaInicio">{{ 'SERVICE.DATA_PREVISTA_INICIO' | translate }}<span
+                  style="color: red;">*</span></label>
               <input style="text-align: end; direction: rtl;" name="dataPrevistaInicio" id="dataPrevistaInicio" required
-                matTooltip="Data prevista para o início do serviço" matTooltipShowDelay="1500"
+                [matTooltip]="'SERVICE.DATA_PREVISTA_INICIO_TOOLTIP' | translate" matTooltipShowDelay="1500"
                 [(ngModel)]="cadastroServico.expectedStartDate" type="date" />
             </div>
             <div class="col-3">
-              <label for="dataPrevistaTermino">Previsão de término<span style="color: red;">*</span></label>
+              <label for="dataPrevistaTermino">{{ 'SERVICE.DATA_PREVISTA_TERMINO' | translate }}<span
+                  style="color: red;">*</span></label>
               <input style="text-align: end; direction: rtl;" name="dataPrevistaTermino" id="dataPrevistaTermino"
-                required matTooltip="Data prevista para o início do serviço" matTooltipShowDelay="1500"
+                required [matTooltip]="'SERVICE.DATA_PREVISTA_TERMINO_TOOLTIP' | translate" matTooltipShowDelay="1500"
                 [(ngModel)]="cadastroServico.expectedEndDate" type="date" />
             </div>
           </div>
           <div class="row">
             <div class="col-12">
-              <label for="comments">Observações</label>
-              <textarea type="text" name="comments" id="comments" matTooltip="Observações gerais"
-                matTooltipShowDelay="1500" [(ngModel)]="cadastroServico.obs"
-                placeholder="Qualquer observação pertinente"></textarea>
+              <label for="comments">{{ 'LABEL.OBSERVATIONS' | translate }}</label>
+              <textarea type="text" name="comments" id="comments"
+                [matTooltip]="'SERVICE.GENERAL_OBSERVATIONS' | translate" matTooltipShowDelay="1500"
+                [(ngModel)]="cadastroServico.obs"
+                [placeholder]="'SERVICE.RELEVANT_OBSERVATIONS' | translate"></textarea>
             </div>
           </div>
           <div class="row">
             <div class="col-6">
-              <button class="btn-cancel" type="button" (click)="limparCampos()">Limpar campos</button>
+              <button class="btn-cancel" type="button" (click)="limparCampos()">{{ 'SERVICE.LIMPAR_CAMPOS' | translate
+                }}</button>
             </div>
             <div class="col-6">
-              <button class="btn-confirm" type="buttton">Cadastrar</button>
+              <button class="btn-confirm" type="button">{{ 'SERVICE.CADASTRAR' | translate }}</button>
             </div>
           </div>
         </form>
@@ -169,55 +181,87 @@
       <div *ngIf="servicoTab == 1" class="tab-pane fade" [ngClass]="{'show active': servicoTab == 1}" id="cadastro">
         <div class="row centralizar-conteudo">
           <div class="col-12 titulo">
-            <h1>Cadastro de Serviços em Lote</h1>
+            <h1>{{ 'SERVICE.CADASTRO_SERVICOS_LOTE' | translate }}</h1>
             <hr style="margin-left: 12.5px; margin-right: 12.5px;">
           </div>
         </div>
         <div class="row">
-          <div class="col-12" style= "margin-left: 15px;">
-            <h2><span class="material-symbols-outlined" style="color: red; vertical-align: middle;">
-              warning
+          <div class="col-12" style="margin-left: 15px;">
+            <h2>
+              <span class="material-symbols-outlined" style="color: red; vertical-align: middle;">
+                warning
               </span>
-              Informações gerais sobre o cadastro de serviços em lote:</h2>
+              {{ 'SERVICE.INFO_GERAL_CADASTRO_LOTE' | translate }}
+            </h2>
             <ul>
-              <li><p>Você pode fazer a inclusão de vários serviços através de um arquivo no formato .xlsx;</p></li>
-              <li><p>O arquivo deve serguir o padrão da planilha fornecida pelo sistema. <a href="../../assets/Planilha_modelo_servico_em_lote.xlsx">Arquivo disponível aqui</a>;</p></li>
-              <li><p>O nome da <b>Construtora</b> e o nome do <b>Centro de Custo</b> são obrigatórios e devem estar iguais aos cadastrados no sistema;</p></li>
-              <li><p>Os campos <b>1º Nível de localização</b> e <b>2º Nível de localização</b> são de preenchimento obrigatório;</p></li>
-              <li><p>Os campos <b>3º Nível de localização</b> e <b>4º Nível de localização</b> são de preenchimento opcional;</p></li>
-              <li><p>Qualquer distribuição de localização diferente da cadastrada no sistema será cadastrada como um novo local;</p></li>
-              <li><p>O <b>Tipo de Serviço</b> é de preenchimento obrigatório e deve ser igual a um já cadastrado no sistema;</p></li>
-              <li><p>A <b>Dimensão</b> deve ser um número maior ou igual a zero;</p></li>
-              <li><p>A <b>Unidade de medída</b> é uma sigla de preenchimento obrigatório e deve ser uma já existente no sistema;</p></li>
-              <li><p>O <b>Valor Unitário</b> deve ser um número maior ou igual a zero;</p></li>
-              <li><p>A <b>Data Prevista de Início</b> e a <b>Data Prevista de Término</b> são de preenchimento obrigatório;</p></li>
-              <li><p>O campo <b>Valor total</b> é a multiplicação da dimensão pelo valor unitário, seu preenchimento é opcional pois o sistema já faz este cálculo;</p></li>
-              <li><p><b>A alteração na ordem ou quantia de colunas da planilha modelo fornecida ocasionarão em erro no cadastro.</b></p></li>
-              <li><p><b>Se a planilha inserida não atender quaisquer um dos requisitos citados acima a inclusão não será realizada!</b></p></li>
+              <li>
+                <p>{{ 'SERVICE.INCLUSAO_VARIOS_SERVICOS' | translate }}</p>
+              </li>
+              <li>
+                <p>{{ 'SERVICE.ARQUIVO_PADRAO_PLANILHA' | translate }} <a
+                    href="../../assets/Planilha_modelo_servico_em_lote.xlsx">{{ 'SERVICE.ARQUIVO_DISPONIVEL_AQUI' |
+                    translate }}</a></p>
+              </li>
+              <li>
+                <p>{{ 'SERVICE.NOME_CONSTRUTORA_CENTRO_CUSTO' | translate }}</p>
+              </li>
+              <li>
+                <p>{{ 'SERVICE.CAMPOS_OBRIGATORIOS_NIVEL1_NIVEL2' | translate }}</p>
+              </li>
+              <li>
+                <p>{{ 'SERVICE.CAMPOS_OPCIONAIS_NIVEL3_NIVEL4' | translate }}</p>
+              </li>
+              <li>
+                <p>{{ 'SERVICE.LOCALIZACAO_DIFERENTE' | translate }}</p>
+              </li>
+              <li>
+                <p>{{ 'SERVICE.TIPO_SERVICO_OBRIGATORIO' | translate }}</p>
+              </li>
+              <li>
+                <p>{{ 'SERVICE.DIMENSAO_MAIOR_ZERO' | translate }}</p>
+              </li>
+              <li>
+                <p>{{ 'SERVICE.UNIDADE_MEDIDA_SIGLA' | translate }}</p>
+              </li>
+              <li>
+                <p>{{ 'SERVICE.VALOR_UNITARIO_MAIOR_ZERO' | translate }}</p>
+              </li>
+              <li>
+                <p>{{ 'SERVICE.DATA_PREVISTA_INICIO_TERMINO' | translate }}</p>
+              </li>
+              <li>
+                <p>{{ 'SERVICE.VALOR_TOTAL_OPCIONAL' | translate }}</p>
+              </li>
+              <li>
+                <p><b>{{ 'SERVICE.ALTERACAO_ORDEM_COLUNAS' | translate }}</b></p>
+              </li>
+              <li>
+                <p><b>{{ 'SERVICE.PLANILHA_NAO_ATENDE_REQUISITOS' | translate }}</b></p>
+              </li>
             </ul>
           </div>
         </div>
         <div class="row">
           <div class="col-12">
             <hr style="margin-left: 25px;">
-            <h2 style="padding-left: 15px;">Upload de arquivo de serviços em lote</h2>
+            <h2 style="padding-left: 15px;">{{ 'SERVICE.UPLOAD_ARQUIVO_SERVICOS_LOTE' | translate }}</h2>
           </div>
         </div>
         <div class="row centralizar-conteudo">
           <div class="col-12">
-            <input style="display: none;" type="file" id="arquivoXLSX" name="arquivoXLSX" accept=".xlsx" 
-            (change)="onFileChange($event)" #arquivoXLSX>
-            <div class="image-container centralizar-conteudo" 
-            (dragover)="onDragOver($event)" 
-            (drop)="onFileDrop($event)">
-            <img class="xlsx-file" src="..\assets\EmptyXLSX.png" width="150px" 
-              (click)="triggerFileInput()" matTooltip="Clique ou arraste para carregar arquivo .xlsx">
-          </div>
+            <input style="display: none;" type="file" id="arquivoXLSX" name="arquivoXLSX" accept=".xlsx"
+              (change)="onFileChange($event)" #arquivoXLSX>
+            <div class="image-container centralizar-conteudo" (dragover)="onDragOver($event)"
+              (drop)="onFileDrop($event)">
+              <img class="xlsx-file" src="..\assets\EmptyXLSX.png" width="150px" (click)="triggerFileInput()"
+                matTooltip="{{ 'SERVICE.CLIQUE_OU_ARRASTE' | translate }}">
+            </div>
           </div>
         </div>
         <div class="row centralizar-conteudo" *ngIf="arquivoSelecionado">
           <div class="col-12">
-            <button class="btn-confirm" type="buttton" (click)="cadastrarEmLote()">Cadastrar em Lote</button>
+            <button class="btn-confirm" type="button" (click)="cadastrarEmLote()">{{ 'SERVICE.CADASTRAR_EM_LOTE' |
+              translate }}</button>
           </div>
         </div>
       </div>
@@ -226,46 +270,46 @@
       <div *ngIf="servicoTab == 2" [ngClass]="{'show active': servicoTab == 2}" class="tab-pane fade" id="consulta">
         <div class="row centralizar-conteudo">
           <div class="col-12 titulo">
-            <h1>Serviços cadastrados</h1>
+            <h1>{{ 'SERVICE.SERVICOS_CADASTRADOS' | translate }}</h1>
           </div>
           <div class="row" *ngIf="listaServicos.length > 0">
             <div class="col-12 table-responsive">
               <table mat-table [dataSource]="listaServicos" class="mat-elevation-z8">
                 <ng-container matColumnDef="acoes">
-                  <th mat-header-cell *matHeaderCellDef width="125px">Ações</th>
+                  <th mat-header-cell *matHeaderCellDef width="125px">{{ 'SERVICE.ACOES' | translate }}</th>
                   <td mat-cell *matCellDef="let element">
-                    <mat-icon class="icones-acoes" matTooltip="Visualizar detalhes" matTooltipShowDelay="1500"
-                      (click)="visualizarDetalhes(element)" style="cursor: pointer;">
+                    <mat-icon class="icones-acoes" matTooltip="{{ 'SERVICE.VISUALIZAR_DETALHES' | translate }}"
+                      matTooltipShowDelay="1500" (click)="visualizarDetalhes(element)" style="cursor: pointer;">
                       visibility
                     </mat-icon>
-                    <mat-icon class="icones-acoes" matTooltip="Editar" matTooltipShowDelay="1500"
-                      (click)="modalEditarServico(element)" style="cursor: pointer;">
+                    <mat-icon class="icones-acoes" matTooltip="{{ 'SERVICE.EDITAR' | translate }}"
+                      matTooltipShowDelay="1500" (click)="modalEditarServico(element)" style="cursor: pointer;">
                       edit-note
                     </mat-icon>
-                    <mat-icon class="icones-acoes" matTooltip="Excluir" matTooltipShowDelay="1500"
-                      (click)="excluirServico(element.id)" style="cursor: pointer;">
+                    <mat-icon class="icones-acoes" matTooltip="{{ 'SERVICE.EXCLUIR' | translate }}"
+                      matTooltipShowDelay="1500" (click)="excluirServico(element.id)" style="cursor: pointer;">
                       delete
                     </mat-icon>
                   </td>
                 </ng-container>
 
                 <ng-container matColumnDef="costCenter">
-                  <th mat-header-cell *matHeaderCellDef>Obra</th>
+                  <th mat-header-cell *matHeaderCellDef>{{ 'SERVICE.OBRA' | translate }}</th>
                   <td mat-cell *matCellDef="let element"> {{element.costCenter.costCenterName}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="locationGroup">
-                  <th mat-header-cell *matHeaderCellDef>1º Nível</th>
+                  <th mat-header-cell *matHeaderCellDef>{{ 'SERVICE.PRIMEIRO_NIVEL' | translate }}</th>
                   <td mat-cell *matCellDef="let element"> {{element.taskLocation.locationGroup}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="subGroup1">
-                  <th mat-header-cell *matHeaderCellDef>2º Nível</th>
+                  <th mat-header-cell *matHeaderCellDef>{{ 'SERVICE.SEGUNDO_NIVEL' | translate }}</th>
                   <td mat-cell *matCellDef="let element"> {{element.taskLocation.subGroup1}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="subGroup2">
-                  <th mat-header-cell *matHeaderCellDef>3º Nível</th>
+                  <th mat-header-cell *matHeaderCellDef>{{ 'SERVICE.TERCEIRO_NIVEL' | translate }}</th>
                   <td mat-cell *matCellDef="let element"> {{element.taskLocation.subGroup2}} </td>
                 </ng-container>
 
@@ -275,12 +319,12 @@
                 </ng-container>
 
                 <ng-container matColumnDef="dimension">
-                  <th mat-header-cell *matHeaderCellDef>Dimensões</th>
+                  <th mat-header-cell *matHeaderCellDef>{{ 'SERVICE.DIMENSOES' | translate }}</th>
                   <td mat-cell *matCellDef="let element"> {{element.dimension}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="unitMeasurement">
-                  <th mat-header-cell *matHeaderCellDef>Und.</th>
+                  <th mat-header-cell *matHeaderCellDef>{{ 'SERVICE.UND' | translate }}</th>
                   <td mat-cell *matCellDef="let element"> {{element.unitMeasurement.name}} </td>
                 </ng-container>
 
@@ -291,9 +335,7 @@
           </div>
           <div class="row centralizar-conteudo" *ngIf="listaServicos.length === 0">
             <div class="col-12 titulo">
-              <h3>
-                Nenhum Serviço encontrado
-              </h3>
+              <h3>{{ 'SERVICE.NENHUM_SERVICO_ENCONTRADO' | translate }}</h3>
             </div>
           </div>
         </div>
@@ -307,63 +349,72 @@
       <div class="row">
         <div class="col-12">
           <hr style="margin-left: 25px;">
-          <h2 style="padding-left: 15px;">Rastreabilidade</h2>
+          <h2 style="padding-left: 15px;">{{ 'SERVICE.RASTREABILIDADE' | translate }}</h2>
         </div>
       </div>
       <div class="row">
         <div class="col-12">
-          <label for="centroDeCusto">Centro de Custo<span style="color: red;">*</span></label>
-          <input name="centroDeCusto" id="centroDeCusto" required type="text" matTooltip="Centro de custo"
-            matTooltipShowDelay="1500" [(ngModel)]="servicoModel.costCenter.costCenterName" disabled />
+          <label for="centroDeCusto">{{ 'SERVICE.CENTRO_DE_CUSTO' | translate }}<span
+              style="color: red;">*</span></label>
+          <input name="centroDeCusto" id="centroDeCusto" required type="text"
+            [matTooltip]="'SERVICE.CENTRO_DE_CUSTO' | translate" matTooltipShowDelay="1500"
+            [(ngModel)]="servicoModel.costCenter.costCenterName" disabled />
         </div>
       </div>
       <div class="row">
         <div class="col-12">
-          <label for="nivel1">1º Nível de localização<span style="color: red;">*</span></label>
-          <input name="nivel1" id="nivel1" required type="text" matTooltip="1º nível de localização do serviço"
-            matTooltipShowDelay="1500" [(ngModel)]="servicoModel.taskLocation.locationGroup" disabled />
+          <label for="nivel1">{{ 'SERVICE.PRIMEIRO_NIVEL_LOCALIZACAO' | translate }}<span
+              style="color: red;">*</span></label>
+          <input name="nivel1" id="nivel1" required type="text"
+            [matTooltip]="'SERVICE.PRIMEIRO_NIVEL_LOCALIZACAO' | translate" matTooltipShowDelay="1500"
+            [(ngModel)]="servicoModel.taskLocation.locationGroup" disabled />
         </div>
       </div>
       <div class="row">
         <div class="col-12">
-          <label for="nivel2">2º Nível de localização<span style="color: red;">*</span></label>
-          <input name="nivel2" id="nivel2" required type="text" matTooltip="2º nível de localização do serviço"
-            matTooltipShowDelay="1500" [(ngModel)]="servicoModel.taskLocation.subGroup1" disabled />
+          <label for="nivel2">{{ 'SERVICE.SEGUNDO_NIVEL_LOCALIZACAO' | translate }}<span
+              style="color: red;">*</span></label>
+          <input name="nivel2" id="nivel2" required type="text"
+            [matTooltip]="'SERVICE.SEGUNDO_NIVEL_LOCALIZACAO' | translate" matTooltipShowDelay="1500"
+            [(ngModel)]="servicoModel.taskLocation.subGroup1" disabled />
         </div>
       </div>
       <div class="row">
         <div class="col-12">
-          <label for="nivel3">3º Nível de localização</label>
-          <input name="nivel3" id="nivel3" required type="text" matTooltip="3º nível de localização do serviço"
-            matTooltipShowDelay="1500" [(ngModel)]="servicoModel.taskLocation.subGroup2" disabled />
+          <label for="nivel3">{{ 'SERVICE.TERCEIRO_NIVEL_LOCALIZACAO' | translate }}</label>
+          <input name="nivel3" id="nivel3" required type="text"
+            [matTooltip]="'SERVICE.TERCEIRO_NIVEL_LOCALIZACAO' | translate" matTooltipShowDelay="1500"
+            [(ngModel)]="servicoModel.taskLocation.subGroup2" disabled />
         </div>
       </div>
       <div class="row">
         <div class="col-12">
-          <label for="nivel4">4º Nível de localização</label>
-          <input name="nivel4" id="nivel4" required type="text" matTooltip="4º nível de localização do serviço"
-            matTooltipShowDelay="1500" [(ngModel)]="servicoModel.taskLocation.subGroup3" disabled />
+          <label for="nivel4">{{ 'SERVICE.QUARTO_NIVEL_LOCALIZACAO' | translate }}</label>
+          <input name="nivel4" id="nivel4" required type="text"
+            [matTooltip]="'SERVICE.QUARTO_NIVEL_LOCALIZACAO' | translate" matTooltipShowDelay="1500"
+            [(ngModel)]="servicoModel.taskLocation.subGroup3" disabled />
         </div>
       </div>
       <div class="row">
         <div class="col-12">
           <hr style="margin-left: 25px;">
-          <h2 style="padding-left: 15px;">Dados do Serviço</h2>
+          <h2 style="padding-left: 15px;">{{ 'SERVICE.SERVICE_DATA' | translate }}</h2>
         </div>
       </div>
       <div *ngIf="indDesabilitaCampos" class="row">
         <div class="col-12">
-          <label for="tipoServico">Tipo de Serviço<span style="color: red;">*</span></label>
-          <input name="tipoServico" id="tipoServico" required type="text" matTooltip="Tipo de serviço"
-            matTooltipShowDelay="1500" [(ngModel)]="servicoModel.taskType.taskTypeName" disabled />
+          <label for="tipoServico">{{ 'SERVICE.SERVICE_TYPE' | translate }}<span style="color: red;">*</span></label>
+          <input name="tipoServico" id="tipoServico" required type="text"
+            [matTooltip]="'SERVICE.SERVICE_TYPE' | translate" matTooltipShowDelay="1500"
+            [(ngModel)]="servicoModel.taskType.taskTypeName" disabled />
         </div>
       </div>
       <div *ngIf="!indDesabilitaCampos" class="row">
         <div class="col-12">
-          <label for="tipoServico">Tipo de Serviço<span style="color: red;">*</span></label>
-          <select name="tipoServico" id="tipoServico" required matTooltip="Tipo de Serviço" matTooltipShowDelay="1500"
-            [(ngModel)]="servicoModel.taskType" [disabled]="indDesabilitaCampos">
-            <option value="" disabled selected>Selecione um tipo de serviço</option>
+          <label for="tipoServico">{{ 'SERVICE.SERVICE_TYPE' | translate }}<span style="color: red;">*</span></label>
+          <select name="tipoServico" id="tipoServico" required [matTooltip]="'SERVICE.SERVICE_TYPE' | translate"
+            matTooltipShowDelay="1500" [(ngModel)]="servicoModel.taskType" [disabled]="indDesabilitaCampos">
+            <option value="" disabled selected>{{ 'SERVICE.SELECIONE_TIPO_SERVICO' | translate }}</option>
             <option *ngFor="let tipos of listaTiposServico;" [ngValue]="tipos">
               {{tipos.taskTypeName}}</option>
           </select>
@@ -371,14 +422,14 @@
       </div>
       <div class="row">
         <div class="col-6">
-          <label for="dimensao">Dimensão<span style="color: red;">*</span></label>
+          <label for="dimensao">{{ 'SERVICE.DIMENSAO' | translate }}<span style="color: red;">*</span></label>
           <input name="dimensao" id="dimensao" required type="number" min="0" step="0.01"
-            matTooltip="Tamanho do serviço a ser executado" matTooltipShowDelay="1500"
+            matTooltip="'SERVICE.TAMANHO_SERVICO' | translate" matTooltipShowDelay="1500"
             [(ngModel)]="servicoModel.dimension" [disabled]="indDesabilitaCampos"
             (ngModelChange)="servicoModel.dimension = servicoModel.dimension < 0 ? 0 : servicoModel.dimension; calcularValorTotalModal()" />
         </div>
         <div class="col-6">
-          <label for="unidadeMedida">Und. de medida<span style="color: red;">*</span></label>
+          <label for="unidadeMedida">{{ 'TABLE.UNIT_OF_MEASURE' | translate}}<span style="color: red;">*</span></label>
           <input name="unidadeMedida" id="unidadeMedida" required matTooltip="Unidade de medida"
             matTooltipShowDelay="1500" [value]="servicoModel.taskType.unitMeasurement.name" disabled />
           <input type="hidden" [(ngModel)]="servicoModel.taskType.unitMeasurement" name="unitMeasurement" />
@@ -386,42 +437,42 @@
       </div>
       <div class="row">
         <div class="col-6">
-          <label for="valorUnitario">Valor unitário<span style="color: red;">*</span></label>
+          <label for="valorUnitario">{{ 'SERVICE.VALOR_UNITARIO' | translate }}<span
+              style="color: red;">*</span></label>
           <input #valorUnitario name="valorUnitario" id="valorUnitario" required
-            matTooltip="Valor unitário por unidade de medida" matTooltipShowDelay="1500"
+            matTooltip="'SERVICE.VALOR_UNITARIO_TOOLTIP | translate" matTooltipShowDelay="1500"
             [value]="servicoModel.unitaryValue | real" [disabled]="indDesabilitaCampos"
             (blur)="servicoModel.unitaryValue = parseValue(valorUnitario.value); calcularValorTotalModal()" />
         </div>
         <div class="col-6">
-          <label for="valorTotal">Valor Total<span style="color: red;">*</span></label>
-          <input name="valorTotal" id="valorTotal" required matTooltip="Valor total" matTooltipShowDelay="1500"
-            [(ngModel)]="servicoModel.amount" currencyMask disabled
-            [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" readonly />
+          <label for="valorTotal">{{ 'SERVICE.VALOR_TOTAL' | translate }}<span style="color: red;">*</span></label>
+          <input name="valorTotal" id="valorTotal" required matTooltip="{{ 'SERVICE.VALOR_TOTAL' | translate }}"
+            matTooltipShowDelay="1500" [(ngModel)]="servicoModel.amount" currencyMask disabled
+            [options]="{ prefix: currencyPrefix, thousands: '.', decimal: ',' }" readonly />
         </div>
       </div>
       <div class="row">
         <div class="col-6">
-          <label for="dataPrevistaInicio">Prev. de Início<span style="color: red;">*</span></label>
+          <label for="dataPrevistaInicio">{{ 'SERVICE.PREVISTA_INICIO' | translate }}<span style="color: red;">*</span></label>
           <input style="text-align: end; direction: rtl;" name="dataPrevistaInicio" id="dataPrevistaInicio" required
-            matTooltip="Data prevista para o início do serviço" matTooltipShowDelay="1500"
+            matTooltip="{{ 'SERVICE.DATA_PREVISTA_INICIO' | translate }}" matTooltipShowDelay="1500"
             [(ngModel)]="servicoModel.expectedStartDate" type="date" [disabled]="indDesabilitaCampos" />
         </div>
         <div class="col-6">
-          <label for="dataPrevistaTermino">Prev. de Término<span style="color: red;">*</span></label>
+          <label for="dataPrevistaTermino">{{ 'SERVICE.PREVISTA_TERMINO' | translate }}<span style="color: red;">*</span></label>
           <input style="text-align: end; direction: rtl;" name="dataPrevistaTermino" id="dataPrevistaTermino" required
-            matTooltip="Data prevista para o início do serviço" matTooltipShowDelay="1500"
+            matTooltip="{{ 'SERVICE.DATA_PREVISTA_TERMINO' | translate }}" matTooltipShowDelay="1500"
             [(ngModel)]="servicoModel.expectedEndDate" type="date" [disabled]="indDesabilitaCampos" />
         </div>
       </div>
       <div class="row">
         <div class="col-12">
-          <label for="comments">Observações</label>
-          <textarea type="text" name="comments" id="comments" matTooltip="Observações gerais" matTooltipShowDelay="1500"
-            [(ngModel)]="servicoModel.obs" placeholder="Qualquer observação pertinente"
+          <label for="comments">{{ 'SERVICE.OBSERVACOES' | translate }}</label>
+          <textarea type="text" name="comments" id="comments" matTooltip="{{ 'SERVICE.OBSERVACOES_GERAIS' | translate }}" matTooltipShowDelay="1500"
+            [(ngModel)]="servicoModel.obs" placeholder="{{ 'SERVICE.PLACEHOLDER_OBSERVACOES' | translate }}"
             [disabled]="indDesabilitaCampos"></textarea>
         </div>
       </div>
     </div>
   </div>
 </div>
-
