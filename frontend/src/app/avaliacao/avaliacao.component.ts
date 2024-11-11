@@ -96,6 +96,7 @@ export class AvaliacaoComponent implements OnInit {
   executorPercentages: number[] = [];
   valorProducaoModel = new ValorProducaoModel();
   valoresProducao: ValorProducaoModel[] = [];
+  currentLang: string = 'en';
 
   constructor(
     private avaliacaoService: AvaliacaoService,
@@ -105,7 +106,7 @@ export class AvaliacaoComponent implements OnInit {
     private usuarioService: UsuarioService,
     private valorProducaoService: ValorProducaoService,
     private spinner: NgxSpinnerService,
-    private translate: TranslateService
+    private translate: TranslateService,
   ) { }
 
   ngOnInit(): void {
@@ -499,8 +500,13 @@ export class AvaliacaoComponent implements OnInit {
   modalAvaliarServico(servico: ServicoModel) {
     this.servicoSelecionadoAvaliacao = cloneDeep(servico);//Clonando objeto e não a sua referência
     this.renderModalAvaliacaoServico = true;
-    this.expectedStartDateFormatada = formatDate(this.servicoSelecionadoAvaliacao.expectedStartDate, "dd/MM/yyyy", "pt-BR");
-    this.expectedEndDateFormatada = formatDate(this.servicoSelecionadoAvaliacao.expectedEndDate, "dd/MM/yyyy", "pt-BR");
+    const currentLang = this.translate.currentLang || 'pt-br';
+    this.currentLang = currentLang;
+    this.translate.onLangChange.subscribe((event) => {
+      this.currentLang = event.lang;
+    });
+    this.expectedStartDateFormatada = formatDate(this.servicoSelecionadoAvaliacao.expectedStartDate, "dd/MM/yyyy", currentLang);
+    this.expectedEndDateFormatada = formatDate(this.servicoSelecionadoAvaliacao.expectedEndDate, "dd/MM/yyyy", currentLang);
     this.avaliacaoModel.task = this.servicoSelecionadoAvaliacao;
     Swal.fire({
       title: this.translate.instant('EVALUATION.SERVICE_EVALUATION'),

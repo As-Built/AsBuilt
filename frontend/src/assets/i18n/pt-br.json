@@ -240,5 +240,24 @@
     "PLACEHOLDER": {
         "APPROVED": "Aprovado",
         "REJECTED": "Reprovado"
+    },
+    "SETTINGS": {
+        "USER_SETTINGS": "Configurações de Usuário",
+        "USER": "Usuário",
+        "SELECT_USER": "Selecione um usuário",
+        "REMUNERATION": "Remuneração",
+        "CURRENCY_PREFIX": "R$ ",
+        "LAST_UPDATE": "Última atualização:",
+        "SAVE": "Salvar",
+        "ACCESS_PROFILE": "Perfil de Acesso",
+        "CURRENT_ACCESS_PROFILE": "Perfil de acesso atual: ",
+        "ADD_ACCESS_PROFILE": "Adicionar Perfil de Acesso:",
+        "SELECT_ACCESS_PROFILE": "Selecione um perfil de acesso",
+        "ADD_ACCESS_PROFILE_BUTTON": "Adicionar perfil de acesso",
+        "NEW_REMUNERATION_ERROR": "A nova remuneração deve ser maior que a atual!",
+        "UPDATE_SUCCESS": "Atualização realizada com sucesso!",
+        "UNKNOWN_ERROR": "Erro desconhecido",
+        "NO_USER_SELECTED": "Nenhum usuário selecionado!",
+        "ROLE_ADDED_SUCCESS": "Role adicionada com sucesso!"
     }
 }

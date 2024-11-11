@@ -601,13 +601,13 @@
             <div class="col-3">
                 <label for="startDateAvaliacao">{{ 'EVALUATION.REAL_START_DATE' | translate }}<span style="color: red;">*</span></label>
                 <input #startDateAvaliacao style="text-align: center;" name="startDateAvaliacao" id="startDateAvaliacao"
-                    required [matTooltip]="'EVALUATION.EXPECTED_START_DATE' | translate" matTooltipShowDelay="1500"
+                    required [matTooltip]="'EVALUATION.REAL_START_DATE' | translate" matTooltipShowDelay="1500"
                     [(ngModel)]="servicoSelecionadoAvaliacao.startDate" type="date" />
             </div>
             <div class="col-3">
                 <label for="finalDateAvaliacao">{{ 'EVALUATION.REAL_END_DATE' | translate }}<span style="color: red;">*</span></label>
                 <input #finalDateAvaliacao style="text-align: center;" name="finalDateAvaliacao" id="finalDateAvaliacao"
-                    required [matTooltip]="'EVALUATION.SERVICE_START_DATE' | translate" matTooltipShowDelay="1500"
+                    required [matTooltip]="'EVALUATION.REAL_END_DATE' | translate" matTooltipShowDelay="1500"
                     [(ngModel)]="servicoSelecionadoAvaliacao.finalDate" type="date" />
             </div>
         </div>
