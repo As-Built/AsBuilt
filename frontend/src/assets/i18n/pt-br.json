@@ -58,7 +58,10 @@
     "CONTACT_US": "Contate-nos para verificar os planos disponíveis para sua empresa!"
     },
     "NAVBAR": {
-        "REGISTER_LOGIN": "Cadastre-se | Login"
+        "REGISTER_LOGIN": "Cadastre-se | Login",
+        "SETTINGS": "Configurações",
+        "USER_PROFILE": "Perfil de usuário",
+        "LANGUAGE": "Idioma"
     },
     "LOGIN": {
         "FORGOT_PASSWORD": "Esqueci minha senha",
@@ -100,5 +103,30 @@
         "USER_CPF_EXISTS": "Já existe um usuário cadastrado com este CPF!",
         "USER_EMAIL_EXISTS": "Já existe um usuário cadastrado com este email!",
         "USER_REGISTRATION_ERROR": "Erro ao cadastrar o usuário!"
+    },
+    "USER_PROFILE": {
+        "HEADER": "Perfil de Usuário",
+        "CHANGE_PROFILE_PICTURE_TOOLTIP": "Clique para alterar imagem de perfil de usuário",
+        "UPDATE_PROFILE_PICTURE_BUTTON": "Atualizar imagem de perfil",
+        "USER_DATA_HEADER": "Dados do usuário",
+        "NAME_LABEL": "Nome",
+        "NAME_TOOLTIP": "Nome completo",
+        "PHONE_LABEL": "Telefone",
+        "PHONE_TOOLTIP": "Telefone",
+        "ADDRESS_HEADER": "Endereço",
+        "CEP_LABEL": "CEP",
+        "CEP_TOOLTIP": "CEP",
+        "LOGRADOURO_LABEL": "Logradouro",
+        "LOGRADOURO_PLACEHOLDER": "Rua Exemplo",
+        "NUMERO_LABEL": "Número",
+        "NUMERO_TOOLTIP": "Para 'Sem Número' inserir '0'",
+        "CIDADE_LABEL": "Cidade",
+        "CIDADE_TOOLTIP": "Cidade",
+        "UF_LABEL": "UF",
+        "UPDATE_BUTTON": "Atualizar dados",
+        "IMAGE_FORMAT_ERROR": "Por favor, selecione uma imagem em formato .png ou .jpg",
+        "PROFILE_PICTURE_UPDATED_SUCCESS": "Foto de perfil atualizada com sucesso!",
+        "UPDATE_SUCCESS": "Atualização realizada com sucesso!",
+        "INVALID_CPF": "CPF inválido!"
     }
 }

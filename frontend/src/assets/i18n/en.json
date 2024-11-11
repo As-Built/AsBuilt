@@ -58,7 +58,10 @@
       "CONTACT_US": "Contact us to check the available plans for your company!"
     },
     "NAVBAR": {
-      "REGISTER_LOGIN": "Register | Login"
+      "REGISTER_LOGIN": "Register | Login",
+      "SETTINGS": "Settings",
+      "USER_PROFILE": "User Profile",
+      "LANGUAGE": "Language"
     },
     "LOGIN": {
       "FORGOT_PASSWORD": "Forgot my password",
@@ -100,5 +103,30 @@
       "USER_CPF_EXISTS": "A user with same CPF already exists",
       "USER_EMAIL_EXISTS": "A user with same EMAIL already exists",
       "USER_REGISTRATION_ERROR": "Error registering the user!"
+    },
+    "USER_PROFILE": {
+      "HEADER": "User Profile",
+      "CHANGE_PROFILE_PICTURE_TOOLTIP": "Click to change user profile picture",
+      "UPDATE_PROFILE_PICTURE_BUTTON": "Update profile picture",
+      "USER_DATA_HEADER": "User Data",
+      "NAME_LABEL": "Name",
+      "NAME_TOOLTIP": "Full name",
+      "PHONE_LABEL": "Phone",
+      "PHONE_TOOLTIP": "Phone",
+      "ADDRESS_HEADER": "Address",
+      "CEP_LABEL": "ZIP Code",
+      "CEP_TOOLTIP": "ZIP Code",
+      "LOGRADOURO_LABEL": "Street",
+      "LOGRADOURO_PLACEHOLDER": "Example Street",
+      "NUMERO_LABEL": "Number",
+      "NUMERO_TOOLTIP": "For 'No Number' enter '0'",
+      "CIDADE_LABEL": "City",
+      "CIDADE_TOOLTIP": "City",
+      "UF_LABEL": "State",
+      "UPDATE_BUTTON": "Update Data",
+      "IMAGE_FORMAT_ERROR": "Please select an image in .png or .jpg format",
+      "PROFILE_PICTURE_UPDATED_SUCCESS": "Profile picture updated successfully!",
+      "UPDATE_SUCCESS": "Update successful!",
+      "INVALID_CPF": "Invalid CPF!"
     }
   }

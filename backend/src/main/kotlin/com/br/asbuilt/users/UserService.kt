@@ -55,6 +55,9 @@ class UserService(
         }
         if (existingUser != null) {
             var isChanged = false
+            var cpfChanged = false
+            var emailChanged = false
+            var addressChanged = false
 
             if (userRequest.name != existingUser.name) {
                 existingUser.name = userRequest.name
@@ -64,11 +67,13 @@ class UserService(
             if (userRequest.email != existingUser.email) {
                 existingUser.email = userRequest.email
                 isChanged = true
+                emailChanged = true
             }
 
             if (userRequest.cpf != existingUser.cpf) {
-                existingUser.name = userRequest.name
+                existingUser.cpf = userRequest.cpf
                 isChanged = true
+                cpfChanged = true
             }
 
             if (userRequest.phone != existingUser.phone) {
@@ -79,6 +84,7 @@ class UserService(
             if (userRequest.userAddress != existingUser.userAddress) {
                 existingUser.userAddress = userRequest.userAddress
                 isChanged = true
+                addressChanged = true
             }
 
             if (userRequest.systemLanguage != existingUser.systemLanguage) {
@@ -88,15 +94,33 @@ class UserService(
 
             if (isChanged) {
 
+                if (cpfChanged) {
+                    if (repository.findByCPF(userRequest.cpf) != null) {
+                        log.info("A user with same CPF already exists")
+                        throw BadRequestException("A user with same CPF already exists")
+                    }
+                }
+
+                if (emailChanged) {
+                    if (repository.findByEmail(userRequest.email) != null) {
+                        log.info("A user with same EMAIL already exists")
+                        throw BadRequestException("A user with same EMAIL already exists")
+                    }
+                }
+
                 val newAddress = userRequest.userAddress
                 newAddress.id = userRequest.userAddress.id
 
-                val savedAddress = addressRepository.save(newAddress)
-                    .also { log.info("Address updated: {}", it.id)}
+                val savedAddress = newAddress.let {
+                    addressRepository.save(it)
+                        .also { log.info("Address updated: {}", it.id)}
+                }
+
                 userRequest.userAddress = savedAddress
 
                 val updateUser = repository.save(existingUser)
                 log.info("User updated: {}", updateUser.id)
+
                 return updateUser
             }
         }
