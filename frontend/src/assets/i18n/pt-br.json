@@ -361,5 +361,26 @@
         "ERRO_TITULO": "Erro",
         "ERRO_NENHUM_ARQUIVO": "Nenhum arquivo selecionado",
         "ERRO_FORMATO_ARQUIVO": "Somente arquivos em formato .xlsx são aceitos!"
+    },
+    "UNIT-OF-MEASURE": {
+        "CONSULTA": "Consulta",
+        "CADASTRO_TITULO": "Cadastro de Unidades de Medida",
+        "SIGLA_UNIDADE_MEDIDA": "Sigla da Unidade de Medida",
+        "PLACEHOLDER_SIGLA": "un",
+        "DESCRICAO_UNIDADE_MEDIDA": "Descrição da Unidade de Medida",
+        "PLACEHOLDER_DESCRICAO": "Descrição sucinta",
+        "CADASTRAR": "Cadastrar",
+        "UNIDADES_CADASTRADAS": "Unidades de Medida Cadastradas",
+        "SIGLA": "Sigla",
+        "DESCRICAO": "Descrição",
+        "NENHUMA_UNIDADE_ENCONTRADA": "Nenhuma Unidade de Medida encontrada",
+        "CADASTRO_SUCESSO": "Cadastro realizado com sucesso!",
+        "UNIDADE_EXISTENTE": "Já existe uma unidade de medida com essa sigla!",
+        "SIGLA_OBRIGATORIA": "O campo 'Sigla' é obrigatório!",
+        "DESCRICAO_OBRIGATORIA": "O campo 'Descrição' é obrigatório!",
+        "SIGLA_MIN_CARACTERES": "O campo 'Sigla da Unidade de Medida' deve ter no mínimo 2 caracteres!",
+        "SIGLA_MAX_CARACTERES": "O campo 'Sigla da Unidade de Medida' deve ter no máximo 4 caracteres!",
+        "DESCRICAO_MIN_CARACTERES": "O campo 'Descrição da Unidade de Medida' deve ter no mínimo 6 caracteres!",
+        "DESCRICAO_MAX_CARACTERES": "O campo 'Descrição da Unidade de Medida' deve ter no máximo 254 caracteres!"
     }
 }

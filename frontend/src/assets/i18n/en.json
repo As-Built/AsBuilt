@@ -360,5 +360,26 @@
       "ERRO_TITULO": "Error",
       "ERRO_NENHUM_ARQUIVO": "No file selected",
       "ERRO_FORMATO_ARQUIVO": "Only .xlsx format files are accepted!"
+    },
+    "UNIT-OF-MEASURE": {
+      "CONSULTA": "Consult",
+      "CADASTRO_TITULO": "Unit of Measure Registration",
+      "SIGLA_UNIDADE_MEDIDA": "Unit of Measure Abbreviation",
+      "PLACEHOLDER_SIGLA": "unit",
+      "DESCRICAO_UNIDADE_MEDIDA": "Unit of Measure Description",
+      "PLACEHOLDER_DESCRICAO": "Brief description",
+      "CADASTRAR": "Register",
+      "UNIDADES_CADASTRADAS": "Registered Units of Measure",
+      "SIGLA": "Abbreviation",
+      "DESCRICAO": "Description",
+      "NENHUMA_UNIDADE_ENCONTRADA": "No Unit of Measure found",
+      "CADASTRO_SUCESSO": "Registration successful!",
+      "UNIDADE_EXISTENTE": "A unit of measure with this abbreviation already exists!",
+      "SIGLA_OBRIGATORIA": "The 'Abbreviation' field is required!",
+      "DESCRICAO_OBRIGATORIA": "The 'Description' field is required!",
+      "SIGLA_MIN_CARACTERES": "The 'Unit of Measure Abbreviation' field must have at least 2 characters!",
+      "SIGLA_MAX_CARACTERES": "The 'Unit of Measure Abbreviation' field must have at most 4 characters!",
+      "DESCRICAO_MIN_CARACTERES": "The 'Unit of Measure Description' field must have at least 6 characters!",
+      "DESCRICAO_MAX_CARACTERES": "The 'Unit of Measure Description' field must have at most 254 characters!"
     }
   }

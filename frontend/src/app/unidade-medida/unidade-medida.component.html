@@ -7,7 +7,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" [ngClass]="{'active': !isCadastroUnidade}" id="consulta-tab" data-toggle="tab"
-                    (click)="mudarAba()">Consulta</a>
+                    (click)="mudarAba()">{{ 'UNIT-OF-MEASURE.CONSULTA' | translate }}</a>
             </li>
         </ul>
         <div class="tab-content">
@@ -15,7 +15,7 @@
                 [ngClass]="{'show active': isCadastroUnidade}" id="cadastro">
                 <div class="row centralizar-conteudo">
                     <div class="col-12 titulo">
-                        <h1>Cadastro de Unidades de Medida</h1>
+                        <h1>{{ 'UNIT-OF-MEASURE.CADASTRO_TITULO' | translate }}</h1>
                         <hr style="margin-left: 25px;">
                     </div>
                 </div>
@@ -23,21 +23,21 @@
                     style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between;">
                     <div class="row">
                         <div class="col-3">
-                            <label for="siglaUnidadeMedida">Sigla da Unidade de Medida<span style="color: red;">*</span></label>
+                            <label for="siglaUnidadeMedida">{{ 'UNIT-OF-MEASURE.SIGLA_UNIDADE_MEDIDA' | translate }}<span style="color: red;">*</span></label>
                             <input type="text" name="siglaUnidadeMedida" id="siglaUnidadeMedida" required
-                                matTooltip="Sigla da Unidade de Medida" matTooltipShowDelay="1500"
-                                [(ngModel)]="cadastroUnidadeDeMedida.name" placeholder="un">
+                                [matTooltip]="'UNIT-OF-MEASURE.SIGLA_UNIDADE_MEDIDA' | translate" matTooltipShowDelay="1500"
+                                [(ngModel)]="cadastroUnidadeDeMedida.name" [placeholder]="'UNIT-OF-MEASURE.PLACEHOLDER_SIGLA' | translate">
                         </div>
                         <div class="col-9">
-                            <label for="descricaoUnidadeMedida">Descrição da Unidade de Medida<span style="color: red;">*</span></label>
+                            <label for="descricaoUnidadeMedida">{{ 'UNIT-OF-MEASURE.DESCRICAO_UNIDADE_MEDIDA' | translate }}<span style="color: red;">*</span></label>
                             <input type="text" name="descricaoUnidadeMedida" id="descricaoUnidadeMedida" required
-                                matTooltip="Descrição da Unidade de Medida" matTooltipShowDelay="1500"
-                                [(ngModel)]="cadastroUnidadeDeMedida.description" placeholder="Descrição sucinta">
+       [matTooltip]="'UNIT-OF-MEASURE.DESCRICAO_UNIDADE_MEDIDA' | translate" matTooltipShowDelay="1500"
+                                [(ngModel)]="cadastroUnidadeDeMedida.description" [placeholder]="'UNIT-OF-MEASURE.PLACEHOLDER_DESCRICAO' | translate">
                         </div>
                     </div>
                     <div class="row centralizar-conteudo">
                         <div class="col-6 centralizar-conteudo">
-                            <button class="btn-confirm" type="submit">Cadastrar</button>
+                            <button class="btn-confirm" type="submit">{{ 'UNIT-OF-MEASURE.CADASTRAR' | translate }}</button>
                         </div>
                     </div>
                 </form>
@@ -45,19 +45,19 @@
             <div *ngIf="!isCadastroUnidade" [ngClass]="{'show active': !isCadastroUnidade}" class="tab-pane fade" id="consulta">
                 <div class="row centralizar-conteudo">
                     <div class="col-12 titulo">
-                        <h1>Unidades de Medida Cadastradas</h1>
+                        <h1>{{ 'UNIT-OF-MEASURE.UNIDADES_CADASTRADAS' | translate }}</h1>
                     </div>
                     <div class="row" *ngIf="listaUnidadeDeMedida.length > 0">
                         <div class="col-12 table-responsive">
                             <table mat-table [dataSource]="listaUnidadeDeMedida" class="mat-elevation-z8">
 
                                 <ng-container matColumnDef="name">
-                                    <th mat-header-cell *matHeaderCellDef>Sigla</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'UNIT-OF-MEASURE.SIGLA' | translate }}</th>
                                     <td mat-cell *matCellDef="let element"> {{element.name}} </td>
                                 </ng-container>
 
                                 <ng-container matColumnDef="description">
-                                    <th mat-header-cell *matHeaderCellDef>Descrição</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'UNIT-OF-MEASURE.DESCRICAO' | translate }}</th>
                                     <td mat-cell *matCellDef="let element"> {{element.description}} </td>
                                 </ng-container>
 
@@ -67,9 +67,7 @@
                         </div>
                     </div>
                     <div class="row centralizar-conteudo" *ngIf="listaUnidadeDeMedida.length === 0">
-                        <h3>
-                            Nenhuma Unidade de Medida encontrada
-                        </h3>
+                        <h3>{{ 'UNIT-OF-MEASURE.NENHUMA_UNIDADE_ENCONTRADA' | translate }}</h3>
                     </div>
                 </div>
             </div>
