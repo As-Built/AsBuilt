@@ -9,6 +9,7 @@ import { ConstrutoraModel } from '../construtora/model/construtora.model';
 import { catchError, firstValueFrom, tap } from 'rxjs';
 import { of } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-centro-custo',
@@ -34,7 +35,8 @@ export class CentroCustoComponent implements OnInit {
     private centroCustoService: CentroCustoService,
     private construtoraService: ConstrutoraService,
     private http: HttpClient,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit(): void {
@@ -94,7 +96,7 @@ export class CentroCustoComponent implements OnInit {
       tap(retorno => {
         this.spinner.hide();
         Swal.fire({
-          text: "Cadastro realizado com sucesso!",
+          text: this.translate.instant('COST-CENTER.SUCCESS-MESSAGE'),
           icon: "success",
           showConfirmButton: false,
           timer: 2000
@@ -105,7 +107,7 @@ export class CentroCustoComponent implements OnInit {
         this.spinner.hide();
         if (error.error == "Cost Center already exists") {
           Swal.fire({
-            text: "Já existe um centro de custo com esse nome!",
+            text: this.translate.instant('COST-CENTER.NAME-EXISTS'),
             icon: "error",
             showConfirmButton: false,
             timer: 2000
@@ -113,7 +115,7 @@ export class CentroCustoComponent implements OnInit {
         }
         if (error.error == "A Cost Center with the same address already exists!") {
           Swal.fire({
-            text: "Já existe um centro de custo cadastrado neste endereço!",
+            text: this.translate.instant('COST-CENTER.ADDRESS-EXISTS'),
             icon: "error",
             showConfirmButton: false,
             timer: 2000
@@ -133,7 +135,7 @@ export class CentroCustoComponent implements OnInit {
       tap(retorno => {
         this.spinner.hide();
         Swal.fire({
-          text: "Atualização realizada com sucesso!",
+          text: this.translate.instant('COST-CENTER.UPDATE-SUCCESS'),
           icon: "success",
           showConfirmButton: false,
           timer: 2000
@@ -157,7 +159,7 @@ export class CentroCustoComponent implements OnInit {
     if (centro.costCenterName === null || centro.costCenterName.trim() === ""
       || centro.costCenterName === undefined) {
       Swal.fire({
-        text: "O campo 'Nome do Centro de Custo' é obrigatório!",
+        text: this.translate.instant('COST-CENTER.NAME-REQUIRED'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -167,7 +169,7 @@ export class CentroCustoComponent implements OnInit {
     if (centro.costCenterAddress.street === null || centro.costCenterAddress.street.trim() === ""
       || centro.costCenterAddress.street === undefined) {
       Swal.fire({
-        text: "O campo 'Logradouro' é obrigatório!",
+        text: this.translate.instant('COST-CENTER.ADDRESS-REQUIRED'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -177,7 +179,7 @@ export class CentroCustoComponent implements OnInit {
     if (centro.costCenterAddress.postalCode === null || centro.costCenterAddress.postalCode.trim() === ""
       || centro.costCenterAddress.postalCode === undefined) {
       Swal.fire({
-        text: "O campo 'CEP' é obrigatório!",
+        text: this.translate.instant('COST-CENTER.ZIP-REQUIRED'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -187,7 +189,7 @@ export class CentroCustoComponent implements OnInit {
     if (centro.costCenterAddress.city === null || centro.costCenterAddress.city.trim() === ""
       || centro.costCenterAddress.city === undefined) {
       Swal.fire({
-        text: "O campo 'Cidade' é obrigatório!",
+        text: this.translate.instant('COST-CENTER.CITY-REQUIRED'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -197,7 +199,7 @@ export class CentroCustoComponent implements OnInit {
     if (centro.costCenterAddress.state === null || centro.costCenterAddress.state.trim() === ""
       || centro.costCenterAddress.state === undefined) {
       Swal.fire({
-        text: "O campo 'UF' é obrigatório!",
+        text: this.translate.instant('COST-CENTER.STATE-REQUIRED'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -207,7 +209,7 @@ export class CentroCustoComponent implements OnInit {
 
     if (centro.builder === null || centro.builder === undefined) {
       Swal.fire({
-        text: "O campo 'Construtora' é obrigatório!",
+        text: this.translate.instant('COST-CENTER.BUILDER-REQUIRED'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -217,7 +219,7 @@ export class CentroCustoComponent implements OnInit {
 
     if (centro.costCenterName.length < 6) {
       Swal.fire({
-        text: "O campo 'Nome' requer ao menos 6 caracteres!",
+        text: this.translate.instant('COST-CENTER.NAME-MIN-CHARS'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -227,7 +229,7 @@ export class CentroCustoComponent implements OnInit {
 
     if (centro.costCenterName.length > 254) {
       Swal.fire({
-        text: "O campo 'Nome' aceita no máximo 254 caracteres!",
+        text: this.translate.instant('COST-CENTER.NAME-MAX-CHARS'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -237,7 +239,7 @@ export class CentroCustoComponent implements OnInit {
 
     if (centro.costCenterAddress.postalCode.length != 9) {
       Swal.fire({
-        text: "O campo 'CEP' deve ter 9 caracteres!",
+        text: this.translate.instant('COST-CENTER.ZIP-CHARS'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -247,7 +249,7 @@ export class CentroCustoComponent implements OnInit {
 
     if (centro.costCenterAddress.street.length < 6) {
       Swal.fire({
-        text: "O campo 'Logradouro' deve ter no mínimo 6 caracteres!",
+        text: this.translate.instant('COST-CENTER.ADDRESS-MIN-CHARS'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -257,7 +259,7 @@ export class CentroCustoComponent implements OnInit {
 
     if (centro.costCenterAddress.street.length > 254) {
       Swal.fire({
-        text: "O campo 'Logradouro' deve ter no máximo 254 caracteres!",
+        text: this.translate.instant('COST-CENTER.ADDRESS-MAX-CHARS'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -267,7 +269,7 @@ export class CentroCustoComponent implements OnInit {
 
     if (centro.costCenterAddress.city.length < 6) {
       Swal.fire({
-        text: "O campo 'Cidade' deve ter no mínimo 6 caracteres!",
+        text: this.translate.instant('COST-CENTER.CITY-MIN-CHARS'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -277,7 +279,7 @@ export class CentroCustoComponent implements OnInit {
 
     if (centro.costCenterAddress.city.length > 254) {
       Swal.fire({
-        text: "O campo 'Cidade' deve ter no máximo 254 caracteres!",
+        text: this.translate.instant('COST-CENTER.CITY-MAX-CHARS'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -292,11 +294,11 @@ export class CentroCustoComponent implements OnInit {
     this.centroCustoModel = JSON.parse(JSON.stringify(centro)); //Clonando objeto e não a sua referência
     this.renderModalVisualizar = true;
     Swal.fire({
-      title: 'Detalhes do Centro de custo',
+      title: this.translate.instant('COST-CENTER.DETAILS'),
       html: this.modalVisualizarDetalhes.nativeElement,
       showCloseButton: true,
       confirmButtonColor: 'green',
-      confirmButtonText: 'Editar',
+      confirmButtonText: this.translate.instant('COST-CENTER.EDIT'),
     }).then((result) => {
       if (result.isConfirmed) {
         this.modalEditarCentroDeCusto(centro);
@@ -309,13 +311,13 @@ export class CentroCustoComponent implements OnInit {
     this.centroCustoModel = JSON.parse(JSON.stringify(centro)); //Clonando objeto e não a sua referência
     this.renderModalVisualizar = true;
     Swal.fire({
-      title: 'Editar Centro de Custo',
+      title: this.translate.instant('COST-CENTER.EDIT'),
       html: this.modalVisualizarDetalhes.nativeElement,
       showCloseButton: true,
       confirmButtonColor: 'green',
-      confirmButtonText: 'Salvar',
+      confirmButtonText: this.translate.instant('COST-CENTER.SAVE'),
       showCancelButton: true,
-      cancelButtonText: 'Cancelar',
+      cancelButtonText: this.translate.instant('COST-CENTER.CANCEL'),
       cancelButtonColor: 'red',
     }).then((result) => {
       if (result.isConfirmed) {
@@ -328,13 +330,13 @@ export class CentroCustoComponent implements OnInit {
 
   excluirCentroDeCusto(id: number, costCenterName: string) {
     Swal.fire({
-      title: 'Excluir Construtora?',
-      html: `Deseja realmente excluir <b>${costCenterName}</b>? <br>Essa ação é irreverssível!`,
+      title: this.translate.instant('COST-CENTER.DELETE-TITLE'),
+      html: this.translate.instant('COST-CENTER.DELETE-CONFIRMATION', { costCenterName: costCenterName }),
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Sim, excluir!',
+      confirmButtonText: this.translate.instant('COST-CENTER.CONFIRM-DELETE'),
       confirmButtonColor: 'red',
-      cancelButtonText: 'Cancelar',
+      cancelButtonText: this.translate.instant('COST-CENTER.CANCEL'),
       cancelButtonColor: 'green',
     }).then((result) => {
       if (result.isConfirmed) {
@@ -343,7 +345,7 @@ export class CentroCustoComponent implements OnInit {
           tap(retorno => {
             this.spinner.hide();
             Swal.fire({
-              text: "Centro de custo excluído com sucesso!",
+              text: this.translate.instant('COST-CENTER.DELETE-SUCCESS'),
               icon: "success",
               showConfirmButton: false,
               timer: 2000
@@ -354,7 +356,7 @@ export class CentroCustoComponent implements OnInit {
             this.spinner.hide();
             let msgErro = error.error;
             if (error.error === "This Builder has open tasks related to it, please delete the open tasks first!") {
-              msgErro = "Esse Centro de Custo possui serviços em aberto relacionados a ele, por favor, exclua os serviços primeiro!";
+              msgErro = this.translate.instant('COST-CENTER.OPEN-TASKS-ERROR');
             }
             Swal.fire({
               text: msgErro,
