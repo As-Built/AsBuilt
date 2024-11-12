@@ -682,5 +682,25 @@
         "DELETE_SUCCESS_MESSAGE": "Construtora excluída com sucesso!",
         "ERROR_COST_CENTER_RELATED": "Essa construtora possui um centro de custo relacionado a ela, por favor, exclua o centro de custo primeiro!",
         "NO_BUILDERS_FOUND": "Nenhuma Construtora encontrada"
+      },
+      "SCHEDULE": {
+        "TITLE": "Cronograma de obras",
+        "SUBTITLE": "Selecione a Construtora e o Centro de Custo para que seja exibido o cronograma",
+        "CONSTRUCTOR_LABEL": "Construtora:",
+        "COST_CENTER_LABEL": "Centro de Custo:",
+        "ALL": "Todos",
+        "INITIAL_SCHEDULE": "Cronograma Inicial",
+        "REAL_SCHEDULE": "Cronograma Real",
+        "COMPARATIVE_SCHEDULE": "Cronograma Comparativo",
+        "LEGEND": "Legenda:",
+        "INITIAL_SCHEDULE_ABBREVIATION": "C.I. - Cronograma inicial",
+        "REAL_SCHEDULE_ABBREVIATION": "C.R. - Cronograma real",
+        "INITIAL_FORECAST": "Previsão inicial da obra",
+        "REAL_SCHEDULE_LABEL": "Cronograma real da obra",
+        "INITIAL_SCHEDULE_LABEL": "Cronograma Inicial",
+        "START_DATE": "Data de Início Prevista",
+        "END_DATE": "Data de Término Prevista",
+        "START": "Início",
+        "END": "Término"
       }
 }

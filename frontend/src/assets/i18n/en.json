@@ -681,5 +681,25 @@
       "DELETE_SUCCESS_MESSAGE": "Builder deleted successfully!",
       "ERROR_COST_CENTER_RELATED": "This Builder has a Cost Center related to it, please delete the Cost Center first!",
       "NO_BUILDERS_FOUND": "No Builders found"
+    },
+    "SCHEDULE": {
+      "TITLE": "Construction Schedule",
+      "SUBTITLE": "Select the Builder and Cost Center to display the schedule",
+      "CONSTRUCTOR_LABEL": "Builder:",
+      "COST_CENTER_LABEL": "Cost Center:",
+      "ALL": "All",
+      "INITIAL_SCHEDULE": "Initial Schedule",
+      "REAL_SCHEDULE": "Real Schedule",
+      "COMPARATIVE_SCHEDULE": "Comparative Schedule",
+      "LEGEND": "Legend:",
+      "INITIAL_SCHEDULE_ABBREVIATION": "I.S. - Initial Schedule",
+      "REAL_SCHEDULE_ABBREVIATION": "R.S. - Real Schedule",
+      "INITIAL_FORECAST": "Initial forecast of the construction",
+      "REAL_SCHEDULE_LABEL": "Real schedule of the construction",
+      "INITIAL_SCHEDULE_LABEL": "Initial Schedule",
+      "START_DATE": "Expected Start Date",
+      "END_DATE": "Expected End Date",
+      "START": "Start",
+      "END": "End"
     }
   }
