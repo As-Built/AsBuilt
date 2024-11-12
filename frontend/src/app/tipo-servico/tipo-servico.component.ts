@@ -6,6 +6,7 @@ import { catchError, firstValueFrom, of, tap } from 'rxjs';
 import { UnidadeMedidaModel } from '../shared/model/unidade-medida.model';
 import Swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-tipo-servico',
@@ -31,7 +32,8 @@ export class TipoServicoComponent implements OnInit {
   constructor(
     private tipoDeServicoService: TiposServicoService,
     private unidadeDeMedidaService: UnidadeMedidaService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit(): void {
@@ -91,7 +93,7 @@ export class TipoServicoComponent implements OnInit {
       tap(retorno => {
         this.spinner.hide();
         Swal.fire({
-          text: "Cadastro realizado com sucesso!",
+          text: this.translate.instant('SERVICE-TYPES.SUCCESS_MESSAGE'),
           icon: "success",
           showConfirmButton: false,
           timer: 3000
@@ -103,7 +105,7 @@ export class TipoServicoComponent implements OnInit {
         this.spinner.hide();
         if (error.error == "TaskType already exists") {
           Swal.fire({
-            text: "Este Tipo de Serviço já está cadastrado!",
+            text: this.translate.instant('SERVICE-TYPES.ALREADY_EXISTS'),
             icon: "error",
             showConfirmButton: false,
             timer: 3000
@@ -129,7 +131,7 @@ export class TipoServicoComponent implements OnInit {
     this.tipoDeServicoService.atualizarTipoDeServico(tipoServico).pipe(
       tap(retorno => {
         Swal.fire({
-          text: "Atualização realizada com sucesso!",
+          text: this.translate.instant('SERVICE-TYPES.UPDATE_SUCCESS'),
           icon: "success",
           showConfirmButton: false,
           timer: 3000
@@ -139,10 +141,10 @@ export class TipoServicoComponent implements OnInit {
       catchError(error => {
         let msgErro = error.error;
         if (error.error === "No changes detected! TaskType not updated!") {
-          msgErro = "Nenhuma alteração detectada! Tipo de Serviço não atualizado!";
+          msgErro = this.translate.instant('SERVICE-TYPES.NO_CHANGES_DETECTED');
         }
         if (error.error === "TaskType not found!") {
-          msgErro = "Tipo de Serviço não encontrado!";
+          msgErro = this.translate.instant('SERVICE-TYPES.NOT_FOUND');
         }
         Swal.fire({
           text: msgErro,
@@ -159,7 +161,7 @@ export class TipoServicoComponent implements OnInit {
     if (tipoServico.taskTypeName === null || tipoServico.taskTypeName.trim() === ""
       || tipoServico.taskTypeName === undefined) {
       Swal.fire({
-        text: "É obrigatório informar o nome do tipo de serviço",
+        text: this.translate.instant('SERVICE-TYPES.REQUIRED_NAME'),
         icon: "warning",
         showConfirmButton: false,
         timer: 3000
@@ -169,7 +171,7 @@ export class TipoServicoComponent implements OnInit {
     if (tipoServico.taskTypeDescription === null || tipoServico.taskTypeDescription.trim() === ""
       || tipoServico.taskTypeDescription === undefined) {
       Swal.fire({
-        text: "É obrigatório informar a descrição do tipo de serviço",
+        text: this.translate.instant('SERVICE-TYPES.REQUIRED_DESCRIPTION'),
         icon: "warning",
         showConfirmButton: false,
         timer: 3000
@@ -179,7 +181,7 @@ export class TipoServicoComponent implements OnInit {
     if (tipoServico.parameter0Name === null || tipoServico.parameter0Name.trim() === ""
       || tipoServico.parameter0Name === undefined) {
       Swal.fire({
-        text: "É obrigatório informar o nome do primeiro parâmetro de avaliação deste tipo de serviço",
+        text: this.translate.instant('SERVICE-TYPES.REQUIRED_FIRST_PARAM'),
         icon: "warning",
         showConfirmButton: false,
         timer: 3000
@@ -189,7 +191,7 @@ export class TipoServicoComponent implements OnInit {
     if (tipoServico.parameter1Name === null || tipoServico.parameter1Name.trim() === ""
       || tipoServico.parameter1Name === undefined) {
       Swal.fire({
-        text: "É obrigatório informar o nome do segundo parâmetro de avaliação deste tipo de serviço",
+        text: this.translate.instant('SERVICE-TYPES.REQUIRED_SECOND_PARAM'),
         icon: "warning",
         showConfirmButton: false,
         timer: 3000
@@ -199,7 +201,7 @@ export class TipoServicoComponent implements OnInit {
     if (tipoServico.parameter2Name === null || tipoServico.parameter2Name.trim() === ""
       || tipoServico.parameter2Name === undefined) {
       Swal.fire({
-        text: "É obrigatório informar o nome do terceiro parâmetro de avaliação deste tipo de serviço",
+        text: this.translate.instant('SERVICE-TYPES.REQUIRED_THIRD_PARAM'),
         icon: "warning",
         showConfirmButton: false,
         timer: 3000
@@ -209,7 +211,7 @@ export class TipoServicoComponent implements OnInit {
 
     if (tipoServico.taskTypeName.length < 6 || tipoServico.taskTypeName.length > 254) {
       Swal.fire({
-        text: "O campo 'Nome' deve ter no mínimo 6 caracteres e no máximo 254 caracteres!",
+        text: this.translate.instant('SERVICE-TYPES.NAME_LENGTH'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -219,7 +221,7 @@ export class TipoServicoComponent implements OnInit {
 
     if (tipoServico.parameter0Name.length < 3 || tipoServico.parameter0Name.length > 254) {
       Swal.fire({
-        text: "O campo '1º Parâmetro de avaliação' deve ter no mínimo 3 caracteres e no máximo 254 caracteres!",
+        text: this.translate.instant('SERVICE-TYPES.FIRST_PARAM_LENGTH'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -229,7 +231,7 @@ export class TipoServicoComponent implements OnInit {
 
     if (tipoServico.parameter1Name.length < 3 || tipoServico.parameter1Name.length > 254) {
       Swal.fire({
-        text: "O campo '2º Parâmetro de avaliação' deve ter no mínimo 3 caracteres e no máximo 254 caracteres!",
+        text: this.translate.instant('SERVICE-TYPES.SECOND_PARAM_LENGTH'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -239,7 +241,7 @@ export class TipoServicoComponent implements OnInit {
 
     if (tipoServico.parameter2Name.length < 3 || tipoServico.parameter2Name.length > 254) {
       Swal.fire({
-        text: "O campo '3º Parâmetro de avaliação' deve ter no mínimo 3 caracteres e no máximo 254 caracteres!",
+        text: this.translate.instant('SERVICE-TYPES.THIRD_PARAM_LENGTH'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -249,7 +251,7 @@ export class TipoServicoComponent implements OnInit {
 
     if (tipoServico.parameter3Name !== undefined && (tipoServico.parameter3Name!.length < 3 || tipoServico.parameter3Name!.length > 254)) {
       Swal.fire({
-        text: "O campo '4º Parâmetro de avaliação' deve ter no mínimo 3 e no máximo 254 caracteres!",
+        text: this.translate.instant('SERVICE-TYPES.FOURTH_PARAM_LENGTH'),
         icon: "warning",
         showConfirmButton: false,
         timer: 3000
@@ -259,7 +261,7 @@ export class TipoServicoComponent implements OnInit {
 
     if (tipoServico.parameter4Name !== undefined && (tipoServico.parameter4Name!.length < 3 || tipoServico.parameter4Name!.length > 254)) {
       Swal.fire({
-        text: "O campo '5º Parâmetro de avaliação' deve ter no mínimo 3 e no máximo 254 caracteres!",
+        text: this.translate.instant('SERVICE-TYPES.FIFTH_PARAM_LENGTH'),
         icon: "warning",
         showConfirmButton: false,
         timer: 3000
@@ -269,7 +271,7 @@ export class TipoServicoComponent implements OnInit {
 
     if (tipoServico.parameter5Name !== undefined && (tipoServico.parameter5Name!.length < 3 || tipoServico.parameter5Name!.length > 254)) {
       Swal.fire({
-        text: "O campo '6º Parâmetro de avaliação' deve ter no mínimo 6 e no máximo 254 caracteres!",
+        text: this.translate.instant('SERVICE-TYPES.SIXTH_PARAM_LENGTH'),
         icon: "warning",
         showConfirmButton: false,
         timer: 3000
@@ -279,7 +281,7 @@ export class TipoServicoComponent implements OnInit {
 
     if (tipoServico.parameter6Name !== undefined && (tipoServico.parameter6Name!.length < 3 || tipoServico.parameter6Name!.length > 254)) {
       Swal.fire({
-        text: "O campo '7º Parâmetro de avaliação' deve ter no mínimo 6 e no máximo 254 caracteres!",
+        text: this.translate.instant('SERVICE-TYPES.SEVENTH_PARAM_LENGTH'),
         icon: "warning",
         showConfirmButton: false,
         timer: 3000
@@ -289,7 +291,7 @@ export class TipoServicoComponent implements OnInit {
 
     if (tipoServico.parameter7Name !== undefined && (tipoServico.parameter7Name!.length < 3 || tipoServico.parameter7Name!.length > 254)) {
       Swal.fire({
-        text: "O campo '8º Parâmetro de avaliação' deve ter no mínimo 3 e no máximo 254 caracteres!",
+        text: this.translate.instant('SERVICE-TYPES.EIGHTH_PARAM_LENGTH'),
         icon: "warning",
         showConfirmButton: false,
         timer: 3000
@@ -299,7 +301,7 @@ export class TipoServicoComponent implements OnInit {
 
     if (tipoServico.parameter8Name !== undefined && (tipoServico.parameter8Name!.length < 3 || tipoServico.parameter8Name!.length > 254)) {
       Swal.fire({
-        text: "O campo '9º Parâmetro de avaliação' deve ter no mínimo 3 e no máximo 254 caracteres!",
+        text: this.translate.instant('SERVICE-TYPES.NINTH_PARAM_LENGTH'),
         icon: "warning",
         showConfirmButton: false,
         timer: 3000
@@ -309,7 +311,7 @@ export class TipoServicoComponent implements OnInit {
 
     if (tipoServico.parameter9Name !== undefined && (tipoServico.parameter9Name!.length < 3 || tipoServico.parameter9Name!.length > 254)) {
       Swal.fire({
-        text: "O campo '10º Parâmetro de avaliação' deve ter no mínimo 3 e no máximo 254 caracteres!",
+        text: this.translate.instant('SERVICE-TYPES.TENTH_PARAM_LENGTH'),
         icon: "warning",
         showConfirmButton: false,
         timer: 3000
@@ -332,11 +334,11 @@ export class TipoServicoComponent implements OnInit {
     }
     this.renderModalVisualizar = true;
     Swal.fire({
-      title: 'Detalhes do Tipo de Serviço',
+      title: this.translate.instant('SERVICE-TYPES.DETAILS_TITLE'),
       html: this.modalVisualizarDetalhes.nativeElement,
       showCloseButton: true,
       confirmButtonColor: 'green',
-      confirmButtonText: 'Editar',
+      confirmButtonText: this.translate.instant('SERVICE-TYPES.EDIT_BUTTON'),
     }).then((result) => {
       if (result.isConfirmed) {
         this.modalEditarTipoDeServico(tipoDeServico);
@@ -349,13 +351,13 @@ export class TipoServicoComponent implements OnInit {
     this.tipoServicoModel = JSON.parse(JSON.stringify(tipoDeServico)); //Clonando objeto e não a sua referência
     this.renderModalVisualizar = true;
     Swal.fire({
-      title: 'Editar Tipo de Serviço',
+      title: this.translate.instant('SERVICE-TYPES.EDIT_TITLE'),
       html: this.modalVisualizarDetalhes.nativeElement,
       showCloseButton: true,
       confirmButtonColor: 'green',
-      confirmButtonText: 'Salvar',
+      confirmButtonText: this.translate.instant('SERVICE-TYPES.SAVE_BUTTON'),
       showCancelButton: true,
-      cancelButtonText: 'Cancelar',
+      cancelButtonText: this.translate.instant('SERVICE-TYPES.CANCEL_BUTTON'),
       cancelButtonColor: 'red',
     }).then((result) => {
       if (result.isConfirmed) {
@@ -368,20 +370,20 @@ export class TipoServicoComponent implements OnInit {
 
   excluirTipoDeServico(id: number) {
     Swal.fire({
-      title: 'Excluir Tipo de Serviço?',
-      html: `Deseja realmente excluir o Tipo de Serviço? <br>Essa ação é irreverssível!`,
+      title: this.translate.instant('SERVICE-TYPES.DELETE_TITLE'),
+      html: this.translate.instant('SERVICE-TYPES.DELETE_CONFIRMATION_HTML'),
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Sim, excluir!',
+      confirmButtonText: this.translate.instant('SERVICE-TYPES.CONFIRM_DELETE_BUTTON'),
       confirmButtonColor: 'red',
-      cancelButtonText: 'Cancelar',
+      cancelButtonText: this.translate.instant('SERVICE-TYPES.CANCEL_BUTTON'),
       cancelButtonColor: 'green',
     }).then((result) => {
       if (result.isConfirmed) {
         this.tipoDeServicoService.excluirTipoDeServico(id).pipe(
           tap(retorno => {
             Swal.fire({
-              text: "Tipo de Serviço excluído com sucesso!",
+              text: this.translate.instant('SERVICE-TYPES.DELETE_SUCCESS_MESSAGE'),
               icon: "success",
               showConfirmButton: false,
               timer: 3000
@@ -391,7 +393,7 @@ export class TipoServicoComponent implements OnInit {
           catchError(error => {
             let msgErro = error.error;
             if (error.error === "TaskType has related tasks! Cannot delete!") {
-              msgErro = "Esse tipo de serviço possui serviços relacionados a ele. Não é possível excluí-lo!";
+              msgErro = this.translate.instant('SERVICE-TYPES.DELETE_ERROR_RELATED_TASKS');
             }
             Swal.fire({
               text: msgErro,
