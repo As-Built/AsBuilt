@@ -3,11 +3,11 @@
     <ul class="nav nav-tabs">
       <li class="nav-item">
         <a class="nav-link" [ngClass]="{'active': isCadastroConstrutora}" id="cadastro-tab" data-toggle="tab"
-          (click)="mudarAba()">Cadastro</a>
+          (click)="mudarAba()">{{ 'CONSTRUTORS.REGISTRATION' | translate }}</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" [ngClass]="{'active': !isCadastroConstrutora}" id="consulta-tab" data-toggle="tab"
-          (click)="mudarAba()">Consulta</a>
+          (click)="mudarAba()">{{ 'CONSTRUTORS.CONSULTATION' | translate }}</a>
       </li>
     </ul>
     <div class="tab-content">
@@ -15,7 +15,7 @@
         id="cadastro">
         <div class="row centralizar-conteudo">
           <div class="col-12 titulo">
-            <h1>Cadastro de Construtora</h1>
+            <h1>{{ 'CONSTRUTORS.REGISTRATION-TITLE' | translate }}</h1>
             <hr style="margin-left: 25px;">
           </div>
         </div>
@@ -23,67 +23,74 @@
           style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between;">
           <div class="row">
             <div class="col-12">
-              <h2 style="padding-left: 15px;">Dados da Construtora</h2>
+              <h2 style="padding-left: 15px;">{{ 'CONSTRUTORS.DATA-TITLE' | translate }}</h2>
             </div>
           </div>
           <div class="row">
             <div class="col-12">
-              <label for="nomeConstrutora">Nome da Construtora<span style="color: red;">*</span></label>
+              <label for="nomeConstrutora">{{ 'CONSTRUTORS.BUILDER-NAME' | translate }}<span
+                  style="color: red;">*</span></label>
               <input type="text" name="nomeConstrutora" id="nomeConstrutora" required
-                matTooltip="Nome da Construtora ou Empremteira" matTooltipShowDelay="1500"
-                [(ngModel)]="cadastroConstrutora.builderName" placeholder="Nome da construtora">
+                matTooltip="{{ 'CONSTRUTORS.BUILDER-NAME-TOOLTIP' | translate }}" matTooltipShowDelay="1500"
+                [(ngModel)]="cadastroConstrutora.builderName"
+                placeholder="{{ 'CONSTRUTORS.BUILDER-NAME-PLACEHOLDER' | translate }}">
             </div>
           </div>
           <div class="row">
             <div class="col-6">
-              <label for="cnpj">CNPJ<span style="color: red;">*</span></label>
-              <input type="text" name="cnpj" id="cnpj" required mask="00.000.000/0000-00" matTooltip="CNPJ"
-                matTooltipShowDelay="1500" [(ngModel)]="cadastroConstrutora.cnpj" placeholder="00.000.000/0000-00">
+              <label for="cnpj">{{ 'CONSTRUTORS.CNPJ' | translate }}<span style="color: red;">*</span></label>
+              <input type="text" name="cnpj" id="cnpj" required mask="00.000.000/0000-00"
+                matTooltip="{{ 'CONSTRUTORS.CNPJ' | translate }}" matTooltipShowDelay="1500"
+                [(ngModel)]="cadastroConstrutora.cnpj" placeholder="00.000.000/0000-00">
             </div>
             <div class="col-6">
-              <label for="telefone">Telefone<span style="color: red;">*</span></label>
-              <input type="text" name="telefone" id="telefone" required mask="(00) 0000-00000" matTooltip="Telefone"
-                matTooltipShowDelay="1500" [(ngModel)]="cadastroConstrutora.phone" placeholder="(XX) 0123-45678">
+              <label for="telefone">{{ 'CONSTRUTORS.PHONE' | translate }}<span style="color: red;">*</span></label>
+              <input type="text" name="telefone" id="telefone" required mask="(00) 0000-00000"
+                matTooltip="{{ 'CONSTRUTORS.PHONE' | translate }}" matTooltipShowDelay="1500"
+                [(ngModel)]="cadastroConstrutora.phone" placeholder="(XX) 0123-45678">
             </div>
           </div>
           <div class="row">
             <div class="col-12">
               <hr style="margin-left: 25px;">
-              <h2 style="padding-left: 15px;">Endereço</h2>
+              <h2 style="padding-left: 15px;">{{ 'CONSTRUTORS.ADDRESS' | translate }}</h2>
             </div>
           </div>
           <div class="row">
             <div class="col-3">
-              <label for="cep">CEP<span style="color: red;">*</span></label>
-              <input type="text" name="cep" id="cep" mask="00.000-000" required matTooltip="CEP"
-                matTooltipShowDelay="1500" [(ngModel)]="cadastroConstrutora.builderAddress.postalCode"
+              <label for="cep">{{ 'CONSTRUTORS.POSTAL-CODE' | translate }}<span style="color: red;">*</span></label>
+              <input type="text" name="cep" id="cep" mask="00.000-000" required
+                matTooltip="{{ 'CONSTRUTORS.POSTAL-CODE' | translate }}" matTooltipShowDelay="1500"
+                [(ngModel)]="cadastroConstrutora.builderAddress.postalCode"
                 (change)="getAddress(cadastroConstrutora.builderAddress.postalCode, false)" placeholder="00.000-000">
             </div>
           </div>
           <div class="row">
             <div class="col-7">
-              <label for="logradouro">Logradouro<span style="color: red;">*</span></label>
-              <input type="text" name="logradouro" id="logradouro" required matTooltip="Rua, Avenida, Travessa, Alameda"
-                matTooltipShowDelay="1500" [(ngModel)]="cadastroConstrutora.builderAddress.street"
+              <label for="logradouro">{{ 'CONSTRUTORS.STREET' | translate }}<span style="color: red;">*</span></label>
+              <input type="text" name="logradouro" id="logradouro" required
+                matTooltip="{{ 'CONSTRUTORS.STREET-TOOLTIP' | translate }}" matTooltipShowDelay="1500"
+                [(ngModel)]="cadastroConstrutora.builderAddress.street"
                 [disabled]="cadastroConstrutora.builderAddress.postalCode.length > 0"
-                placeholder="Rua Exemplo">
+                placeholder="{{ 'CONSTRUTORS.STREET-PLACEHOLDER' | translate }}">
             </div>
             <div class="col-2">
-              <label for="numero">Número<span style="color: red;">*</span></label>
-              <input type="number" name="numero" id="numero" required matTooltip="Para 'Sem Número' inserir '0'"
-                matTooltipShowDelay="1500" [(ngModel)]="cadastroConstrutora.builderAddress.number"
-                min="0" (keypress)="numberOnly($event)">
+              <label for="numero">{{ 'CONSTRUTORS.NUMBER' | translate }}<span style="color: red;">*</span></label>
+              <input type="number" name="numero" id="numero" required
+                matTooltip="{{ 'CONSTRUTORS.NUMBER-TOOLTIP' | translate }}" matTooltipShowDelay="1500"
+                [(ngModel)]="cadastroConstrutora.builderAddress.number" min="0" (keypress)="numberOnly($event)">
             </div>
           </div>
           <div class="row">
             <div class="col-6">
-              <label for="cidade">Cidade<span style="color: red;">*</span></label>
-              <input type="text" name="cidade" id="cidade" required matTooltip="Cidade" matTooltipShowDelay="1500"
-                [(ngModel)]="cadastroConstrutora.builderAddress.city" placeholder="Cidade"
+              <label for="cidade">{{ 'CONSTRUTORS.CITY' | translate }}<span style="color: red;">*</span></label>
+              <input type="text" name="cidade" id="cidade" required matTooltip="{{ 'CONSTRUTORS.CITY' | translate }}"
+                matTooltipShowDelay="1500" [(ngModel)]="cadastroConstrutora.builderAddress.city"
+                placeholder="{{ 'CONSTRUTORS.CITY-PLACEHOLDER' | translate }}"
                 [disabled]="cadastroConstrutora.builderAddress.postalCode.length > 0">
             </div>
             <div class="col-2">
-              <label for="estado">UF<span style="color: red;">*</span></label>
+              <label for="estado">{{ 'CONSTRUTORS.STATE' | translate }}<span style="color: red;">*</span></label>
               <select name="estado" [(ngModel)]="cadastroConstrutora.builderAddress.state"
                 [disabled]="cadastroConstrutora.builderAddress.postalCode.length > 0">
                 <option *ngFor="let estado of estadosBrasileiros" [value]="estado">{{estado}}</option>
@@ -92,10 +99,12 @@
           </div>
           <div class="row">
             <div class="col-6">
-              <button class="btn-cancel" type="button" (click)="limparCampos()">Limpar campos</button>
+              <button class="btn-cancel" type="button" (click)="limparCampos()">{{ 'CONSTRUTORS.CLEAR-FIELDS' |
+                translate }}</button>
             </div>
             <div class="col-6">
-              <button class="btn-confirm" type="buttton">Cadastrar</button>
+              <button class="btn-confirm" type="button" (click)="cadastrarConstrutora()">{{ 'CONSTRUTORS.REGISTER' |
+                translate }}</button>
             </div>
           </div>
         </form>
@@ -104,40 +113,41 @@
         id="consulta">
         <div class="row centralizar-conteudo">
           <div class="col-12 titulo">
-            <h1>Construtoras cadastradas</h1>
+            <h1>{{ 'CONSTRUTORS.REGISTERED-BUILDERS' | translate }}</h1>
           </div>
           <div class="row" *ngIf="listaConstrutoras.length > 0">
             <div class="col-12 table-responsive">
               <table mat-table [dataSource]="listaConstrutoras" class="mat-elevation-z8">
                 <ng-container matColumnDef="acoes">
-                  <th mat-header-cell *matHeaderCellDef>Ações</th>
+                  <th mat-header-cell *matHeaderCellDef>{{ 'CONSTRUTORS.ACTIONS' | translate }}</th>
                   <td mat-cell *matCellDef="let element">
-                    <mat-icon class="icones-acoes" matTooltip="Visualizar detalhes" matTooltipShowDelay="1500"
-                      (click)="visualizarDetalhes(element)" style="cursor: pointer;">
+                    <mat-icon class="icones-acoes" matTooltip="{{ 'CONSTRUTORS.VIEW_DETAILS' | translate }}"
+                      matTooltipShowDelay="1500" (click)="visualizarDetalhes(element)" style="cursor: pointer;">
                       visibility
                     </mat-icon>
-                    <mat-icon class="icones-acoes" matTooltip="Editar" matTooltipShowDelay="1500"
-                      (click)="modalEditarConstrutora(element)" style="cursor: pointer;">
+                    <mat-icon class="icones-acoes" matTooltip="{{ 'CONSTRUTORS.EDIT' | translate }}"
+                      matTooltipShowDelay="1500" (click)="modalEditarConstrutora(element)" style="cursor: pointer;">
                       edit-note
                     </mat-icon>
-                    <mat-icon class="icones-acoes" matTooltip="Excluir construtora" matTooltipShowDelay="1500"
-                      (click)="excluirConstrutora(element.id, element.builderName)" style="cursor: pointer;">
+                    <mat-icon class="icones-acoes" matTooltip="{{ 'CONSTRUTORS.DELETE' | translate }}"
+                      matTooltipShowDelay="1500" (click)="excluirConstrutora(element.id, element.builderName)"
+                      style="cursor: pointer;">
                       delete
                     </mat-icon>
                   </td>
                 </ng-container>
                 <ng-container matColumnDef="builderName">
-                  <th mat-header-cell *matHeaderCellDef>Nome</th>
+                  <th mat-header-cell *matHeaderCellDef>{{ 'CONSTRUTORS.NAME' | translate }}</th>
                   <td mat-cell *matCellDef="let element"> {{element.builderName}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="cnpj">
-                  <th mat-header-cell *matHeaderCellDef>CNPJ</th>
+                  <th mat-header-cell *matHeaderCellDef>{{ 'CONSTRUTORS.CNPJ' | translate }}</th>
                   <td mat-cell *matCellDef="let element"> {{element.cnpj | cnpj}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="phone">
-                  <th mat-header-cell *matHeaderCellDef>Telefone</th>
+                  <th mat-header-cell *matHeaderCellDef>{{ 'CONSTRUTORS.PHONE' | translate }}</th>
                   <td mat-cell *matCellDef="let element"> {{element.phone | telefone}} </td>
                 </ng-container>
 
@@ -148,9 +158,9 @@
           </div>
           <div class="row centralizar-conteudo" *ngIf="listaConstrutoras.length === 0">
             <h3>
-                Nenhuma Construtora encontrada
+              {{ 'CONSTRUTORS.NO_BUILDERS_FOUND' | translate }}
             </h3>
-        </div>
+          </div>
         </div>
       </div>
     </div>
@@ -162,71 +172,70 @@
   <div *ngIf="renderModalVisualizar" class="modal-body text-left modal-scroll">
     <div class="row">
       <div class="col-12">
-        <h2 style="padding-left: 15px;">Dados da Construtora</h2>
-        <hr style="margin-left: 25px;">
+        <h2 style="padding-left: 15px;">{{ 'CONSTRUTORS.BUILDER_DATA' | translate }}</h2>
+        <hr>
       </div>
     </div>
     <div class="row">
       <div class="col-12">
-        <label for="nomeConstrutora">Nome da Construtora<span style="color: red;">*</span></label>
+        <label for="nomeConstrutora">{{ 'CONSTRUTORS.BUILDER_NAME' | translate }}<span style="color: red;">*</span></label>
         <input type="text" name="nomeConstrutora" id="nomeConstrutora" [disabled]="indDesabilitaCampos"
-          matTooltip="Nome da Construtora ou Empremteira" matTooltipShowDelay="1500"
-          [(ngModel)]="construtoraModel.builderName" placeholder="Nome da construtora">
+          matTooltip="{{ 'CONSTRUTORS.BUILDER_NAME_TOOLTIP' | translate }}" matTooltipShowDelay="1500"
+          [(ngModel)]="construtoraModel.builderName" placeholder="{{ 'CONSTRUTORS.BUILDER_NAME_PLACEHOLDER' | translate }}">
       </div>
     </div>
     <div class="row">
       <div class="col-6">
-        <label for="cnpj">CNPJ<span style="color: red;">*</span></label>
-        <input type="text" name="cnpj" id="cnpj" required mask="00.000.000/0000-00" 
-          matTooltip="CNPJ" matTooltipShowDelay="1500" [disabled]="indDesabilitaCampos"
-          [(ngModel)]="construtoraModel.cnpj" placeholder="00.000.000/0000-00">
+        <label for="cnpj">{{ 'CONSTRUTORS.CNPJ' | translate }}<span style="color: red;">*</span></label>
+        <input type="text" name="cnpj" id="cnpj" required mask="00.000.000/0000-00" matTooltip="{{ 'CONSTRUTORS.CNPJ_TOOLTIP' | translate }}"
+          matTooltipShowDelay="1500" [disabled]="indDesabilitaCampos" [(ngModel)]="construtoraModel.cnpj"
+          placeholder="{{ 'CONSTRUTORS.CNPJ_PLACEHOLDER' | translate }}">
       </div>
       <div class="col-6">
-        <label for="telefone">Telefone<span style="color: red;">*</span></label>
-        <input type="text" name="telefone" id="telefone" required mask="(00) 0000-00000" 
-          matTooltip="Telefone" matTooltipShowDelay="1500" [disabled]="indDesabilitaCampos"
-          [(ngModel)]="construtoraModel.phone" placeholder="(XX) 0123-45678">
+        <label for="telefone">{{ 'CONSTRUTORS.PHONE' | translate }}<span style="color: red;">*</span></label>
+        <input type="text" name="telefone" id="telefone" required mask="(00) 0000-00000" matTooltip="{{ 'CONSTRUTORS.PHONE_TOOLTIP' | translate }}"
+          matTooltipShowDelay="1500" [disabled]="indDesabilitaCampos" [(ngModel)]="construtoraModel.phone"
+          placeholder="{{ 'CONSTRUTORS.PHONE_PLACEHOLDER' | translate }}">
       </div>
     </div>
     <div class="row">
       <div class="col-12">
         <hr style="margin-left: 25px;">
-        <h2 style="padding-left: 15px;">Endereço</h2>
+        <h2 style="padding-left: 15px;">{{ 'CONSTRUTORS.ADDRESS' | translate }}</h2>
       </div>
     </div>
     <div class="row">
       <div class="col-4">
-        <label for="cep">CEP<span style="color: red;">*</span></label>
-        <input type="text" name="cep" id="cep" mask="00.000-000" required matTooltip="CEP" matTooltipShowDelay="1500"
+        <label for="cep">{{ 'CONSTRUTORS.CEP' | translate }}<span style="color: red;">*</span></label>
+        <input type="text" name="cep" id="cep" mask="00.000-000" required matTooltip="{{ 'CONSTRUTORS.CEP_TOOLTIP' | translate }}" matTooltipShowDelay="1500"
           [(ngModel)]="construtoraModel.builderAddress.postalCode" [disabled]="indDesabilitaCampos"
-          (change)="getAddress(construtoraModel.builderAddress.postalCode, true)" placeholder="00.000-000">
+          (change)="getAddress(construtoraModel.builderAddress.postalCode, true)" placeholder="{{ 'CONSTRUTORS.CEP_PLACEHOLDER' | translate }}">
       </div>
     </div>
     <div class="row">
       <div class="col-8">
-        <label for="logradouro">Logradouro<span style="color: red;">*</span></label>
-        <input type="text" name="logradouro" id="logradouro" required matTooltip="Rua, Avenida, Travessa, Alameda"
-          matTooltipShowDelay="1500" [(ngModel)]="construtoraModel.builderAddress.street"
-          placeholder="Rua Exemplo" 
+        <label for="logradouro">{{ 'CONSTRUTORS.STREET' | translate }}<span style="color: red;">*</span></label>
+        <input type="text" name="logradouro" id="logradouro" required matTooltip="{{ 'CONSTRUTORS.STREET_TOOLTIP' | translate }}"
+          matTooltipShowDelay="1500" [(ngModel)]="construtoraModel.builderAddress.street" placeholder="{{ 'CONSTRUTORS.STREET_PLACEHOLDER' | translate }}"
           [disabled]="construtoraModel.builderAddress.postalCode.length > 0 || indDesabilitaCampos">
       </div>
       <div class="col-4">
-        <label for="numero">Número<span style="color: red;">*</span></label>
-        <input type="number" name="numero" id="numero" required matTooltip="Para 'Sem Número' inserir '0'"
-          matTooltipShowDelay="1500" [(ngModel)]="construtoraModel.builderAddress.number" 
+        <label for="numero">{{ 'CONSTRUTORS.NUMBER' | translate }}<span style="color: red;">*</span></label>
+        <input type="number" name="numero" id="numero" required matTooltip="{{ 'CONSTRUTORS.NUMBER_TOOLTIP' | translate }}"
+          matTooltipShowDelay="1500" [(ngModel)]="construtoraModel.builderAddress.number"
           (keypress)="numberOnly($event)">
       </div>
     </div>
     <div class="row">
       <div class="col-8">
-        <label for="cidade">Cidade<span style="color: red;">*</span></label>
-        <input type="text" name="cidade" id="cidade" required matTooltip="Cidade" matTooltipShowDelay="1500"
-          [(ngModel)]="construtoraModel.builderAddress.city" placeholder="Cidade" 
+        <label for="cidade">{{ 'CONSTRUTORS.CITY' | translate }}<span style="color: red;">*</span></label>
+        <input type="text" name="cidade" id="cidade" required matTooltip="{{ 'CONSTRUTORS.CITY_TOOLTIP' | translate }}" matTooltipShowDelay="1500"
+          [(ngModel)]="construtoraModel.builderAddress.city" placeholder="{{ 'CONSTRUTORS.CITY_PLACEHOLDER' | translate }}"
           [disabled]="construtoraModel.builderAddress.postalCode.length > 0 || indDesabilitaCampos">
       </div>
       <div class="col-4">
-        <label for="estado">UF<span style="color: red;">*</span></label>
-        <select name="estado" [(ngModel)]="construtoraModel.builderAddress.state" 
+        <label for="estado">{{ 'CONSTRUTORS.STATE' | translate }}<span style="color: red;">*</span></label>
+        <select name="estado" [(ngModel)]="construtoraModel.builderAddress.state"
           [disabled]="construtoraModel.builderAddress.postalCode.length > 0 || indDesabilitaCampos">
           <option *ngFor="let estado of estadosBrasileiros" [value]="estado">{{estado}}</option>
         </select>

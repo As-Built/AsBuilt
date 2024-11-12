@@ -7,6 +7,7 @@ import com.br.asbuilt.exception.NotFoundException
 import com.br.asbuilt.mail.MailService
 import com.br.asbuilt.roles.RoleRepository
 import com.br.asbuilt.security.Jwt
+import com.br.asbuilt.users.controller.requests.PatchSystemLanguage
 import com.br.asbuilt.users.controller.requests.PatchUserRequest
 import com.br.asbuilt.users.controller.responses.LoginResponse
 import com.br.asbuilt.users.controller.responses.UserResponse
@@ -48,49 +49,78 @@ class UserService(
     }
 
     fun update(userRequest: PatchUserRequest): User? {
-        val existingUser = userRequest.id.let {
+        val existingUser = userRequest.id?.let {
             repository.findById(it)
                 .orElseThrow { NotFoundException("User not found with id: ${userRequest.id}") }
         }
         if (existingUser != null) {
             var isChanged = false
+            var cpfChanged = false
+            var emailChanged = false
+            var addressChanged = false
 
             if (userRequest.name != existingUser.name) {
-                existingUser.name = userRequest.name
+                existingUser.name = userRequest.name.toString()
                 isChanged = true
             }
 
             if (userRequest.email != existingUser.email) {
-                existingUser.email = userRequest.email
+                existingUser.email = userRequest.email.toString()
                 isChanged = true
+                emailChanged = true
             }
 
             if (userRequest.cpf != existingUser.cpf) {
-                existingUser.name = userRequest.name
+                existingUser.cpf = userRequest.cpf.toString()
                 isChanged = true
+                cpfChanged = true
             }
 
             if (userRequest.phone != existingUser.phone) {
-                existingUser.phone = userRequest.phone
+                existingUser.phone = userRequest.phone.toString()
                 isChanged = true
             }
 
             if (userRequest.userAddress != existingUser.userAddress) {
                 existingUser.userAddress = userRequest.userAddress
                 isChanged = true
+                addressChanged = true
+            }
+
+            if (userRequest.systemLanguage != existingUser.systemLanguage) {
+                existingUser.systemLanguage = userRequest.systemLanguage.toString()
+                isChanged = true
             }
 
             if (isChanged) {
 
-                val newAddress = userRequest.userAddress
-                newAddress.id = userRequest.userAddress.id
+                if (cpfChanged) {
+                    if (userRequest.cpf?.let { repository.findByCPF(it) } != null) {
+                        log.info("A user with same CPF already exists")
+                        throw BadRequestException("A user with same CPF already exists")
+                    }
+                }
 
-                val savedAddress = addressRepository.save(newAddress)
-                    .also { log.info("Address updated: {}", it.id)}
+                if (emailChanged) {
+                    if (userRequest.email?.let { repository.findByEmail(it) } != null) {
+                        log.info("A user with same EMAIL already exists")
+                        throw BadRequestException("A user with same EMAIL already exists")
+                    }
+                }
+
+                val newAddress = userRequest.userAddress
+                newAddress!!.id = userRequest.userAddress?.id
+
+                val savedAddress = newAddress.let {
+                    addressRepository.save(it)
+                        .also { log.info("Address updated: {}", it.id)}
+                }
+
                 userRequest.userAddress = savedAddress
 
                 val updateUser = repository.save(existingUser)
                 log.info("User updated: {}", updateUser.id)
+
                 return updateUser
             }
         }
@@ -155,6 +185,29 @@ class UserService(
             "Sua senha é: ${user.password}"
         )
         return mailService
+    }
+
+    fun updateSystemLanguage(userRequest: PatchSystemLanguage): User? {
+        val existingUser = userRequest.id.let {
+            repository.findById(it)
+                .orElseThrow { NotFoundException("User not found with id: ${userRequest.id}") }
+        }
+        if (existingUser != null) {
+            var isChanged = false
+
+            if (userRequest.systemLanguage != existingUser.systemLanguage) {
+                existingUser.systemLanguage = userRequest.systemLanguage
+                isChanged = true
+            }
+
+            if (isChanged) {
+
+                val updateUser = repository.save(existingUser)
+                log.info("User updated: {}", updateUser.id)
+                return updateUser
+            }
+        }
+        return null
     }
 
     companion object {

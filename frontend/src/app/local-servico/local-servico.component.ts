@@ -9,6 +9,7 @@ import { CentroCustoService } from '../centro-custo/service/centro-custo.service
 import { ConstrutoraModel } from '../construtora/model/construtora.model';
 import { ConstrutoraService } from '../construtora/service/construtora.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-local-servico',
@@ -48,7 +49,8 @@ export class LocalServicoComponent implements OnInit {
     private localServicoService: LocalServicoService,
     private centroCustoService: CentroCustoService,
     private construtoraService: ConstrutoraService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit(): void {
@@ -230,7 +232,7 @@ export class LocalServicoComponent implements OnInit {
       tap(retorno => {
         this.spinner.hide();
         Swal.fire({
-          text: "Cadastro realizado com sucesso!",
+          text: this.translate.instant('SERVICE-LOCAL.REGISTRATION_SUCCESS'),
           icon: "success",
           showConfirmButton: false,
           timer: 3000
@@ -241,7 +243,7 @@ export class LocalServicoComponent implements OnInit {
         this.spinner.hide();
         if (error.error == "Location already exists") {
           Swal.fire({
-            text: "Este local de serviço já está cadastrado!",
+            text: this.translate.instant('SERVICE-LOCAL.LOCATION_ALREADY_EXISTS'),
             icon: "error",
             showConfirmButton: false,
             timer: 3000
@@ -269,7 +271,7 @@ export class LocalServicoComponent implements OnInit {
       tap(retorno => {
         this.spinner.hide();
         Swal.fire({
-          text: "Atualização realizada com sucesso!",
+          text: this.translate.instant('SERVICE-LOCAL.UPDATE_SUCCESS'),
           icon: "success",
           showConfirmButton: false,
           timer: 3000
@@ -280,10 +282,10 @@ export class LocalServicoComponent implements OnInit {
         this.spinner.hide();
         let msgErro = error.error;
         if (error.error === "No changes detected! Location not updated!") {
-          msgErro = "Nenhuma alteração detectada! Local não atualizado!";
+          msgErro = this.translate.instant('SERVICE-LOCAL.NO_CHANGES_DETECTED');
         }
         if (error.error === "Location not found!") {
-          msgErro = "Local não encontrado!";
+          msgErro = this.translate.instant('SERVICE-LOCAL.LOCATION_NOT_FOUND');
         }
         Swal.fire({
           text: msgErro,
@@ -300,7 +302,7 @@ export class LocalServicoComponent implements OnInit {
     if (local.locationGroup === null || local.locationGroup.trim() === ""
       || local.locationGroup === undefined) {
       Swal.fire({
-        text: "É obrigatório informar ao menos o 1º nível da localização!",
+        text: this.translate.instant('SERVICE-LOCAL.LEVEL_1_REQUIRED'),
         icon: "warning",
         showConfirmButton: false,
         timer: 3000
@@ -315,13 +317,13 @@ export class LocalServicoComponent implements OnInit {
     this.localServicoModel = JSON.parse(JSON.stringify(local)); //Clonando objeto e não a sua referência
     this.renderModalVisualizar = true;
     Swal.fire({
-      title: 'Editar Local de Serviço',
+      title: this.translate.instant('SERVICE-LOCAL.EDIT_SERVICE_LOCATION'),
       html: this.modalEditarDetalhes.nativeElement,
       showCloseButton: true,
       confirmButtonColor: 'green',
-      confirmButtonText: 'Salvar',
+      confirmButtonText: this.translate.instant('SERVICE-LOCAL.SAVE'),
       showCancelButton: true,
-      cancelButtonText: 'Cancelar',
+      cancelButtonText: this.translate.instant('SERVICE-LOCAL.CANCEL'),
       cancelButtonColor: 'red',
     }).then((result) => {
       if (result.isConfirmed) {
@@ -334,13 +336,13 @@ export class LocalServicoComponent implements OnInit {
 
   excluirLocalServico(id: number) {
     Swal.fire({
-      title: 'Excluir Local de Serviço?',
-      html: `Deseja realmente excluir o Local de Serviço? <br>Essa ação é irreverssível!`,
+      title: this.translate.instant('SERVICE-LOCAL.DELETE_SERVICE_LOCATION'),
+      html: this.translate.instant('SERVICE-LOCAL.CONFIRM_DELETE_SERVICE_LOCATION'),
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Sim, excluir!',
+      confirmButtonText: this.translate.instant('SERVICE-LOCAL.CONFIRM_DELETE'),
       confirmButtonColor: 'red',
-      cancelButtonText: 'Cancelar',
+      cancelButtonText: this.translate.instant('SERVICE-LOCAL.CANCEL'),
       cancelButtonColor: 'green',
     }).then((result) => {
       if (result.isConfirmed) {
@@ -349,7 +351,7 @@ export class LocalServicoComponent implements OnInit {
           tap(retorno => {
             this.spinner.hide();
             Swal.fire({
-              text: "Local de Serviço excluído com sucesso!",
+              text: this.translate.instant('SERVICE-LOCAL.DELETE_SUCCESS'),
               icon: "success",
               showConfirmButton: false,
               timer: 3000
@@ -360,7 +362,7 @@ export class LocalServicoComponent implements OnInit {
             this.spinner.hide();
             let msgErro = error.error;
             if (error.error === "This Location has tasks related to it, please delete the tasks first!") {
-              msgErro = "Esse local possui serviços em aberto relacionados a ele, por favor, exclua os serviços primeiro!";
+              msgErro = this.translate.instant('SERVICE-LOCAL.LOCATION_HAS_TASKS');
             }
             Swal.fire({
               text: msgErro,

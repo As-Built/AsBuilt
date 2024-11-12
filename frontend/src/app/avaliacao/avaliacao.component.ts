@@ -17,6 +17,7 @@ import { cloneDeep } from 'lodash';
 import { ValorProducaoService } from '../shared/service/valor-producao.service';
 import { ValorProducaoModel } from '../shared/model/valor-producao.model';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-avaliacao',
@@ -95,6 +96,7 @@ export class AvaliacaoComponent implements OnInit {
   executorPercentages: number[] = [];
   valorProducaoModel = new ValorProducaoModel();
   valoresProducao: ValorProducaoModel[] = [];
+  currentLang: string = 'en';
 
   constructor(
     private avaliacaoService: AvaliacaoService,
@@ -103,7 +105,8 @@ export class AvaliacaoComponent implements OnInit {
     private construtoraService: ConstrutoraService,
     private usuarioService: UsuarioService,
     private valorProducaoService: ValorProducaoService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService,
   ) { }
 
   ngOnInit(): void {
@@ -497,18 +500,23 @@ export class AvaliacaoComponent implements OnInit {
   modalAvaliarServico(servico: ServicoModel) {
     this.servicoSelecionadoAvaliacao = cloneDeep(servico);//Clonando objeto e não a sua referência
     this.renderModalAvaliacaoServico = true;
-    this.expectedStartDateFormatada = formatDate(this.servicoSelecionadoAvaliacao.expectedStartDate, "dd/MM/yyyy", "pt-BR");
-    this.expectedEndDateFormatada = formatDate(this.servicoSelecionadoAvaliacao.expectedEndDate, "dd/MM/yyyy", "pt-BR");
+    const currentLang = this.translate.currentLang || 'pt-br';
+    this.currentLang = currentLang;
+    this.translate.onLangChange.subscribe((event) => {
+      this.currentLang = event.lang;
+    });
+    this.expectedStartDateFormatada = formatDate(this.servicoSelecionadoAvaliacao.expectedStartDate, "dd/MM/yyyy", currentLang);
+    this.expectedEndDateFormatada = formatDate(this.servicoSelecionadoAvaliacao.expectedEndDate, "dd/MM/yyyy", currentLang);
     this.avaliacaoModel.task = this.servicoSelecionadoAvaliacao;
     Swal.fire({
-      title: 'Avaliação de Serviço',
+      title: this.translate.instant('EVALUATION.SERVICE_EVALUATION'),
       width: '80%',
       html: this.modalAvaliacaoServico.nativeElement,
       showCloseButton: true,
       confirmButtonColor: 'green',
-      confirmButtonText: 'Anexar Fotos',
+      confirmButtonText: this.translate.instant('EVALUATION.ATTACH_PHOTOS'),
       showCancelButton: true,
-      cancelButtonText: 'Cancelar',
+      cancelButtonText: this.translate.instant('EVALUATION.CANCEL'),
       cancelButtonColor: 'red',
     }).then((result) => {
       if (result.isConfirmed) {
@@ -558,17 +566,17 @@ export class AvaliacaoComponent implements OnInit {
         }
       } else {
         Swal.fire({
-          text: "As alterações não salvas serão perdidas, confirmar?",
+          text: this.translate.instant('EVALUATION.UNSAVED_CHANGES_CONFIRMATION'),
           icon: "warning",
           confirmButtonColor: '#4caf50',
-          confirmButtonText: 'Voltar a editar',
+          confirmButtonText: this.translate.instant('EVALUATION.RETURN_TO_EDIT'),
           showCancelButton: true,
-          cancelButtonText: "Descartar",
+          cancelButtonText: this.translate.instant('EVALUATION.DISCARD'),
           cancelButtonColor: '#dc3741'
         }).then((resultCancel) => {
           if (resultCancel.isDismissed) {
             Swal.fire({
-              text: "Alterações descartadas.",
+              text: this.translate.instant('EVALUATION.CHANGES_DISCARDED'),
               icon: "success",
               showConfirmButton: false,
               timer: 2500,
@@ -593,15 +601,19 @@ export class AvaliacaoComponent implements OnInit {
 
   async modalVisualizarAvaliacao(avaliacao: AvaliacaoModel) {
     this.servicoSelecionadoAvaliacao = cloneDeep(avaliacao.task);//Clonando objeto e não a sua referência
-    this.expectedStartDateFormatada = formatDate(this.servicoSelecionadoAvaliacao.expectedStartDate, "dd/MM/yyyy", "pt-BR");
-    this.expectedEndDateFormatada = formatDate(this.servicoSelecionadoAvaliacao.expectedEndDate, "dd/MM/yyyy", "pt-BR");
-    this.realStartDateFormatada = formatDate(this.servicoSelecionadoAvaliacao.startDate!, "dd/MM/yyyy", "pt-BR");
+    const currentLang = this.translate.currentLang;
+    const dateFormat = currentLang === 'en' ? 'MM/dd/yyyy' : 'dd/MM/yyyy';
+    const locale = currentLang === 'en' ? 'en-US' : 'pt-BR';
+
+    this.expectedStartDateFormatada = formatDate(this.servicoSelecionadoAvaliacao.expectedStartDate, dateFormat, locale);
+    this.expectedEndDateFormatada = formatDate(this.servicoSelecionadoAvaliacao.expectedEndDate, dateFormat, locale);
+    this.realStartDateFormatada = formatDate(this.servicoSelecionadoAvaliacao.startDate!, dateFormat, locale);
     this.realEndDateFormatada = this.servicoSelecionadoAvaliacao.finalDate 
-      ? formatDate(this.servicoSelecionadoAvaliacao.finalDate, "dd/MM/yyyy", "pt-BR") 
+      ? formatDate(this.servicoSelecionadoAvaliacao.finalDate, dateFormat, locale) 
       : null;
     this.avaliacaoModel = cloneDeep(avaliacao);
     await this.buscarValorProducaoPorAvaliacao(this.avaliacaoModel.id!);
-    this.dataAvalicaoFormatada = formatDate(this.avaliacaoModel.assessmentDate, "dd/MM/yyyy", "pt-BR");
+    this.dataAvalicaoFormatada = formatDate(this.avaliacaoModel.assessmentDate, dateFormat, locale);
     
     let fotosArray: any[] = [];
     fotosArray.push(this.avaliacaoModel.assessmentPhoto0);
@@ -614,12 +626,12 @@ export class AvaliacaoComponent implements OnInit {
 
     this.rendermodalVisualizarAvaliacaoConcluida = true;
     Swal.fire({
-      title: 'Avaliação de Serviço',
+      title: this.translate.instant('EVALUATION.SERVICE_EVALUATION'),
       width: '80%',
       html: this.modalVisualizarAvaliacaoConcluida.nativeElement,
       showCloseButton: true,
       confirmButtonColor: 'blue',
-      confirmButtonText: 'Fechar',
+      confirmButtonText: this.translate.instant('EVALUATION.CLOSE'),
     }).then((result) => {
       if (result.isConfirmed) {
         this.modalListarAvaliacoes(this.servicoSelecionadoAvaliacao);
@@ -665,14 +677,14 @@ export class AvaliacaoComponent implements OnInit {
     this.renderModalAnexarFotos = true;
     this.fetchImage(avaliacao.id!);
     Swal.fire({
-      title: 'Anexar Fotos',
+      title: this.translate.instant('EVALUATION.ATTACH_PHOTOS'),
       width: '80%',
       html: this.modalAnexarFotos.nativeElement,
       showCloseButton: true,
       confirmButtonColor: 'green',
-      confirmButtonText: 'Concluir avaliação',
+      confirmButtonText: this.translate.instant('EVALUATION.COMPLETE_EVALUATION'),
       showCancelButton: true,
-      cancelButtonText: 'Cancelar avaliação',
+      cancelButtonText: this.translate.instant('EVALUATION.CANCEL_EVALUATION'),
       cancelButtonColor: 'red',
     }).then((result) => {
       if (result.isConfirmed) {
@@ -689,7 +701,7 @@ export class AvaliacaoComponent implements OnInit {
               this.spinner.hide();
               if (avaliacao.assessmentResult) {
                 Swal.fire({
-                  html: "Avaliação salva com sucesso! <br> Resultado: <b>SERVIÇO APROVADO! </b>",
+                  html: this.translate.instant('EVALUATION.EVALUATION_SAVED_APPROVED'),
                   icon: "success",
                   showConfirmButton: false,
                   timer: 2500,
@@ -703,7 +715,7 @@ export class AvaliacaoComponent implements OnInit {
                 });
               } else {
                 Swal.fire({
-                  html: "Avaliação salva com sucesso! <br> Resultado: <b>SERVIÇO REPROVADO! </b>",
+                  html: this.translate.instant('EVALUATION.EVALUATION_SAVED_REJECTED'),
                   icon: "warning",
                   showConfirmButton: false,
                   timer: 2500,
@@ -760,7 +772,7 @@ export class AvaliacaoComponent implements OnInit {
         }
       } else {
         Swal.fire({
-          text: "As alterações não salvas serão perdidas, confirmar?",
+          text: this.translate.instant('EVALUATION.UNSAVED_CHANGES_CONFIRM'),
           icon: "warning",
           confirmButtonColor: '#4caf50',
           confirmButtonText: 'Voltar a editar',
@@ -771,7 +783,7 @@ export class AvaliacaoComponent implements OnInit {
           if (resultCancel.isDismissed) {
             this.avaliacaoService.deletarAvaliacao(avaliacao.id!).pipe().subscribe();
             Swal.fire({
-              text: "Alterações descartadas.",
+              text: this.translate.instant('EVALUATION.CHANGES_DISCARDED'),
               icon: "success",
               showConfirmButton: false,
               timer: 2500,
@@ -801,19 +813,19 @@ export class AvaliacaoComponent implements OnInit {
 
   validarCampos(avaliacao: AvaliacaoModel) {
     if (avaliacao.task.startDate === null || avaliacao.task.startDate === undefined) {
-      this.msgErroValidacao = "É necessário informar da data de início real do serviço!";
+      this.msgErroValidacao = this.translate.instant('EVALUATION.ERROR_REQUIRED_START_DATE');
       this.campoErroValidacao = "#startDateAvaliacao";
       return false;
     }
 
     if (avaliacao.task.finalDate === null || avaliacao.task.finalDate === undefined) {
-      this.msgErroValidacao = "É necessário informar da data de término real do serviço!";
+      this.msgErroValidacao = this.translate.instant('EVALUATION.ERROR_REQUIRED_END_DATE');
       this.campoErroValidacao = "#finalDateAvaliacao";
       return false;
     }
 
     if (avaliacao.task.finalDate < avaliacao.task.startDate) {
-      this.msgErroValidacao = "A data de conclusão do serviço não pode ser anterior a data de início!";
+      this.msgErroValidacao = this.translate.instant('EVALUATION.ERROR_END_DATE_BEFORE_START');
       this.campoErroValidacao = "#finalDateAvaliacao";
       return false;
     }
@@ -823,44 +835,44 @@ export class AvaliacaoComponent implements OnInit {
     today.setHours(0, 0, 0, 0);
     
     if (finalDate > today) {
-      this.msgErroValidacao = "A data de conclusão do serviço não pode ser posterior a data de hoje!";
+      this.msgErroValidacao = this.translate.instant('EVALUATION.ERROR_END_DATE_AFTER_TODAY');
       this.campoErroValidacao = "#finalDateAvaliacao";
       return false;
     }
 
     if (avaliacao.taskExecutors === null || avaliacao.taskExecutors === undefined) {
-      this.msgErroValidacao = "É necessário informar pelo menos um Funcionário Executor!";
+      this.msgErroValidacao = this.translate.instant('EVALUATION.ERROR_REQUIRED_EXECUTOR');
       this.campoErroValidacao = "#executorAvaliacao1";
       return false;
     }
 
     if (avaliacao.taskEvaluators === null || avaliacao.taskEvaluators === undefined) {
-      this.msgErroValidacao = "É necessário informar pelo menos um Avaliador!";
+      this.msgErroValidacao = this.translate.instant('EVALUATION.ERROR_REQUIRED_EVALUATOR');
       this.campoErroValidacao = "#evaluatorAvaliacao1";
       return false;
     }
 
     if (avaliacao.parameter0Result === undefined || avaliacao.parameter0Result === null) {
-      this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter0Name + "!";
+      this.msgErroValidacao = this.translate.instant('EVALUATION.ERROR_REQUIRED_RESULT', { parameterName: avaliacao.task.taskType.parameter0Name });
       this.campoErroValidacao = "#parameter0ResultAvaliacao";
       return false;
     }
 
     if (avaliacao.parameter1Result === undefined || avaliacao.parameter1Result === null) {
-      this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter1Name + "!";
+      this.msgErroValidacao = this.translate.instant('EVALUATION.ERROR_REQUIRED_RESULT', { parameterName: avaliacao.task.taskType.parameter1Name });
       this.campoErroValidacao = "#parameter1ResultAvaliacao";
       return false;
     }
 
     if (avaliacao.parameter2Result === undefined || avaliacao.parameter2Result === null) {
-      this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter2Name + "!";
+      this.msgErroValidacao = this.translate.instant('EVALUATION.ERROR_REQUIRED_RESULT', { parameterName: avaliacao.task.taskType.parameter2Name });
       this.campoErroValidacao = "#parameter2ResultAvaliacao";
       return false;
     }
 
     if (avaliacao.task.taskType.parameter3Name != null) {
       if (avaliacao.parameter3Result === undefined || avaliacao.parameter3Result === null) {
-        this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter3Name + "!";
+        this.msgErroValidacao = this.translate.instant('EVALUATION.ERROR_REQUIRED_RESULT', { parameterName: avaliacao.task.taskType.parameter3Name });
         this.campoErroValidacao = "#parameter3ResultAvaliacao";
         return false;
       }
@@ -868,7 +880,7 @@ export class AvaliacaoComponent implements OnInit {
 
     if (avaliacao.task.taskType.parameter4Name != null) {
       if (avaliacao.parameter4Result === undefined || avaliacao.parameter4Result === null) {
-        this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter4Name + "!";
+        this.msgErroValidacao = this.translate.instant('EVALUATION.ERROR_REQUIRED_RESULT', { parameterName: avaliacao.task.taskType.parameter4Name });
         this.campoErroValidacao = "#parameter4ResultAvaliacao";
         return false;
       }
@@ -876,7 +888,7 @@ export class AvaliacaoComponent implements OnInit {
 
     if (avaliacao.task.taskType.parameter5Name != null) {
       if (avaliacao.parameter5Result === undefined || avaliacao.parameter5Result === null) {
-        this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter5Name + "!";
+        this.msgErroValidacao = this.translate.instant('EVALUATION.ERROR_REQUIRED_RESULT', { parameterName: avaliacao.task.taskType.parameter5Name });
         this.campoErroValidacao = "#parameter5ResultAvaliacao";
         return false;
       }
@@ -884,7 +896,7 @@ export class AvaliacaoComponent implements OnInit {
 
     if (avaliacao.task.taskType.parameter6Name != null) {
       if (avaliacao.parameter6Result === undefined || avaliacao.parameter6Result=== null) {
-        this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter6Name + "!";
+        this.msgErroValidacao = this.translate.instant('EVALUATION.ERROR_REQUIRED_RESULT', { parameterName: avaliacao.task.taskType.parameter6Name });
         this.campoErroValidacao = "#parameter6ResultAvaliacao";
         return false;
       }
@@ -892,7 +904,7 @@ export class AvaliacaoComponent implements OnInit {
 
     if (avaliacao.task.taskType.parameter7Name != null) {
       if (avaliacao.parameter7Result === undefined || avaliacao.parameter7Result === null) {
-        this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter7Name + "!";
+        this.msgErroValidacao = this.translate.instant('EVALUATION.ERROR_REQUIRED_RESULT', { parameterName: avaliacao.task.taskType.parameter7Name });
         this.campoErroValidacao = "#parameter7ResultAvaliacao";
         return false;
       }
@@ -900,7 +912,7 @@ export class AvaliacaoComponent implements OnInit {
 
     if (avaliacao.task.taskType.parameter8Name != null) {
       if (avaliacao.parameter8Result === undefined || avaliacao.parameter8Result === null) {
-        this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter8Name + "!";
+        this.msgErroValidacao = this.translate.instant('EVALUATION.ERROR_REQUIRED_RESULT', { parameterName: avaliacao.task.taskType.parameter8Name });
         this.campoErroValidacao = "#parameter8ResultAvaliacao";
         return false;
       }
@@ -908,7 +920,7 @@ export class AvaliacaoComponent implements OnInit {
 
     if (avaliacao.task.taskType.parameter9Name != null) {
       if (avaliacao.parameter9Result === undefined || avaliacao.parameter9Result === null) {
-        this.msgErroValidacao = "É necessário informar o resultado do " + avaliacao.task.taskType.parameter9Name + "!";
+        this.msgErroValidacao = this.translate.instant('EVALUATION.ERROR_REQUIRED_RESULT', { parameterName: avaliacao.task.taskType.parameter9Name });
         this.campoErroValidacao = "#parameter9ResultAvaliacao";
         return false;
       }
@@ -916,19 +928,19 @@ export class AvaliacaoComponent implements OnInit {
 
     const rateioSoma = this.executorPercentages.reduce((a, b) => a + b, 0);
     if (rateioSoma !== 100) {
-      this.msgErroValidacao = 'A soma total das porcentagens de Rateio dos Executores deve ser igual a 100!';
+      this.msgErroValidacao = this.translate.instant('EVALUATION.ERROR_TOTAL_PERCENTAGE');this.msgErroValidacao = 'A soma total das porcentagens de Rateio dos Executores deve ser igual a 100!';
       this.campoErroValidacao = "#rateioExecutor0";
       return false;
     }
 
     if (this.executorPercentages.some(percentage => percentage === 0)) {
-      this.msgErroValidacao = 'Não é possível inserir um rateio 0% a um funcionário executor!';
+      this.msgErroValidacao = this.translate.instant('EVALUATION.ERROR_ZERO_PERCENTAGE');
       this.campoErroValidacao = "#rateioExecutor0";
       return false;
     }
 
     if (new Set(avaliacao.taskExecutors.map(executor => executor.id)).size !== avaliacao.taskExecutors.length) {
-      this.msgErroValidacao = 'Não é possível inserir funcionários executores duplicados!';
+      this.msgErroValidacao = this.translate.instant('EVALUATION.ERROR_DUPLICATE_EXECUTORS');
       this.campoErroValidacao = "#executorAvaliacao1";
       return false;
   }
@@ -938,7 +950,7 @@ export class AvaliacaoComponent implements OnInit {
 
   validarQtdFotos() {
     if (this.fotosServicoBlob.length < 3) {
-      this.msgErroValidacao = "É necessário informar da data de início real do serviço!";
+      this.msgErroValidacao = this.translate.instant('EVALUATION.ERROR_REQUIRED_START_DATE');
       return false;
     } else {
       return true;

@@ -1,29 +1,29 @@
 
 <div>
     <form [formGroup]="cadastroUsuarioForm">
-        <label for="chk" aria-hidden="true">Cadastrar</label>
+        <label for="chk" aria-hidden="true">{{ 'SIGNUP.REGISTER' | translate }}</label>
         <input formControlName="cpf" style="margin-top: 30px;" type="text" name="cpf" 
             placeholder="CPF *" mask="CPF_CNPJ" required>
-        <input formControlName="name" type="text" name="name" placeholder="Nome *" required>
-        <input formControlName="email" type="email" name="email" placeholder="Email *" required>
+            <input formControlName="name" type="text" name="name" placeholder="{{ 'SIGNUP.NAME_PLACEHOLDER' | translate }}" required>
+        <input formControlName="email" type="email" name="email" placeholder="E-mail *" required>
         <div class="password-field">
-            <input formControlName="passwordCadastro" type="password" name="passwordCadastro" placeholder="Senha *" required id="passwordCadastro">
+            <input formControlName="passwordCadastro" type="password" name="passwordCadastro" placeholder="{{ 'SIGNUP.PASSWORD_PLACEHOLDER' | translate }}" required id="passwordCadastro">
             <i *ngIf="showPassword" class="material-icons password-icon" 
-                (click)="togglePasswordVisibility()" matTooltip="Esconder senha"
+                (click)="togglePasswordVisibility()" matTooltip="{{ 'SIGNUP.HIDE_PASSWORD_TOOLTIP' | translate }}"
                 matTooltipShowDelay="1500">visibility</i>
             <i *ngIf="!showPassword" class="material-icons password-icon" 
-                (click)="togglePasswordVisibility()" matTooltip="Mostrar senha"
+                (click)="togglePasswordVisibility()" matTooltip="{{ 'SIGNUP.SHOW_PASSWORD_TOOLTIP' | translate }}"
                 matTooltipShowDelay="1500">visibility_off</i>
         </div>
         <div class="password-field">
-            <input formControlName="confirmPassword" type="password" name="confirmPassword" placeholder="Repita a senha *" required id="confirmPassword">
+            <input formControlName="confirmPassword" type="password" name="confirmPassword" placeholder="{{ 'SIGNUP.CONFIRM_PASSWORD_PLACEHOLDER' | translate }}" required id="confirmPassword">
             <i *ngIf="showPassword" class="material-icons password-icon" 
-                (click)="togglePasswordVisibility()" matTooltip="Esconder senha"
+                (click)="togglePasswordVisibility()" matTooltip="{{ 'SIGNUP.HIDE_PASSWORD_TOOLTIP' | translate }}"
                 matTooltipShowDelay="1500">visibility</i>
             <i *ngIf="!showPassword" class="material-icons password-icon" 
-                (click)="togglePasswordVisibility()" matTooltip="Mostrar senha"
+                (click)="togglePasswordVisibility()" matTooltip="{{ 'SIGNUP.SHOW_PASSWORD_TOOLTIP' | translate }}"
                 matTooltipShowDelay="1500">visibility_off</i>
         </div>
-        <button class="btn-confirm" style="margin-top: 30px;" (click)="signUp()">Cadastrar</button>
+        <button class="btn-confirm" style="margin-top: 30px;" (click)="signUp()">{{ 'SIGNUP.REGISTER' | translate }}</button>
     </form>
 </div>

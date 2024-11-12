@@ -5,6 +5,8 @@ import { jwtDecode } from "jwt-decode";
 import { PerfilUsuarioService } from '../../perfil-usuario/service/perfil-usuario.service';
 import { lastValueFrom } from 'rxjs';
 import { PerfilUsuarioModel } from '../../perfil-usuario/model/perfil-usuario.model';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageSelectorService } from '../language-selector/service/language-selector.service';
 
 @Component({
   selector: 'app-navbar',
@@ -15,10 +17,13 @@ export class NavbarComponent implements OnInit{
 
   perfilUsuario = new PerfilUsuarioModel();
   profilePicture: string | null = null;
+  usuarioLogado: boolean = false;
   
   constructor(private router: Router,
     private perfilUsuarioService: PerfilUsuarioService,
-    private http: HttpClient
+    private http: HttpClient,
+    private translate: TranslateService,
+    private localeService: LanguageSelectorService
   ) { }
 
   ngOnInit(): void {
@@ -29,6 +34,11 @@ export class NavbarComponent implements OnInit{
     return this.router.url === '/home';
   }
   isNotHomeOrLogin() {
+    if (this.router.url === '/login' || this.router.url === '/home') {
+      this.usuarioLogado = false;
+    } else {
+      this.usuarioLogado = true;
+    }
     return this.router.url !== '/home' && this.router.url !== '/login';
   }
 
@@ -48,6 +58,7 @@ export class NavbarComponent implements OnInit{
       const usuarioId = this.getUserId();
       let teste = await lastValueFrom(this.perfilUsuarioService.buscarPerfilUsuario(Number(usuarioId)));
       this.perfilUsuario = teste;
+      this.localeService.setLanguage(this.perfilUsuario.systemLanguage);
       this.fetchImage(this.perfilUsuario.photo);
     } catch (error) {
       console.error(error)
@@ -78,4 +89,9 @@ export class NavbarComponent implements OnInit{
 
     this.router.navigate(['/home']);
   }
+
+  onLanguageChange(locale: string) {
+    this.translate.use(locale);
+}
+  
 }

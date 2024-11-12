@@ -1,3 +1,5 @@
+/// <reference types="@angular/localize" />
+
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { registerLocaleData } from '@angular/common';
 import ptBr from '@angular/common/locales/pt';

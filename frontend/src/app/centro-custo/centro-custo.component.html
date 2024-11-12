@@ -3,11 +3,11 @@
     <ul class="nav nav-tabs">
       <li class="nav-item">
         <a class="nav-link" [ngClass]="{'active': isCadastroCentroCusto}" id="cadastro-tab" data-toggle="tab"
-          (click)="mudarAba()">Cadastro</a>
+          (click)="mudarAba()">{{ 'COST-CENTER.REGISTRATION' | translate }}</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" [ngClass]="{'active': !isCadastroCentroCusto}" id="consulta-tab" data-toggle="tab"
-          (click)="mudarAba()">Consulta</a>
+          (click)="mudarAba()">{{ 'COST-CENTER.CONSULTATION' | translate }}</a>
       </li>
     </ul>
     <div class="tab-content">
@@ -15,7 +15,7 @@
         id="cadastro">
         <div class="row centralizar-conteudo">
           <div class="col-12 titulo">
-            <h1>Cadastro de Centro de Custos</h1>
+            <h1>{{ 'COST-CENTER.REGISTRATION_TITLE' | translate }}</h1>
             <hr style="margin-left: 25px;">
           </div>
         </div>
@@ -23,7 +23,8 @@
           style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between;">
           <div class="row">
             <div class="col-12">
-              <label for="nomeCentroDeCusto">Nome do Centro de Custo<span style="color: red;">*</span></label>
+              <label for="nomeCentroDeCusto">{{ 'COST-CENTER.NAME' | translate }}<span
+                  style="color: red;">*</span></label>
               <input type="text" name="nomeCentroDeCusto" id="nomeCentroDeCusto" required
                 matTooltip="Nome do centro de custo" matTooltipShowDelay="1500"
                 [(ngModel)]="cadastroCentroCusto.costCenterName" placeholder="Nome da obra">
@@ -32,42 +33,44 @@
           <div class="row">
             <div class="col-12">
               <hr style="margin-left: 25px;">
-              <h2 style="padding-left: 15px;">Endereço</h2>
+              <h2 style="padding-left: 15px;">{{ 'COST-CENTER.ADDRESS' | translate }}</h2>
             </div>
           </div>
           <div class="row">
             <div class="col-3">
-              <label for="cep">CEP<span style="color: red;">*</span></label>
-              <input type="text" name="cep" id="cep" mask="00.000-000" required matTooltip="CEP"
-                matTooltipShowDelay="1500" placeholder="00.000-000"
+              <label for="cep">{{ 'COST-CENTER.CEP' | translate }}<span style="color: red;">*</span></label>
+              <input type="text" name="cep" id="cep" mask="00.000-000" required
+                matTooltip="{{ 'COST-CENTER.CEP' | translate }}" matTooltipShowDelay="1500" placeholder="00.000-000"
                 [(ngModel)]="cadastroCentroCusto.costCenterAddress.postalCode"
                 (change)="getAddress(cadastroCentroCusto.costCenterAddress.postalCode)">
             </div>
           </div>
           <div class="row">
             <div class="col-7">
-              <label for="logradouro">Logradouro<span style="color: red;">*</span></label>
-              <input type="text" name="logradouro" id="logradouro" required placeholder="Rua Exemplo"
-                matTooltip="Rua, Avenida, Travessa, Alameda" matTooltipShowDelay="1500"
+              <label for="logradouro">{{ 'COST-CENTER.STREET' | translate }}<span style="color: red;">*</span></label>
+              <input type="text" name="logradouro" id="logradouro" required
+                placeholder="{{ 'COST-CENTER.STREET-PLACEHOLDER' | translate }}"
+                matTooltip="{{ 'COST-CENTER.STREET-TOOLTIP' | translate }}" matTooltipShowDelay="1500"
                 [disabled]="cadastroCentroCusto.costCenterAddress.postalCode.length > 0"
                 [(ngModel)]="cadastroCentroCusto.costCenterAddress.street">
             </div>
             <div class="col-2">
-              <label for="numero">Número<span style="color: red;">*</span></label>
-              <input type="number" name="numero" id="numero" required matTooltip="Para 'Sem Número' inserir '0'"
-                matTooltipShowDelay="1500" [(ngModel)]="cadastroCentroCusto.costCenterAddress.number"
-                min="0" (keypress)="numberOnly($event)">
+              <label for="numero">{{ 'COST-CENTER.NUMBER' | translate }}<span style="color: red;">*</span></label>
+              <input type="number" name="numero" id="numero" required
+                matTooltip="{{ 'COST-CENTER.NUMBER-TOOLTIP' | translate }}" matTooltipShowDelay="1500"
+                [(ngModel)]="cadastroCentroCusto.costCenterAddress.number" min="0" (keypress)="numberOnly($event)">
             </div>
           </div>
           <div class="row">
             <div class="col-7">
-              <label for="cidade">Cidade<span style="color: red;">*</span></label>
-              <input type="text" name="cidade" id="cidade" required matTooltip="Cidade" matTooltipShowDelay="1500"
-                [disabled]="cadastroCentroCusto.costCenterAddress.postalCode.length > 0"
-                placeholder="Cidade" [(ngModel)]="cadastroCentroCusto.costCenterAddress.city">
+              <label for="cidade">{{ 'COST-CENTER.CITY' | translate }}<span style="color: red;">*</span></label>
+              <input type="text" name="cidade" id="cidade" required matTooltip="{{ 'COST-CENTER.CITY' | translate }}"
+                matTooltipShowDelay="1500" [disabled]="cadastroCentroCusto.costCenterAddress.postalCode.length > 0"
+                placeholder="{{ 'COST-CENTER.CITY-PLACEHOLDER' | translate }}"
+                [(ngModel)]="cadastroCentroCusto.costCenterAddress.city">
             </div>
             <div class="col-2">
-              <label for="estado">UF<span style="color: red;">*</span></label>
+              <label for="estado">{{ 'COST-CENTER.STATE' | translate }}<span style="color: red;">*</span></label>
               <select name="estado" [(ngModel)]="cadastroCentroCusto.costCenterAddress.state"
                 [disabled]="cadastroCentroCusto.costCenterAddress.postalCode.length > 0">
                 <option *ngFor="let estado of estadosBrasileiros" [value]="estado">{{estado}}</option>
@@ -77,15 +80,17 @@
           <div class="row">
             <div class="col-12">
               <hr style="margin-left: 25px;">
-              <h2 style="padding-left: 15px;">Dados do centro de custo</h2>
+              <h2 style="padding-left: 15px;">{{ 'COST-CENTER.DATA' | translate }}</h2>
             </div>
           </div>
           <div class="row">
             <div class="col-12">
-              <label for="proprietario">Construtora<span style="color: red;">*</span></label>
-              <select name="proprietario" id="proprietario" required matTooltip="Proprietário do centro de custo"
-                matTooltipShowDelay="1500" [(ngModel)]="selectedConstrutoraIndex">
-                <option value="" disabled selected>Selecione uma construtora</option>
+              <label for="proprietario">{{ 'COST-CENTER.CONSTRUCTOR' | translate }}<span
+                  style="color: red;">*</span></label>
+              <select name="proprietario" id="proprietario" required
+                matTooltip="{{ 'COST-CENTER.CONSTRUCTOR-TOOLTIP' | translate }}" matTooltipShowDelay="1500"
+                [(ngModel)]="selectedConstrutoraIndex">
+                <option value="" disabled selected>{{ 'COST-CENTER.SELECT-CONSTRUCTOR' | translate }}</option>
                 <option *ngFor="let construtora of listaConstrutoras; let i = index" [value]="i">
                   {{construtora.builderName}}</option>
               </select>
@@ -93,28 +98,28 @@
           </div>
           <div class="row">
             <div class="col-6">
-              <label for="valorEmpreendido">Valor Inicial Empreendido</label>
+              <label for="valorEmpreendido">{{ 'COST-CENTER.INITIAL-VALUE' | translate }}</label>
               <input type="text" name="valorEmpreendido" id="valorEmpreendido" required
-                matTooltip="Valor já empreendido no centro de custo" matTooltipShowDelay="1500"
+                matTooltip="{{ 'COST-CENTER.INITIAL-VALUE-TOOLTIP' | translate }}" matTooltipShowDelay="1500"
                 [(ngModel)]="cadastroCentroCusto.valueUndertaken" currencyMask
-                [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
-                (keypress)="numberOnly($event)">
+                [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" (keypress)="numberOnly($event)">
             </div>
             <div class="col-6">
-              <label for="corcamentoPrevisto">Orçamento previsto</label>
+              <label for="corcamentoPrevisto">{{ 'COST-CENTER.BUDGET' | translate }}</label>
               <input type="text" name="corcamentoPrevisto" id="corcamentoPrevisto" required
-                matTooltip="Valor previsto para a conclusão da obra" matTooltipShowDelay="1500"
+                matTooltip="{{ 'COST-CENTER.BUDGET-TOOLTIP' | translate }}" matTooltipShowDelay="1500"
                 [(ngModel)]="cadastroCentroCusto.expectedBudget" currencyMask
-                [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
-                (keypress)="numberOnly($event)">
+                [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" (keypress)="numberOnly($event)">
             </div>
           </div>
           <div class="row">
             <div class="col-6">
-              <button class="btn-cancel" type="button" (click)="limparCampos()">Limpar campos</button>
+              <button class="btn-cancel" type="button" (click)="limparCampos()">{{ 'COST-CENTER.CLEAR-FIELDS' |
+                translate }}</button>
             </div>
             <div class="col-6">
-              <button class="btn-confirm" type="button" (click)="cadastrarCentroDeCusto()">Cadastrar</button>
+              <button class="btn-confirm" type="button" (click)="cadastrarCentroDeCusto()">{{ 'COST-CENTER.REGISTER' |
+                translate }}</button>
             </div>
           </div>
         </form>
@@ -123,45 +128,46 @@
         id="consulta">
         <div class="row centralizar-conteudo">
           <div class="col-12 titulo">
-            <h1>Centros de custo cadastrados</h1>
+            <h1>{{ 'COST-CENTER.REGISTERED-COST-CENTERS' | translate }}</h1>
           </div>
           <div class="row" *ngIf="listaCentrosDeCusto.length > 0">
             <div class="col-12 table-responsive">
               <table mat-table [dataSource]="listaCentrosDeCusto" class="mat-elevation-z8">
                 <ng-container matColumnDef="acoes">
-                  <th mat-header-cell *matHeaderCellDef>Ações</th>
+                  <th mat-header-cell *matHeaderCellDef>{{ 'COST-CENTER.ACTIONS' | translate }}</th>
                   <td mat-cell *matCellDef="let element">
-                    <mat-icon class="icones-acoes" matTooltip="Visualizar detalhes" matTooltipShowDelay="1500"
-                      (click)="visualizarDetalhes(element)" style="cursor: pointer;">
+                    <mat-icon class="icones-acoes" [matTooltip]="'COST-CENTER.VIEW-DETAILS' | translate"
+                      matTooltipShowDelay="1500" (click)="visualizarDetalhes(element)" style="cursor: pointer;">
                       visibility
                     </mat-icon>
-                    <mat-icon class="icones-acoes" matTooltip="Editar" matTooltipShowDelay="1500"
-                      (click)="modalEditarCentroDeCusto(element)" style="cursor: pointer;">
+                    <mat-icon class="icones-acoes" [matTooltip]="'COST-CENTER.EDIT' | translate"
+                      matTooltipShowDelay="1500" (click)="modalEditarCentroDeCusto(element)" style="cursor: pointer;">
                       edit-note
                     </mat-icon>
-                    <mat-icon class="icones-acoes" matTooltip="Excluir centro de custo" matTooltipShowDelay="1500"
-                      (click)="excluirCentroDeCusto(element.id, element.costCenterName)" style="cursor: pointer;">
+                    <mat-icon class="icones-acoes" [matTooltip]="'COST-CENTER.DELETE' | translate"
+                      matTooltipShowDelay="1500" (click)="excluirCentroDeCusto(element.id, element.costCenterName)"
+                      style="cursor: pointer;">
                       delete
                     </mat-icon>
                   </td>
                 </ng-container>
                 <ng-container matColumnDef="costCenterName">
-                  <th mat-header-cell *matHeaderCellDef>Nome</th>
+                  <th mat-header-cell *matHeaderCellDef>{{ 'COST-CENTER.NAME' | translate }}</th>
                   <td mat-cell *matCellDef="let element"> {{element.costCenterName}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="builder">
-                  <th mat-header-cell *matHeaderCellDef>Construtora</th>
+                  <th mat-header-cell *matHeaderCellDef>{{ 'COST-CENTER.BUILDER' | translate }}</th>
                   <td mat-cell *matCellDef="let element"> {{element.builder.builderName}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="valueUndertaken">
-                  <th mat-header-cell *matHeaderCellDef>Valor Empreendido</th>
+                  <th mat-header-cell *matHeaderCellDef>{{ 'COST-CENTER.VALUE-UNDERTAKEN' | translate }}</th>
                   <td mat-cell *matCellDef="let element"> {{element.valueUndertaken | real}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="expectedBudget">
-                  <th mat-header-cell *matHeaderCellDef>Orçamento Previsto</th>
+                  <th mat-header-cell *matHeaderCellDef>{{ 'COST-CENTER.EXPECTED-BUDGET' | translate }}</th>
                   <td mat-cell *matCellDef="let element"> {{element.expectedBudget | real}} </td>
                 </ng-container>
 
@@ -172,112 +178,109 @@
           </div>
           <div class="row centralizar-conteudo" *ngIf="listaCentrosDeCusto.length === 0">
             <div class="col-12 titulo">
-              <h3>
-                Nenhum Centro de custo encontrado
-              </h3>
+              <h3>{{ 'COST-CENTER.NO-COST-CENTER-FOUND' | translate }}</h3>
             </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Modal de visualização de detalhes do Centro de Custo-->
-<div #modalVisualizarDetalhes>
-  <div *ngIf="renderModalVisualizar" class="modal-body text-left modal-scroll">
-    <div class="row">
-      <div class="col-12">
-        <hr style="margin-left: 25px;">
-        <h2 style="padding-left: 15px;">Dados do Centro de Custo</h2>
+  <!-- Modal de visualização de detalhes do Centro de Custo-->
+  <div #modalVisualizarDetalhes>
+    <div *ngIf="renderModalVisualizar" class="modal-body text-left modal-scroll">
+      <div class="row">
+        <div class="col-12">
+          <hr style="margin-left: 25px;">
+          <h2 style="padding-left: 15px;">{{ 'COST-CENTER.COST-CENTER-DATA' | translate }}</h2>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <label for="nomeCentroDeCusto">Nome do Centro de Custo<span style="color: red;">*</span></label>
-        <input type="text" name="nomeCentroDeCusto" id="nomeCentroDeCusto" [disabled]="indDesabilitaCampos"
-          matTooltip="Nome do centro de custo" matTooltipShowDelay="1500" [(ngModel)]="centroCustoModel.costCenterName"
-          placeholder="Nome da obra">
+      <div class="row">
+        <div class="col-12">
+          <label for="nomeCentroDeCusto">{{ 'COST-CENTER.COST-CENTER-NAME' | translate }}<span style="color: red;">*</span></label>
+          <input type="text" name="nomeCentroDeCusto" id="nomeCentroDeCusto" [disabled]="indDesabilitaCampos"
+            matTooltip="{{ 'COST-CENTER.COST-CENTER-NAME-TOOLTIP' | translate }}" matTooltipShowDelay="1500"
+            [(ngModel)]="centroCustoModel.costCenterName" placeholder="{{ 'COST-CENTER.WORK-NAME' | translate }}">
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <hr style="margin-left: 25px;">
-        <h2 style="padding-left: 15px;">Endereço</h2>
+      <div class="row">
+        <div class="col-12">
+          <hr style="margin-left: 25px;">
+          <h2 style="padding-left: 15px;">{{ 'COST-CENTER.ADDRESS' | translate }}</h2>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-4">
-        <label for="cep">CEP<span style="color: red;">*</span></label>
-        <input type="text" name="cep" id="cep" mask="00.000-000" matTooltip="CEP" matTooltipShowDelay="1500"
-          [disabled]="indDesabilitaCampos" placeholder="00.000-000"
-          [(ngModel)]="centroCustoModel.costCenterAddress.postalCode"
-          (change)="getAddress(centroCustoModel.costCenterAddress.postalCode)">
+      <div class="row">
+        <div class="col-4">
+          <label for="cep">{{ 'COST-CENTER.POSTAL-CODE' | translate }}<span style="color: red;">*</span></label>
+          <input type="text" name="cep" id="cep" mask="00.000-000" matTooltip="{{ 'COST-CENTER.POSTAL-CODE-TOOLTIP' | translate }}" matTooltipShowDelay="1500"
+            [disabled]="indDesabilitaCampos" placeholder="00.000-000"
+            [(ngModel)]="centroCustoModel.costCenterAddress.postalCode"
+            (change)="getAddress(centroCustoModel.costCenterAddress.postalCode)">
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-8">
-        <label for="logradouro">Logradouro<span style="color: red;">*</span></label>
-        <input type="text" name="logradouro" id="logradouro" required placeholder="Rua Exemplo"
-          matTooltip="Rua, Avenida, Travessa, Alameda" matTooltipShowDelay="1500"
-          [disabled]="centroCustoModel.costCenterAddress.postalCode.length > 0 || indDesabilitaCampos"
-          [(ngModel)]="centroCustoModel.costCenterAddress.street">
+      <div class="row">
+        <div class="col-8">
+          <label for="logradouro">{{ 'COST-CENTER.STREET' | translate }}<span style="color: red;">*</span></label>
+          <input type="text" name="logradouro" id="logradouro" required placeholder="{{ 'COST-CENTER.STREET-EXAMPLE' | translate }}"
+            matTooltip="{{ 'COST-CENTER.STREET-TOOLTIP' | translate }}" matTooltipShowDelay="1500"
+            [disabled]="centroCustoModel.costCenterAddress.postalCode.length > 0 || indDesabilitaCampos"
+            [(ngModel)]="centroCustoModel.costCenterAddress.street">
+        </div>
+        <div class="col-4">
+          <label for="numero">{{ 'COST-CENTER.NUMBER' | translate }}<span style="color: red;">*</span></label>
+          <input type="number" name="numero" id="numero" required matTooltip="{{ 'COST-CENTER.NUMBER-TOOLTIP' | translate }}"
+            matTooltipShowDelay="1500" [(ngModel)]="centroCustoModel.costCenterAddress.number"
+            [disabled]="indDesabilitaCampos" min="0" (keypress)="numberOnly($event)">
+        </div>
       </div>
-      <div class="col-4">
-        <label for="numero">Número<span style="color: red;">*</span></label>
-        <input type="number" name="numero" id="numero" required matTooltip="Para 'Sem Número' inserir '0'"
-          matTooltipShowDelay="1500" [(ngModel)]="centroCustoModel.costCenterAddress.number"
-          [disabled]="indDesabilitaCampos" min="0" (keypress)="numberOnly($event)">
+      <div class="row">
+        <div class="col-8">
+          <label for="cidade">{{ 'COST-CENTER.CITY' | translate }}<span style="color: red;">*</span></label>
+          <input type="text" name="cidade" id="cidade" required matTooltip="{{ 'COST-CENTER.CITY-TOOLTIP' | translate }}" matTooltipShowDelay="1500"
+            [disabled]="centroCustoModel.costCenterAddress.postalCode.length > 0 || indDesabilitaCampos"
+            placeholder="{{ 'COST-CENTER.CITY' | translate }}" [(ngModel)]="centroCustoModel.costCenterAddress.city">
+        </div>
+        <div class="col-4">
+          <label for="estado">{{ 'COST-CENTER.STATE' | translate }}<span style="color: red;">*</span></label>
+          <select name="estado" [(ngModel)]="centroCustoModel.costCenterAddress.state"
+            [disabled]="centroCustoModel.costCenterAddress.postalCode.length > 0 || indDesabilitaCampos">
+            <option *ngFor="let estado of estadosBrasileiros" [value]="estado">{{estado}}</option>
+          </select>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-8">
-        <label for="cidade">Cidade<span style="color: red;">*</span></label>
-        <input type="text" name="cidade" id="cidade" required matTooltip="Cidade" matTooltipShowDelay="1500"
-          [disabled]="centroCustoModel.costCenterAddress.postalCode.length > 0 || indDesabilitaCampos"
-          placeholder="Cidade" [(ngModel)]="centroCustoModel.costCenterAddress.city">
+      <div class="row">
+        <div class="col-12">
+          <hr style="margin-left: 25px;">
+          <h2 style="padding-left: 15px;">{{ 'COST-CENTER.TITLE' | translate }}</h2>
+        </div>
       </div>
-      <div class="col-4">
-        <label for="estado">UF<span style="color: red;">*</span></label>
-        <select name="estado" [(ngModel)]="centroCustoModel.costCenterAddress.state"
-          [disabled]="centroCustoModel.costCenterAddress.postalCode.length > 0 || indDesabilitaCampos">
-          <option *ngFor="let estado of estadosBrasileiros" [value]="estado">{{estado}}</option>
-        </select>
+      <div class="row">
+        <div class="col-12">
+          <label for="proprietario">{{ 'COST-CENTER.BUILDER' | translate }}<span style="color: red;">*</span></label>
+          <select style="height: 40px" name="proprietario" id="proprietario" required
+            matTooltip="{{ 'COST-CENTER.BUILDER-TOOLTIP' | translate }}" matTooltipShowDelay="1500"
+            [(ngModel)]="centroCustoModel.builder.builderName" [disabled]="indDesabilitaCampos">
+            <option value="" disabled selected>{{ 'COST-CENTER.SELECT-BUILDER' | translate }}</option>
+            <option *ngFor="let construtora of listaConstrutoras" [value]="construtora.builderName">
+              {{construtora.builderName}}</option>
+          </select>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <hr style="margin-left: 25px;">
-        <h2 style="padding-left: 15px;">Dados do centro de custo</h2>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <label for="proprietario">Construtora<span style="color: red;">*</span></label>
-        <select style="height: 40px" name="proprietario" id="proprietario" required
-          matTooltip="Proprietário do centro de custo" matTooltipShowDelay="1500"
-          [(ngModel)]="centroCustoModel.builder.builderName" [disabled]="indDesabilitaCampos">
-          <option value="" disabled selected>Selecione uma construtora</option>
-          <option *ngFor="let construtora of listaConstrutoras" [value]="construtora.builderName">
-            {{construtora.builderName}}</option>
-        </select>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-6">
-        <label for="valorEmpreendido">Valor Inicial Empreendido</label>
-        <input type="text" name="valorEmpreendido" id="valorEmpreendido" required
-          matTooltip="Valor já empreendido no centro de custo" matTooltipShowDelay="1500"
-          [(ngModel)]="centroCustoModel.valueUndertaken" currencyMask [disabled]="indDesabilitaCampos"
-          [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
-          (keypress)="numberOnly($event)">
-      </div>
-      <div class="col-6">
-        <label for="corcamentoPrevisto">Orçamento previsto</label>
-        <input type="text" name="corcamentoPrevisto" id="corcamentoPrevisto" required
-          matTooltip="Valor previsto para a conclusão da obra" matTooltipShowDelay="1500"
-          [(ngModel)]="centroCustoModel.expectedBudget" currencyMask [disabled]="indDesabilitaCampos"
-          [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
-          (keypress)="numberOnly($event)">
+      <div class="row">
+        <div class="col-6">
+          <label for="valorEmpreendido">{{ 'COST-CENTER.INITIAL-VALUE' | translate }}</label>
+          <input type="text" name="valorEmpreendido" id="valorEmpreendido" required
+            matTooltip="{{ 'COST-CENTER.INITIAL-VALUE-TOOLTIP' | translate }}" matTooltipShowDelay="1500"
+            [(ngModel)]="centroCustoModel.valueUndertaken" currencyMask [disabled]="indDesabilitaCampos"
+            [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" (keypress)="numberOnly($event)">
+        </div>
+        <div class="col-6">
+          <label for="corcamentoPrevisto">{{ 'COST-CENTER.EXPECTED-BUDGET' | translate }}</label>
+          <input type="text" name="corcamentoPrevisto" id="corcamentoPrevisto" required
+            matTooltip="{{ 'COST-CENTER.EXPECTED-BUDGET-TOOLTIP' | translate }}" matTooltipShowDelay="1500"
+            [(ngModel)]="centroCustoModel.expectedBudget" currencyMask [disabled]="indDesabilitaCampos"
+            [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" (keypress)="numberOnly($event)">
+        </div>
       </div>
     </div>
   </div>

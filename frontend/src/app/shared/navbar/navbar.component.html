@@ -4,7 +4,7 @@
       <a routerLink="/" class="nav-link">Home</a>
     </li>
     <li class="nav-item" *ngIf="isHomePage()">
-      <a routerLink="login" class="nav-link">Cadastre-se | Login</a>
+      <a routerLink="login" class="nav-link">{{ 'NAVBAR.REGISTER_LOGIN' | translate }}</a>
     </li>
     <li class="nav-item" *ngIf="isNotHomeOrLogin()">
       <div class="user-menu" mat-button [matMenuTriggerFor]="userMenu">
@@ -14,15 +14,19 @@
         <a class="nav-link">{{ perfilUsuario.name }}</a>
       </div>
       <mat-menu #userMenu="matMenu">
-        <a mat-menu-item routerLink="/perfilUsuario">Perfil de usuário</a>
+        <a mat-menu-item routerLink="/perfilUsuario" [matTooltip]="'NAVBAR.USER_PROFILE' | translate">{{ 'NAVBAR.USER_PROFILE' | translate }}</a>
         <a mat-menu-item (click)="logout()">Logout</a>
       </mat-menu>
     </li>
-    <li class="nav-item" *ngIf="isNotHomeOrLogin()" matTooltip="Configurações" matTooltipShowDelay="1500">
+    <li class="nav-item" *ngIf="isNotHomeOrLogin()" [matTooltip]="'NAVBAR.SETTINGS' | translate" matTooltipShowDelay="1500">
       <a routerLink="configuracao" class="nav-link">
         <span style="font-size: 35px;" class="material-symbols-outlined">
         settings
         </span>
       </a>
+    </li>
+    <li class="nav-item" [matTooltip]="'NAVBAR.LANGUAGE' | translate" matTooltipShowDelay="1500">
+      <app-language-selector [perfilUsuario]="perfilUsuario" [usuarioLogado]="usuarioLogado" (languageChange)="onLanguageChange($event)"></app-language-selector>
+    </li>
   </ul>
 </nav>

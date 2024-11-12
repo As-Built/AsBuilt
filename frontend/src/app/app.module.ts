@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { UsuarioComponent } from './usuario/usuario.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CadastroUsuarioComponent } from './cadastro-usuario/cadastro-usuario.component';
 import { CentroCustoComponent } from './centro-custo/centro-custo.component';
@@ -44,7 +44,22 @@ import { NgChartsModule } from 'ng2-charts';
 import { ConfiguracaoComponent } from './configuracao/configuracao.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { RelatorioProducaoComponent } from './relatorio-producao/relatorio-producao.component';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { LanguageSelectorComponent } from './shared/language-selector/language-selector.component';
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
+import localeEn from '@angular/common/locales/en';
+import { LanguageSelectorService } from './shared/language-selector/service/language-selector.service';
+import { CustomCurrencyPipe } from './shared/pipes/custom-currency.pipe';
 
+// Função de fábrica para o TranslateHttpLoader
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+
+registerLocaleData(localePt);
+registerLocaleData(localeEn);
 
 @NgModule({
   declarations: [
@@ -72,7 +87,9 @@ import { RelatorioProducaoComponent } from './relatorio-producao/relatorio-produ
     CronogramaComponent,
     ConfiguracaoComponent,
     DashboardComponent,
-    RelatorioProducaoComponent
+    RelatorioProducaoComponent,
+    LanguageSelectorComponent,
+    CustomCurrencyPipe
   ],
   imports: [
     BrowserModule,
@@ -101,10 +118,26 @@ import { RelatorioProducaoComponent } from './relatorio-producao/relatorio-produ
     NgxSpinnerModule,
     NgChartsModule,
     CommonModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
   ],
   providers: [
     CurrencyPipe,
-    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }
+    {
+      provide: MAT_DATE_LOCALE,
+      deps: [LanguageSelectorService],
+      useFactory: (localeService: LanguageSelectorService) => localeService.getLocale()
+    },
+    {
+      provide: LOCALE_ID,
+      deps: [LanguageSelectorService],
+      useFactory: (localeService: LanguageSelectorService) => localeService.getLocale()
+    }
   ],
   bootstrap: [AppComponent]
 })

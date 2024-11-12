@@ -3,9 +3,10 @@ import { jwtDecode } from "jwt-decode";
 import { HttpClient } from '@angular/common/http';
 import { PerfilUsuarioService } from './service/perfil-usuario.service';
 import { PerfilUsuarioModel } from './model/perfil-usuario.model';
-import { catchError, firstValueFrom, lastValueFrom, of, tap } from 'rxjs';
+import { catchError, firstValueFrom, lastValueFrom, of, tap, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -27,7 +28,8 @@ export class PerfilUsuarioComponent implements OnInit {
 
   constructor(private perfilUsuarioService: PerfilUsuarioService,
     private http: HttpClient,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit(): void {
@@ -75,7 +77,7 @@ export class PerfilUsuarioComponent implements OnInit {
   
     if (file.type !== 'image/png' && file.type !== 'image/jpeg') {
       Swal.fire({
-        text: "Por favor, selecione uma imagem em formato .png ou .jpg",
+        text: this.translate.instant('USER_PROFILE.IMAGE_FORMAT_ERROR'),
         icon: "error",
         showConfirmButton: false,
         timer: 2000
@@ -117,7 +119,7 @@ export class PerfilUsuarioComponent implements OnInit {
       tap(retorno => {
         this.spinner.hide();
         Swal.fire({
-          text: "Foto de perfil atualizada com sucesso!",
+          text: this.translate.instant('USER_PROFILE.PROFILE_PICTURE_UPDATED_SUCCESS'),
           icon: "success",
           showConfirmButton: false,
           timer: 2000
@@ -138,30 +140,95 @@ export class PerfilUsuarioComponent implements OnInit {
     ).subscribe();
   }
 
+  validaCPF(cpf: string): boolean {
+    cpf = cpf.replace(/[^\d]+/g, '');
+    if (
+      !cpf ||
+      cpf.length != 11 ||
+      cpf == "00000000000" ||
+      cpf == "11111111111" ||
+      cpf == "22222222222" ||
+      cpf == "33333333333" ||
+      cpf == "44444444444" ||
+      cpf == "55555555555" ||
+      cpf == "66666666666" ||
+      cpf == "77777777777" ||
+      cpf == "88888888888" ||
+      cpf == "99999999999"
+    ) {
+      return false
+    }
+    var soma = 0
+    var resto
+    for (var i = 0; i < 9; i++)
+      soma = soma + parseInt(cpf.substring(i, i + 1)) * (10 - i)
+    resto = (soma * 10) % 11
+    if ((resto == 10) || (resto == 11)) resto = 0
+    if (resto != parseInt(cpf.substring(9, 10))) return false
+    soma = 0
+    for (var i = 0; i < 10; i++)
+      soma = soma + parseInt(cpf.substring(i, i + 1)) * (11 - i)
+    resto = (soma * 10) % 11
+    if ((resto == 10) || (resto == 11)) resto = 0
+    if (resto != parseInt(cpf.substring(10, 11))) return false
+    return true
+  }
+
   updatePerfilUsuario() {
     this.spinner.show();
-    this.perfilUsuarioService.updatePerfilUsuario(this.perfilUsuario).pipe(
-      tap(retorno => {
-        this.spinner.hide();
-        Swal.fire({
-          text: "Atualização realizada com sucesso!",
-          icon: "success",
-          showConfirmButton: false,
-          timer: 2000
-        });
-        this.buscarPerfilUsuario();
-      }),
-      catchError(error => {
-        this.spinner.hide();
-        Swal.fire({
-          text: error.error,
-          icon: "error",
-          showConfirmButton: false,
-          timer: 2000
-        });
-        return of();
-      })
-    ).subscribe();
+    if (!this.validaCPF(this.perfilUsuario.cpf)) {
+      this.spinner.hide();
+      Swal.fire({
+        text: this.translate.instant('USER_PROFILE.INVALID_CPF'),
+        icon: "error",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return;
+    } else {
+      this.perfilUsuarioService.updatePerfilUsuario(this.perfilUsuario).pipe(
+        tap(retorno => {
+          this.spinner.hide();
+          Swal.fire({
+            text: this.translate.instant('USER_PROFILE.UPDATE_SUCCESS'),
+            icon: "success",
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this.buscarPerfilUsuario();
+        }),
+        catchError(error => {
+          this.spinner.hide();
+          if (error.error === "A user with same CPF already exists") {
+            this.translate.get('SIGNUP.USER_CPF_EXISTS').subscribe((translatedText: string) => {
+              Swal.fire({
+                text: translatedText,
+                icon: "error",
+                showConfirmButton: false,
+                timer: 2000
+              });
+            });
+          } else if (error.error === "A user with same EMAIL already exists") {
+            this.translate.get('SIGNUP.USER_EMAIL_EXISTS').subscribe((translatedText: string) => {
+              Swal.fire({
+                text: translatedText,
+                icon: "error",
+                showConfirmButton: false,
+                timer: 2000
+              });
+            });
+          } else {
+            Swal.fire({
+              text: error.error,
+              icon: "error",
+              showConfirmButton: false,
+              timer: 2000
+            });
+          }
+          return throwError(error);
+        })
+      ).subscribe();
+    }
   }
 
   numberOnly(event: { which: any; keyCode: any; }): boolean {

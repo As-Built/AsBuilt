@@ -2,7 +2,7 @@
     <div class="container conteudo">
         <div class="row centralizar-conteudo">
             <div class="col-12 titulo">
-                <h1>Configurações de Usuário</h1>
+                <h1>{{ 'SETTINGS.USER_SETTINGS' | translate }}</h1>
                 <hr>
             </div>
         </div>
@@ -10,10 +10,10 @@
             style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between;">
             <div class="row" *ngIf="isAdmin">
                 <div class="col-6">
-                    <label for="usuario">Usuário:</label>
+                    <label for="usuario">{{ 'SETTINGS.USER' | translate }}:</label>
                     <select name="usuario" id="usuario" [(ngModel)]="usuarioSelecionado"
                         (change)="onUsuarioChange($event)">
-                        <option disabled [value]="null">Selecione um usuário</option>
+                        <option disabled [value]="null">{{ 'SETTINGS.SELECT_USER' | translate }}</option>
                         <option *ngFor="let usuario of usuarios" [ngValue]="usuario">
                             {{ usuario.name }}
                         </option>
@@ -22,26 +22,27 @@
             </div>
             <div class="row centralizar-conteudo" *ngIf="usuarioSelecionado">
                 <div class="col-12 titulo">
-                    <h2>Remuneração</h2>
+                    <h2>{{ 'SETTINGS.REMUNERATION' | translate }}</h2>
                     <hr>
                 </div>
             </div>
             <div class="row" *ngIf="usuarioSelecionado">
                 <div class="col-4">
-                    <label for="remuneracao">Remuneração:</label>
-                    <input type="text" name="remuneracao" id="remuneracao" required matTooltip="Remuneração do usuário selecionado"
+                    <label for="remuneracao">{{ 'SETTINGS.REMUNERATION' | translate }}</label>
+                    <input type="text" name="remuneracao" id="remuneracao" required [matTooltip]="'SETTINGS.USER_REMUNERATION_TOOLTIP' | translate"
                         (ngModelChange)="onRemuneracaoChange($event)" matTooltipShowDelay="1500" [(ngModel)]="remuneracaoNova.value"
-                        currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
+                        currencyMask [options]="{ prefix: (translate.instant('SETTINGS.CURRENCY_PREFIX')), thousands: '.', decimal: ',' }"
                         (keypress)="numberOnly($event)" [disabled]="!isAdmin">
                 </div>
                 <div class="col-4">
-                    <label for="ultimaAtualizacaoRemuneracao">Última atualização:</label>
+                    <label for="ultimaAtualizacaoRemuneracao">{{ 'SETTINGS.LAST_UPDATE' | translate }}</label>
                     <input #expectedStartDateAvaliacao type="text" name="ultimaAtualizacaoRemuneracao"
                         id="ultimaAtualizacaoRemuneracao" [value]="dataUltimaAtualizacaoFormatada" disabled="disabled">
                 </div>
                 <div class="col-4" *ngIf="remuneracaoAlterada">
-                    <button class="btn-confirm" type="button"
-                        (click)="atualizarRemuneracaoUsuario()">Salvar</button>
+                    <button class="btn-confirm" type="button" (click)="atualizarRemuneracaoUsuario()">
+                        {{ 'SETTINGS.SAVE' | translate }}
+                    </button>
                 </div>
             </div>
         </form>
@@ -49,13 +50,13 @@
             style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-between;">
             <div class="row centralizar-conteudo" *ngIf="usuarioSelecionado">
                 <div class="col-12 titulo">
-                    <h2>Perfil de Acesso</h2>
+                    <h2>{{ 'SETTINGS.ACCESS_PROFILE' | translate }}</h2>
                     <hr>
                 </div>
             </div>
             <div class="row" *ngIf="usuarioSelecionado">
                 <div class="col-12">
-                    <span class="perfis-atuais">Perfil de acesso atual: </span>
+                    <span class="perfis-atuais">{{ 'SETTINGS.CURRENT_ACCESS_PROFILE' | translate }}</span>
                     <span>&nbsp;</span>
                     <ng-container *ngFor="let role of usuarioSelecionado.roles; let i = index">
                         <span>{{ role.description }}</span>
@@ -66,18 +67,19 @@
                 </div>
                 <div class="row" *ngIf="isAdmin">
                     <div class="col-4">
-                        <label for="roleAdicional">Adicionar Perfil de Acesso:</label>
+                        <label for="roleAdicional">{{ 'SETTINGS.ADD_ACCESS_PROFILE' | translate }}</label>
                         <select name="roleAdicional" id="roleAdicional" [(ngModel)]="roleAdicionalSelecionada"
                             (change)="onRoleAdicionalChange($event)">
-                            <option disabled [value]="null">Selecione um perfil de acesso</option>
+                            <option disabled [value]="null">{{ 'SETTINGS.SELECT_ACCESS_PROFILE' | translate }}</option>
                             <option *ngFor="let role of rolesCadastradas" [ngValue]="role">
                                 {{ role.description }}
                             </option>
                         </select>
                     </div>
                     <div class="col-4" *ngIf="roleAdicionalAlterada">
-                        <button class="btn-confirm" type="button"
-                            (click)="atualizarRoleUsuario()">Adicionar perfil de acesso</button>
+                        <button class="btn-confirm" type="button" (click)="atualizarRoleUsuario()">
+                            {{ 'SETTINGS.ADD_ACCESS_PROFILE_BUTTON' | translate }}
+                        </button>
                     </div>
                 </div>
             </div>

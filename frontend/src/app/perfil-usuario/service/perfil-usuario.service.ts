@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { PerfilUsuarioModel } from '../model/perfil-usuario.model';
 import { Observable } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { IdiomaUsuarioModel } from '../model/idioma-usuario.model';
 
 @Injectable({
   providedIn: 'root'
@@ -60,9 +61,18 @@ export class PerfilUsuarioService {
         state: perfilUsuario.userAddress.state,
         postalCode: perfilUsuario.userAddress.postalCode
       },
-      salaries: perfilUsuario.salaries
+      salaries: perfilUsuario.salaries,
+      systemLanguage: perfilUsuario.systemLanguage,
     });
     return this.httpClient.patch<PerfilUsuarioModel>("http://localhost:8080/asbuilt/users/updateUser", body, this.httpOptions);
+  }
+
+  updateIdiomaSistema(idiomaUsuarioModel: IdiomaUsuarioModel): Observable<IdiomaUsuarioModel> {
+    let body = JSON.stringify({
+      id: idiomaUsuarioModel.id,
+      systemLanguage: idiomaUsuarioModel.systemLanguage,
+    });
+    return this.httpClient.patch<IdiomaUsuarioModel>("http://localhost:8080/asbuilt/users/updateSystemLanguage", body, this.httpOptions);
   }
 
   downloadProfilePicture(fileNameWithoutExtension: string): Observable<Blob> {

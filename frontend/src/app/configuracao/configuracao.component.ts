@@ -10,6 +10,7 @@ import { PerfilUsuarioModel } from '../perfil-usuario/model/perfil-usuario.model
 import { PerfilUsuarioService } from '../perfil-usuario/service/perfil-usuario.service';
 import { RolesModel } from '../shared/model/roles.model';
 import { RolesService } from '../shared/service/roles.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-configuracao',
@@ -37,7 +38,8 @@ export class ConfiguracaoComponent implements OnInit {
     private salarioService: SalarioService,
     private spinner: NgxSpinnerService,
     private perfilUsuarioService: PerfilUsuarioService,
-    private rolesService: RolesService
+    private rolesService: RolesService,
+    public translate: TranslateService
   ) { }
 
   async ngOnInit() {
@@ -93,7 +95,8 @@ export class ConfiguracaoComponent implements OnInit {
             this.remuneracaoAntiga = salario.value;
             this.remuneracaoNova = salario;
             ultimoSalario = salario;
-            this.dataUltimaAtualizacaoFormatada = formatDate(this.remuneracaoNova.updateDate, "dd/MM/yyyy", "pt-BR");
+            const currentLang = this.translate.currentLang || 'pt-BR';
+            this.dataUltimaAtualizacaoFormatada = formatDate(this.remuneracaoNova.updateDate, "dd/MM/yyyy", currentLang);
           }
           else {
             this.remuneracaoAntiga = ultimoSalario.value;
@@ -120,7 +123,7 @@ export class ConfiguracaoComponent implements OnInit {
   validarRemuneracao(novoSalario: number): boolean {
     if (this.remuneracaoAntiga >= novoSalario) {
       Swal.fire({
-        text: "A nova remuneração deve ser maior que a atual!",
+        text: this.translate.instant('SETTINGS.NEW_REMUNERATION_ERROR'),
         icon: "warning",
         showConfirmButton: false,
         timer: 3000
@@ -144,7 +147,7 @@ export class ConfiguracaoComponent implements OnInit {
                 const retorno = await firstValueFrom(this.salarioService.inserirSalario(novoSalario));
                 this.spinner.hide();
                 Swal.fire({
-                    text: "Atualização realizada com sucesso!",
+                    text: this.translate.instant('SETTINGS.UPDATE_SUCCESS'),
                     icon: "success",
                     showConfirmButton: false,
                     timer: 2000
@@ -154,7 +157,7 @@ export class ConfiguracaoComponent implements OnInit {
                 console.log(error);
                 this.spinner.hide();
                 Swal.fire({
-                    text: error.error ? error.error : 'Erro desconhecido',
+                  text: error.error ? error.error : this.translate.instant('SETTINGS.UNKNOWN_ERROR'),
                     icon: "error",
                     showConfirmButton: false,
                     timer: 2000
@@ -166,7 +169,7 @@ export class ConfiguracaoComponent implements OnInit {
         this.remuneracaoAlterada = false;
         this.spinner.hide();
         Swal.fire({
-            text: "Nenhum usuário selecionado!",
+            text: this.translate.instant('SETTINGS.NO_USER_SELECTED'),
             icon: "error",
             showConfirmButton: false,
             timer: 2000
@@ -195,7 +198,7 @@ export class ConfiguracaoComponent implements OnInit {
         tap(retorno => {
           this.spinner.hide();
           Swal.fire({
-            text: "Role adicionada com sucesso!",
+            text: this.translate.instant('SETTINGS.ROLE_ADDED_SUCCESS'),
             icon: "success",
             showConfirmButton: false,
             timer: 2000

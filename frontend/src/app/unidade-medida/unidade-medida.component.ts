@@ -4,6 +4,7 @@ import { UnidadeMedidaService } from './service/unidade-medida.service';
 import { catchError, firstValueFrom, of, tap } from 'rxjs';
 import Swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-unidade-medida',
@@ -25,7 +26,8 @@ export class UnidadeMedidaComponent {
 
   constructor(
     private unidadeDeMedidaService: UnidadeMedidaService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   async buscarUnidadesDeMedida() {
@@ -56,7 +58,7 @@ export class UnidadeMedidaComponent {
       tap(retorno => {
         this.spinner.hide();
         Swal.fire({
-          text: "Cadastro realizado com sucesso!",
+          text: this.translate.instant('UNIT-OF-MEASURE.CADASTRO_SUCESSO'),
           icon: "success",
           showConfirmButton: false,
           timer: 2000
@@ -67,7 +69,7 @@ export class UnidadeMedidaComponent {
         this.spinner.hide();
         if (error.error == "Unit Measurement already exists") {
           Swal.fire({
-            text: "Já existe uma unidade de medida com essa sigla!",
+            text: this.translate.instant('UNIT-OF-MEASURE.UNIDADE_EXISTENTE'),
             icon: "error",
             showConfirmButton: false,
             timer: 2000
@@ -83,7 +85,7 @@ export class UnidadeMedidaComponent {
     if (unidadeDeMedida.name === null || unidadeDeMedida.name.trim() === ""
       || unidadeDeMedida.name === undefined) {
       Swal.fire({
-        text: "O campo 'Sigla' é obrigatório!",
+        text: this.translate.instant('UNIT-OF-MEASURE.SIGLA_OBRIGATORIA'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -93,7 +95,7 @@ export class UnidadeMedidaComponent {
     if (unidadeDeMedida.description === null || unidadeDeMedida.description.trim() === ""
       || unidadeDeMedida.description === undefined) {
       Swal.fire({
-        text: "O campo 'Descrição' é obrigatório!",
+        text: this.translate.instant('UNIT-OF-MEASURE.DESCRICAO_OBRIGATORIA'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -102,7 +104,7 @@ export class UnidadeMedidaComponent {
     }
     if (unidadeDeMedida.name.length < 2) {
       Swal.fire({
-        text: "O campo 'Sigla da Unidade de Medida' deve ter no mínimo 2 caracteres!",
+        text: this.translate.instant('UNIT-OF-MEASURE.SIGLA_MIN_CARACTERES'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -111,7 +113,7 @@ export class UnidadeMedidaComponent {
     }
     if (unidadeDeMedida.name.length > 4) {
       Swal.fire({
-        text: "O campo 'Sigla da Unidade de Medida' deve ter no máximo 4 caracteres!",
+        text: this.translate.instant('UNIT-OF-MEASURE.SIGLA_MAX_CARACTERES'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -120,7 +122,7 @@ export class UnidadeMedidaComponent {
     }
     if (unidadeDeMedida.name.length < 6) {
       Swal.fire({
-        text: "O campo 'Descrição da Unidade de Medida' deve ter no mínimo 6 caracteres!",
+        text: this.translate.instant('UNIT-OF-MEASURE.DESCRICAO_MIN_CARACTERES'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -129,7 +131,7 @@ export class UnidadeMedidaComponent {
     }
     if (unidadeDeMedida.name.length > 254) {
       Swal.fire({
-        text: "O campo 'Descrição da Unidade de Medida' deve ter no máximo 254 caracteres!",
+        text: this.translate.instant('UNIT-OF-MEASURE.DESCRICAO_MAX_CARACTERES'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000

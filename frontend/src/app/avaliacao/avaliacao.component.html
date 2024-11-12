@@ -3,15 +3,15 @@
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 <a class="nav-link" [ngClass]="{'active': avaliacaoTab == 0}" id="cadastro-tab" data-toggle="tab"
-                    (click)="mudarAba(0)">Serviços sem avaliação positiva</a>
+                    (click)="mudarAba(0)">{{ 'EVALUATION.SERVICOS_SEM_AVALIACAO_POSITIVA' | translate }}</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" [ngClass]="{'active': avaliacaoTab == 1}" id="consulta-tab" data-toggle="tab"
-                    (click)="mudarAba(1)">Serviços aguardando reavaliação</a>
+                    (click)="mudarAba(1)">{{ 'EVALUATION.SERVICOS_AGUARDANDO_REAVALIACAO' | translate }}</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" [ngClass]="{'active': avaliacaoTab == 2}" id="consulta-tab" data-toggle="tab"
-                    (click)="mudarAba(2)">Serviços com avaliação realizada</a>
+                    (click)="mudarAba(2)">{{ 'EVALUATION.SERVICES_WITH_COMPLETED_EVALUATION' | translate }}</a>
             </li>
         </ul>
         <!-- ABA DE SERVICOS AGUARDANDO AVALIACAO -->
@@ -20,14 +20,14 @@
                 id="consulta">
                 <div class="row centralizar-conteudo">
                     <div class="col-12 titulo">
-                        <h1>Serviços aguardando avaliação</h1>
+                        <h1>{{ 'EVALUATION.SERVICES_AWAITING_EVALUATION' | translate }}</h1>
                     </div>
                     <div class="row" *ngIf="servicosAguardandoAvaliacao.length > 0">
                         <div class="col-4">
-                            <label for="filterTableConstrutora">Filtrar por Construtora:</label>
+                            <label for="filterTableConstrutora">{{ 'FILTER.BY_CONSTRUCTOR' | translate }}</label>
                             <select #filterTableConstrutora name="filterTableConstrutora" id="filterTableConstrutora"
                                 (change)="onFiltroConstrutoraChange($event)">
-                                <option value="Todos">Todos</option>
+                                <option value="Todos">{{ 'OPTIONS.ALL' | translate }}</option>
                                 <option *ngFor="let construtora of listaConstrutorasConsulta"
                                     [value]="construtora.builderName">
                                     {{construtora.builderName}}
@@ -35,10 +35,10 @@
                             </select>
                         </div>
                         <div class="col-4" *ngIf="filtroConstrutoraSelecionado">
-                            <label for="filterTableCostCenter">Filtrar por Centro de Custo:</label>
+                            <label for="filterTableCostCenter">{{ 'FILTER.BY_COST_CENTER' | translate }}</label>
                             <select name="filterTableCostCenter" id="filterTableCostCenter"
                                 (change)="onFiltroCostCenterChange($event)">
-                                <option value="Todos">Todos</option>
+                                <option value="Todos">{{ 'OPTIONS.ALL' | translate }}</option>
                                 <option *ngFor="let centroDeCusto of listaCentrosDeCustoFiltradaConsulta"
                                     [value]="centroDeCusto.costCenterName">
                                     {{centroDeCusto.costCenterName}}
@@ -47,10 +47,10 @@
                         </div>
                         <div class="col-4"
                             *ngIf="filtroCentroCustoSelecionado && listaLocationGroupFiltradaConsulta.length > 0">
-                            <label for="filterTable1">Filtrar pelo 1º Nível:</label>
+                            <label for="filterTable1">{{ 'FILTER.BY_FIRST_LEVEL' | translate }}</label>
                             <select name="filterTable1" id="filterTable1"
                                 (change)="onFiltroLocationGroupChange($event)">
-                                <option value="Todos">Todos</option>
+                                <option value="Todos">{{ 'OPTIONS.ALL' | translate }}</option>
                                 <option *ngFor="let locationGroup of listaLocationGroupFiltradaConsulta"
                                     [value]="locationGroup.locationGroup">
                                     {{locationGroup.locationGroup}}
@@ -60,9 +60,9 @@
                     </div>
                     <div class="row">
                         <div class="col-4" *ngIf="filtroLocationGroup && listaSubGroup1FiltradaConsulta.length > 0">
-                            <label for="filterTable2">Filtrar pelo 2º Nível:</label>
+                            <label for="filterTable2">{{ 'FILTER.BY_SECOND_LEVEL' | translate }}</label>
                             <select name="filterTable2" id="filterTable2" (change)="onFiltroSubGroup1Change($event)">
-                                <option value="Todos">Todos</option>
+                                <option value="Todos">{{ 'OPTIONS.ALL' | translate }}</option>
                                 <option *ngFor="let subGroup1 of listaSubGroup1FiltradaConsulta" [value]="subGroup1">
                                     {{subGroup1}}
                                 </option>
@@ -70,9 +70,9 @@
                         </div>
 
                         <div class="col-4" *ngIf="filtroSubGroup1 && listaSubGroup2FiltradaConsulta.length > 0">
-                            <label for="filterTable3">Filtrar pelo 3º Nível:</label>
+                            <label for="filterTable3">{{ 'FILTER.BY_THIRD_LEVEL' | translate }}</label>
                             <select name="filterTable3" id="filterTable3" (change)="onFiltroSubGroup2Change($event)">
-                                <option value="Todos">Todos</option>
+                                <option value="Todos">{{ 'OPTIONS.ALL' | translate }}</option>
                                 <option *ngFor="let subGroup2 of listaSubGroup2FiltradaConsulta" [value]="subGroup2">
                                     {{subGroup2}}
                                 </option>
@@ -82,7 +82,7 @@
                     <div *ngIf="filtroConstrutoraSelecionado != null" class="row">
                         <div class="col-6">
                             <button class="btn-warning" style="margin-left: 10px; margin-top: 0px" type="button"
-                                (click)="limparFiltros()">Limpar filtros</button>
+                                (click)="limparFiltros()">{{ 'BUTTONS.CLEAR_FILTERS' | translate }}</button>
                         </div>
                     </div>
                     <div class="row" *ngIf="servicosAguardandoAvaliacaoFiltrada.length > 0">
@@ -90,48 +90,48 @@
                             <table mat-table [dataSource]="servicosAguardandoAvaliacaoFiltrada"
                                 class="mat-elevation-z8">
                                 <ng-container matColumnDef="avaliar">
-                                    <th mat-header-cell *matHeaderCellDef>Avaliar</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.EVALUATE' | translate }}</th>
                                     <td mat-cell *matCellDef="let element">
-                                        <mat-icon class="icones-acoes" matTooltip="Avaliar serviço"
-                                            matTooltipShowDelay="1500" (click)="modalAvaliarServico(element)"
+                                        <mat-icon class="icones-acoes" [matTooltip]="'TABLE.EVALUATE_SERVICE' | translate"
+                                             matTooltipShowDelay="1500" (click)="modalAvaliarServico(element)"
                                             style="cursor: pointer; color: rgb(90, 192, 90);">
-                                            checklist
+                                                checklist
                                         </mat-icon>
                                     </td>
                                 </ng-container>
                                 <ng-container matColumnDef="builder">
-                                    <th mat-header-cell *matHeaderCellDef>Construtora</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.CONSTRUCTOR' | translate }}</th>
                                     <td mat-cell *matCellDef="let element"> {{element.costCenter.builder.builderName}}
                                     </td>
                                 </ng-container>
                                 <ng-container matColumnDef="costCenter">
-                                    <th mat-header-cell *matHeaderCellDef>Obra</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.WORK' | translate }}</th>
                                     <td mat-cell *matCellDef="let element"> {{element.costCenter.costCenterName}} </td>
                                 </ng-container>
                                 <ng-container matColumnDef="taskType">
-                                    <th mat-header-cell *matHeaderCellDef>Serviço</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.SERVICE' | translate }}</th>
                                     <td mat-cell *matCellDef="let element"> {{element.taskType.taskTypeName}} </td>
                                 </ng-container>
                                 <ng-container matColumnDef="locationGroup">
-                                    <th mat-header-cell *matHeaderCellDef>Pavimento</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.FLOOR' | translate }}</th>
                                     <td mat-cell *matCellDef="let element"> {{element.taskLocation.locationGroup}} </td>
                                 </ng-container>
 
                                 <ng-container matColumnDef="subGroup1">
-                                    <th mat-header-cell *matHeaderCellDef>Local</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.LOCATION' | translate }}</th>
                                     <td mat-cell *matCellDef="let element"> {{element.taskLocation.subGroup1}} </td>
                                 </ng-container>
 
                                 <ng-container matColumnDef="subGroup2">
-                                    <th mat-header-cell *matHeaderCellDef>Cômodo</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.ROOM' | translate}}</th>
                                     <td mat-cell *matCellDef="let element"> {{element.taskLocation.subGroup2}} </td>
                                 </ng-container>
                                 <ng-container matColumnDef="dimension">
-                                    <th mat-header-cell *matHeaderCellDef>Dimensão</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.DIMENSION' | translate }}</th>
                                     <td mat-cell *matCellDef="let element"> {{element.dimension}} </td>
                                 </ng-container>
                                 <ng-container matColumnDef="unitMeasurement">
-                                    <th mat-header-cell *matHeaderCellDef>Und. Medida</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.UNIT_OF_MEASURE' | translate }}</th>
                                     <td mat-cell *matCellDef="let element"> {{element.unitMeasurement.name}} </td>
                                 </ng-container>
                                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -139,11 +139,8 @@
                             </table>
                         </div>
                     </div>
-                    <div class="row centralizar-conteudo"
-                        *ngIf="servicosAguardandoAvaliacaoFiltrada.length === 0">
-                        <h3>
-                            Nenhum serviço aguardando avaliação encontrado
-                        </h3>
+                    <div class="row centralizar-conteudo" *ngIf="servicosAguardandoAvaliacaoFiltrada.length === 0">
+                        <h3>{{ 'TABLE.NO_SERVICE_PENDING' | translate }}</h3>
                     </div>
                 </div>
             </div>
@@ -154,14 +151,14 @@
                 id="consulta">
                 <div class="row centralizar-conteudo">
                     <div class="col-12 titulo">
-                        <h1>Serviços aguardando reavaliação</h1>
+                        <h1>{{ 'EVALUATION.SERVICOS_AGUARDANDO_REAVALIACAO' | translate }}</h1>
                     </div>
                     <div class="row" *ngIf="servicosParaReavaliacao.length > 0">
                         <div class="col-4">
-                            <label for="filterTableConstrutora">Filtrar por Construtora:</label>
+                            <label for="filterTableConstrutora">{{ 'FILTER.BY_CONSTRUCTOR' | translate }}</label>
                             <select #filterTableConstrutora name="filterTableConstrutora" id="filterTableConstrutora"
                                 (change)="onFiltroConstrutoraChange($event)">
-                                <option value="Todos">Todos</option>
+                                <option value="Todos">{{ 'OPTIONS.ALL' | translate }}</option>
                                 <option *ngFor="let construtora of listaConstrutorasConsulta"
                                     [value]="construtora.builderName">
                                     {{construtora.builderName}}
@@ -169,10 +166,10 @@
                             </select>
                         </div>
                         <div class="col-4" *ngIf="filtroConstrutoraSelecionado">
-                            <label for="filterTableCostCenter">Filtrar por Centro de Custo:</label>
+                            <label for="filterTableCostCenter">{{ 'FILTER.BY_COST_CENTER' | translate }}</label>
                             <select name="filterTableCostCenter" id="filterTableCostCenter"
                                 (change)="onFiltroCostCenterChange($event)">
-                                <option value="Todos">Todos</option>
+                                <option value="Todos">{{ 'OPTIONS.ALL' | translate }}</option>
                                 <option *ngFor="let centroDeCusto of listaCentrosDeCustoFiltradaConsulta"
                                     [value]="centroDeCusto.costCenterName">
                                     {{centroDeCusto.costCenterName}}
@@ -181,10 +178,10 @@
                         </div>
                         <div class="col-4"
                             *ngIf="filtroCentroCustoSelecionado && listaLocationGroupFiltradaConsulta.length > 0">
-                            <label for="filterTable1">Filtrar pelo 1º Nível:</label>
+                            <label for="filterTable1">{{ 'FILTER.BY_FIRST_LEVEL' | translate }}</label>
                             <select name="filterTable1" id="filterTable1"
                                 (change)="onFiltroLocationGroupChange($event)">
-                                <option value="Todos">Todos</option>
+                                <option value="Todos">{{ 'OPTIONS.ALL' | translate }}</option>
                                 <option *ngFor="let locationGroup of listaLocationGroupFiltradaConsulta"
                                     [value]="locationGroup.locationGroup">
                                     {{locationGroup.locationGroup}}
@@ -194,9 +191,9 @@
                     </div>
                     <div class="row">
                         <div class="col-4" *ngIf="filtroLocationGroup && listaSubGroup1FiltradaConsulta.length > 0">
-                            <label for="filterTable2">Filtrar pelo 2º Nível:</label>
+                            <label for="filterTable2">{{ 'FILTER.BY_SECOND_LEVEL' | translate }}</label>
                             <select name="filterTable2" id="filterTable2" (change)="onFiltroSubGroup1Change($event)">
-                                <option value="Todos">Todos</option>
+                                <option value="Todos">{{ 'OPTIONS.ALL' | translate }}</option>
                                 <option *ngFor="let subGroup1 of listaSubGroup1FiltradaConsulta" [value]="subGroup1">
                                     {{subGroup1}}
                                 </option>
@@ -204,9 +201,9 @@
                         </div>
 
                         <div class="col-4" *ngIf="filtroSubGroup1 && listaSubGroup2FiltradaConsulta.length > 0">
-                            <label for="filterTable3">Filtrar pelo 3º Nível:</label>
+                            <label for="filterTable3">{{ 'FILTER.BY_THIRD_LEVEL' | translate }}</label>
                             <select name="filterTable3" id="filterTable3" (change)="onFiltroSubGroup2Change($event)">
-                                <option value="Todos">Todos</option>
+                                <option value="Todos">{{ 'OPTIONS.ALL' | translate }}</option>
                                 <option *ngFor="let subGroup2 of listaSubGroup2FiltradaConsulta" [value]="subGroup2">
                                     {{subGroup2}}
                                 </option>
@@ -216,55 +213,55 @@
                     <div *ngIf="filtroConstrutoraSelecionado != null" class="row">
                         <div class="col-6">
                             <button class="btn-warning" style="margin-left: 10px; margin-top: 0px" type="button"
-                                (click)="limparFiltros()">Limpar filtros</button>
+                                (click)="limparFiltros()">{{ 'BUTTONS.CLEAR_FILTERS' | translate }}</button>
                         </div>
                     </div>
                     <div class="row" *ngIf="servicosParaReavaliacaoFiltrados.length > 0">
                         <div class="col-12" style="margin-left: 10px;">
                             <table mat-table [dataSource]="servicosParaReavaliacaoFiltrados" class="mat-elevation-z8">
                                 <ng-container matColumnDef="avaliar">
-                                    <th mat-header-cell *matHeaderCellDef>Avaliar</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.EVALUATE' | translate }}</th>
                                     <td mat-cell *matCellDef="let element">
-                                        <mat-icon class="icones-acoes" matTooltip="Avaliar serviço"
-                                            matTooltipShowDelay="1500" (click)="modalAvaliarServico(element)"
+                                        <mat-icon class="icones-acoes" [matTooltip]="'TABLE.EVALUATE_SERVICE' | translate"
+                                             matTooltipShowDelay="1500" (click)="modalAvaliarServico(element)"
                                             style="cursor: pointer; color: rgb(90, 192, 90);">
-                                            checklist
+                                                checklist
                                         </mat-icon>
                                     </td>
                                 </ng-container>
                                 <ng-container matColumnDef="builder">
-                                    <th mat-header-cell *matHeaderCellDef>Construtora</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.CONSTRUCTOR' | translate }}</th>
                                     <td mat-cell *matCellDef="let element"> {{element.costCenter.builder.builderName}}
                                     </td>
                                 </ng-container>
                                 <ng-container matColumnDef="costCenter">
-                                    <th mat-header-cell *matHeaderCellDef>Obra</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.WORK' | translate }}</th>
                                     <td mat-cell *matCellDef="let element"> {{element.costCenter.costCenterName}} </td>
                                 </ng-container>
                                 <ng-container matColumnDef="taskType">
-                                    <th mat-header-cell *matHeaderCellDef>Serviço</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.SERVICE' | translate }}</th>
                                     <td mat-cell *matCellDef="let element"> {{element.taskType.taskTypeName}} </td>
                                 </ng-container>
                                 <ng-container matColumnDef="locationGroup">
-                                    <th mat-header-cell *matHeaderCellDef>Pavimento</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.FLOOR' | translate }}</th>
                                     <td mat-cell *matCellDef="let element"> {{element.taskLocation.locationGroup}} </td>
                                 </ng-container>
 
                                 <ng-container matColumnDef="subGroup1">
-                                    <th mat-header-cell *matHeaderCellDef>Local</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.LOCATION' | translate }}</th>
                                     <td mat-cell *matCellDef="let element"> {{element.taskLocation.subGroup1}} </td>
                                 </ng-container>
 
                                 <ng-container matColumnDef="subGroup2">
-                                    <th mat-header-cell *matHeaderCellDef>Cômodo</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.ROOM' | translate}}</th>
                                     <td mat-cell *matCellDef="let element"> {{element.taskLocation.subGroup2}} </td>
                                 </ng-container>
                                 <ng-container matColumnDef="dimension">
-                                    <th mat-header-cell *matHeaderCellDef>Dimensão</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.DIMENSION' | translate }}</th>
                                     <td mat-cell *matCellDef="let element"> {{element.dimension}} </td>
                                 </ng-container>
                                 <ng-container matColumnDef="unitMeasurement">
-                                    <th mat-header-cell *matHeaderCellDef>Und. Medida</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.UNIT_OF_MEASURE' | translate }}</th>
                                     <td mat-cell *matCellDef="let element"> {{element.unitMeasurement.name}} </td>
                                 </ng-container>
                                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -274,9 +271,7 @@
                     </div>
                     <div class="row centralizar-conteudo" style="color: rgb(90, 192, 90);"
                         *ngIf="servicosParaReavaliacaoFiltrados.length === 0">
-                        <h3>
-                            Nenhum serviço aguardando reavaliação encontrado
-                        </h3>
+                        <h3>{{ 'TABLE.NO_SERVICE_PENDING_REEVALUATION' | translate }}</h3>
                     </div>
                 </div>
             </div>
@@ -287,14 +282,14 @@
                 id="consulta">
                 <div class="row centralizar-conteudo">
                     <div class="col-12 titulo">
-                        <h1>Serviços com avaliação realizada</h1>
+                        <h1>{{ 'EVALUATION.SERVICES_WITH_COMPLETED_EVALUATION' | translate }}</h1>
                     </div>
                     <div class="row" *ngIf="servicosAvaliados.length > 0">
                         <div class="col-4">
-                            <label for="filterTableConstrutora">Filtrar por Construtora:</label>
+                            <label for="filterTableConstrutora">{{ 'FILTER.BY_CONSTRUCTOR' | translate }}</label>
                             <select #filterTableConstrutora name="filterTableConstrutora" id="filterTableConstrutora"
                                 (change)="onFiltroConstrutoraChange($event)">
-                                <option value="Todos">Todos</option>
+                                <option value="Todos">{{ 'OPTIONS.ALL' | translate }}</option>
                                 <option *ngFor="let construtora of listaConstrutorasConsulta"
                                     [value]="construtora.builderName">
                                     {{construtora.builderName}}
@@ -302,10 +297,10 @@
                             </select>
                         </div>
                         <div class="col-4" *ngIf="filtroConstrutoraSelecionado">
-                            <label for="filterTableCostCenter">Filtrar por Centro de Custo:</label>
+                            <label for="filterTableCostCenter">{{ 'FILTER.BY_COST_CENTER' | translate }}</label>
                             <select name="filterTableCostCenter" id="filterTableCostCenter"
                                 (change)="onFiltroCostCenterChange($event)">
-                                <option value="Todos">Todos</option>
+                                <option value="Todos">{{ 'OPTIONS.ALL' | translate }}</option>
                                 <option *ngFor="let centroDeCusto of listaCentrosDeCustoFiltradaConsulta"
                                     [value]="centroDeCusto.costCenterName">
                                     {{centroDeCusto.costCenterName}}
@@ -314,10 +309,10 @@
                         </div>
                         <div class="col-4"
                             *ngIf="filtroCentroCustoSelecionado && listaLocationGroupFiltradaConsulta.length > 0">
-                            <label for="filterTable1">Filtrar pelo 1º Nível:</label>
+                            <label for="filterTable1">{{ 'FILTER.BY_FIRST_LEVEL' | translate }}</label>
                             <select name="filterTable1" id="filterTable1"
                                 (change)="onFiltroLocationGroupChange($event)">
-                                <option value="Todos">Todos</option>
+                                <option value="Todos">{{ 'OPTIONS.ALL' | translate }}</option>
                                 <option *ngFor="let locationGroup of listaLocationGroupFiltradaConsulta"
                                     [value]="locationGroup.locationGroup">
                                     {{locationGroup.locationGroup}}
@@ -327,9 +322,9 @@
                     </div>
                     <div class="row">
                         <div class="col-4" *ngIf="filtroLocationGroup && listaSubGroup1FiltradaConsulta.length > 0">
-                            <label for="filterTable2">Filtrar pelo 2º Nível:</label>
+                            <label for="filterTable2">{{ 'FILTER.BY_SECOND_LEVEL' | translate }}</label>
                             <select name="filterTable2" id="filterTable2" (change)="onFiltroSubGroup1Change($event)">
-                                <option value="Todos">Todos</option>
+                                <option value="Todos">{{ 'OPTIONS.ALL' | translate }}</option>
                                 <option *ngFor="let subGroup1 of listaSubGroup1FiltradaConsulta" [value]="subGroup1">
                                     {{subGroup1}}
                                 </option>
@@ -337,9 +332,9 @@
                         </div>
 
                         <div class="col-4" *ngIf="filtroSubGroup1 && listaSubGroup2FiltradaConsulta.length > 0">
-                            <label for="filterTable3">Filtrar pelo 3º Nível:</label>
+                            <label for="filterTable3">{{ 'FILTER.BY_THIRD_LEVEL' | translate }}</label>
                             <select name="filterTable3" id="filterTable3" (change)="onFiltroSubGroup2Change($event)">
-                                <option value="Todos">Todos</option>
+                                <option value="Todos">{{ 'OPTIONS.ALL' | translate }}</option>
                                 <option *ngFor="let subGroup2 of listaSubGroup2FiltradaConsulta" [value]="subGroup2">
                                     {{subGroup2}}
                                 </option>
@@ -349,16 +344,16 @@
                     <div class="row" *ngIf="filtroConstrutoraSelecionado != null">
                         <div class="col-6">
                             <button class="btn-warning" style="margin-left: 10px; margin-top: 0px" type="button"
-                                (click)="limparFiltros()">Limpar filtros</button>
+                                (click)="limparFiltros()">{{ 'BUTTONS.CLEAR_FILTERS' | translate }}</button>
                         </div>
                     </div>
                     <div class="row" *ngIf="servicosAvaliadosFiltrados.length > 0">
                         <div class="col-12" style="margin-left: 10px;">
                             <table mat-table [dataSource]="servicosAvaliadosFiltrados" class="mat-elevation-z8">
                                 <ng-container matColumnDef="avaliar">
-                                    <th mat-header-cell *matHeaderCellDef>Avaliar</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.EVALUATE' | translate }}</th>
                                     <td mat-cell *matCellDef="let element">
-                                        <mat-icon class="icones-acoes" matTooltip="Avaliar serviço"
+                                        <mat-icon class="icones-acoes" [matTooltip]="'EVALUATION.VIEW_EVALUATIONS' | translate"
                                             matTooltipShowDelay="1500" (click)="modalListarAvaliacoes(element)"
                                             style="cursor: pointer;">
                                             visibility
@@ -366,38 +361,38 @@
                                     </td>
                                 </ng-container>
                                 <ng-container matColumnDef="builder">
-                                    <th mat-header-cell *matHeaderCellDef>Construtora</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.CONSTRUCTOR' | translate }}</th>
                                     <td mat-cell *matCellDef="let element"> {{element.costCenter.builder.builderName}}
                                     </td>
                                 </ng-container>
                                 <ng-container matColumnDef="costCenter">
-                                    <th mat-header-cell *matHeaderCellDef>Obra</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.WORK' | translate }}</th>
                                     <td mat-cell *matCellDef="let element"> {{element.costCenter.costCenterName}} </td>
                                 </ng-container>
                                 <ng-container matColumnDef="taskType">
-                                    <th mat-header-cell *matHeaderCellDef>Serviço</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.SERVICE' | translate }}</th>
                                     <td mat-cell *matCellDef="let element"> {{element.taskType.taskTypeName}} </td>
                                 </ng-container>
                                 <ng-container matColumnDef="locationGroup">
-                                    <th mat-header-cell *matHeaderCellDef>Pavimento</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.FLOOR' | translate }}</th>
                                     <td mat-cell *matCellDef="let element"> {{element.taskLocation.locationGroup}} </td>
                                 </ng-container>
 
                                 <ng-container matColumnDef="subGroup1">
-                                    <th mat-header-cell *matHeaderCellDef>Local</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.LOCATION' | translate }}</th>
                                     <td mat-cell *matCellDef="let element"> {{element.taskLocation.subGroup1}} </td>
                                 </ng-container>
 
                                 <ng-container matColumnDef="subGroup2">
-                                    <th mat-header-cell *matHeaderCellDef>Cômodo</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.ROOM' | translate}}</th>
                                     <td mat-cell *matCellDef="let element"> {{element.taskLocation.subGroup2}} </td>
                                 </ng-container>
                                 <ng-container matColumnDef="dimension">
-                                    <th mat-header-cell *matHeaderCellDef>Dimensão</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.DIMENSION' | translate }}</th>
                                     <td mat-cell *matCellDef="let element"> {{element.dimension}} </td>
                                 </ng-container>
                                 <ng-container matColumnDef="unitMeasurement">
-                                    <th mat-header-cell *matHeaderCellDef>Und. Medida</th>
+                                    <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.UNIT_OF_MEASURE' | translate }}</th>
                                     <td mat-cell *matCellDef="let element"> {{element.unitMeasurement.name}} </td>
                                 </ng-container>
                                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -405,11 +400,8 @@
                             </table>
                         </div>
                     </div>
-                    <div class="row centralizar-conteudo"
-                        *ngIf="servicosAvaliadosFiltrados.length === 0">
-                        <h3>
-                            Nenhum serviço avaliado encontrado
-                        </h3>
+                    <div class="row centralizar-conteudo" *ngIf="servicosAvaliadosFiltrados.length === 0">
+                        <h3>{{ 'TABLE.NO_SERVICE_EVALUATED_FOUND' | translate }}</h3>
                     </div>
                 </div>
             </div>
@@ -422,18 +414,18 @@
         <div class="row">
             <div class="col-12">
                 <hr style="margin-left: 25px;">
-                <h2 style="padding-left: 15px;">Dados do Serviço</h2>
+                <h2 style="padding-left: 15px;">{{ 'EVALUATION.SERVICE_DATA' | translate }}</h2>
             </div>
         </div>
         <div class="row">
             <div class="col-6">
-                <label for="construtoraModalAvaliacao">Construtora</label>
+                <label for="construtoraModalAvaliacao">{{ 'TABLE.CONSTRUCTOR' | translate }}</label>
                 <input #construtoraModalAvaliacao type="text" name="construtoraModalAvaliacao"
                     id="construtoraModalAvaliacao"
                     [ngModel]="servicoSelecionadoAvaliacao.costCenter.builder.builderName" disabled="disabled">
             </div>
             <div class="col-6">
-                <label for="centroDeCustoModalAvaliacao">Centro de Custo</label>
+                <label for="centroDeCustoModalAvaliacao">{{ 'TABLE.COST_CENTER' | translate }}</label>
                 <input #centroDeCustoModalAvaliacao type="text" name="centroDeCustoModalAvaliacao"
                     id="centroDeCustoModalAvaliacao" [ngModel]="servicoSelecionadoAvaliacao.costCenter.costCenterName"
                     disabled="disabled">
@@ -441,46 +433,46 @@
         </div>
         <div class="row">
             <div class="col-4">
-                <label for="localAvaliacao">1º Nível de localização</label>
+                <label for="localAvaliacao">{{ 'LABEL.FIRST_LEVEL_LOCATION' | translate }}</label>
                 <input #localAvaliacao type="text" name="localAvaliacao" id="localAvaliacao"
                     [ngModel]="servicoSelecionadoAvaliacao.taskLocation.locationGroup" disabled="disabled">
             </div>
             <div class="col-4" *ngIf="servicoSelecionadoAvaliacao.taskLocation.subGroup1">
-                <label for="subGrupo1Avaliacao">2º Nível de localização</label>
+                <label for="subGrupo1Avaliacao">{{ 'LABEL.SECOND_LEVEL_LOCATION' | translate }}</label>
                 <input #subGrupo1Avaliacao type="text" name="subGrupo1Avaliacao" id="subGrupo1Avaliacao"
                     [ngModel]="servicoSelecionadoAvaliacao.taskLocation.subGroup1" disabled="disabled">
             </div>
             <div class="col-4" *ngIf="servicoSelecionadoAvaliacao.taskLocation.subGroup2">
-                <label for="subGrupo3Avaliacao">3º Nível de localização</label>
+                <label for="subGrupo3Avaliacao">{{ 'LABEL.THIRD_LEVEL_LOCATION' | translate }}</label>
                 <input #subGrupo3Avaliacao type="text" name="subGrupo3Avaliacao" id="subGrupo3Avaliacao"
                     [ngModel]="servicoSelecionadoAvaliacao.taskLocation.subGroup2" disabled="disabled">
             </div>
         </div>
         <div class="row" *ngIf="servicoSelecionadoAvaliacao.taskLocation.subGroup3">
             <div class="col-4">
-                <label for="subGrupo3Avaliacao">4º Nível de localização</label>
+                <label for="subGrupo3Avaliacao">{{ 'LABEL.FOURTH_LEVEL_LOCATION' | translate }}</label>
                 <input #subGrupo3Avaliacao type="text" name="subGrupo3Avaliacao" id="subGrupo3Avaliacao"
                     [ngModel]="servicoSelecionadoAvaliacao.taskLocation.subGroup3" disabled="disabled">
             </div>
         </div>
         <div class="row">
             <div class="col-4">
-                <label for="taskTypeAvaliacao">Tipo de serviço</label>
+                <label for="taskTypeAvaliacao">{{ 'EVALUATION.SERVICE_TYPE' | translate }}</label>
                 <input #taskTypeAvaliacao type="text" name="taskTypeAvaliacao" id="taskTypeAvaliacao"
                     [ngModel]="servicoSelecionadoAvaliacao.taskType.taskTypeName" disabled="disabled">
             </div>
             <div class="col-2">
-                <label for="dimensionAvaliacao">Dimensão</label>
+                <label for="dimensionAvaliacao">{{ 'TABLE.DIMENSION' | translate }}</label>
                 <input #dimensionAvaliacao type="text" name="dimensionAvaliacao" id="dimensionAvaliacao"
                     [ngModel]="servicoSelecionadoAvaliacao.dimension" disabled="disabled">
             </div>
             <div class="col-2">
-                <label for="undMedidaAvaliacao">Und. Medida</label>
+                <label for="undMedidaAvaliacao">{{ 'TABLE.UNIT_OF_MEASURE' | translate }}</label>
                 <input #undMedidaAvaliacao type="text" name="undMedidaAvaliacao" id="undMedidaAvaliacao"
                     [ngModel]="servicoSelecionadoAvaliacao.taskType.unitMeasurement.name" disabled="disabled">
             </div>
             <div class="col-4">
-                <label for="amountAvaliacao">Valor da mão de obra do serviço</label>
+                <label for="amountAvaliacao">{{ 'EVALUATION.SERVICE_LABOR_COST' | translate }}</label>
                 <input #amountAvaliacao type="text" name="amountAvaliacao" id="amountAvaliacao"
                     [ngModel]="servicoSelecionadoAvaliacao.amount" currencyMask
                     [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" readonly disabled="disabled">
@@ -488,12 +480,12 @@
         </div>
         <div class="row">
             <div class="col-3">
-                <label for="expectedStartDateAvaliacao">Data de início prevista</label>
+                <label for="expectedStartDateAvaliacao">{{ 'EVALUATION.EXPECTED_START_DATE' | translate }}</label>
                 <input #expectedStartDateAvaliacao type="text" name="expectedStartDateAvaliacao"
                     id="expectedStartDateAvaliacao" [value]="expectedStartDateFormatada" disabled="disabled">
             </div>
             <div class="col-3">
-                <label for="expectedEndDateAvaliacao">Data de término prevista</label>
+                <label for="expectedEndDateAvaliacao">{{ 'EVALUATION.EXPECTED_END_DATE' | translate }}</label>
                 <input #expectedEndDateAvaliacao type="text" name="expectedEndDateAvaliacao"
                     id="expectedEndDateAvaliacao" [ngModel]="expectedEndDateFormatada" disabled="disabled">
             </div>
@@ -501,7 +493,7 @@
         <div class="row">
             <div class="col-12">
                 <hr style="margin-left: 25px;">
-                <h2 style="padding-left: 15px;">Executores e Avaliadores</h2>
+                <h2 style="padding-left: 15px;">{{ 'EVALUATION.EXECUTORS_AND_EVALUATORS' | translate }}</h2>
             </div>
         </div>
         <!-- Executores -->
@@ -510,19 +502,19 @@
             <div class="col-6 executores-padding">
                 <div class="row">
                     <div class="col-9 executores-padding">
-                        <label for="executorAvaliacao1">Funcionário executor<span style="color: red;">*</span></label>
+                        <label for="executorAvaliacao1">{{ 'EVALUATION.EXECUTING_EMPLOYEE' | translate }}<span style="color: red;">*</span></label>
                         <select #executorAvaliacao1 name="executorAvaliacao1" id="executorAvaliacao1"
                             [(ngModel)]="servicoSelecionadoAvaliacao.executors[0]">
-                            <option disabled [value]="undefined">Selecione um funcionário</option>
+                            <option disabled [value]="undefined">{{ 'OPTIONS.SELECT_EMPLOYEE' | translate }}</option>
                             <option *ngFor="let executor of listaFuncionarios" [ngValue]="executor">
                                 {{ executor.name }}
                             </option>
                         </select>
                     </div>
                     <div class="col-3 executores-padding">
-                        <label for="rateioExecutor0">Rateio (%)</label>
-                        <input #rateioExecutor0 type="number" max="100" min="0" id="rateioExecutor0" name="rateioExecutor0" 
-                            [(ngModel)]="executorPercentages[0]" >
+                        <label for="rateioExecutor0">{{ 'EVALUATION.RATEIO_PERCENTAGE' | translate }}</label>
+                        <input #rateioExecutor0 type="number" max="100" min="0" id="rateioExecutor0"
+                            name="rateioExecutor0" [(ngModel)]="executorPercentages[0]">
                     </div>
                 </div>
             </div>
@@ -531,17 +523,17 @@
             <div class="col-6 executores-padding" *ngFor="let executor of additionalExecutors; index as i">
                 <div class="row">
                     <div class="col-9 executores-padding">
-                        <label [for]="'executor' + executor + 'Name'">{{ executor + 1 }}º Funcionário executor</label>
+                        <label [for]="'executor' + executor + 'Name'">{{ executor + 1 }}º {{ 'EVALUATION.EXECUTING_EMPLOYEE' | translate }}</label>
                         <select type="text" [name]="'executor' + executor + 'Name'"
                             [(ngModel)]="servicoSelecionadoAvaliacao.executors[i + 1]">
-                            <option disabled [value]="undefined">Selecione um funcionário</option>
+                            <option disabled [value]="undefined">{{ 'OPTIONS.SELECT_EMPLOYEE' | translate }}</option>
                             <option *ngFor="let executor of listaFuncionarios" [ngValue]="executor">
                                 {{ executor.name }}
                             </option>
                         </select>
                     </div>
                     <div class="col-3 executores-padding">
-                        <label [for]="'executor' + executor + 'Percentage'">Rateio (%)</label>
+                        <label [for]="'executor' + executor + 'Percentage'">{{ 'EVALUATION.RATEIO_PERCENTAGE' | translate }}</label>
                         <input type="number" max="100" min="0" [id]="'executor' + executor + 'Percentage'"
                             [(ngModel)]="executorPercentages[i + 1]">
                     </div>
@@ -551,12 +543,12 @@
         <div class="row">
             <div class="col-2" style="text-align: left;">
                 <mat-icon *ngIf="additionalExecutors.length <= 4" class="botoes-parametros add"
-                    matTooltip="Adicionar Funcionário" matTooltipShowDelay="500" (click)="addExecutor()"
+                    [matTooltip]="'EVALUATION.ADD_EMPLOYEE' | translate" matTooltipShowDelay="500" (click)="addExecutor()"
                     style="cursor: pointer;">
                     add_circle
                 </mat-icon>
                 <mat-icon *ngIf="additionalExecutors.length > 0" class="botoes-parametros remove"
-                    matTooltip="Remover Funcionário" matTooltipShowDelay="500" (click)="removeExecutor()"
+                    [matTooltip]="'EVALUATION.REMOVE_EMPLOYEE' | translate" matTooltipShowDelay="500" (click)="removeExecutor()"
                     style="cursor: pointer;">
                     remove_circle
                 </mat-icon>
@@ -565,20 +557,20 @@
         <!-- Avaliadores -->
         <div class="row" *ngIf="servicoSelecionadoAvaliacao.evaluators != undefined">
             <div class="col-6">
-                <label for="evaluatorAvaliacao1">Avaliador<span style="color: red;">*</span></label>
+                <label for="evaluatorAvaliacao1">{{ 'EVALUATION.EVALUATOR' | translate }}<span style="color: red;">*</span></label>
                 <select #evaluatorAvaliacao1 name="evaluatorAvaliacao1" id="evaluatorAvaliacao1"
                     [(ngModel)]="servicoSelecionadoAvaliacao.evaluators[0]">
-                    <option disabled [value]="undefined">Selecione um avaliador</option>
+                    <option disabled [value]="undefined">{{ 'OPTIONS.SELECT_EVALUATOR' | translate }}</option>
                     <option *ngFor="let evaluator of listaConferentes" [ngValue]="evaluator">
                         {{ evaluator.name }}
                     </option>
                 </select>
             </div>
             <div class="col-6" *ngFor="let evaluator of additionalEvaluators; index as i">
-                <label [for]="'evaluator' + evaluator + 'Name'">{{ evaluator + 1 }}º Avaliador</label>
+                <label [for]="'evaluator' + evaluator + 'Name'">{{ evaluator + 1 }}º {{ 'EVALUATION.EVALUATOR' | translate }}</label>
                 <select type="text" [name]="'evaluator' + evaluator + 'Name'"
                     [(ngModel)]="servicoSelecionadoAvaliacao.evaluators[i + 1]">
-                    <option disabled [value]="undefined">Selecione um avaliador</option>
+                    <option disabled [value]="undefined">{{ 'OPTIONS.SELECT_EVALUATOR' | translate }}</option>
                     <option *ngFor="let evaluator of listaConferentes" [ngValue]="evaluator">
                         {{ evaluator.name }}
                     </option>
@@ -588,12 +580,12 @@
         <div class="row">
             <div class="col-2" style="text-align: left;">
                 <mat-icon *ngIf="additionalEvaluators.length <= 2" class="botoes-parametros add"
-                    matTooltip="Adicionar Avaliador" matTooltipShowDelay="500" (click)="addEvaluator()"
+                    [matTooltip]="'EVALUATION.ADD_EVALUATOR' | translate" matTooltipShowDelay="500" (click)="addEvaluator()"
                     style="cursor: pointer;">
                     add_circle
                 </mat-icon>
                 <mat-icon *ngIf="additionalEvaluators.length > 0" class="botoes-parametros remove"
-                    matTooltip="Remover Avaliador" matTooltipShowDelay="500" (click)="removeEvaluator()"
+                    [matTooltip]="'EVALUATION.REMOVE_EVALUATOR' | translate" matTooltipShowDelay="500" (click)="removeEvaluator()"
                     style="cursor: pointer;">
                     remove_circle
                 </mat-icon>
@@ -602,32 +594,32 @@
         <div class="row">
             <div class="col-12">
                 <hr style="margin-left: 25px;">
-                <h2 style="padding-left: 15px;">Parâmetros da Avaliação</h2>
+                <h2 style="padding-left: 15px;">{{ 'EVALUATION.EVALUATION_PARAMETERS' | translate }}</h2>
             </div>
         </div>
         <div class="row">
             <div class="col-3">
-                <label for="startDateAvaliacao">Data de início real<span style="color: red;">*</span></label>
+                <label for="startDateAvaliacao">{{ 'EVALUATION.REAL_START_DATE' | translate }}<span style="color: red;">*</span></label>
                 <input #startDateAvaliacao style="text-align: center;" name="startDateAvaliacao" id="startDateAvaliacao"
-                    required matTooltip="Data prevista para o início do serviço" matTooltipShowDelay="1500"
+                    required [matTooltip]="'EVALUATION.REAL_START_DATE' | translate" matTooltipShowDelay="1500"
                     [(ngModel)]="servicoSelecionadoAvaliacao.startDate" type="date" />
             </div>
             <div class="col-3">
-                <label for="finalDateAvaliacao">Data de término real<span style="color: red;">*</span></label>
+                <label for="finalDateAvaliacao">{{ 'EVALUATION.REAL_END_DATE' | translate }}<span style="color: red;">*</span></label>
                 <input #finalDateAvaliacao style="text-align: center;" name="finalDateAvaliacao" id="finalDateAvaliacao"
-                    required matTooltip="Data prevista para o início do serviço" matTooltipShowDelay="1500"
+                    required [matTooltip]="'EVALUATION.REAL_END_DATE' | translate" matTooltipShowDelay="1500"
                     [(ngModel)]="servicoSelecionadoAvaliacao.finalDate" type="date" />
             </div>
         </div>
         <div class="row">
             <div class="col-3">
-                <label for="parameter0ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter0Name
-                    }}<span style="color: red;">*</span></label>
+                <label for="parameter0ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter0Name }}
+                    <span style="color: red;">*</span></label>
                 <select #parameter0ResultAvaliacao name="parameter0ResultAvaliacao" id="parameter0ResultAvaliacao"
                     [(ngModel)]="avaliacaoModel.parameter0Result">
-                    <option disabled [value]="undefined">Selecione uma opção</option>
-                    <option [ngValue]="true">Aprovado</option>
-                    <option [ngValue]="false">Reprovado</option>
+                    <option disabled [value]="undefined">{{ 'OPTIONS.SELECT_AN_OPTION' | translate }}</option>
+                    <option [ngValue]="true">{{ 'OPTIONS.APPROVED' | translate }}</option>
+                    <option [ngValue]="false">{{ 'OPTIONS.REJECTED' | translate }}</option>
                 </select>
             </div>
             <div class="col-3">
@@ -635,9 +627,9 @@
                     }}<span style="color: red;">*</span></label>
                 <select #parameter1ResultAvaliacao name="parameter1ResultAvaliacao" id="parameter1ResultAvaliacao"
                     [(ngModel)]="avaliacaoModel.parameter1Result">
-                    <option disabled [value]="undefined">Selecione uma opção</option>
-                    <option [ngValue]="true">Aprovado</option>
-                    <option [ngValue]="false">Reprovado</option>
+                    <option disabled [value]="undefined">{{ 'OPTIONS.SELECT_AN_OPTION' | translate }}</option>
+                    <option [ngValue]="true">{{ 'OPTIONS.APPROVED' | translate }}</option>
+                    <option [ngValue]="false">{{ 'OPTIONS.REJECTED' | translate }}</option>
                 </select>
             </div>
             <div class="col-3">
@@ -645,9 +637,9 @@
                     }}<span style="color: red;">*</span></label>
                 <select #parameter2ResultAvaliacao name="parameter2ResultAvaliacao" id="parameter2ResultAvaliacao"
                     [(ngModel)]="avaliacaoModel.parameter2Result">
-                    <option disabled [value]="undefined">Selecione uma opção</option>
-                    <option [ngValue]="true">Aprovado</option>
-                    <option [ngValue]="false">Reprovado</option>
+                    <option disabled [value]="undefined">{{ 'OPTIONS.SELECT_AN_OPTION' | translate }}</option>
+                    <option [ngValue]="true">{{ 'OPTIONS.APPROVED' | translate }}</option>
+                    <option [ngValue]="false">{{ 'OPTIONS.REJECTED' | translate }}</option>
                 </select>
             </div>
             <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter3Name">
@@ -655,9 +647,9 @@
                     }}<span style="color: red;">*</span></label>
                 <select #parameter3ResultAvaliacao name="parameter3ResultAvaliacao" id="parameter3ResultAvaliacao"
                     [(ngModel)]="avaliacaoModel.parameter3Result">
-                    <option disabled [value]="undefined">Selecione uma opção</option>
-                    <option [ngValue]="true">Aprovado</option>
-                    <option [ngValue]="false">Reprovado</option>
+                    <option disabled [value]="undefined">{{ 'OPTIONS.SELECT_AN_OPTION' | translate }}</option>
+                    <option [ngValue]="true">{{ 'OPTIONS.APPROVED' | translate }}</option>
+                    <option [ngValue]="false">{{ 'OPTIONS.REJECTED' | translate }}</option>
                 </select>
             </div>
         </div>
@@ -672,9 +664,9 @@
                     }}<span style="color: red;">*</span></label>
                 <select #parameter4ResultAvaliacao name="parameter4ResultAvaliacao" id="parameter4ResultAvaliacao"
                     [(ngModel)]="avaliacaoModel.parameter4Result">
-                    <option disabled [value]="undefined">Selecione uma opção</option>
-                    <option [ngValue]="true">Aprovado</option>
-                    <option [ngValue]="false">Reprovado</option>
+                    <option disabled [value]="undefined">{{ 'OPTIONS.SELECT_AN_OPTION' | translate }}</option>
+                    <option [ngValue]="true">{{ 'OPTIONS.APPROVED' | translate }}</option>
+                    <option [ngValue]="false">{{ 'OPTIONS.REJECTED' | translate }}</option>
                 </select>
             </div>
             <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter5Name">
@@ -682,9 +674,9 @@
                     }}<span style="color: red;">*</span></label>
                 <select #parameter5ResultAvaliacao name="parameter5ResultAvaliacao" id="parameter5ResultAvaliacao"
                     [(ngModel)]="avaliacaoModel.parameter5Result">
-                    <option disabled [value]="undefined">Selecione uma opção</option>
-                    <option [ngValue]="true">Aprovado</option>
-                    <option [ngValue]="false">Reprovado</option>
+                    <option disabled [value]="undefined">{{ 'OPTIONS.SELECT_AN_OPTION' | translate }}</option>
+                    <option [ngValue]="true">{{ 'OPTIONS.APPROVED' | translate }}</option>
+                    <option [ngValue]="false">{{ 'OPTIONS.REJECTED' | translate }}</option>
                 </select>
             </div>
             <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter6Name">
@@ -692,9 +684,9 @@
                     }}<span style="color: red;">*</span></label>
                 <select #parameter6ResultAvaliacao name="parameter6ResultAvaliacao" id="parameter6ResultAvaliacao"
                     [(ngModel)]="avaliacaoModel.parameter6Result">
-                    <option disabled [value]="undefined">Selecione uma opção</option>
-                    <option [ngValue]="true">Aprovado</option>
-                    <option [ngValue]="false">Reprovado</option>
+                    <option disabled [value]="undefined">{{ 'OPTIONS.SELECT_AN_OPTION' | translate }}</option>
+                    <option [ngValue]="true">{{ 'OPTIONS.APPROVED' | translate }}</option>
+                    <option [ngValue]="false">{{ 'OPTIONS.REJECTED' | translate }}</option>
                 </select>
             </div>
             <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter7Name">
@@ -702,9 +694,9 @@
                     }}<span style="color: red;">*</span></label>
                 <select #parameter7ResultAvaliacao name="parameter7ResultAvaliacao" id="parameter7ResultAvaliacao"
                     [(ngModel)]="avaliacaoModel.parameter7Result">
-                    <option disabled [value]="undefined">Selecione uma opção</option>
-                    <option [ngValue]="true">Aprovado</option>
-                    <option [ngValue]="false">Reprovado</option>
+                    <option disabled [value]="undefined">{{ 'OPTIONS.SELECT_AN_OPTION' | translate }}</option>
+                    <option [ngValue]="true">{{ 'OPTIONS.APPROVED' | translate }}</option>
+                    <option [ngValue]="false">{{ 'OPTIONS.REJECTED' | translate }}</option>
                 </select>
             </div>
             <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter8Name">
@@ -712,9 +704,9 @@
                     }}<span style="color: red;">*</span></label>
                 <select #parameter8ResultAvaliacao name="parameter8ResultAvaliacao" id="parameter8ResultAvaliacao"
                     [(ngModel)]="avaliacaoModel.parameter8Result">
-                    <option disabled [value]="undefined">Selecione uma opção</option>
-                    <option [ngValue]="true">Aprovado</option>
-                    <option [ngValue]="false">Reprovado</option>
+                    <option disabled [value]="undefined">{{ 'OPTIONS.SELECT_AN_OPTION' | translate }}</option>
+                    <option [ngValue]="true">{{ 'OPTIONS.APPROVED' | translate }}</option>
+                    <option [ngValue]="false">{{ 'OPTIONS.REJECTED' | translate }}</option>
                 </select>
             </div>
             <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter9Name">
@@ -722,18 +714,19 @@
                     }}<span style="color: red;">*</span></label>
                 <select #parameter9ResultAvaliacao name="parameter9ResultAvaliacao" id="parameter9ResultAvaliacao"
                     [(ngModel)]="avaliacaoModel.parameter9Result">
-                    <option disabled [value]="undefined">Selecione uma opção</option>
-                    <option [ngValue]="true">Aprovado</option>
-                    <option [ngValue]="false">Reprovado</option>
+                    <option disabled [value]="undefined">{{ 'OPTIONS.SELECT_AN_OPTION' | translate }}</option>
+                    <option [ngValue]="true">{{ 'OPTIONS.APPROVED' | translate }}</option>
+                    <option [ngValue]="false">{{ 'OPTIONS.REJECTED' | translate }}</option>
                 </select>
             </div>
         </div>
         <div class="row">
             <div class="col-12">
-                <label for="obsAvaliacao">Observações</label>
+                <label for="obsAvaliacao">{{ 'LABEL.OBSERVATIONS' | translate }}</label>
                 <textarea #obsAvaliacao type="text" name="obsAvaliacao" id="obsAvaliacao"
-                    matTooltip="Observações gerais" matTooltipShowDelay="1500" [(ngModel)]="avaliacaoModel.obs"
-                    placeholder="Qualquer observação pertinente"></textarea>
+                    [matTooltip]="'EVALUATION.GENERAL_OBSERVATIONS' | translate" matTooltipShowDelay="1500"
+                    [(ngModel)]="avaliacaoModel.obs"
+                    [placeholder]="'EVALUATION.RELEVANT_OBSERVATIONS' | translate"></textarea>
             </div>
         </div>
     </div>
@@ -743,7 +736,7 @@
     <div *ngIf="renderModalAnexarFotos" class="modal-body text-left modal-scroll">
         <div class="row">
             <div class="col-12 titulo">
-                <h1>Favor inserir de 3 a 6 fotos do serviço avaliado</h1>
+                <h1>{{ 'EVALUATION.INSERT_PHOTOS' | translate }}</h1>
                 <hr style="margin-left: 12.5px; margin-right: 12.5px;">
             </div>
         </div>
@@ -753,7 +746,7 @@
                     accept="image/*" (change)="handleFileInput($event.target, i)" #avaliacaoFoto>
                 <div class="image-container centralizar-conteudo">
                     <img class="service-photo" [src]="fotosServico[i]" width="150px" height="150px"
-                        (click)="triggerFileInput(i)" matTooltip="Clique para inserir uma foto do serviço executado">
+                        (click)="triggerFileInput(i)" [matTooltip]="'EVALUATION.CLICK_TO_ADD_PHOTO' | translate">
                 </div>
             </div>
         </div>
@@ -765,18 +758,18 @@
         <div class="row">
             <div class="col-12">
                 <hr style="margin-left: 25px;">
-                <h2 style="padding-left: 15px;">Dados do Serviço</h2>
+                <h2 style="padding-left: 15px;">{{ 'EVALUATION.SERVICE_DATA' | translate }}</h2>
             </div>
         </div>
         <div class="row">
             <div class="col-6">
-                <label for="construtoraModalAvaliacao">Construtora</label>
+                <label for="construtoraModalAvaliacao">{{ 'TABLE.CONSTRUCTOR' | translate }}</label>
                 <input #construtoraModalAvaliacao type="text" name="construtoraModalAvaliacao"
                     id="construtoraModalAvaliacao"
                     [ngModel]="servicoSelecionadoAvaliacao.costCenter.builder.builderName" disabled="disabled">
             </div>
             <div class="col-6">
-                <label for="centroDeCustoModalAvaliacao">Centro de Custo</label>
+                <label for="centroDeCustoModalAvaliacao">{{ 'TABLE.COST_CENTER' | translate }}</label>
                 <input #centroDeCustoModalAvaliacao type="text" name="centroDeCustoModalAvaliacao"
                     id="centroDeCustoModalAvaliacao" [ngModel]="servicoSelecionadoAvaliacao.costCenter.costCenterName"
                     disabled="disabled">
@@ -784,46 +777,46 @@
         </div>
         <div class="row">
             <div class="col-4">
-                <label for="localAvaliacao">1º Nível de localização</label>
+                <label for="localAvaliacao">{{ 'LABEL.FIRST_LEVEL_LOCATION' | translate }}</label>
                 <input #localAvaliacao type="text" name="localAvaliacao" id="localAvaliacao"
                     [ngModel]="servicoSelecionadoAvaliacao.taskLocation.locationGroup" disabled="disabled">
             </div>
             <div class="col-4" *ngIf="servicoSelecionadoAvaliacao.taskLocation.subGroup1">
-                <label for="subGrupo1Avaliacao">2º Nível de localização</label>
+                <label for="subGrupo1Avaliacao">{{ 'LABEL.SECOND_LEVEL_LOCATION' | translate }}</label>
                 <input #subGrupo1Avaliacao type="text" name="subGrupo1Avaliacao" id="subGrupo1Avaliacao"
                     [ngModel]="servicoSelecionadoAvaliacao.taskLocation.subGroup1" disabled="disabled">
             </div>
             <div class="col-4" *ngIf="servicoSelecionadoAvaliacao.taskLocation.subGroup2">
-                <label for="subGrupo3Avaliacao">3º Nível de localização</label>
+                <label for="subGrupo3Avaliacao">{{ 'LABEL.THIRD_LEVEL_LOCATION' | translate }}</label>
                 <input #subGrupo3Avaliacao type="text" name="subGrupo3Avaliacao" id="subGrupo3Avaliacao"
                     [ngModel]="servicoSelecionadoAvaliacao.taskLocation.subGroup2" disabled="disabled">
             </div>
         </div>
         <div class="row" *ngIf="servicoSelecionadoAvaliacao.taskLocation.subGroup3">
             <div class="col-4">
-                <label for="subGrupo3Avaliacao">4º Nível de localização</label>
+                <label for="subGrupo3Avaliacao">{{ 'LABEL.FOURTH_LEVEL_LOCATION' | translate }}</label>
                 <input #subGrupo3Avaliacao type="text" name="subGrupo3Avaliacao" id="subGrupo3Avaliacao"
                     [ngModel]="servicoSelecionadoAvaliacao.taskLocation.subGroup3" disabled="disabled">
             </div>
         </div>
         <div class="row">
             <div class="col-4">
-                <label for="taskTypeAvaliacao">Tipo de serviço</label>
+                <label for="taskTypeAvaliacao">{{ 'EVALUATION.SERVICE_TYPE' | translate }}</label>
                 <input #taskTypeAvaliacao type="text" name="taskTypeAvaliacao" id="taskTypeAvaliacao"
                     [ngModel]="servicoSelecionadoAvaliacao.taskType.taskTypeName" disabled="disabled">
             </div>
             <div class="col-2">
-                <label for="dimensionAvaliacao">Dimensão</label>
+                <label for="dimensionAvaliacao">{{ 'TABLE.DIMENSION' | translate }}</label>
                 <input #dimensionAvaliacao type="text" name="dimensionAvaliacao" id="dimensionAvaliacao"
                     [ngModel]="servicoSelecionadoAvaliacao.dimension" disabled="disabled">
             </div>
             <div class="col-2">
-                <label for="undMedidaAvaliacao">Und. Medida</label>
+                <label for="undMedidaAvaliacao">{{ 'TABLE.UNIT_OF_MEASURE' | translate }}</label>
                 <input #undMedidaAvaliacao type="text" name="undMedidaAvaliacao" id="undMedidaAvaliacao"
                     [ngModel]="servicoSelecionadoAvaliacao.taskType.unitMeasurement.name" disabled="disabled">
             </div>
             <div class="col-4">
-                <label for="amountAvaliacao">Valor da mão de obra do serviço</label>
+                <label for="amountAvaliacao">{{ 'EVALUATION.SERVICE_LABOR_COST' | translate }}</label>
                 <input #amountAvaliacao type="text" name="amountAvaliacao" id="amountAvaliacao"
                     [ngModel]="servicoSelecionadoAvaliacao.amount" currencyMask
                     [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" readonly disabled="disabled">
@@ -831,12 +824,12 @@
         </div>
         <div class="row">
             <div class="col-3">
-                <label for="expectedStartDateAvaliacao">Data de início prevista</label>
+                <label for="expectedStartDateAvaliacao">{{ 'EVALUATION.EXPECTED_START_DATE' | translate }}</label>
                 <input #expectedStartDateAvaliacao type="text" name="expectedStartDateAvaliacao"
                     id="expectedStartDateAvaliacao" [value]="expectedStartDateFormatada" disabled="disabled">
             </div>
             <div class="col-3">
-                <label for="expectedEndDateAvaliacao">Data de término prevista</label>
+                <label for="expectedEndDateAvaliacao">{{ 'EVALUATION.EXPECTED_END_DATE' | translate }}</label>
                 <input #expectedEndDateAvaliacao type="text" name="expectedEndDateAvaliacao"
                     id="expectedEndDateAvaliacao" [ngModel]="expectedEndDateFormatada" disabled="disabled">
             </div>
@@ -844,7 +837,7 @@
         <div class="row">
             <div class="col-12">
                 <hr style="margin-left: 25px;">
-                <h2 style="padding-left: 15px;">Executores e Avaliadores</h2>
+                <h2 style="padding-left: 15px;">{{ 'EVALUATION.EXECUTORS_AND_EVALUATORS' | translate }}</h2>
             </div>
         </div>
 
@@ -853,14 +846,15 @@
             <div class="col-6 executores-padding" *ngFor="let executor of avaliacaoModel.taskExecutors; index as i">
                 <div class="row">
                     <div class="col-9 executores-padding">
-                        <label [for]="'executor' + (i + 1) + 'Name'">{{ i + 1 }}º Funcionário executor</label>
+                        <label [for]="'executor' + (i + 1) + 'Name'">{{ i + 1 }}º {{ 'LABEL.EXECUTOR_EMPLOYEE' | translate }}</label>
                         <input type="text" [name]="'executor' + (i + 1) + 'Name'" [ngModel]="executor.name"
                             disabled="disabled" />
                     </div>
                     <div class="col-3 executores-padding">
-                        <label for="rateioExecutor0">Rateio (%)</label>
-                        <input #rateioExecutor0 type="number" max="100" min="0" id="rateioExecutor0" name="rateioExecutor0" 
-                            [ngModel]="getAssessmentPercentageForExecutor(executor)" disabled="disabled">
+                        <label for="rateioExecutor0">{{ 'EVALUATION.RATEIO_PERCENTAGE' | translate }}</label>
+                        <input #rateioExecutor0 type="number" max="100" min="0" id="rateioExecutor0"
+                            name="rateioExecutor0" [ngModel]="getAssessmentPercentageForExecutor(executor)"
+                            disabled="disabled">
                     </div>
                 </div>
             </div>
@@ -869,7 +863,7 @@
         <!-- Avaliadores -->
         <div class="row" *ngIf="avaliacaoModel.taskEvaluators != undefined">
             <div class="col-6" *ngFor="let evaluator of avaliacaoModel.taskEvaluators; index as i">
-                <label [for]="'evaluator' + (i + 1) + 'Name'">{{ i + 1 }}º Avaliador</label>
+                <label [for]="'evaluator' + (i + 1) + 'Name'">{{ i + 1 }}º {{ 'LABEL.EVALUATOR' | translate }}</label>
                 <input type="text" [name]="'evaluator' + (i + 1) + 'Name'" [ngModel]="evaluator.name"
                     disabled="disabled" />
             </div>
@@ -877,59 +871,60 @@
         <div class="row">
             <div class="col-12">
                 <hr style="margin-left: 25px;">
-                <h2 style="padding-left: 15px;">Parâmetros da Avaliação</h2>
+                <h2 style="padding-left: 15px;">{{ 'EVALUATION.EVALUATION_PARAMETERS' | translate}}</h2>
             </div>
         </div>
         <div class="row">
             <div class="col-3">
-                <label for="startDateAvaliacao">Data de início real</label>
+                <label for="startDateAvaliacao">{{ 'EVALUATION.REAL_START_DATE' | translate}}</label>
                 <input #startDateAvaliacao name="startDateAvaliacao" id="startDateAvaliacao" required
-                    matTooltip="Data real do início do serviço" matTooltipShowDelay="1500"
+                    [matTooltip]="'EVALUATION.REAL_START_DATE' | translate" matTooltipShowDelay="1500"
                     [value]="realStartDateFormatada" type="text" disabled="disabled" />
             </div>
             <div class="col-3" *ngIf="realEndDateFormatada !==null || realEndDateFormatada !== undefined">
-                <label for="finalDateAvaliacao">Data de término real</label>
+                <label for="finalDateAvaliacao">{{ 'EVALUATION.REAL_END_DATE' | translate}}</label>
                 <input #finalDateAvaliacao name="finalDateAvaliacao" id="finalDateAvaliacao" required
-                    matTooltip="Data real do início do serviço" matTooltipShowDelay="1500"
+                    [matTooltip]="'EVALUATION.REAL_END_DATE' | translate" matTooltipShowDelay="1500"
                     [value]="realEndDateFormatada" type="text" disabled="disabled" />
             </div>
             <div class="col-3" *ngIf="dataAvalicaoFormatada !==null || dataAvalicaoFormatada !== undefined">
-                <label for="dataAvalicaoa">Data da avaliação</label>
-                <input #dataAvalicaoa name="dataAvalicaoa" id="dataAvalicaoa" required matTooltip="Data da avaliação"
+                <label for="dataAvalicaoa">{{ 'LABEL.EVALUATION_DATE' | translate }}</label>
+                <input #dataAvalicaoa name="dataAvalicaoa" id="dataAvalicaoa" required [matTooltip]="'LABEL.EVALUATION_DATE' | translate"
                     matTooltipShowDelay="1500" [value]="dataAvalicaoFormatada" type="text" disabled="disabled" />
             </div>
         </div>
         <div class="row">
             <div class="col-3">
                 <label for="parameter0ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter0Name }}</label>
-                <input #parameter0ResultAvaliacao *ngIf="avaliacaoModel.parameter0Result == true" placeholder="Aprovado"
+                <input #parameter0ResultAvaliacao *ngIf="avaliacaoModel.parameter0Result == true" 
+                    [placeholder]="'PLACEHOLDER.APPROVED' | translate"
                     type="text" name="parameter0ResultAvaliacao" id="parameter0ResultAvaliacao" disabled="disabled" />
-                <input #parameter0ResultAvaliacao *ngIf="avaliacaoModel.parameter0Result == false"
-                    placeholder="Reprovado" type="text" name="parameter0ResultAvaliacao" id="parameter0ResultAvaliacao"
-                    disabled="disabled" />
+                <input #parameter0ResultAvaliacao *ngIf="avaliacaoModel.parameter0Result == false" 
+                    [placeholder]="'PLACEHOLDER.REJECTED' | translate"
+                    type="text" name="parameter0ResultAvaliacao" id="parameter0ResultAvaliacao" disabled="disabled" />
             </div>
             <div class="col-3">
                 <label for="parameter1ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter1Name }}</label>
-                <input #parameter1ResultAvaliacao *ngIf="avaliacaoModel.parameter1Result == true" placeholder="Aprovado"
+                <input #parameter1ResultAvaliacao *ngIf="avaliacaoModel.parameter1Result == true" [placeholder]="'PLACEHOLDER.APPROVED' | translate"
                     type="text" name="parameter1ResultAvaliacao" id="parameter1ResultAvaliacao" disabled="disabled" />
                 <input #parameter1ResultAvaliacao *ngIf="avaliacaoModel.parameter1Result == false"
-                    placeholder="Reprovado" type="text" name="parameter1ResultAvaliacao" id="parameter1ResultAvaliacao"
+                    [placeholder]="'PLACEHOLDER.REJECTED' | translate" type="text" name="parameter1ResultAvaliacao" id="parameter1ResultAvaliacao"
                     disabled="disabled" />
             </div>
             <div class="col-3">
                 <label for="parameter2ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter2Name }}</label>
-                <input #parameter2ResultAvaliacao *ngIf="avaliacaoModel.parameter2Result == true" placeholder="Aprovado"
+                <input #parameter2ResultAvaliacao *ngIf="avaliacaoModel.parameter2Result == true" [placeholder]="'PLACEHOLDER.APPROVED' | translate"
                     type="text" name="parameter2ResultAvaliacao" id="parameter2ResultAvaliacao" disabled="disabled" />
                 <input #parameter2ResultAvaliacao *ngIf="avaliacaoModel.parameter2Result == false"
-                    placeholder="Reprovado" type="text" name="parameter2ResultAvaliacao" id="parameter2ResultAvaliacao"
+                    [placeholder]="'PLACEHOLDER.REJECTED' | translate" type="text" name="parameter2ResultAvaliacao" id="parameter2ResultAvaliacao"
                     disabled="disabled" />
             </div>
             <div class="col-3" *ngIf="avaliacaoModel.task.taskType.parameter3Name">
                 <label for="parameter3ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter3Name }}</label>
-                <input #parameter3ResultAvaliacao *ngIf="avaliacaoModel.parameter3Result == true" placeholder="Aprovado"
+                <input #parameter3ResultAvaliacao *ngIf="avaliacaoModel.parameter3Result == true" [placeholder]="'PLACEHOLDER.APPROVED' | translate"
                     type="text" name="parameter3ResultAvaliacao" id="parameter3ResultAvaliacao" disabled="disabled" />
                 <input #parameter3ResultAvaliacao *ngIf="avaliacaoModel.parameter3Result == false"
-                    placeholder="Reprovado" type="text" name="parameter3ResultAvaliacao" id="parameter3ResultAvaliacao"
+                    [placeholder]="'PLACEHOLDER.REJECTED' | translate" type="text" name="parameter3ResultAvaliacao" id="parameter3ResultAvaliacao"
                     disabled="disabled" />
             </div>
         </div>
@@ -941,71 +936,71 @@
                                 servicoSelecionadoAvaliacao.taskType.parameter9Name">
             <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter4Name">
                 <label for="parameter4ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter4Name }}</label>
-                <input #parameter4ResultAvaliacao *ngIf="avaliacaoModel.parameter4Result == true" placeholder="Aprovado"
+                <input #parameter4ResultAvaliacao *ngIf="avaliacaoModel.parameter4Result == true" [placeholder]="'PLACEHOLDER.APPROVED' | translate"
                     type="text" name="parameter4ResultAvaliacao" id="parameter4ResultAvaliacao" disabled="disabled" />
-                <input #parameter4ResultAvaliacao *ngIf="avaliacaoModel.parameter4Result == false"
-                    placeholder="Reprovado" type="text" name="parameter4ResultAvaliacao" id="parameter4ResultAvaliacao"
+                <input #parameter4ResultAvaliacao *ngIf="avaliacaoModel.parameter4Result == false" 
+                    [placeholder]="'PLACEHOLDER.REJECTED' | translate" type="text" name="parameter4ResultAvaliacao" id="parameter4ResultAvaliacao" 
                     disabled="disabled" />
             </div>
             <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter5Name">
                 <label for="parameter5ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter5Name }}</label>
-                <input #parameter5ResultAvaliacao *ngIf="avaliacaoModel.parameter5Result == true" placeholder="Aprovado"
+                <input #parameter5ResultAvaliacao *ngIf="avaliacaoModel.parameter5Result == true" [placeholder]="'PLACEHOLDER.APPROVED' | translate"
                     type="text" name="parameter5ResultAvaliacao" id="parameter5ResultAvaliacao" disabled="disabled" />
                 <input #parameter5ResultAvaliacao *ngIf="avaliacaoModel.parameter5Result == false"
-                    placeholder="Reprovado" type="text" name="parameter5ResultAvaliacao" id="parameter5ResultAvaliacao"
+                    [placeholder]="'PLACEHOLDER.REJECTED' | translate" type="text" name="parameter5ResultAvaliacao" id="parameter5ResultAvaliacao"
                     disabled="disabled" />
             </div>
             <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter6Name">
                 <label for="parameter6ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter6Name }}</label>
-                <input #parameter6ResultAvaliacao *ngIf="avaliacaoModel.parameter6Result == true" placeholder="Aprovado"
+                <input #parameter6ResultAvaliacao *ngIf="avaliacaoModel.parameter6Result == true" [placeholder]="'PLACEHOLDER.APPROVED' | translate"
                     type="text" name="parameter6ResultAvaliacao" id="parameter6ResultAvaliacao" disabled="disabled" />
                 <input #parameter6ResultAvaliacao *ngIf="avaliacaoModel.parameter6Result == false"
-                    placeholder="Reprovado" type="text" name="parameter6ResultAvaliacao" id="parameter6ResultAvaliacao"
+                    [placeholder]="'PLACEHOLDER.REJECTED' | translate" type="text" name="parameter6ResultAvaliacao" id="parameter6ResultAvaliacao"
                     disabled="disabled" />
             </div>
             <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter7Name">
                 <label for="parameter7ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter7Name }}</label>
-                <input #parameter7ResultAvaliacao *ngIf="avaliacaoModel.parameter7Result == true" placeholder="Aprovado"
+                <input #parameter7ResultAvaliacao *ngIf="avaliacaoModel.parameter7Result == true" [placeholder]="'PLACEHOLDER.APPROVED' | translate"
                     type="text" name="parameter7ResultAvaliacao" id="parameter7ResultAvaliacao" disabled="disabled" />
                 <input #parameter7ResultAvaliacao *ngIf="avaliacaoModel.parameter7Result == false"
-                    placeholder="Reprovado" type="text" name="parameter7ResultAvaliacao" id="parameter7ResultAvaliacao"
+                    [placeholder]="'PLACEHOLDER.REJECTED' | translate" type="text" name="parameter7ResultAvaliacao" id="parameter7ResultAvaliacao"
                     disabled="disabled" />
             </div>
             <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter8Name">
                 <label for="parameter8ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter8Name }}</label>
-                <input #parameter8ResultAvaliacao *ngIf="avaliacaoModel.parameter8Result == true" placeholder="Aprovado"
+                <input #parameter8ResultAvaliacao *ngIf="avaliacaoModel.parameter8Result == true" [placeholder]="'PLACEHOLDER.APPROVED' | translate"
                     type="text" name="parameter8ResultAvaliacao" id="parameter8ResultAvaliacao" disabled="disabled" />
                 <input #parameter8ResultAvaliacao *ngIf="avaliacaoModel.parameter8Result == false"
-                    placeholder="Reprovado" type="text" name="parameter8ResultAvaliacao" id="parameter8ResultAvaliacao"
+                    [placeholder]="'PLACEHOLDER.REJECTED' | translate" type="text" name="parameter8ResultAvaliacao" id="parameter8ResultAvaliacao"
                     disabled="disabled" />
             </div>
             <div class="col-3" *ngIf="servicoSelecionadoAvaliacao.taskType.parameter9Name">
                 <label for="parameter9ResultAvaliacao">{{ servicoSelecionadoAvaliacao.taskType.parameter9Name }}</label>
-                <input #parameter9ResultAvaliacao *ngIf="avaliacaoModel.parameter9Result == true" placeholder="Aprovado"
+                <input #parameter9ResultAvaliacao *ngIf="avaliacaoModel.parameter9Result == true" [placeholder]="'PLACEHOLDER.APPROVED' | translate"
                     type="text" name="parameter9ResultAvaliacao" id="parameter9ResultAvaliacao" disabled="disabled" />
                 <input #parameter9ResultAvaliacao *ngIf="avaliacaoModel.parameter9Result == false"
-                    placeholder="Reprovado" type="text" name="parameter9ResultAvaliacao" id="parameter9ResultAvaliacao"
+                    [placeholder]="'PLACEHOLDER.REJECTED' | translate" type="text" name="parameter9ResultAvaliacao" id="parameter9ResultAvaliacao"
                     disabled="disabled" />
             </div>
         </div>
         <div class="row" *ngIf="avaliacaoModel.obs !== null">
             <div class="col-12">
-                <label for="obsAvaliacao">Observações</label>
+                <label for="obsAvaliacao">{{ 'LABEL.OBSERVATIONS' | translate}}</label>
                 <textarea #obsAvaliacao type="text" name="obsAvaliacao" id="obsAvaliacao"
-                    matTooltip="Observações gerais" matTooltipShowDelay="1500" [(ngModel)]="avaliacaoModel.obs"
-                    placeholder="Qualquer observação pertinente" disabled="disabled"></textarea>
+                    [matTooltip]="'EVALUATION.GENERAL_OBSERVATIONS' | translate" matTooltipShowDelay="1500" [(ngModel)]="avaliacaoModel.obs"
+                    [placeholder]="'EVALUATION.RELEVANT_OBSERVATIONS' | translate" disabled="disabled"></textarea>
             </div>
         </div>
         <div class="row centralizar-conteudo">
             <div class="col-12">
                 <hr style="margin-left: 25px;">
-                <h2> Fotos da avaliação </h2>
+                <h2>{{ 'EVALUATION.EVALUATION_PHOTOS' | translate }}</h2>
             </div>
         </div>
         <div class="row centralizar-conteudo">
             <input style="display: none;" type="file">
             <div class="col-2 image-container centralizar-conteudo" *ngFor="let foto of fotosServico; let i = index">
-                <img class="assessment-photos" [src]="foto" matTooltip="Clique para visualizar a foto"
+                <img class="assessment-photos" [src]="foto" [matTooltip]="'EVALUATION.CLICK_TO_VIEW_PHOTO' | translate"
                     (click)="openImage(foto)">
             </div>
         </div>
@@ -1013,9 +1008,9 @@
             <div class="col-12">
                 <hr style="margin-left: 25px;">
                 <h2 *ngIf="avaliacaoModel.assessmentResult == true"
-                    style="padding-left: 15px; color: rgb(90, 192, 90);">AVALIAÇÃO APROVADA</h2>
-                <h2 *ngIf="avaliacaoModel.assessmentResult == false" style="padding-left: 15px; color: rgb(218, 0, 0);">
-                    AVALIAÇÃO REPROVADA</h2>
+                    style="padding-left: 15px; color: rgb(90, 192, 90);">{{ 'EVALUATION.APPROVED' | translate }}</h2>
+                 <h2 *ngIf="avaliacaoModel.assessmentResult == false"
+                    style="padding-left: 15px; color: rgb(218, 0, 0);">{{ 'EVALUATION.REJECTED' | translate }}</h2>
             </div>
         </div>
     </div>
@@ -1026,28 +1021,29 @@
     <div *ngIf="renderModalAvaliacoesRealizadasPorServico" class="modal-body text-left modal-scroll">
         <div class="row">
             <div class="col-12">
-                <h2 style="padding-left: 15px;">Avaliações realizadas para o serviço</h2>
+                <h2 style="padding-left: 15px;">{{ 'EVALUATION.SERVICE_ASSESSMENTS' | translate }}</h2>
             </div>
         </div>
         <div class="row">
             <div class="col-12" style="margin-left: 10px; margin-top: 15px; margin-bottom: 15px;">
                 <table mat-table [dataSource]="avaliacoesRealizadasPorServico" class="mat-elevation-z8">
                     <ng-container matColumnDef="visualizar">
-                        <th mat-header-cell *matHeaderCellDef>Visualizar</th>
+                        <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.VIEW' | translate }}</th>
                         <td mat-cell *matCellDef="let element">
-                            <mat-icon class="icones-acoes" matTooltip="Visualizar Avaliação" matTooltipShowDelay="1500"
-                                (click)="modalVisualizarAvaliacao(element)" style="cursor: pointer;">
+                            <mat-icon class="icones-acoes" [matTooltip]="'TABLE.VIEW_EVALUATION' | translate"
+                                       matTooltipShowDelay="1500" (click)="modalVisualizarAvaliacao(element)"
+                                       style="cursor: pointer;">
                                 visibility
                             </mat-icon>
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="dataAvaliacao">
-                        <th mat-header-cell *matHeaderCellDef>Data de avaliação</th>
+                        <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.EVALUATION_DATE' | translate }}</th>
                         <td mat-cell *matCellDef="let element"> {{element.assessmentDate | date:'dd/MM/yyyy HH:mm' }}
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="resultado">
-                        <th mat-header-cell *matHeaderCellDef>Resultado</th>
+                        <th mat-header-cell *matHeaderCellDef>{{ 'TABLE.RESULT' | translate }}</th>
                         <td mat-cell *matCellDef="let element"
                             [ngClass]="{'aprovado': element.assessmentResult, 'reprovado': !element.assessmentResult}">
                             {{element.assessmentResult | assessmentResult}} </td>

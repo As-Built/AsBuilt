@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 <html>
-	<body>
-		<div class="main">
-			<input type="checkbox" id="chk" aria-hidden="true">
-			<div class="login">
-				<form [formGroup]="loginForm">
-					<label style="padding-bottom: 30px;" for="chk" aria-hidden="true">Login</label>
-					<input formControlName="email" type="email" name="email" placeholder="Email *" required>
-					<div class="password-field">
-						<input formControlName="password" type="password" name="password" placeholder="Senha *" required id="password">
-						<i *ngIf="showPassword" class="material-icons password-icon" 
-							(click)="togglePasswordVisibility()" matTooltip="Esconder senha"
-							matTooltipShowDelay="1500">visibility</i>
-						<i *ngIf="!showPassword" class="material-icons password-icon" 
-							(click)="togglePasswordVisibility()" matTooltip="Mostrar senha"
-							matTooltipShowDelay="1500">visibility_off</i>
-					</div>
-					<a class="recuperar-senha" (click)="recuperarSenha()">Esqueci minha senha</a>
-					<button class="btn-confirm" style="margin-top: 30px;" (click)="signIn()">Entrar</button>
-				</form>
-			</div>
-			<div class="signup">
-				<app-cadastro-usuario></app-cadastro-usuario>
-			</div>
+
+<body>
+	<div class="main">
+		<input type="checkbox" id="chk" aria-hidden="true">
+		<div class="login">
+			<form [formGroup]="loginForm">
+				<label style="padding-bottom: 30px;" for="chk" aria-hidden="true">Login</label>
+				<input formControlName="email" type="email" name="email" placeholder="Email *" required>
+				<div class="password-field">
+					<input formControlName="password" type="password" name="password" placeholder="Senha *" required
+						id="password">
+					<i *ngIf="showPassword" class="material-icons password-icon" (click)="togglePasswordVisibility()"
+						matTooltip="Esconder senha" matTooltipShowDelay="1500">visibility</i>
+					<i *ngIf="!showPassword" class="material-icons password-icon" (click)="togglePasswordVisibility()"
+						matTooltip="Mostrar senha" matTooltipShowDelay="1500">visibility_off</i>
+				</div>
+				<a class="recuperar-senha" (click)="recuperarSenha()">{{ 'LOGIN.FORGOT_PASSWORD' | translate }}</a>
+				<button class="btn-confirm" style="margin-top: 30px;" (click)="signIn()">{{ 'LOGIN.SIGN_IN' | translate }}</button>
+			</form>
 		</div>
-	</body>
+		<div class="signup">
+			<app-cadastro-usuario></app-cadastro-usuario>
+		</div>
+	</div>
+</body>
+
 </html>

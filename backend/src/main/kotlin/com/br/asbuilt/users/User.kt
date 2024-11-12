@@ -46,6 +46,9 @@ class User(
     @JsonManagedReference
     var salaries: MutableSet<Salary>? = mutableSetOf(),
 
+    @Column(nullable = false)
+    var systemLanguage: String = "pt-br",
+
     @ManyToMany
     @JoinTable(
         name="UserRole",
@@ -54,6 +57,7 @@ class User(
     )
     @JsonManagedReference
     val roles: MutableSet<Role> = mutableSetOf()
+
 ) : ApplicationContextAware {
     @get:JsonIgnore
     @get:Transient

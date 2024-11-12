@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { catchError, firstValueFrom, of, tap } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-construtora',
@@ -28,7 +29,8 @@ export class ConstrutoraComponent {
   constructor(
     private construtoraService: ConstrutoraService,
     private http: HttpClient,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   async buscarConstrutoras() {
@@ -130,7 +132,7 @@ export class ConstrutoraComponent {
       tap(retorno => {
         this.spinner.hide();
         Swal.fire({
-          text: "Cadastro realizado com sucesso!",
+          text: this.translate.instant('CONSTRUTORS.SUCCESS_MESSAGE'),
           icon: "success",
           showConfirmButton: false,
           timer: 2000
@@ -142,11 +144,11 @@ export class ConstrutoraComponent {
         let msgErro = error.error;
 
         if (error.error === "A Builder with the same CNPJ already exists") {
-          msgErro = "Já existe uma construtora com o mesmo CNPJ cadastrado!";
+          msgErro = this.translate.instant('CONSTRUTORS.ERROR_CNPJ_EXISTS');
         }
-
+        
         if (error.error === "A Builder with the same name already exists") {
-          msgErro = "Já existe uma construtora com o mesmo nome cadastrado!";
+          msgErro = this.translate.instant('CONSTRUTORS.ERROR_NAME_EXISTS');
         }
 
         Swal.fire({
@@ -169,7 +171,7 @@ export class ConstrutoraComponent {
       tap(retorno => {
         this.spinner.hide();
         Swal.fire({
-          text: "Atualização realizada com sucesso!",
+          text: this.translate.instant('CONSTRUTORS.UPDATE_SUCCESS_MESSAGE'),
           icon: "success",
           showConfirmButton: false,
           timer: 2000
@@ -192,7 +194,7 @@ export class ConstrutoraComponent {
   validarCampos(construtora: ConstrutoraModel) {
     if (!this.validaCNPJ(construtora.cnpj)) {
       Swal.fire({
-        text: "CNPJ inválido!",
+        text: this.translate.instant('CONSTRUTORS.INVALID_CNPJ'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -202,7 +204,7 @@ export class ConstrutoraComponent {
     if (construtora.builderName === null || construtora.builderName.trim() === ""
       || construtora.builderName === undefined) {
       Swal.fire({
-        text: "O campo 'Nome da construtora' é obrigatório!",
+        text: this.translate.instant('CONSTRUTORS.REQUIRED_NAME'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -212,7 +214,7 @@ export class ConstrutoraComponent {
     if (construtora.builderAddress.street === null || construtora.builderAddress.street.trim() === ""
       || construtora.builderAddress.street === undefined) {
       Swal.fire({
-        text: "O campo 'Logradouro' é obrigatório!",
+        text: this.translate.instant('CONSTRUTORS.REQUIRED_STREET'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -222,7 +224,7 @@ export class ConstrutoraComponent {
     if (construtora.builderAddress.postalCode === null || construtora.builderAddress.postalCode.trim() === ""
       || construtora.builderAddress.postalCode === undefined) {
       Swal.fire({
-        text: "O campo 'CEP' é obrigatório!",
+        text: this.translate.instant('CONSTRUTORS.REQUIRED_POSTAL_CODE'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -232,7 +234,7 @@ export class ConstrutoraComponent {
     if (construtora.builderAddress.city === null || construtora.builderAddress.city.trim() === ""
       || construtora.builderAddress.city === undefined) {
       Swal.fire({
-        text: "O campo 'Cidade' é obrigatório!",
+        text: this.translate.instant('CONSTRUTORS.REQUIRED_CITY'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -242,7 +244,7 @@ export class ConstrutoraComponent {
     if (construtora.builderAddress.state === null || construtora.builderAddress.state.trim() === ""
       || construtora.builderAddress.state === undefined) {
       Swal.fire({
-        text: "O campo 'UF' é obrigatório!",
+        text: this.translate.instant('CONSTRUTORS.REQUIRED_STATE'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -253,7 +255,7 @@ export class ConstrutoraComponent {
     if (construtora.phone === null || construtora.phone.trim() === ""
       || construtora.phone === undefined) {
       Swal.fire({
-        text: "O campo 'Telefone' é obrigatório!",
+        text: this.translate.instant('CONSTRUTORS.REQUIRED_PHONE'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -263,7 +265,7 @@ export class ConstrutoraComponent {
 
     if (construtora.phone.length < 10) {
       Swal.fire({
-        text: "O telefone deve ter no mínimo 10 caracteres! (DDD + Número)",
+        text: this.translate.instant('CONSTRUTORS.MIN_PHONE_LENGTH'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -273,7 +275,7 @@ export class ConstrutoraComponent {
 
     if (construtora.builderName.length < 6) {
       Swal.fire({
-        text: "O campo 'Nome' requer ao menos 6 caracteres!",
+        text: this.translate.instant('CONSTRUTORS.MIN_NAME_LENGTH'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -283,7 +285,7 @@ export class ConstrutoraComponent {
 
     if (construtora.builderName.length > 254) {
       Swal.fire({
-        text: "O campo 'Nome' aceita no máximo 254 caracteres!",
+        text: this.translate.instant('CONSTRUTORS.MAX_NAME_LENGTH'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -293,7 +295,7 @@ export class ConstrutoraComponent {
 
     if (construtora.builderAddress.postalCode.length != 9) {
       Swal.fire({
-        text: "O campo 'CEP' deve ter 9 caracteres!",
+        text: this.translate.instant('CONSTRUTORS.POSTAL_CODE_LENGTH'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -303,7 +305,7 @@ export class ConstrutoraComponent {
 
     if (construtora.builderAddress.street.length < 6) {
       Swal.fire({
-        text: "O campo 'Logradouro' deve ter no mínimo 6 caracteres!",
+        text: this.translate.instant('CONSTRUTORS.MIN_STREET_LENGTH'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -313,7 +315,7 @@ export class ConstrutoraComponent {
 
     if (construtora.builderAddress.street.length > 254) {
       Swal.fire({
-        text: "O campo 'Logradouro' deve ter no máximo 254 caracteres!",
+        text: this.translate.instant('CONSTRUTORS.MAX_STREET_LENGTH'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -323,7 +325,7 @@ export class ConstrutoraComponent {
 
     if (construtora.builderAddress.city.length < 6) {
       Swal.fire({
-        text: "O campo 'Cidade' deve ter no mínimo 6 caracteres!",
+        text: this.translate.instant('CONSTRUTORS.MIN_CITY_LENGTH'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -333,7 +335,7 @@ export class ConstrutoraComponent {
 
     if (construtora.builderAddress.city.length > 254) {
       Swal.fire({
-        text: "O campo 'Cidade' deve ter no máximo 254 caracteres!",
+        text: this.translate.instant('CONSTRUTORS.MAX_CITY_LENGTH'),
         icon: "warning",
         showConfirmButton: false,
         timer: 2000
@@ -351,7 +353,7 @@ export class ConstrutoraComponent {
       html: this.modalVisualizarDetalhes.nativeElement,
       showCloseButton: true,
       confirmButtonColor: 'green',
-      confirmButtonText: 'Editar',
+      confirmButtonText: this.translate.instant('CONSTRUTORS.EDIT_BUTTON'),
     }).then((result) => {
       if (result.isConfirmed) {
         this.modalEditarConstrutora(construtora);
@@ -364,13 +366,13 @@ export class ConstrutoraComponent {
     this.construtoraModel = JSON.parse(JSON.stringify(construtora)); //Clonando objeto e não a sua referência
     this.renderModalVisualizar = true;
     Swal.fire({
-      title: 'Editar Construtora',
+      title: this.translate.instant('CONSTRUTORS.EDIT_TITLE'),
       html: this.modalVisualizarDetalhes.nativeElement,
       showCloseButton: true,
       confirmButtonColor: 'green',
-      confirmButtonText: 'Salvar',
+      confirmButtonText: this.translate.instant('CONSTRUTORS.SAVE_BUTTON'),
       showCancelButton: true,
-      cancelButtonText: 'Cancelar',
+      cancelButtonText: this.translate.instant('CONSTRUTORS.CANCEL_BUTTON'),
       cancelButtonColor: 'red',
     }).then((result) => {
       if (result.isConfirmed) {
@@ -383,13 +385,13 @@ export class ConstrutoraComponent {
 
   excluirConstrutora(id: number, builderName: string) {
     Swal.fire({
-      title: 'Excluir Construtora?',
-      html: `Deseja realmente excluir <b>${builderName}</b>? <br>Essa ação é irreverssível!`,
+      title: this.translate.instant('CONSTRUTORS.DELETE_TITLE'),
+      html: this.translate.instant('CONSTRUTORS.DELETE_CONFIRMATION', { builderName: builderName }),
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Sim, excluir!',
+      confirmButtonText: this.translate.instant('CONSTRUTORS.CONFIRM_DELETE_BUTTON'),
       confirmButtonColor: 'red',
-      cancelButtonText: 'Cancelar',
+      cancelButtonText: this.translate.instant('CONSTRUTORS.CANCEL_BUTTON'),
       cancelButtonColor: 'green',
     }).then((result) => {
       if (result.isConfirmed) {
@@ -398,7 +400,7 @@ export class ConstrutoraComponent {
           tap(retorno => {
             this.spinner.hide();
             Swal.fire({
-              text: "Construtora excluída com sucesso!",
+              text: this.translate.instant('CONSTRUTORS.DELETE_SUCCESS_MESSAGE'),
               icon: "success",
               showConfirmButton: false,
               timer: 2000
@@ -409,7 +411,7 @@ export class ConstrutoraComponent {
             this.spinner.hide();
             let msgErro = error.error;
             if (error.error === "This Builder has a Cost Center related to it, please delete the Cost Center first!") {
-              msgErro = "Essa construtora possui um centro de custo relacionado a ela, por favor, exclua o centro de custo primeiro!";
+              msgErro = this.translate.instant('CONSTRUTORS.ERROR_COST_CENTER_RELATED');
             }
             Swal.fire({
               text: msgErro,

@@ -5,6 +5,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cadastro-usuario',
@@ -20,7 +21,8 @@ export class CadastroUsuarioComponent {
   constructor(
     private cadastoUsuarioService: CadastroUsuarioService,
     private router: Router,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
   ) { }
 
   cadastroUsuarioForm = new FormGroup({
@@ -70,16 +72,16 @@ export class CadastroUsuarioComponent {
     cnpj = cnpj.replace(/[^\d]+/g, '');
     if (cnpj === '') return false;
     if (cnpj.length !== 14) return false;
-    if (cnpj === "00000000000000" || 
-        cnpj === "11111111111111" || 
-        cnpj === "22222222222222" || 
-        cnpj === "33333333333333" || 
-        cnpj === "44444444444444" || 
-        cnpj === "55555555555555" || 
-        cnpj === "66666666666666" || 
-        cnpj === "77777777777777" || 
-        cnpj === "88888888888888" || 
-        cnpj === "99999999999999"
+    if (cnpj === "00000000000000" ||
+      cnpj === "11111111111111" ||
+      cnpj === "22222222222222" ||
+      cnpj === "33333333333333" ||
+      cnpj === "44444444444444" ||
+      cnpj === "55555555555555" ||
+      cnpj === "66666666666666" ||
+      cnpj === "77777777777777" ||
+      cnpj === "88888888888888" ||
+      cnpj === "99999999999999"
     ) {
       return false;
     }
@@ -110,165 +112,196 @@ export class CadastroUsuarioComponent {
     let nomeValidoRegex = /^[a-zA-ZÀ-ÿ]{3,}\s(?:[a-zA-ZÀ-ÿ]{2,}\s?)+$/;
 
     if (this.validaCPF(cadastroUsuarioModel.cpf) === false) {
-      Swal.fire({
-        text: "CPF ou CNPJ inválido!",
-        icon: "warning",
-        showConfirmButton: false,
-        timer: 2000
+      this.translate.get('SIGNUP.INVALID_CPF_CNPJ').subscribe((translatedText: string) => {
+        Swal.fire({
+          text: translatedText,
+          icon: "warning",
+          showConfirmButton: false,
+          timer: 2000
+        });
       });
       return;
     }
 
     if (cadastroUsuarioModel.cpf === null || cadastroUsuarioModel.cpf.trim() === ""
       || cadastroUsuarioModel.cpf === undefined) {
-      Swal.fire({
-        text: "O campo 'CPF' é obrigatório!",
-        icon: "warning",
-        showConfirmButton: false,
-        timer: 2000
+      this.translate.get('SIGNUP.CPF_REQUIRED').subscribe((translatedText: string) => {
+        Swal.fire({
+          text: translatedText,
+          icon: "warning",
+          showConfirmButton: false,
+          timer: 2000
+        });
       });
       return;
     }
 
     if (cadastroUsuarioModel.name.length < 6) {
-      Swal.fire({
-        text: "O campo 'Nome' requer ao menos 6 caracteres!",
-        icon: "warning",
-        showConfirmButton: false,
-        timer: 2000
+      this.translate.get('SIGNUP.NAME_MIN_LENGTH').subscribe((translatedText: string) => {
+        Swal.fire({
+          text: translatedText,
+          icon: "warning",
+          showConfirmButton: false,
+          timer: 2000
+        });
       });
       return;
     }
 
     if (cadastroUsuarioModel.name.length > 254) {
-      Swal.fire({
-        text: "O campo 'Nome' aceita no máximo 254 caracteres!",
-        icon: "warning",
-        showConfirmButton: false,
-        timer: 2000
+      this.translate.get('SIGNUP.NAME_MAX_LENGTH').subscribe((translatedText: string) => {
+        Swal.fire({
+          text: translatedText,
+          icon: "warning",
+          showConfirmButton: false,
+          timer: 2000
+        });
       });
       return;
     }
 
     if (cadastroUsuarioModel.name === null || cadastroUsuarioModel.name.trim() === ""
       || cadastroUsuarioModel.name === undefined) {
-      Swal.fire({
-        text: "O campo 'Nome' é obrigatório!",
-        icon: "warning",
-        showConfirmButton: false,
-        timer: 2000
+      this.translate.get('SOGNUP.NAME_REQUIRED').subscribe((translatedText: string) => {
+        Swal.fire({
+          text: translatedText,
+          icon: "warning",
+          showConfirmButton: false,
+          timer: 2000
+        });
       });
       return;
     }
 
     let testName = nomeValidoRegex.test(cadastroUsuarioModel.name);
-    
+
     if (!testName) {
-      Swal.fire({
-        text: "O nome digitado não possui um formato válido! Exemplo: 'Nome Sobrenome'",
-        icon: "error",
-        showConfirmButton: false,
-        timer: 2000
+      this.translate.get('SIGNUP.NAME_INVALID_FORMAT').subscribe((translatedText: string) => {
+        Swal.fire({
+          text: translatedText,
+          icon: "error",
+          showConfirmButton: false,
+          timer: 2000
+        });
       });
       return;
     }
 
     if (!emailRegex.test(cadastroUsuarioModel.email)) {
-      Swal.fire({
-        text: "O email digitado não possui um formato válido!",
-        icon: "error",
-        showConfirmButton: false,
-        timer: 2000
+      this.translate.get('SIGNUP.EMAIL_INVALID_FORMAT').subscribe((translatedText: string) => {
+        Swal.fire({
+          text: translatedText,
+          icon: "error",
+          showConfirmButton: false,
+          timer: 2000
+        });
       });
       return;
     }
 
     if (!passwordRegex.test(cadastroUsuarioModel.password)) {
-      Swal.fire({
-        text: "A senha deve conter no mínimo 8 caracteres e no máximo 12 caracteres, ao menos uma letra minúscula e ao menos uma letra maíuscula, ao menos um número e ao menos um dos seguintes caracteres especiais: @, $, !, %, *, #, ?, &",
-        icon: "error",
-        showConfirmButton: true
+      this.translate.get('SIGNUP.PASSWORD_REQUIREMENTS').subscribe((translatedText: string) => {
+        Swal.fire({
+          text: translatedText,
+          icon: "error",
+          showConfirmButton: true
+        });
       });
       return;
     }
 
     if (cadastroUsuarioModel.password != confirmPassword) {
-      Swal.fire({
-        text: "As senhas não conferem!",
-        icon: "error",
-        showConfirmButton: false,
-        timer: 2000
+      this.translate.get('SIGNUP.PASSWORDS_DO_NOT_MATCH').subscribe((translatedText: string) => {
+        Swal.fire({
+          text: translatedText,
+          icon: "error",
+          showConfirmButton: false,
+          timer: 2000
+        });
       });
       return;
     }
 
     if (cadastroUsuarioModel.password === null || cadastroUsuarioModel.password === ""
       || cadastroUsuarioModel.password === undefined) {
-      Swal.fire({
-        text: "O campo 'Senha' é obrigatório!",
-        icon: "warning",
-        showConfirmButton: false,
-        timer: 2000
+      this.translate.get('SIGNUP.PASSWORD_REQUIRED').subscribe((translatedText: string) => {
+        Swal.fire({
+          text: translatedText,
+          icon: "warning",
+          showConfirmButton: false,
+          timer: 2000
+        });
       });
       return;
     }
 
     if (confirmPassword === null || confirmPassword === "" || confirmPassword === undefined) {
-      Swal.fire({
-        text: "Por favor confirme a sua senha",
-        icon: "warning",
-        showConfirmButton: false,
-        timer: 2000
+      this.translate.get('SIGNUP.CONFIRM_PASSWORD').subscribe((translatedText: string) => {
+        Swal.fire({
+          text: translatedText,
+          icon: "warning",
+          showConfirmButton: false,
+          timer: 2000
+        });
       });
       return;
     }
 
     if (cadastroUsuarioModel.email === null || cadastroUsuarioModel.email === ""
       || cadastroUsuarioModel.email === undefined) {
-      Swal.fire({
-        text: "O campo 'Email' é obrigatório!",
-        icon: "warning",
-        showConfirmButton: false,
-        timer: 2000
+      this.translate.get('SIGNUP.EMAIL_REQUIRED').subscribe((translatedText: string) => {
+        Swal.fire({
+          text: translatedText,
+          icon: "warning",
+          showConfirmButton: false,
+          timer: 2000
+        });
       });
       return;
     }
-  
+
     if (this.cadastroUsuarioForm.valid) {
       this.spinner.show();
       this.cadastoUsuarioService.signUp(cadastroUsuarioModel).subscribe(retorno => {
         this.spinner.hide();
-        Swal.fire({
-          text: "Usuário cadastrado com sucesso!",
-          icon: "success",
-          showConfirmButton: false,
-          timer: 2000
-        }).then(() => {
-          location.reload();
+        this.translate.get('SIGNUP.USER_REGISTERED').subscribe((translatedText: string) => {
+          Swal.fire({
+            text: translatedText,
+            icon: "success",
+            showConfirmButton: false,
+            timer: 2000
+          }).then(() => {
+            location.reload();
+          });
         });
       },
         (error) => {
           this.spinner.hide();
           if (error.error === "A user with same CPF already exists") {
-            Swal.fire({
-              text: "Já existe um usuário cadastrado com este CPF!",
-              icon: "error"
+            this.translate.get('SIGNUP.USER_CPF_EXISTS').subscribe((translatedText: string) => {
+              Swal.fire({
+                text: translatedText,
+                icon: "error"
+              });
+            });
+          } else if (error.error === "A user with same EMAIL already exists") {
+            this.translate.get('SIGNUP.USER_EMAIL_EXISTS').subscribe((translatedText: string) => {
+              Swal.fire({
+                text: translatedText,
+                icon: "error"
+              });
+            });
+          } else {
+            this.translate.get('SIGNUP.USER_REGISTRATION_ERROR').subscribe((translatedText: string) => {
+              Swal.fire({
+                html: translatedText + "<br>" + error.error,
+                icon: "error",
+              });
             });
           }
-          if (error.error === "A user with same EMAIL already exists") {
-            Swal.fire({
-              text: "Já existe um usuário cadastrado com este email!",
-              icon: "error"
-            });
-          }
-          else {
-            Swal.fire({
-              html: "Erro ao cadastar o usuário!<br>" + error.error,
-              icon: "error",
-            });
-          }
-        });
-    }
+        }
+      )
+    };
   }
 
   togglePasswordVisibility() {
